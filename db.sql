@@ -3,14 +3,14 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jan 28, 2015 at 05:15 
+-- Generation Time: Jan 28, 2015 at 10:28 PM
 -- Server version: 5.1.37
 -- PHP Version: 5.3.0
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 
 --
--- Database: `hrsys`
+-- Database: `template`
 --
 
 -- --------------------------------------------------------
@@ -59,6 +59,28 @@ CREATE TABLE IF NOT EXISTS `hrsys_cmpyclient` (
 
 --
 -- Dumping data for table `hrsys_cmpyclient`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `hrsys_cmpyclient_meet`
+--
+
+CREATE TABLE IF NOT EXISTS `hrsys_cmpyclient_meet` (
+  `cmpyclient_meet` varchar(30) NOT NULL,
+  `cmpyclient_id` varchar(30) NOT NULL,
+  `state` varchar(20) NOT NULL,
+  `place` varchar(255) NOT NULL,
+  `attendance` text NOT NULL,
+  `time` datetime NOT NULL,
+  `note` text NOT NULL,
+  PRIMARY KEY (`cmpyclient_meet`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `hrsys_cmpyclient_meet`
 --
 
 
