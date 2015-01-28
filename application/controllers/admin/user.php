@@ -39,9 +39,9 @@ class User extends Main_Controller {
     public function showForm($id=0) {     
         
         $message="";
-        $session_message=$this->session->userdata('message');
+        $session_message=$this->session->userdata(SES_MSG);
         if($session_message!=null){
-            $this->session->unset_userdata('message');
+            $this->session->unset_userdata(SES_MSG);
             
             $message=  showMessage($session_message[0],$session_message[1]);
         }
@@ -70,7 +70,7 @@ class User extends Main_Controller {
                $result=$this->m_user->saveOrUpdate($dataSave,$this->username);
                
                if($result){
-                   $this->session->set_userdata("message",array("Data Saved","success"));
+                   $this->session->set_userdata(SES_MSG,array("Data Saved","success"));
                    redirect("admin/user/showForm");
                }
                

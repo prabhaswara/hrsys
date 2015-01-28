@@ -37,5 +37,8 @@ define('FOPEN_WRITE_CREATE_STRICT',				'xb');
 define('FOPEN_READ_WRITE_CREATE_STRICT',		'x+b');
 
 
+define('SES_MSG','hrsys_msg');
+define('SES_USERDT','hrsys_userdt');
+
 /* End of file constants.php */
 /* Location: ./application/config/constants.php */

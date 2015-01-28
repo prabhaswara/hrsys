@@ -83,7 +83,16 @@
             
         });
     };
-
+    
+  
+    $.fn.loadingShow = function(status) {
+        if (status) {
+            $("#ajaxDiv").attr("class", "ajax-show");
+        } else {
+            $("#ajaxDiv").attr("class", "ajax-hide");
+        }
+    };
+    
     function loadingShow(status) {
 
         if (status) {
@@ -92,5 +101,6 @@
             $("#ajaxDiv").attr("class", "ajax-hide");
         }
     }
+    
 
 })(jQuery);

@@ -11,10 +11,10 @@ class Main_Controller extends CI_Controller {
     function __construct() {
        
         parent::__construct();
-        if($this->session->userdata('userdata')==null){
-             redirect("login");
+        if($this->session->userdata(SES_USERDT)==null){
+             redirect("site/sessionexpired");
         }
-        $this->sessionUserData=$this->session->userdata('userdata');
+        $this->sessionUserData=$this->session->userdata(SES_USERDT);
         $this->username=$this->sessionUserData["user"]["username"];
         $this->load->helper('gn_frm','gn_str');
         $this->load->model('admin/m_menu');
@@ -43,7 +43,7 @@ class Main_Controller extends CI_Controller {
         $dataMain['base_url'] = base_url();
         $dataMain['site_url'] = site_url();
         
-        $sessionUserData=$this->session->userdata('userdata');
+        $sessionUserData=$this->session->userdata(SES_USERDT);
         $dataMain['ses_userdata'] = $sessionUserData["user"];
         $dataMain['ses_roles'] = $sessionUserData["roles"];
         

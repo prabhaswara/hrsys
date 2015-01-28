@@ -12,10 +12,37 @@ class login extends CI_Controller {
         $this->session->sess_destroy();
         redirect("login");
     }
+    
+    public function chek(){
+        $dt=$this->session->userdata(SES_USERDT);
+        if(empty($dt)){
+            echo 0;
+        }
+        else{
+            echo 1;
+        }
+    }
+    
+    public function relogin(){
+        $message="";
+        if(!empty($_POST)){
+            $dataRegister=$this->m_user->getDataLogin($_POST["username"],$_POST["password"]);
+            
+            if(empty($dataRegister)){
+               echo 0;
+            }
+            else{
+                $this->session->set_userdata(SES_USERDT,$dataRegister);
+                echo 1;
+            }
+        }
+        exit;
+    }
+
     public function index() {
         
-        if($this->session->userdata('userdata')!=null){
-             redirect("home");
+        if($this->session->userdata(SES_USERDT)!=null){
+             redirect("site");
         }
         
         $message="";
@@ -26,8 +53,8 @@ class login extends CI_Controller {
                $message= showMessage("username or password not match");
             }
             else{
-                $this->session->set_userdata("userdata",$dataRegister);
-                redirect("home");
+                $this->session->set_userdata(SES_USERDT,$dataRegister);
+                redirect("site");
             }
         }
         

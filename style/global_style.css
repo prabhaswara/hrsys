@@ -130,3 +130,19 @@ body, td,th,div,span,label,a,span,input,textarea,p,option{
   color: #bdbcbc !important;
   text-shadow: none !important;
 }
+.loginDialog {
+    z-index: 1600;
+    z-index: 1600 !important ;
+}
+
+.loginDialog .ui-dialog-titlebar-close
+{
+    display:none;
+}
+
+
+
+.k-tooltip{
+   background: #F5F6F7 !important; 
+   
+}
