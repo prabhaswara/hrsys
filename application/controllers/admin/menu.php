@@ -20,11 +20,12 @@ class Menu extends Main_Controller {
             $_POST["search"][$key]=  str_replace("_sp_", ".", $value);
         }
         
-        $sql="SELECT * FROM tpl_menu mn left join tpl_menu pp on mn.parent_id=pp.menu_id left join tpl_lookup lk on lk.value=mn.active_non and lk.type='active_non' left join tpl_role rl on mn.role_id=rl.role_id    WHERE ~search~ ORDER BY ~sort~";
+        $sql="SELECT mn.menu_id mn_menu_id,pp.menu_title pp_sp_menu_title,mn.menu_title mn_sp_menu_title,mn.url mn_sp_url,mn.attributes mn_sp_attributes,lk.display_text lk_sp_display_text,mn.order_num mn_sp_order_num,rl.name rl_sp_name FROM tpl_menu mn left join tpl_menu pp on mn.parent_id=pp.menu_id left join tpl_lookup lk on lk.value=mn.active_non and lk.type='active_non' left join tpl_role rl on mn.role_id=rl.role_id    WHERE ~search~ ORDER BY ~sort~";
+        
+        
         $data = $this->m_menu->w2grid(
-        str_replace("*", "mn.menu_id mn_menu_id,pp.menu_title pp_sp_menu_title,mn.menu_title mn_sp_menu_title,mn.url mn_sp_url,mn.attributes mn_sp_attributes,lk.display_text lk_sp_display_text,mn.order_num mn_sp_order_num,rl.name rl_sp_name", $sql), 
-        $_POST,
-        str_replace("*","mn.parent_id" , $sql));
+        $sql, 
+        $_POST);
         header("Content-Type: application/json;charset=utf-8");
         echo json_encode($data);
     }
@@ -51,7 +52,9 @@ class Menu extends Main_Controller {
             
         }
         $parentList=$this->m_menu->comboParent();
-        $parentList=array_merge(array("0"=>"Root"),$parentList);        
+      //  print_r($parentList);exit;
+        
+        $parentList=array("0"=>"Root")+$parentList;        
         $activeNonList=$this->m_lookup->comboLookup("active_non");
         
         

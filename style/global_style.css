@@ -1,6 +1,7 @@
 body, td,th,div,span,label,a,span,input,textarea,p,option{
     font-family: verdana  !important;
     font-size: 12px;
+   /* color: #525252; */
 }
 
 .framepopup{
@@ -39,9 +40,12 @@ body, td,th,div,span,label,a,span,input,textarea,p,option{
 .form-tbl {
     padding:5px;
 }
-.form-tbl form table tr td{
+.form-tbl table tr td{
     
     vertical-align: top;
+}
+.aright{
+    text-align: left;
 }
 .tablegrid_stylefull{
     position: absolute;top:0px;bottom: 10px;right: 0px;left: 0px;
@@ -140,9 +144,26 @@ body, td,th,div,span,label,a,span,input,textarea,p,option{
     display:none;
 }
 
-
+.w150{
+    width: 150px;
+}
+.w200{
+    width: 200px;
+}
+.w250{
+    width: 250px;
+}
+.w300{
+    width: 300px;
+}
+.aright{
+    text-align: right;
+}
 
 .k-tooltip{
    background: #F5F6F7 !important; 
    
+}
+.k-textbox > input, .k-autocomplete .k-input, .k-picker-wrap .k-input, .k-numeric-wrap .k-input, .k-dropdown-wrap .k-input, .k-selectbox .k-input{
+    height: 25px !important; 
 }

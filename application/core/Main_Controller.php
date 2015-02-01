@@ -21,7 +21,7 @@ class Main_Controller extends CI_Controller {
         
     }
 
-    function loadContent($content, $dataContent = array()) {
+    function loadContent($content, $dataMain = array()) {
        
      
         $dataMain['ses_userdata'] = $this->sessionUserData["user"];
@@ -29,8 +29,7 @@ class Main_Controller extends CI_Controller {
         
         $dataMain['base_url'] = base_url();
         $dataMain['site_url'] = site_url();
-        
-        
+      
         $this->parser->parse($content, $dataMain);
     }
     

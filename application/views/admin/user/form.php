@@ -5,8 +5,8 @@
 $user_id=isset($postUser["user_id"])?$postUser["user_id"]:"0";
 
 ?>
-<div class="form-tbl">
-    <form method="POST" id="formnya" >
+
+    <form method="POST" id="formnya" class="form-tbl" >
         <?= frm_('user_id', $postUser, "type='hidden'") ?>
         <table>
             <tr>
@@ -56,7 +56,7 @@ $user_id=isset($postUser["user_id"])?$postUser["user_id"]:"0";
         <input type="submit" name="action" id="action" value="Save" class="w2ui-btn"/>
         <input type="button" name="action" id="cancel" value="Cancel"  class="w2ui-btn"/>
     </form>
-</div>
+
 <script type="text/javascript">
 
     $(function () {

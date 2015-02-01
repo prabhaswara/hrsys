@@ -2,6 +2,9 @@
 
     $.fn.init_js = function(url) {
         $(".required").after("<img class='required-star'  src='" + url + "images/star_red.png' />");
+        
+        $(".kendodropdown").kendoDropDownList();
+        $(".kendocombo").kendoComboBox();
 
     };
     $.fn.gn_popup_submit = function(url, content_id, grid) {
@@ -26,8 +29,7 @@
         });
     };
 
-    $.fn.gn_submit = function(url) {
-       
+    $.fn.gn_submit = function(url) {       
         $.ajax({
             type: "POST",
             url: url,
@@ -53,6 +55,68 @@
        
         return false;
     };
+    
+    $.fn.gn_submit = function(url) {       
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: this.serialize(), // serializes the form's elements.
+            beforeSend: function(xhr) {
+                $("#ajaxDiv").attr("class", "ajax-show");
+                
+            },
+            success: function(data) {
+              
+                w2ui['main_layout'].content('main', data);
+                loadingShow(false);
+            },          
+            statusCode :{
+                 500: function() {
+                    loadingShow(false);
+                },
+                404: function() {
+                    loadingShow(false);
+                }
+            }
+        });
+       
+        return false;
+    };
+    
+    $.fn.gn_onsubmit = function() {
+        
+         $( this).submit(function( event ) {
+               
+               $.ajax({
+                type: "POST",
+                data: $(this).serialize(),
+            url: $( this).attr("action"),
+                beforeSend: function(xhr) {
+                $("#ajaxDiv").attr("class", "ajax-show");
+                
+            },
+            success: function(data) {
+              
+                w2ui['main_layout'].content('main', data);
+                loadingShow(false);
+            },          
+            statusCode :{
+                 500: function() {
+                    loadingShow(false);
+                },
+                404: function() {
+                    loadingShow(false);
+                }
+            }
+                });
+                return false;
+          
+          });
+          
+
+    }
+    
+   
     $.fn.gn_loadmain = function(url) {
 
         for (var widget in w2ui) {

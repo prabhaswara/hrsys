@@ -6,19 +6,17 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+        <link href="{base_url}js/kendoui/css/kendo.common.min.css" rel="stylesheet" />
+        <link href="{base_url}js/kendoui/css/kendo.default.min.css" rel="stylesheet" />
+    
         <link rel="stylesheet" type="text/css" href="{base_url}js/w2ui-1.5.x/w2ui.css" />
         <link rel="stylesheet" type="text/css" href="{base_url}style/font-awesome/font-awesome.css" />
         <link rel="stylesheet" type="text/css" href="{base_url}style/notification/box.css" />
+        <link rel="stylesheet" type="text/css" href="{base_url}js/jquery-ui-1.11.2/jMetro/jquery-ui.css" />
         <link rel="stylesheet" type="text/css" href="{base_url}style/global_style.css" />
-        <link rel="stylesheet" type="text/css" href="{base_url}js/jquery-ui-1.11.2/jquery-ui.min.css" />
-        <link rel="stylesheet" type="text/css" href="{base_url}js/jquery-ui-1.11.2/jquery-ui.theme.min.css" />
-        <link rel="stylesheet" type="text/css" href="{base_url}js/jquery-ui-1.11.2/jquery-ui.structure.css" />
         
         
-         <link href="{base_url}js/kendoui/css/kendo.common.min.css" rel="stylesheet" />
-    <link href="{base_url}js/kendoui/css/kendo.default.min.css" rel="stylesheet" />
-    
-    
+       
     
         <script type="text/javascript" src="{base_url}js/jquery-2.1.3.min.js"></script>
         <script type="text/javascript" src="{base_url}js/jquery-ui-1.11.2/jquery-ui.min.js"></script>
@@ -69,7 +67,7 @@
         </div>
         
         
-        <form style="display:none" title='Relogin' id='relogin'><table ><tr><td width='80px'>Username</td><td><?=$ses_userdata["username"] ?><input type='hidden' name='username' id='username' value='<?=$ses_userdata["username"] ?>' /></td></tr><tr><td>Password</td><td><input type='password' name='password' id='password' /></td></tr><tr><td colspan=2><div style='color:red;display:none' id='login_message'>Login Failed</div></td></tr></table></form>
+        <form method="POST" style="display:none" title='Relogin' id='relogin'><table ><tr><td width='80px'>Username</td><td><?=$ses_userdata["username"] ?><input type='hidden' name='username' id='username' value='<?=$ses_userdata["username"] ?>' /></td></tr><tr><td>Password</td><td><input type='password' name='password' id='password' /></td></tr><tr><td colspan=2><div style='color:red;display:none' id='login_message'>Login Failed</div></td></tr></table></form>
         
         
         <div id="ajaxDiv" class="ajax-hide">
@@ -86,7 +84,7 @@
                     padding: 4,
                     panels: [
                         {type: 'top', size: 70, resizable: false, style: topstyle, content: $("#top").html()},
-                        {type: 'left', size: 200, resizable: true, style: leftstyle, content: 'left'},
+                        {type: 'left', size: 200, resizable: true, style: leftstyle},
                         {type: 'main', style: centerstyle,content: $("#maincontent").html()}
                     ]
                 });
@@ -115,14 +113,8 @@
                 alert( "Error requesting page " + settings.url);
                 });                
                 
-                $("#relogin").dialog({
-                autoOpen:false,
-                modal: true,
-                height: 200,
-                width: 300,
-                buttons: {
-                    Login: function() {
-                        $(this).loadingShow(true);
+                function postLogin(){
+                     $(this).loadingShow(true);
                         $.ajax({
                             type: "POST",
                             url: "{site_url}/login/relogin",
@@ -140,6 +132,20 @@
                                 $(this).loadingShow(false);
                             }
                         });
+                }
+                
+                $("#relogin").submit(function( event ) {
+                 postLogin();
+                 return false;
+                });
+                $("#relogin").dialog({
+                autoOpen:false,
+                modal: true,
+                height: 200,
+                width: 300,
+                buttons: {
+                    Login: function() {
+                       postLogin();
                     }
                 },
                 dialogClass: "loginDialog",
@@ -148,9 +154,11 @@
                 $.idleTimer(5000);
                 var userIsActive=true;   
                 $(document).bind("idle.idleTimer", function(){userIsActive=false;});
-                $(document).bind("active.idleTimer", function(){userIsActive=true});                
+                $(document).bind("active.idleTimer", function(){userIsActive=true});   
+                
                 setInterval(function() {
-                    popupisopen=$("#relogin").dialog("isOpen");                   
+                    popupisopen=$("#relogin").dialog("isOpen");
+                    
                     if(!userIsActive && !popupisopen){                        
                         $.ajax({
                                 url: "{site_url}/login/chek",                               

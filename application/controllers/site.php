@@ -23,6 +23,10 @@ class site extends CI_Controller {
      
     public function index() {       
       
+        if($this->session->userdata(SES_USERDT)==null){
+             redirect("login/");
+        }
+        
         $dataContent['site_url'] = site_url();
         $dataContent['base_url'] = base_url();
         

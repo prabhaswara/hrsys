@@ -37,13 +37,16 @@ class M_user extends Main_Model {
         $dataReturn=array();
         $password=  $this->encrypt($password);
         $dataUser= $this->db->where(array("username"=>$username,"password"=>$password))->get("tpl_user")->row_array();
+        
         if(!empty($dataUser)){
             
             unset($dataUser["password"]);
+            $dataEmployee=$this->db->where("user_id",$dataUser['user_id'])->get("hrsys_employee")->row_array();
             
             $dataRole=$this->getRoleUser($dataUser['user_id']);
             $dataReturn["user"]=$dataUser;
             $dataReturn["roles"]=$dataRole;
+            $dataReturn["employee"]=$dataEmployee;
         }
         
         return $dataReturn;    
