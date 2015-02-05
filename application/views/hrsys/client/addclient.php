@@ -30,10 +30,9 @@ if(!$isEdit){ ?>
             </tr>
             <tr>
                 <td class="aright"><span class="fa-phone">&nbsp;</span></td>
-                <td> <?= frm_('cp_name', $postForm,"class='w300'") ?></td> 
+                <td> <?= frm_('cp_phone', $postForm,"class='w300'") ?></td> 
             </tr>
-            <?php
-            if(!$isEdit){ ?>
+
             <tr>
                 <td class="aright">Status :</td>
                 <td>
@@ -46,12 +45,8 @@ if(!$isEdit){ ?>
                     <?= select_('pic', $postForm,$comboPIC,"class='kendocombo' style='width:300px'",false) ?>
                 </td> 
             </tr>
-            <?php
-            }
-            ?>
         </table>
         <input type="submit" name="action" id="action" value="Save" class="w2ui-btn"/>
-        <input type="button" name="action" id="cancel" value="Cancel"  class="w2ui-btn"/>
     </form>
 
 
@@ -62,9 +57,41 @@ if(!$isEdit){ ?>
          
         $(this).init_js("{base_url}");
         
+        
+        <?php if($isEdit){ ?>
+            $("#formnya").submit(function (event) {
+            $.ajax({
+                type: "POST",
+                data: $(this).serialize(),
+                url: $(this).attr("action"),
+                beforeSend: function (xhr) {
+                    $("#ajaxDiv").attr("class", "ajax-show");
+
+                },
+                success: function (data) {
+
+                    if (data == "close_popup") {
+                        $("#client_tabs").tabs('load',0);
+                        w2popup.close();
+                        
+                    } else {
+                        $('#popup_form').html(data);
+                    }
+                    $("#ajaxDiv").attr("class", "ajax-hide");
+                    
+                }
+                
+            });
+            return false;
+
+        });
+        
+        <?php }else{ ?>
         $("#formnya").gn_onsubmit();
-        <?php if(!$isEdit){ ?>
-        $("#status").change(function() {
+            
+        <?php } ?>
+            
+            $("#status").change(function() {
             if($(this).val()==0){
                 $("#picdiv").hide('slow');
                 $("#pic").data("kendoComboBox").value("");
@@ -73,7 +100,6 @@ if(!$isEdit){ ?>
             }
             
         });
-        <?php } ?>
         
         
     });

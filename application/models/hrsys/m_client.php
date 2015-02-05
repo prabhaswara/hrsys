@@ -34,6 +34,33 @@ class M_client extends Main_Model {
 
         return $dataReturn;
     }
+    
+    public function editClient($datafrm, $sessionData) {
+        
+        $cmpyclient_id=$datafrm["cmpyclient_id"];
+        unset($datafrm["cmpyclient_id"]);
+        $this->db->trans_start(TRUE);
+
+     
+        $this->db->set('dateupdate', 'NOW()', FALSE);
+        $this->db->set('usercreate', $sessionData["user"]["username"]);
+        $this->db->update('hrsys_cmpyclient', $datafrm,array('cmpyclient_id'=>$cmpyclient_id));
+
+        $userInsert = (isset($sessionData["employee"]["fullname"]) && !empty($sessionData["employee"]["fullname"])) ? $sessionData["employee"]["fullname"] :
+        $sessionData["user"]["username"];
+
+
+        $dataTrl["cmpyclient_trl_id"] = $this->uniqID();
+        $dataTrl["cmpyclient_id"] = $cmpyclient_id;
+        $dataTrl["desc"] = "$userInsert Update Info " . $datafrm["name"];
+        $this->db->set('datecreate', 'NOW()', FALSE);
+        $this->db->set('usercreate', $sessionData["user"]["username"]);
+        $this->db->insert('hrsys_cmpyclient_trl', $dataTrl);
+        $this->db->trans_complete();
+        
+       
+        return $this->db->trans_status();
+    }
 
     public function newClient($datafrm, $sessionData) {
         unset($datafrm["cmpyclient_id"]);

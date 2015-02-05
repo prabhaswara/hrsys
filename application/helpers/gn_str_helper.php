@@ -30,4 +30,8 @@ function balikTglDate($tgl,$jam=false){
     return implode("-", array_reverse(explode("-", $pecah[0])) ).($jam?" ".$pecah[1]:"");
 }
 
+function replaceNewLineBr($string)
+{
+    return str_replace("\n","<br />",$string); 
+}
 ?>

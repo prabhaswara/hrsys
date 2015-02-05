@@ -21,6 +21,7 @@ class client extends Main_Controller {
         parent::__construct();
         $this->load->model(array('hrsys/m_client', 'admin/m_lookup'));
     }
+    
 
     public function detclient($id, $frompage = "") {
 
@@ -37,12 +38,16 @@ class client extends Main_Controller {
             case "myclient":
                 $breadcrumb[]=array("link"=>"$site_url/hrsys/client/myclient","text"=>"My Client");             
                 break;
+            
+            case "addclient":
+                $breadcrumb[]=array("link"=>"$site_url/hrsys/client/addclient","text"=>"New Client");             
+                break;
         }
          $breadcrumb[]=array("link"=>"#","text"=>$client["name"]);  
      
          
         $dataParse = array(
-            "client"=> $client,
+            "id"=> $id,
             "breadcrumb" => $breadcrumb
         );
         $this->loadContent('hrsys/client/detclient', $dataParse);
@@ -51,13 +56,19 @@ class client extends Main_Controller {
     public function prospect() {
         $this->loadContent('hrsys/client/prospect');
     }
-    public function detMeeting() {
+    public function infClient($id) {
+       $client = $this->m_client->get($id);        
+        $dataParse = array("client"=> $client);
+        $this->loadContent('hrsys/client/infClient', $dataParse);
+        
+    }
+    public function infMeeting() {
        echo "detMeeting";
     }
-    public function detVacancies() {
+    public function infVacancies() {
        echo "detVacancies";
     }
-    public function detHistory() {
+    public function infHistory() {
       
       echo "det histori";
     }
@@ -123,10 +134,15 @@ class client extends Main_Controller {
             if ($validate["status"]) {
                 if ($isEdit) {
                     
+                    if ($this->m_client->editClient($postForm, $this->sessionUserData)) {
+                         echo "close_popup";
+                            exit;
+                    }
+                   
                 } else {
 
                     if ($this->m_client->newClient($postForm, $this->sessionUserData)) {
-                        redirect("hrsys/client/detclient/" . $this->m_client->cmpyclient_id);
+                        redirect("hrsys/client/detclient/" . $this->m_client->cmpyclient_id."/addclient");
                     }
                 }
             }
@@ -135,6 +151,10 @@ class client extends Main_Controller {
             if (!empty($error_message)) {
                 $message = showMessage($error_message);
             }
+        }
+        
+        if($isEdit && empty($postForm)){
+            $postForm=$this->m_client->get($id);
         }
 
         $stat_list = $this->m_lookup->comboLookup("cmpyclient_stat");

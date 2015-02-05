@@ -43,7 +43,7 @@ if (!function_exists('breadcrumb_')) {
         if(!empty($items)){
             $return.="<div class='breadcrumb'>";
             foreach($items as $key=>$item){
-                $return.="<a class='linksite' href='".$item["link"]."'>".$item["text"]."</a>";
+                $return.="<a href='".$item["link"]."'>".$item["text"]."</a>";
                 
                 if(isset($items[$key+1]))
                     $return.=" <span class='fa-arrow-right'>&nbsp;<span>";
@@ -87,7 +87,7 @@ if (!function_exists('textarea_')) {
             $value = $dataForm[$name];
         }
 
-        return "<textarea name='frm[$name]' id='$name' $extra />$value</textarea>";
+        return "<textarea name='frm[$name]' id='$name' $extra >$value</textarea>";
     }
 
 }
