@@ -12,10 +12,11 @@
         <link rel="stylesheet" type="text/css" href="{base_url}js/w2ui-1.5.x/w2ui.css" />
         <link rel="stylesheet" type="text/css" href="{base_url}style/font-awesome/font-awesome.css" />
         <link rel="stylesheet" type="text/css" href="{base_url}style/notification/box.css" />
+        
         <link rel="stylesheet" type="text/css" href="{base_url}js/jquery-ui-1.11.2/jMetro/jquery-ui.css" />
-        <link rel="stylesheet" type="text/css" href="{base_url}style/global_style.css" />
-        
-        
+ 
+
+        <link rel="stylesheet" type="text/css" href="{base_url}style/global_style.css" />       
        
     
         <script type="text/javascript" src="{base_url}js/jquery-2.1.3.min.js"></script>

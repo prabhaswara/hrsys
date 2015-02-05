@@ -26,21 +26,23 @@ class client extends Main_Controller {
 
         $client = $this->m_client->get($id);
         $breadcrumb = array();
-
+        $site_url=  site_url();
         switch ($frompage) {
             case "allclient":
-                $breadcrumb+=array("$site_url/hrsys/client/allclient" => "All Client");
+                $breadcrumb[]=array("link"=>"$site_url/hrsys/client/allclient","text"=>"All Client");
                 break;
             case "prospect":
-                $breadcrumb+=array("$site_url/hrsys/client/prospect" => "Prospect Client");
+                $breadcrumb[]=array("link"=>"$site_url/hrsys/client/prospect","text"=>"Prospect Client");
                 break;
             case "myclient":
-                $breadcrumb+=array("$site_url/hrsys/client/myclient" => "My Client");
+                $breadcrumb[]=array("link"=>"$site_url/hrsys/client/myclient","text"=>"My Client");             
                 break;
         }
-        $breadcrumb+=array("#" =>$client["name"] );
-
+         $breadcrumb[]=array("link"=>"#","text"=>$client["name"]);  
+     
+         
         $dataParse = array(
+            "client"=> $client,
             "breadcrumb" => $breadcrumb
         );
         $this->loadContent('hrsys/client/detclient', $dataParse);
@@ -49,6 +51,16 @@ class client extends Main_Controller {
     public function prospect() {
         $this->loadContent('hrsys/client/prospect');
     }
+    public function detMeeting() {
+       echo "detMeeting";
+    }
+    public function detVacancies() {
+       echo "detVacancies";
+    }
+    public function detHistory() {
+      
+      echo "det histori";
+    }
 
     public function allclient() {
         $this->loadContent('hrsys/client/allclient');
@@ -56,6 +68,7 @@ class client extends Main_Controller {
 
     public function myclient() {
         $this->loadContent('hrsys/client/myclient');
+        
     }
 
     public function json_listClient($status) {

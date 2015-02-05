@@ -12,7 +12,11 @@ class M_client extends Main_Model {
     }
 
     function get($id) {
-        return $this->db->where("cmpyclient_id", $id)->get("hrsys_client")->row_array();
+        $sql="select cl.*,emp.fullname emp_pic, lk.display_text status_text from hrsys_cmpyclient cl  ".
+             "left join tpl_lookup lk on lk.type='cmpyclient_stat' and cl.status=lk.value ".
+             "left join hrsys_employee emp on cl.pic=emp.emp_id ".
+             "where cl.cmpyclient_id='$id'";
+        return $this->db->query($sql)->row_array();
     }
 
     function comboPIC() {

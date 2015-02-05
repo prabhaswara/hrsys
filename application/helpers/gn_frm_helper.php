@@ -36,6 +36,25 @@ if (!function_exists('showMessage')) {
 }
 
 
+if (!function_exists('breadcrumb_')) {
+   
+    function breadcrumb_($items){
+        $return="";
+        if(!empty($items)){
+            $return.="<div class='breadcrumb'>";
+            foreach($items as $key=>$item){
+                $return.="<a class='linksite' href='".$item["link"]."'>".$item["text"]."</a>";
+                
+                if(isset($items[$key+1]))
+                    $return.=" <span class='fa-arrow-right'>&nbsp;<span>";
+            }
+            
+            $return.="</div>";
+        }
+        return $return;
+    }
+    
+}
 
 if (!function_exists('frm_')) {
 

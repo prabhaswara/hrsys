@@ -5,6 +5,27 @@
         
         $(".kendodropdown").kendoDropDownList();
         $(".kendocombo").kendoComboBox();
+        $(".jqbutton").button();
+ 
+        
+        $(".breadcrumb a").click(function() {
+            href=$(this).attr("href");
+            if(href!="#"&&href!=""){
+                $.fn.gn_loadmain(href);
+            }            
+            return false;
+
+        });
+        
+        $(".tabs-js").tabs({        
+            beforeLoad: function(event, ui) {
+                ui.jqXHR.error(function() {
+                    ui.panel.html("Couldn't load this tab.");
+                });
+            }
+        });
+        
+      
 
     };
     $.fn.gn_popup_submit = function(url, content_id, grid) {

@@ -3,10 +3,9 @@
 
  <script>
 $(function () {
-    gridName='listMenu';
-
+ 
     $('#listMenu').w2grid({
-        name    : gridName,
+        name    : 'listMenu',
         url     : '{site_url}/admin/menu/json_list',
         header  : 'List of menu',
         show: {

@@ -39,10 +39,6 @@ CREATE TABLE IF NOT EXISTS `ci_sessions` (
 -- Dumping data for table `ci_sessions`
 --
 
-INSERT INTO `ci_sessions` (`session_id`, `ip_address`, `user_agent`, `last_activity`, `user_data`) VALUES
-('348811f1050ebc7ab48577778101da39', '::1', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:35.0) Gecko/20100101 Firefox/35.0', 1422791436, 'a:2:{s:9:"user_data";s:0:"";s:12:"hrsys_userdt";a:3:{s:4:"user";a:8:{s:7:"user_id";s:23:"142199935954c1fcffd9501";s:8:"username";s:5:"admin";s:10:"active_non";s:1:"1";s:10:"last_login";N;s:10:"datecreate";s:19:"2015-01-23 14:48:55";s:10:"usercreate";N;s:10:"dateupdate";s:19:"2015-01-28 13:37:03";s:10:"userupdate";s:5:"admin";}s:5:"roles";a:4:{i:0;s:10:"adm_lookup";i:1;s:8:"adm_menu";i:2;s:8:"adm_role";i:3;s:8:"adm_user";}s:8:"employee";a:0:{}}}'),
-('d854ad8f00e4a66c687967dd3ed42610', '::1', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:35.0) Gecko/20100101 Firefox/35.0', 1422793596, 'a:2:{s:9:"user_data";s:0:"";s:12:"hrsys_userdt";a:3:{s:4:"user";a:8:{s:7:"user_id";s:23:"142199935954c1fcffd9501";s:8:"username";s:5:"admin";s:10:"active_non";s:1:"1";s:10:"last_login";N;s:10:"datecreate";s:19:"2015-01-23 14:48:55";s:10:"usercreate";N;s:10:"dateupdate";s:19:"2015-01-28 13:37:03";s:10:"userupdate";s:5:"admin";}s:5:"roles";a:4:{i:0;s:10:"adm_lookup";i:1;s:8:"adm_menu";i:2;s:8:"adm_role";i:3;s:8:"adm_user";}s:8:"employee";a:0:{}}}'),
-('b572f87c838618f16bfd3920eed0d7f8', '::1', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:35.0) Gecko/20100101 Firefox/35.0', 1422793596, '');
 
 -- --------------------------------------------------------
 
