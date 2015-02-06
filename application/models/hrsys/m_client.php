@@ -52,7 +52,7 @@ class M_client extends Main_Model {
 
         $dataTrl["cmpyclient_trl_id"] = $this->uniqID();
         $dataTrl["cmpyclient_id"] = $cmpyclient_id;
-        $dataTrl["desc"] = "$userInsert Update Info " . $datafrm["name"];
+        $dataTrl["description"] = "$userInsert Update Info " . $datafrm["name"];
         $this->db->set('datecreate', 'NOW()', FALSE);
         $this->db->set('usercreate', $sessionData["user"]["username"]);
         $this->db->insert('hrsys_cmpyclient_trl', $dataTrl);
@@ -80,7 +80,7 @@ class M_client extends Main_Model {
 
         $dataTrl["cmpyclient_trl_id"] = $this->uniqID();
         $dataTrl["cmpyclient_id"] = $this->cmpyclient_id;
-        $dataTrl["desc"] = "$userInsert Created " . $datafrm["name"];
+        $dataTrl["description"] = "$userInsert Created " . $datafrm["name"];
         $this->db->set('datecreate', 'NOW()', FALSE);
         $this->db->set('usercreate', $sessionData["user"]["username"]);
         $this->db->insert('hrsys_cmpyclient_trl', $dataTrl);

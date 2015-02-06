@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Feb 03, 2015 at 06:21 AM
+-- Generation Time: Feb 06, 2015 at 04:44 
 -- Server version: 5.1.37
 -- PHP Version: 5.3.0
 
@@ -39,6 +39,8 @@ CREATE TABLE IF NOT EXISTS `ci_sessions` (
 -- Dumping data for table `ci_sessions`
 --
 
+INSERT INTO `ci_sessions` (`session_id`, `ip_address`, `user_agent`, `last_activity`, `user_data`) VALUES
+('add2b5c0c8c6a74519edde828d4018f1', '::1', 'Mozilla/5.0 (Windows NT 6.1; rv:35.0) Gecko/20100101 Firefox/35.0', 1423215610, 'a:2:{s:9:"user_data";s:0:"";s:12:"hrsys_userdt";a:3:{s:4:"user";a:8:{s:7:"user_id";s:23:"142199935954c1fcffd9501";s:8:"username";s:5:"admin";s:10:"active_non";s:1:"1";s:10:"last_login";N;s:10:"datecreate";s:19:"2015-01-23 14:48:55";s:10:"usercreate";N;s:10:"dateupdate";s:19:"2015-01-28 13:37:03";s:10:"userupdate";s:5:"admin";}s:5:"roles";a:4:{i:0;s:10:"adm_lookup";i:1;s:8:"adm_menu";i:2;s:8:"adm_role";i:3;s:8:"adm_user";}s:8:"employee";a:0:{}}}');
 
 -- --------------------------------------------------------
 
@@ -77,14 +79,16 @@ INSERT INTO `hrsys_cmpyclient` (`cmpyclient_id`, `name`, `address`, `website`, `
 --
 
 CREATE TABLE IF NOT EXISTS `hrsys_cmpyclient_meet` (
-  `cmpyclient_meet` varchar(30) NOT NULL,
+  `meet_id` varchar(30) NOT NULL,
   `cmpyclient_id` varchar(30) NOT NULL,
-  `state` varchar(20) NOT NULL,
-  `place` varchar(255) NOT NULL,
-  `attendance` text NOT NULL,
-  `time` datetime NOT NULL,
-  `note` text NOT NULL,
-  PRIMARY KEY (`cmpyclient_meet`)
+  `type` char(1) DEFAULT NULL,
+  `person` varchar(255) DEFAULT NULL,
+  `place` varchar(255) DEFAULT NULL,
+  `meettime` datetime DEFAULT NULL,
+  `description` text,
+  `outcome` char(1) DEFAULT NULL,
+  `outcome_desc` text,
+  PRIMARY KEY (`meet_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -103,7 +107,7 @@ CREATE TABLE IF NOT EXISTS `hrsys_cmpyclient_trl` (
   `cmpyclient_id` varchar(30) NOT NULL,
   `type` varchar(30) NOT NULL,
   `value` varchar(30) NOT NULL,
-  `desc` text NOT NULL,
+  `description` text NOT NULL,
   `datecreate` datetime NOT NULL,
   `usercreate` varchar(30) NOT NULL,
   PRIMARY KEY (`cmpyclient_trl_id`)
@@ -113,7 +117,7 @@ CREATE TABLE IF NOT EXISTS `hrsys_cmpyclient_trl` (
 -- Dumping data for table `hrsys_cmpyclient_trl`
 --
 
-INSERT INTO `hrsys_cmpyclient_trl` (`cmpyclient_trl_id`, `cmpyclient_id`, `type`, `value`, `desc`, `datecreate`, `usercreate`) VALUES
+INSERT INTO `hrsys_cmpyclient_trl` (`cmpyclient_trl_id`, `cmpyclient_id`, `type`, `value`, `description`, `datecreate`, `usercreate`) VALUES
 ('142276777954cdb6a390563', '142276777954cdb6a38f4ef', '', '', 'Gunawan Prabhaswara Created Pertamina', '2015-02-01 12:15:55', 'gunawan'),
 ('142277465454cdd17e77514', '142277465454cdd17e7706e', '', '', 'admin Created BNI', '2015-02-01 14:10:30', 'admin');
 
@@ -181,7 +185,7 @@ CREATE TABLE IF NOT EXISTS `tpl_lookup` (
   `dateupdate` datetime DEFAULT NULL,
   `userupdate` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`lookup_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=17 ;
 
 --
 -- Dumping data for table `tpl_lookup`
@@ -193,7 +197,13 @@ INSERT INTO `tpl_lookup` (`lookup_id`, `value`, `display_text`, `type`, `order_n
 (7, 'm', 'Male', 'sex', 1, '2015-01-27 10:42:19', 'admin', '2015-01-27 10:42:19', NULL),
 (8, 'f', 'Female', 'sex', 2, '2015-01-27 10:42:42', 'admin', '2015-01-27 10:42:45', 'admin'),
 (9, '0', 'Prospect', 'cmpyclient_stat', 1, '2015-01-31 10:53:38', 'admin', '2015-01-31 10:53:38', NULL),
-(10, '1', 'Client', 'cmpyclient_stat', 1, '2015-01-31 10:54:06', 'admin', '2015-01-31 10:54:06', NULL);
+(10, '1', 'Client', 'cmpyclient_stat', 1, '2015-01-31 10:54:06', 'admin', '2015-01-31 10:54:06', NULL),
+(11, '1', 'Regular Meeting', 'meet_type', 1, '2015-02-06 14:33:43', 'admin', '2015-02-06 14:44:00', 'admin'),
+(12, '2', 'Assign contract', 'meet_type', 2, '2015-02-06 14:34:50', 'admin', '2015-02-06 14:44:27', 'admin'),
+(13, '1', 'Complited', 'meet_outcome', 1, '2015-02-06 14:39:13', 'admin', '2015-02-06 14:42:58', 'admin'),
+(14, '2', 'Canceled', 'meet_outcome', 2, '2015-02-06 14:39:36', 'admin', '2015-02-06 14:43:02', 'admin'),
+(15, '4', 'Reschedule', 'meet_outcome', 4, '2015-02-06 14:40:31', 'admin', '2015-02-06 14:43:25', 'admin'),
+(16, '3', 'Assigned Contract', 'meet_outcome', 3, '2015-02-06 14:42:19', 'admin', '2015-02-06 14:43:17', 'admin');
 
 -- --------------------------------------------------------
 

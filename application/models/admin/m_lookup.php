@@ -12,6 +12,16 @@ class M_lookup extends Main_Model {
         return $this->db->where("lookup_id",$id)->get("tpl_lookup")->row_array();
     }
     
+    function comboTime(){
+        $return=array();
+        for($i=0;$i<=23;$i++){
+            $hour=($i<10)?"0$i":$i;
+            $return["$hour:00"]="$hour:00";
+            $return["$hour:30"]="$hour:30";            
+        }
+        return $return;
+    }
+    
     function comboLookup($type){
         $data=$this->db->where("type",$type)->order_by("order_num")->get("tpl_lookup")->result_array();
         $return=array();

@@ -62,15 +62,26 @@ class client extends Main_Controller {
         $this->loadContent('hrsys/client/infClient', $dataParse);
         
     }
-    public function infMeeting() {
-       echo "detMeeting";
-    }
+   
     public function infVacancies() {
        echo "detVacancies";
     }
-    public function infHistory() {
-      
-      echo "det histori";
+    public function infHistory($id) {
+
+        if(!empty($_POST)&&$_POST["pg_action"]=="json"){
+            
+            if(!isset($_POST["sort"]))
+            {
+                $_POST["sort"]["0"]["direction"]="desc";
+                $_POST["sort"]["0"]["field"]="datecreate";
+            }
+
+             $data = $this->m_client->w2grid("SELECT description,DATE_FORMAT(datecreate,'%d-%m-%Y %H:%i') datecreate  FROM hrsys_cmpyclient_trl WHERE cmpyclient_id='$id' and ~search~  ORDER BY ~sort~", $_POST);
+            header("Content-Type: application/json;charset=utf-8");
+            echo json_encode($data);exit;
+        }     
+
+        $this->loadContent('hrsys/client/infHistory',array("client_id"=>$id));
     }
 
     public function allclient() {
