@@ -25,8 +25,8 @@ $meet_id=isset($postForm["meet_id"])?$postForm["meet_id"]:"0";
             </tr>
             <tr>
                 <td>Date & Time :</td>
-                <td><?= frm_('meettime_d', $postForm,"class='w200'") ?>
-                    <?= select_('meettime_t', $postForm,$timeList,"class='kendodropdown'",false) ?>
+                <td><?= frm_('meettime_d', $postForm,"class='w150 date'") ?>
+                    <?= select_('meettime_t', $postForm,$timeList,"style='width:90px' class='kendodropdown'",false) ?>
                 </td> 
             </tr>         
 

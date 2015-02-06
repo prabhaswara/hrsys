@@ -6,7 +6,7 @@
         $(".kendodropdown").kendoDropDownList();
         $(".kendocombo").kendoComboBox();
         $(".jqbutton").button();
-
+        $(".date").datepicker();
 
         $(".breadcrumb a").click(function () {
             href = $(this).attr("href");

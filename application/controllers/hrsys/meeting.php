@@ -31,10 +31,28 @@ class meeting extends Main_Controller {
     
     public function showForm($client_id) {
      
+        $postForm = isset($_POST['frm']) ? $_POST['frm'] : array();
+
+        $create_edit = "Edit";
+        $isEdit = true;
+        if ($client_id == 0) {
+            $create_edit = "New";
+            $isEdit = false;
+        }
+
+        $message = "";
+        if (!empty($postForm)) {
+        }
+        
+        if($isEdit && empty($postForm)){
+       
+        }
         $typeList = $this->m_lookup->comboLookup("meet_type");
         $timeList = $this->m_lookup->comboTime();
         
         $dataParse = array(
+            "message"=>"",
+            "postForm"=>$postForm,
             "client_id"=> $client_id,
             "timeList"=>$timeList,
             "typeList"=> $typeList

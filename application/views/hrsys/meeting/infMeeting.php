@@ -8,12 +8,12 @@
     $(function() { 
         
         $("#createAppointment").click(function () {
-         
+            showForm(0);
             return false;
         });
         
         
-        function editLookup(recid) {
+        function showForm(recid) {
             $().w2popup('open', {
                 name    : 'lookup_form',
                 title   : (recid == 0 ? 'Create an Appointment' : 'Edit Appointment'),
