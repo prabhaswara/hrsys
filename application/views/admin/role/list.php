@@ -45,6 +45,7 @@ function editRole(recid) {
         style   : 'padding: 15px 0px 0px 0px',
         width   : 500,
         height  : 300, 
+        modal:true,
         onOpen  : function (event) {
             event.onComplete = function () {
                 

@@ -19,7 +19,7 @@ class meeting extends Main_Controller {
 
     public function __construct() {
         parent::__construct();
-        $this->load->model(array('hrsys/m_meeting','hrsys/m_client', 'admin/m_lookup'));
+        $this->load->model(array('hrsys/m_meeting','hrsys/m_client','hrsys/m_employee', 'admin/m_lookup'));
     }
     
     public function infMeeting($client_id) {
@@ -29,10 +29,11 @@ class meeting extends Main_Controller {
         
     }
     
-    public function showForm($client_id) {
+    public function showForm($client_id,$id=0) {
      
         $postForm = isset($_POST['frm']) ? $_POST['frm'] : array();
-
+        $postShareSchedule = isset($_POST['shareSchedule']) ? $this->m_employee->sharewith($_POST['shareSchedule']) : array();
+        
         $create_edit = "Edit";
         $isEdit = true;
         if ($client_id == 0) {
@@ -48,12 +49,13 @@ class meeting extends Main_Controller {
        
         }
         $typeList = $this->m_lookup->comboLookup("meet_type");
-        $timeList = $this->m_lookup->comboTime();
-        
+        $timeList = array(""=>"")+$this->m_lookup->comboTime();
+        $client = $this->m_client->get($client_id);    
         $dataParse = array(
             "message"=>"",
             "postForm"=>$postForm,
-            "client_id"=> $client_id,
+            "postShareSchedule"=>$postShareSchedule,
+            "client"=> $client,
             "timeList"=>$timeList,
             "typeList"=> $typeList
                 );

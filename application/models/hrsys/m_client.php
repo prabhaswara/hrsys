@@ -19,21 +19,6 @@ class M_client extends Main_Model {
         return $this->db->query($sql)->row_array();
     }
 
-    function comboPIC() {
-
-        $dataReturn = array();
-        $dataEmployee = $this->db->select("emp_id,fullname")->order_by("fullname")->get("hrsys_employee")->result();
-
-
-        if (!empty($dataEmployee)) {
-            foreach ($dataEmployee as $emp) {
-
-                $dataReturn[$emp->emp_id] = $emp->fullname . " (" . $emp->emp_id . ")";
-            }
-        }
-
-        return $dataReturn;
-    }
     
     public function editClient($datafrm, $sessionData) {
         
@@ -69,9 +54,9 @@ class M_client extends Main_Model {
         $this->cmpyclient_id = $this->uniqID();
         $this->db->set('cmpyclient_id', $this->cmpyclient_id);
         $this->db->set('datecreate', 'NOW()', FALSE);
-        $this->db->set('usercreate', $sessionData["user"]["username"]);
+        $this->db->set('usercreate', $sessionData["user"]["user_id"]);
         $this->db->set('dateupdate', 'NOW()', FALSE);
-        $this->db->set('usercreate', $sessionData["user"]["username"]);
+        $this->db->set('usercreate', $sessionData["user"]["user_id"]);
         $this->db->insert('hrsys_cmpyclient', $datafrm);
 
         $userInsert = (isset($sessionData["employee"]["fullname"]) && !empty($sessionData["employee"]["fullname"])) ? $sessionData["employee"]["fullname"] :
@@ -82,7 +67,7 @@ class M_client extends Main_Model {
         $dataTrl["cmpyclient_id"] = $this->cmpyclient_id;
         $dataTrl["description"] = "$userInsert Created " . $datafrm["name"];
         $this->db->set('datecreate', 'NOW()', FALSE);
-        $this->db->set('usercreate', $sessionData["user"]["username"]);
+        $this->db->set('usercreate', $sessionData["user"]["user_id"]);
         $this->db->insert('hrsys_cmpyclient_trl', $dataTrl);
         $this->db->trans_complete();
 

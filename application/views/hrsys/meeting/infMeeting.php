@@ -20,11 +20,12 @@
                 body    : '<div id="popupForm" class="framepopup">please wait..</div>',
                 style   : 'padding: 15px 0px 0px 0px',
                 width   : 500,
-                height  : 300, 
+                height  : 400, 
+                modal:true,
                 onOpen  : function (event) {
                     event.onComplete = function () {
 
-                       $( "#popupForm" ).load( "{site_url}/hrsys/meeting/showform/"+recid, function() {});
+                       $( "#popupForm" ).load( "{site_url}/hrsys/meeting/showform/<?=$client_id?>/"+recid, function() {});
                     }
 
                 }

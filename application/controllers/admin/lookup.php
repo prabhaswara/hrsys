@@ -28,7 +28,7 @@ class Lookup extends Main_Controller {
        
         if(!empty($postform)){
             $validate=$this->m_lookup->validate($postform);
-            if($validate["status"] && $this->m_lookup->saveOrUpdate($postform,$this->username)){
+            if($validate["status"] && $this->m_lookup->saveOrUpdate($postform,$this->user_id)){
                 echo "close_popup";exit;
             }
             $error_message= isset($validate["message"])?$validate["message"]:array();

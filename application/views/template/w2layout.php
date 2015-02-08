@@ -20,6 +20,7 @@
        
     
         <script type="text/javascript" src="{base_url}js/jquery-2.1.3.min.js"></script>
+        <script type="text/javascript" src="{base_url}js/jquery.maskedinput-1.3.1.js"></script>
         <script type="text/javascript" src="{base_url}js/jquery-ui-1.11.2/jquery-ui.min.js"></script>
         <script type="text/javascript" src="{base_url}js/w2ui-1.5.x/w2ui.js"></script>
         <script type="text/javascript" src="{base_url}js/idle-timer.js"></script>
@@ -109,11 +110,16 @@
                 });
   
       
-                    
-                $( document ).ajaxError(function( event, request, settings ) {
+       $( document ).ajaxError(function( event, request, settings ) {
                 alert( "Error requesting page " + settings.url);
-                });                
-                
+                });   
+      
+                /*    
+                $(document).ajaxError(
+                    function (event, jqXHR, ajaxSettings, thrownError) {
+                        console.log('[event:' + event + '], [jqXHR:' + jqXHR + '], [ajaxSettings:' + ajaxSettings + '], [thrownError:' + thrownError + '])');
+                });              
+                */
                 function postLogin(){
                      $(this).loadingShow(true);
                         $.ajax({

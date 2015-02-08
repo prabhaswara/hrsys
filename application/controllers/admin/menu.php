@@ -40,7 +40,7 @@ class Menu extends Main_Controller {
         $message="";
         if(!empty($postform)){
             $validate=$this->m_menu->validate($postform);
-            if($validate["status"] && $this->m_menu->saveOrUpdate($postform,$this->username)){
+            if($validate["status"] && $this->m_menu->saveOrUpdate($postform,$this->user_id)){
                 echo "close_popup";exit;
             }
             $error_message= isset($validate["message"])?$validate["message"]:array();

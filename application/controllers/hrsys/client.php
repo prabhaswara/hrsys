@@ -19,7 +19,7 @@ class client extends Main_Controller {
 
     public function __construct() {
         parent::__construct();
-        $this->load->model(array('hrsys/m_client', 'admin/m_lookup'));
+        $this->load->model(array('hrsys/m_client','hrsys/m_employee', 'admin/m_lookup'));
     }
     
 
@@ -170,7 +170,7 @@ class client extends Main_Controller {
 
         $stat_list = $this->m_lookup->comboLookup("cmpyclient_stat");
 
-        $comboPIC = array('' => '') + $this->m_client->comboPIC();
+        $comboPIC = array('' => '') + $this->m_employee->comboPIC();
 
         $dataParse = array(
             'isEdit' => $isEdit,

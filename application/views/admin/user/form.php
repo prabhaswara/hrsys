@@ -126,6 +126,7 @@ $user_id=isset($postUser["user_id"])?$postUser["user_id"]:"0";
             width: 900,
             height: 600,
             showMax: true,
+            modal:true,
             body: '<div id="main" style="position: absolute; left: 5px; top: 5px; right: 5px; bottom: 5px;"></div>',
             onOpen: function (event) {
                 event.onComplete = function () {

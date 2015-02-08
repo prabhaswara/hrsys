@@ -67,7 +67,7 @@ class User extends Main_Controller {
                 
                 $dataSave["role"]=$postUserRole;
                
-               $result=$this->m_user->saveOrUpdate($dataSave,$this->username);
+               $result=$this->m_user->saveOrUpdate($dataSave,$this->user_id);
                
                if($result){
                    $this->session->set_userdata(SES_MSG,array("Data Saved","success"));

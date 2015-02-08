@@ -165,5 +165,16 @@ body, td,th,div,span,label,a,span,input,textarea,p,option{
    
 }
 .k-textbox > input, .k-autocomplete .k-input, .k-picker-wrap .k-input, .k-numeric-wrap .k-input, .k-dropdown-wrap .k-input, .k-selectbox .k-input{
-    height: 25px !important; 
+    height: 28px !important; 
+}
+
+.k-multiselect-wrap .k-input {
+    background-color: transparent !important;
+    border: 0 none !important;
+    float: left !important;
+    height: 1.31em !important;
+    line-height: 1.31em !important;
+    margin: 1px 0 0 !important;
+    padding:  0 !important;
+    text-indent: 0.33em !important;
 }

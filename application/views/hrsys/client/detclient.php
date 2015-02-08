@@ -9,7 +9,7 @@
 
 <div  id="client_tabs" >
     <ul>
-        <li><a href="#test">General Info</a></li>
+        <li><a href="{site_url}/hrsys/client/infClient/<?=$id?>">General Info</a></li>
         <li><a href="{site_url}/hrsys/meeting/infMeeting/<?=$id?>">Meeting Appointment</a></li>
         <li><a href="{site_url}/hrsys/client/infVacancies/<?=$id?>">Vacancies</a></li>
         <li><a href="{site_url}/hrsys/client/infHistory/<?=$id?>">History</a></li>

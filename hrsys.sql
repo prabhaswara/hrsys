@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Feb 06, 2015 at 04:44 
+-- Generation Time: Feb 08, 2015 at 06:17 PM
 -- Server version: 5.1.37
 -- PHP Version: 5.3.0
 
@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS `ci_sessions` (
 --
 
 INSERT INTO `ci_sessions` (`session_id`, `ip_address`, `user_agent`, `last_activity`, `user_data`) VALUES
-('add2b5c0c8c6a74519edde828d4018f1', '::1', 'Mozilla/5.0 (Windows NT 6.1; rv:35.0) Gecko/20100101 Firefox/35.0', 1423215610, 'a:2:{s:9:"user_data";s:0:"";s:12:"hrsys_userdt";a:3:{s:4:"user";a:8:{s:7:"user_id";s:23:"142199935954c1fcffd9501";s:8:"username";s:5:"admin";s:10:"active_non";s:1:"1";s:10:"last_login";N;s:10:"datecreate";s:19:"2015-01-23 14:48:55";s:10:"usercreate";N;s:10:"dateupdate";s:19:"2015-01-28 13:37:03";s:10:"userupdate";s:5:"admin";}s:5:"roles";a:4:{i:0;s:10:"adm_lookup";i:1;s:8:"adm_menu";i:2;s:8:"adm_role";i:3;s:8:"adm_user";}s:8:"employee";a:0:{}}}');
+('59ba278101e2440c76734939d18fb496', '::1', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:35.0) Gecko/20100101 Firefox/35.0', 1423394040, 'a:2:{s:9:"user_data";s:0:"";s:12:"hrsys_userdt";a:3:{s:4:"user";a:8:{s:7:"user_id";s:23:"142199935954c1fcffd9501";s:8:"username";s:5:"admin";s:10:"active_non";s:1:"1";s:10:"last_login";N;s:10:"datecreate";s:19:"2015-01-23 14:48:55";s:10:"usercreate";N;s:10:"dateupdate";s:19:"2015-01-28 13:37:03";s:10:"userupdate";s:5:"admin";}s:5:"roles";a:4:{i:0;s:10:"adm_lookup";i:1;s:8:"adm_menu";i:2;s:8:"adm_role";i:3;s:8:"adm_user";}s:8:"employee";a:0:{}}}');
 
 -- --------------------------------------------------------
 
@@ -69,7 +69,7 @@ CREATE TABLE IF NOT EXISTS `hrsys_cmpyclient` (
 --
 
 INSERT INTO `hrsys_cmpyclient` (`cmpyclient_id`, `name`, `address`, `website`, `cp_name`, `cp_phone`, `status`, `pic`, `datecreate`, `usercreate`, `dateupdate`, `userupdate`) VALUES
-('142276777954cdb6a38f4ef', 'Pertamina', '', '', '', '', '1', '820547', '2015-02-01 12:15:55', 'gunawan', '2015-02-01 12:15:55', ''),
+('142276777954cdb6a38f4ef', 'Pertamina', 'JL Merdeka Timur', 'www.pertamina.com', 'Branjangan', '021', '1', '820547', '2015-02-01 12:15:55', 'admin', '2015-02-06 22:31:41', ''),
 ('142277465454cdd17e7706e', 'BNI', '', '', '', '', '0', '', '2015-02-01 14:10:30', 'admin', '2015-02-01 14:10:30', '');
 
 -- --------------------------------------------------------
@@ -119,7 +119,8 @@ CREATE TABLE IF NOT EXISTS `hrsys_cmpyclient_trl` (
 
 INSERT INTO `hrsys_cmpyclient_trl` (`cmpyclient_trl_id`, `cmpyclient_id`, `type`, `value`, `description`, `datecreate`, `usercreate`) VALUES
 ('142276777954cdb6a390563', '142276777954cdb6a38f4ef', '', '', 'Gunawan Prabhaswara Created Pertamina', '2015-02-01 12:15:55', 'gunawan'),
-('142277465454cdd17e77514', '142277465454cdd17e7706e', '', '', 'admin Created BNI', '2015-02-01 14:10:30', 'admin');
+('142277465454cdd17e77514', '142277465454cdd17e7706e', '', '', 'admin Created BNI', '2015-02-01 14:10:30', 'admin'),
+('142323672554d4de75d800c', '142276777954cdb6a38f4ef', '', '', 'admin Update Info Pertamina', '2015-02-06 22:31:41', 'admin');
 
 -- --------------------------------------------------------
 
@@ -128,7 +129,7 @@ INSERT INTO `hrsys_cmpyclient_trl` (`cmpyclient_trl_id`, `cmpyclient_id`, `type`
 --
 
 CREATE TABLE IF NOT EXISTS `hrsys_employee` (
-  `emp_id` varchar(25) NOT NULL,
+  `emp_id` varchar(30) NOT NULL,
   `name` varchar(100) DEFAULT NULL,
   `fullname` varchar(100) DEFAULT NULL,
   `phone` varchar(100) DEFAULT NULL,
@@ -149,6 +150,28 @@ INSERT INTO `hrsys_employee` (`emp_id`, `name`, `fullname`, `phone`, `birthdate`
 ('1004', 'Kartika', 'Kartika Dewi', NULL, NULL, NULL, '142274833454cd6aaeed52b'),
 ('1005', 'Rika', 'Rika Fadilah', NULL, NULL, NULL, '142274855454cd6b8aeea54'),
 ('820547', 'Gunawan', 'Gunawan Prabhaswara', NULL, NULL, NULL, '142199957054c1fdd26eca3');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `hrsys_schedule`
+--
+
+CREATE TABLE IF NOT EXISTS `hrsys_schedule` (
+  `schedule_id` varchar(30) NOT NULL,
+  `scheduletime` datetime DEFAULT NULL,
+  `description` text,
+  `datecreate` datetime DEFAULT NULL,
+  `usercreate` varchar(30) DEFAULT NULL,
+  `dateupdate` datetime DEFAULT NULL,
+  `userupdate` varchar(30) DEFAULT NULL,
+  PRIMARY KEY (`schedule_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `hrsys_schedule`
+--
+
 
 -- --------------------------------------------------------
 

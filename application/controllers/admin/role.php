@@ -27,7 +27,7 @@ class Role extends Main_Controller {
        
         if(!empty($postform)){
             $validate=$this->m_role->validate($postform);
-            if($validate["status"] && $this->m_role->saveOrUpdate($postform,$this->username)){
+            if($validate["status"] && $this->m_role->saveOrUpdate($postform,$this->user_id)){
                 echo "close_popup";exit;
             }
             $error_message= isset($validate["message"])?$validate["message"]:array();
