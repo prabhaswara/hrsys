@@ -30,11 +30,11 @@ class M_Employee extends Main_Model {
         return $dataReturn;
     }
     
-    function sharewith($where) {
+    function sharewith($where,$user_login) {
 
         $dataReturn = array();
         $this->db->select("emp_id,fullname,user_id")
-                ->where("(user_id IS NOT NULL or user_id!='')", null, false) ;               
+                ->where("(user_id IS NOT NULL or user_id!='') and user_id != '$user_login'", null, false) ;               
                 
 
         if(is_array($where)){

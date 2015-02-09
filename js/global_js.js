@@ -8,22 +8,7 @@
         $(".jqbutton").button();
         $(".date").kendoDatePicker({format: "dd-MM-yyyy"});
         $(".date").mask('99-99-9999');
-        $(".breadcrumb a").click(function () {
-            href = $(this).attr("href");
-            if (href != "#" && href != "") {
-                $.fn.gn_loadmain(href);
-            }
-            return false;
-
-        });
-
-        $(".tabs-js").tabs({
-            beforeLoad: function (event, ui) {
-                ui.jqXHR.error(function () {
-                    ui.panel.html("Couldn't load this tab.");
-                });
-            }
-        });
+        
 
 
 

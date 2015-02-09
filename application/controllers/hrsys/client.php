@@ -39,8 +39,8 @@ class client extends Main_Controller {
                 $breadcrumb[]=array("link"=>"$site_url/hrsys/client/myclient","text"=>"My Client");             
                 break;
             
-            case "addclient":
-                $breadcrumb[]=array("link"=>"$site_url/hrsys/client/addclient","text"=>"New Client");             
+            case "addEditClient":
+                $breadcrumb[]=array("link"=>"$site_url/hrsys/client/addEditClient","text"=>"New Client");             
                 break;
         }
          $breadcrumb[]=array("link"=>"#","text"=>$client["name"]);  
@@ -128,7 +128,7 @@ class client extends Main_Controller {
         echo json_encode($data);
     }
 
-    public function addclient($id = 0) {
+    public function addEditClient($id = 0) {
 
         $postForm = isset($_POST['frm']) ? $_POST['frm'] : array();
 
@@ -153,7 +153,7 @@ class client extends Main_Controller {
                 } else {
 
                     if ($this->m_client->newClient($postForm, $this->sessionUserData)) {
-                        redirect("hrsys/client/detclient/" . $this->m_client->cmpyclient_id."/addclient");
+                        redirect("hrsys/client/detclient/" . $this->m_client->cmpyclient_id."/addEditClient");
                     }
                 }
             }
@@ -179,7 +179,7 @@ class client extends Main_Controller {
             'stat_list' => $stat_list,
             'comboPIC' => $comboPIC,
         );
-        $this->loadContent('hrsys/client/addclient', $dataParse);
+        $this->loadContent('hrsys/client/addEditClient', $dataParse);
     }
 
 }

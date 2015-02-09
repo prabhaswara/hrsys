@@ -25,7 +25,7 @@ class employee extends Main_Controller {
        
         }
         
-        $data=$this->m_employee->sharewith($name);
+        $data=$this->m_employee->sharewith($name,$this->user_id);
         header("Content-Type: application/json;charset=utf-8");
         echo json_encode($data);
     }

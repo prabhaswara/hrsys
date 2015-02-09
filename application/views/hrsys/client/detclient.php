@@ -15,10 +15,7 @@
         <li><a href="{site_url}/hrsys/client/infHistory/<?=$id?>">History</a></li>
 
     </ul>
-    <div id="test" style="height:400px">
 
-        
-    </div>
 </div>
 
 <script>
@@ -38,5 +35,14 @@
             }
         });
         
+        $(".breadcrumb a").click(function () {
+            href = $(this).attr("href");
+            if (href != "#" && href != "") {
+                $.fn.gn_loadmain(href);
+            }
+            return false;
+
+        });
+
     });
 </script>

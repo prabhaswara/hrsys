@@ -1,6 +1,7 @@
-<button class="jqbutton" id="editClient"> <span class="fa-edit">&nbsp;</span> Edit General Info</button>
-<div class="form-tbl" >
-<table>
+<div style="height: 450px">
+    <button class="jqbutton" id="editClient"> <span class="fa-edit">&nbsp;</span> Edit General Info</button>
+    <div class="form-tbl" >
+        <table>
             <tr>
                 <td class="aright">Company Name :</td>
                 <td><?= $client["name"] ?></td>        
@@ -31,26 +32,28 @@
             </tr>
 
         </table>
+    </div>
 </div>
 <script>
-    $(function () {
+    $(function() {
 
         $("#editClient").click(function() {
-           $().w2popup('open', {
-            name    : 'popup_form',
-            title   : 'Edit Client',
-            body    : '<div id="popup_form" class="framepopup">please wait..</div>',
-            style   : 'padding: 15px 0px 0px 0px',
-            width   : 500,
-            height  : 460, 
-            modal:true,
-            onOpen  : function (event) {
-                event.onComplete = function () {
-                   $( "#popup_form" ).load( "{site_url}/hrsys/client/addclient/<?=$client["cmpyclient_id"]?>", function() {});
-                }
+            $().w2popup('open', {
+                name: 'popup_form',
+                title: 'Edit Client',
+                body: '<div id="popup_form" class="framepopup">please wait..</div>',
+                style: 'padding: 15px 0px 0px 0px',
+                width: 500,
+                height: 460,
+                modal: true,
+                onOpen: function(event) {
+                    event.onComplete = function() {
+                        $("#popup_form").load("{site_url}/hrsys/client/addEditClient/<?= $client["cmpyclient_id"] ?>", function() {
+                        });
+                    }
 
-            }
-        });
+                }
+            });
 
         });
         $(this).init_js("{base_url}");

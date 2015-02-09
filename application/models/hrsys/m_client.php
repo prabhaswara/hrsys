@@ -39,7 +39,7 @@ class M_client extends Main_Model {
         $dataTrl["cmpyclient_id"] = $cmpyclient_id;
         $dataTrl["description"] = "$userInsert Update Info " . $datafrm["name"];
         $this->db->set('datecreate', 'NOW()', FALSE);
-        $this->db->set('usercreate', $sessionData["user"]["username"]);
+        $this->db->set('usercreate', $sessionData["user"]["user_id"]);
         $this->db->insert('hrsys_cmpyclient_trl', $dataTrl);
         $this->db->trans_complete();
         

@@ -5,7 +5,7 @@ if(!$isEdit){ ?>
 <?php } ?>
 {message}
 
-<form method="POST" id="formnya" class="form-tbl" action="<?=$site_url."/hrsys/client/addclient/".$cmpyclient_id ?>">
+<form method="POST" id="formnya" class="form-tbl" action="<?=$site_url."/hrsys/client/addEditClient/".$cmpyclient_id ?>">
         <?= frm_('cmpyclient_id', $postForm, "type='hidden'") ?>
         <table>
             <tr>

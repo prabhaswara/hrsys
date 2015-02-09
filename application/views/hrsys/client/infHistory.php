@@ -1,4 +1,4 @@
-<div style="height:400px">
+<div style="height:450px">
     <div id="listClientTrail" style="height:300px" ></div>
     
 </div>
@@ -19,9 +19,7 @@ $(function () {
         postData: {
             'pg_action' : 'json'
         }
-        
-       
     });
 
-    
 });
+ </script>

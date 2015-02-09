@@ -9,6 +9,8 @@ $meet_id = isset($postForm["meet_id"]) ? $postForm["meet_id"] : "0";
 
 <form method="POST" id="formnya" class="form-tbl" action="<?= $site_url . "/hrsys/meeting/showform/".$client["cmpyclient_id"]."/".$meet_id ?>">
     <?= frm_('meet_id', $postForm, "type='hidden'") ?>
+    <input type="hidden" id="schedule_id" value="<?= $schedule_id ?>" />
+    
     <table>
         <tr>
             <td class="aright">Meeting Type:</td>
@@ -37,7 +39,7 @@ $meet_id = isset($postForm["meet_id"]) ? $postForm["meet_id"] : "0";
         <tr>
             <td class="aright">Description :</td>
             <td >
-                <?= textarea_('description', $postForm, "class='w300'") ?>
+                <?= textarea_('description', $postForm, "class='w300' ") ?>
                 <span id="generate_desc" style="vertical-align: top" class='imgbt fa  fa-cog cursorPointer'></span>
             </td> 
         </tr>          
@@ -92,7 +94,7 @@ $meet_id = isset($postForm["meet_id"]) ? $postForm["meet_id"] : "0";
             meettime_d = $("#meettime_d").val().trim();
             meettime_t = $("#meettime_t").val().trim();
 
-            description = "[<?= $client["name"] ?>] " + (person == "" ? "" : " meet " + person)
+            description = "[<?= $client["name"] ?>]" + (person == "" ? "" : " meet " + person)
                     + (place == "" ? "" : " in " + place) + (meettime_d == "" ? "" : " at " + meettime_d) + (meettime_t == "" ? "" : " " + meettime_t);
 
             $("#description").val(description);
