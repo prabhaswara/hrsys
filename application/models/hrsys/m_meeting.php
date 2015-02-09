@@ -11,11 +11,14 @@ class M_meeting extends Main_Model {
         parent::__construct();
     }
     
+    function get($id){
+        return $this->db->where("meet_id",$id)->get("hrsys_cmpyclient_meet")->row_array();
+    }
+    
     public function saveOrUpdate($data, $sessionData) {
         
         $meeting=$data["meeting"];
-        $shareWith=$data["shareWith"];
-        $schedule_id=$data["schedule_id"];        
+        $shareWith=$data["shareWith"];      
         
         $meet_id = $meeting["meet_id"];    
         $this->db->trans_start(TRUE);
@@ -26,17 +29,33 @@ class M_meeting extends Main_Model {
         unset($meeting["meettime_d"]);  
         unset($meeting["meettime_t"]); 
        
-        $this->db->set('dateupdate', 'NOW()', FALSE);
-        $this->db->set('userupdate', $sessionData["user"]["user_id"]);
+        $schedule_id="";
       
          
         if($meet_id==""){
             // insert meeting
             $meet_id=$this->uniqID();
             $meeting["meet_id"]=$meet_id;
+            $this->db->set('dateupdate', 'NOW()', FALSE);
+            $this->db->set('userupdate', $sessionData["user"]["user_id"]);
             $this->db->set('datecreate', 'NOW()', FALSE);
             $this->db->set('usercreate', $sessionData["user"]["user_id"]);
             $this->db->insert('hrsys_cmpyclient_meet', $meeting);    
+            
+            //insert schedule
+            $schedule_id=$this->uniqID();
+            $this->db->set('dateupdate', 'NOW()', FALSE);
+            $this->db->set('userupdate', $sessionData["user"]["user_id"]);
+            $this->db->set('datecreate', 'NOW()', FALSE);
+            $this->db->set('usercreate', $sessionData["user"]["user_id"]);
+            $scheduleData["description"]=$meeting["description"];
+            $scheduleData["scheduletime"]=$meeting["meettime"];  
+            $scheduleData["schedule_id"]=$schedule_id;
+            $scheduleData["type"] = "meeting";
+            $scheduleData["value"] = $meet_id;
+                        
+            
+            $this->db->insert('hrsys_schedule', $scheduleData);   
             
             // insert trail
             $dataTrl["cmpyclient_trl_id"] = $this->uniqID();
@@ -51,30 +70,23 @@ class M_meeting extends Main_Model {
                     
         }else{
              // update meeting   
+            $this->db->set('dateupdate', 'NOW()', FALSE);
+            $this->db->set('userupdate', $sessionData["user"]["user_id"]);
             $this->db->update('hrsys_cmpyclient_meet', $meeting, array('meet_id' => $meet_id));
+            
+            // update schedule
+            $this->db->set('dateupdate', 'NOW()', FALSE);
+            $this->db->set('userupdate', $sessionData["user"]["user_id"]);
+            $scheduleData["description"]=$meeting["description"];
+            $scheduleData["scheduletime"]=$meeting["meettime"];            
+            $this->db->update('hrsys_schedule', $scheduleData, array('value' => $meet_id,'type'=>'meeting'));
+            
+            $schedule_id=$this->db->where(array('value' => $meet_id,'type'=>'meeting'))->get("hrsys_schedule")->row()->schedule_id;
             
             // update trail        
             $dataTrl["description"] = $meeting["description"];
-            $this->db->update('hrsys_cmpyclient_trl', $dataTrl, array('value' => $meet_id));       
+            $this->db->update('hrsys_cmpyclient_trl', $dataTrl, array('value' => $meet_id,'type'=>'meeting'));       
              
-        }
-        
-             
-        $this->db->set('dateupdate', 'NOW()', FALSE);
-        $this->db->set('userupdate', $sessionData["user"]["user_id"]);        
-        $scheduleData["description"]=$meeting["description"];
-        $scheduleData["scheduletime"]=$meeting["meettime"];        
-        if($schedule_id==""){
-            // insert schedule
-            $schedule_id=$this->uniqID();
-            $scheduleData["schedule_id"]=$schedule_id;
-                        
-            $this->db->set('datecreate', 'NOW()', FALSE);
-            $this->db->set('usercreate', $sessionData["user"]["user_id"]);
-            $this->db->insert('hrsys_schedule', $scheduleData);               
-                    
-        }else{
-             $this->db->update('hrsys_schedule', $scheduleData, array('schedule_id' => $schedule_id));
         }
         
         $this->db->delete( 'hrsys_scheduleuser', array( 'schedule_id' => $schedule_id ) );

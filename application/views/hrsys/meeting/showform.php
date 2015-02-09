@@ -8,8 +8,8 @@ $meet_id = isset($postForm["meet_id"]) ? $postForm["meet_id"] : "0";
 <input type="hidden" id="client_cp" value="<?= $client["cp_name"] ?>" />
 
 <form method="POST" id="formnya" class="form-tbl" action="<?= $site_url . "/hrsys/meeting/showform/".$client["cmpyclient_id"]."/".$meet_id ?>">
-    <?= frm_('meet_id', $postForm, "type='hidden'") ?>
-    <input type="hidden" id="schedule_id" value="<?= $schedule_id ?>" />
+    <?= frm_('meet_id', $postForm, "type=''") ?>
+    <input type="" id="schedule_id" value="<?= $schedule_id ?>" />
     
     <table>
         <tr>
@@ -57,7 +57,7 @@ $meet_id = isset($postForm["meet_id"]) ? $postForm["meet_id"] : "0";
 <script>
     $(function () {
 
-        $("#formnya").gn_onPopupSubmit("popupForm",null);
+        $("#formnya").gn_onPopupSubmit("popupForm","listInfMeeting");
         
         $("#shareSchedule").kendoMultiSelect({
             placeholder: "Select Name...",

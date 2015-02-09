@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Feb 09, 2015 at 04:42 
+-- Generation Time: Feb 09, 2015 at 08:28 PM
 -- Server version: 5.1.37
 -- PHP Version: 5.3.0
 
@@ -40,10 +40,7 @@ CREATE TABLE IF NOT EXISTS `ci_sessions` (
 --
 
 INSERT INTO `ci_sessions` (`session_id`, `ip_address`, `user_agent`, `last_activity`, `user_data`) VALUES
-('338bdaa64aa55ee603c0c6c463fd5a88', '::1', 'Mozilla/5.0 (Windows NT 6.1; rv:35.0) Gecko/20100101 Firefox/35.0', 1423474893, 'a:2:{s:9:"user_data";s:0:"";s:12:"hrsys_userdt";a:3:{s:4:"user";a:8:{s:7:"user_id";s:23:"142199935954c1fcffd9501";s:8:"username";s:5:"admin";s:10:"active_non";s:1:"1";s:10:"last_login";N;s:10:"datecreate";s:19:"2015-01-23 14:48:55";s:10:"usercreate";N;s:10:"dateupdate";s:19:"2015-01-28 13:37:03";s:10:"userupdate";s:5:"admin";}s:5:"roles";a:4:{i:0;s:10:"adm_lookup";i:1;s:8:"adm_menu";i:2;s:8:"adm_role";i:3;s:8:"adm_user";}s:8:"employee";a:0:{}}}'),
-('52ccae45d702ae433d37c12ad6c8c2b1', '::1', 'Mozilla/5.0 (Windows NT 6.1; rv:35.0) Gecko/20100101 Firefox/35.0', 1423468789, 'a:2:{s:9:"user_data";s:0:"";s:12:"hrsys_userdt";a:3:{s:4:"user";a:8:{s:7:"user_id";s:23:"142199935954c1fcffd9501";s:8:"username";s:5:"admin";s:10:"active_non";s:1:"1";s:10:"last_login";N;s:10:"datecreate";s:19:"2015-01-23 14:48:55";s:10:"usercreate";N;s:10:"dateupdate";s:19:"2015-01-28 13:37:03";s:10:"userupdate";s:5:"admin";}s:5:"roles";a:4:{i:0;s:10:"adm_lookup";i:1;s:8:"adm_menu";i:2;s:8:"adm_role";i:3;s:8:"adm_user";}s:8:"employee";a:0:{}}}'),
-('62cb4b310fe1b2bbe7a86704dd18a02b', '::1', 'Mozilla/5.0 (Windows NT 6.1; rv:35.0) Gecko/20100101 Firefox/35.0', 1423468405, ''),
-('fafaa3b318079eb6232ac5ec714fa1d0', '::1', 'Mozilla/5.0 (Windows NT 6.1; rv:35.0) Gecko/20100101 Firefox/35.0', 1423468146, 'a:2:{s:9:"user_data";s:0:"";s:12:"hrsys_userdt";a:3:{s:4:"user";a:8:{s:7:"user_id";s:23:"142199935954c1fcffd9501";s:8:"username";s:5:"admin";s:10:"active_non";s:1:"1";s:10:"last_login";N;s:10:"datecreate";s:19:"2015-01-23 14:48:55";s:10:"usercreate";N;s:10:"dateupdate";s:19:"2015-01-28 13:37:03";s:10:"userupdate";s:5:"admin";}s:5:"roles";a:4:{i:0;s:10:"adm_lookup";i:1;s:8:"adm_menu";i:2;s:8:"adm_role";i:3;s:8:"adm_user";}s:8:"employee";a:0:{}}}');
+('bb08a714fafede1aadfa734692c6ce55', '::1', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:35.0) Gecko/20100101 Firefox/35.0', 1423488410, 'a:2:{s:9:"user_data";s:0:"";s:12:"hrsys_userdt";a:3:{s:4:"user";a:8:{s:7:"user_id";s:23:"142199935954c1fcffd9501";s:8:"username";s:5:"admin";s:10:"active_non";s:1:"1";s:10:"last_login";N;s:10:"datecreate";s:19:"2015-01-23 14:48:55";s:10:"usercreate";N;s:10:"dateupdate";s:19:"2015-01-28 13:37:03";s:10:"userupdate";s:5:"admin";}s:5:"roles";a:4:{i:0;s:10:"adm_lookup";i:1;s:8:"adm_menu";i:2;s:8:"adm_role";i:3;s:8:"adm_user";}s:8:"employee";a:0:{}}}');
 
 -- --------------------------------------------------------
 
@@ -102,7 +99,7 @@ CREATE TABLE IF NOT EXISTS `hrsys_cmpyclient_meet` (
 --
 
 INSERT INTO `hrsys_cmpyclient_meet` (`meet_id`, `cmpyclient_id`, `type`, `person`, `place`, `meettime`, `description`, `outcome`, `outcome_desc`, `datecreate`, `usercreate`, `dateupdate`, `userupdate`) VALUES
-('142346988554d86d3d855a5', '142346926454d86ad0af277', '1', 'Branjangan', 'standarcharter', '2015-02-09 12:00:00', '[Pertamina] meet Branjangan in standarcharter at 09-02-2015 12:00', NULL, NULL, '2015-02-09 15:17:41', '142199935954c1fcffd9501', '2015-02-09 15:17:41', '142199935954c1fcffd9501');
+('142348612754d8acaf416a8', '142346926454d86ad0af277', '1', 'Branjangan', 'pertamina ep', '2015-02-10 12:00:00', '[Pertamina] meet Branjangan in pertamina ep at 10-02-2015 12:00', NULL, NULL, '2015-02-09 19:48:23', '142199935954c1fcffd9501', '2015-02-09 19:48:23', '142199935954c1fcffd9501');
 
 -- --------------------------------------------------------
 
@@ -127,7 +124,7 @@ CREATE TABLE IF NOT EXISTS `hrsys_cmpyclient_trl` (
 
 INSERT INTO `hrsys_cmpyclient_trl` (`cmpyclient_trl_id`, `cmpyclient_id`, `type`, `value`, `description`, `datecreate`, `usercreate`) VALUES
 ('142346926454d86ad0b63a8', '142346926454d86ad0af277', '', '', 'admin Created Pertamina', '2015-02-09 15:07:20', '142199935954c1fcffd9501'),
-('142346988554d86d3d85837', '142346926454d86ad0af277', 'meeting', '142346988554d86d3d855a5', '[Pertamina] meet Branjangan in standarcharter at 09-02-2015 12:00', '2015-02-09 15:17:41', '142199935954c1fcffd9501');
+('142348612754d8acaf41ad2', '142346926454d86ad0af277', 'meeting', '142348612754d8acaf416a8', '[Pertamina] meet Branjangan in pertamina ep at 10-02-2015 12:00', '2015-02-09 19:48:23', '142199935954c1fcffd9501');
 
 -- --------------------------------------------------------
 
@@ -168,6 +165,8 @@ CREATE TABLE IF NOT EXISTS `hrsys_schedule` (
   `schedule_id` varchar(30) NOT NULL,
   `scheduletime` datetime DEFAULT NULL,
   `description` text,
+  `type` varchar(30) DEFAULT NULL,
+  `value` varchar(30) DEFAULT NULL,
   `datecreate` datetime DEFAULT NULL,
   `usercreate` varchar(30) DEFAULT NULL,
   `dateupdate` datetime DEFAULT NULL,
@@ -179,9 +178,8 @@ CREATE TABLE IF NOT EXISTS `hrsys_schedule` (
 -- Dumping data for table `hrsys_schedule`
 --
 
-INSERT INTO `hrsys_schedule` (`schedule_id`, `scheduletime`, `description`, `datecreate`, `usercreate`, `dateupdate`, `userupdate`) VALUES
-('142346930454d86af86f2dc', '2015-02-09 12:00:00', '[Pertamina] meet Branjangan in standarcharter at 09-02-2015 12:00', '2015-02-09 15:08:00', '142199935954c1fcffd9501', '2015-02-09 15:08:00', NULL),
-('142346988554d86d3d859f6', '2015-02-09 12:00:00', '[Pertamina] meet Branjangan in standarcharter at 09-02-2015 12:00', '2015-02-09 15:17:41', '142199935954c1fcffd9501', '2015-02-09 15:17:41', '142199935954c1fcffd9501');
+INSERT INTO `hrsys_schedule` (`schedule_id`, `scheduletime`, `description`, `type`, `value`, `datecreate`, `usercreate`, `dateupdate`, `userupdate`) VALUES
+('142348612754d8acaf418ef', '2015-02-10 12:00:00', '[Pertamina] meet Branjangan in pertamina ep at 10-02-2015 12:00', 'meeting', '142348612754d8acaf416a8', '2015-02-09 19:48:23', '142199935954c1fcffd9501', '2015-02-09 19:48:23', '142199935954c1fcffd9501');
 
 -- --------------------------------------------------------
 
@@ -200,11 +198,9 @@ CREATE TABLE IF NOT EXISTS `hrsys_scheduleuser` (
 --
 
 INSERT INTO `hrsys_scheduleuser` (`schedule_id`, `user_id`) VALUES
-('142346930454d86af86f2dc', '142199935954c1fcffd9501'),
-('142346930454d86af86f2dc', '142274810554cd69c9f0e29'),
-('142346988554d86d3d859f6', '142199935954c1fcffd9501'),
-('142346988554d86d3d859f6', '142274810554cd69c9f0e29'),
-('142346988554d86d3d859f6', '142274831954cd6a9f6fab9');
+('142348612754d8acaf418ef', '142199935954c1fcffd9501'),
+('142348612754d8acaf418ef', '142274833454cd6aaeed52b'),
+('142348612754d8acaf418ef', '142274855454cd6b8aeea54');
 
 -- --------------------------------------------------------
 

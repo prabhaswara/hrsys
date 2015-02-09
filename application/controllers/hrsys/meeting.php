@@ -38,7 +38,7 @@ class meeting extends Main_Controller {
             
             $where="met.cmpyclient_id ='$client_id' ";
 
-            $sql = "SELECT  lktype.display_text lktype_sp_display_text, " .
+            $sql = "SELECT  met.meet_id recid,lktype.display_text lktype_sp_display_text, " .
                    "met.description met_sp_description, DATE_FORMAT(met.meettime,'%d-%m-%Y %H:%i') met_sp_meettime, ".
                    "lkout.display_text lkout_sp_display_text,met.outcome_desc met_sp_outcome_desc ".
                    "from hrsys_cmpyclient_meet met " .
@@ -62,7 +62,6 @@ class meeting extends Main_Controller {
      
         $postForm = isset($_POST['frm']) ? $_POST['frm'] : array();
         $postShareSchedule = isset($_POST['shareSchedule']) ? $this->m_employee->sharewith($_POST['shareSchedule'],$this->user_id) : array();
-        $schedule_id=isset($_POST['schedule_id'])?$_POST['schedule_id']:"";
         
         $create_edit = "Edit";
         $isEdit = true;
@@ -80,8 +79,7 @@ class meeting extends Main_Controller {
                 $postForm["cmpyclient_id"]=$client_id;
                 $dataSave["meeting"]=$postForm;
                 $dataSave["shareWith"]=$postShareSchedule;
-                $dataSave["schedule_id"]=$schedule_id;
-                
+               
                 if ($this->m_meeting->saveOrUpdate($dataSave, $this->sessionUserData)) {
                     echo "close_popup";
                     exit;
@@ -103,7 +101,6 @@ class meeting extends Main_Controller {
         $dataParse = array(
             "message"=>$message,
             "postForm"=>$postForm,
-            "schedule_id"=>$schedule_id,
             "postShareSchedule"=>$postShareSchedule,
             "client"=> $client,
             "timeList"=>$timeList,
