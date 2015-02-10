@@ -14,6 +14,14 @@ class M_meeting extends Main_Model {
     function get($id){
         return $this->db->where("meet_id",$id)->get("hrsys_cmpyclient_meet")->row_array();
     }
+    public function shareWithByMeet($meet_id,$user_login){
+        $sql="select * from hrsys_cmpyclient_meet meet ".
+             "join hrsys_schedule sch on meet.meet_id=sch.value and sch.type='meeting' ".
+             "join hrsys_scheduleuser schuser on sch.schedule_id= schuser.schedule_id".
+             "join hrsys_employee emp on schuser.user_id=emp.user_id". 
+             "where meet.meet_id='$meet' and (emp.user_id IS NOT NULL or emp.user_id!='') and emp.user_id != '$user_login'"
+            ;
+    }
     
     public function saveOrUpdate($data, $sessionData) {
         

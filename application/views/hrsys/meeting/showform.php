@@ -8,8 +8,7 @@ $meet_id = isset($postForm["meet_id"]) ? $postForm["meet_id"] : "0";
 <input type="hidden" id="client_cp" value="<?= $client["cp_name"] ?>" />
 
 <form method="POST" id="formnya" class="form-tbl" action="<?= $site_url . "/hrsys/meeting/showform/".$client["cmpyclient_id"]."/".$meet_id ?>">
-    <?= frm_('meet_id', $postForm, "type=''") ?>
-    <input type="" id="schedule_id" value="<?= $schedule_id ?>" />
+    <?= frm_('meet_id', $postForm, "type='hidden'") ?>   
     
     <table>
         <tr>

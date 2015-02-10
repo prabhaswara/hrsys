@@ -24,10 +24,18 @@ function balikTgl($tgl){
 function cleanDate($tgl){
     return in_array($tgl, array("00-00-0000","0000-00-00"))?"":$tgl;
 }
-function balikTglDate($tgl,$jam=false){
+function balikTglDate($tgl,$jam=false,$detik=false){
     $pecah=  explode(" ",$tgl);
     
-    return implode("-", array_reverse(explode("-", $pecah[0])) ).($jam?" ".$pecah[1]:"");
+    $waktu="";
+    if($jam){
+        $waktu=  substr($pecah[1], 0,5);
+        if($detik){
+            $waktu.=substr($pecah[1], 5,3);
+        }
+    }
+    
+    return implode("-", array_reverse(explode("-", $pecah[0])) ).($jam?" ".$waktu:"");
 }
 
 function replaceNewLineBr($string)

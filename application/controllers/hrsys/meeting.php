@@ -58,17 +58,19 @@ class meeting extends Main_Controller {
         
     }
     
-    public function showForm($client_id,$id=0) {
+    public function showForm($client_id=0,$meet_id=0) {
      
         $postForm = isset($_POST['frm']) ? $_POST['frm'] : array();
         $postShareSchedule = isset($_POST['shareSchedule']) ? $this->m_employee->sharewith($_POST['shareSchedule'],$this->user_id) : array();
         
         $create_edit = "Edit";
         $isEdit = true;
-        if ($client_id == 0) {
+        if ($meet_id == 0 ) {           
             $create_edit = "New";
             $isEdit = false;
+             
         }
+    
 
         $message = "";
         if (!empty($postForm)) {
@@ -93,7 +95,18 @@ class meeting extends Main_Controller {
         }
         
         if($isEdit && empty($postForm)){
-       
+           
+            $postForm= $this->m_meeting->get($meet_id);
+            if(cleanstr($postForm["meettime"])!=""){
+                $meettime=  explode(" ",balikTglDate($postForm["meettime"], true,false)) ;                
+                
+                $postForm["meettime_d"]=$meettime[0];
+                $postForm["meettime_t"]=$meettime[1];
+                if($postForm["meettime_t"]=="00:00"){
+                    $postForm["meettime_t"]="";
+                }
+            }
+            
         }
         $typeList = $this->m_lookup->comboLookup("meet_type");
         $timeList = array(""=>"")+$this->m_lookup->comboTime();
