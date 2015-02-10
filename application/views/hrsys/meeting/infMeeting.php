@@ -60,7 +60,7 @@
             body: '<div id="popupForm" class="framepopup">please wait..</div>',
             style: 'padding: 15px 0px 0px 0px',
             width: 500,
-            height: 400,
+            height: 500,
             modal: true,
             onOpen: function (event) {
                 event.onComplete = function () {

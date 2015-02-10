@@ -59,6 +59,27 @@ class M_Employee extends Main_Model {
         return $dataReturn;
     }
     
+    public function shareWithByMeet($meet_id,$user_login){
+        $sql="select emp.user_id,emp.emp_id,emp.fullname from hrsys_cmpyclient_meet meet ".
+             "join hrsys_schedule sch on meet.meet_id=sch.value and sch.type='meeting' ".
+             "join hrsys_scheduleuser schuser on sch.schedule_id= schuser.schedule_id ".
+             "join hrsys_employee emp on schuser.user_id=emp.user_id ". 
+             "where meet.meet_id='$meet_id' and (emp.user_id IS NOT NULL or emp.user_id!='') and emp.user_id != '$user_login'"
+            ;
+        $dataReturn=array();
+        $dataResult=$this->db->query($sql)->result();
+        if (!empty($dataResult)) {
+            foreach ($dataResult as $emp) {
+                
+                $dataReturn[]=array(
+                    "user_id"=>$emp->user_id,
+                    "name"=>$emp->fullname . " (" . $emp->emp_id . ")"
+                );
+                
+            }
+        }
+        return $dataReturn;
+    }
     
 }
 

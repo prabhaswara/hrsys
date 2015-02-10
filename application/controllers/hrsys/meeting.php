@@ -106,12 +106,14 @@ class meeting extends Main_Controller {
                     $postForm["meettime_t"]="";
                 }
             }
+            $postShareSchedule=$this->m_employee->shareWithByMeet($meet_id,$this->user_id);
             
         }
         $typeList = $this->m_lookup->comboLookup("meet_type");
         $timeList = array(""=>"")+$this->m_lookup->comboTime();
         $client = $this->m_client->get($client_id);    
         $dataParse = array(
+            "isEdit"=>$isEdit,
             "message"=>$message,
             "postForm"=>$postForm,
             "postShareSchedule"=>$postShareSchedule,
