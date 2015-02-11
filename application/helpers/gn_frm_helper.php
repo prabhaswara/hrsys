@@ -122,5 +122,75 @@ if (!function_exists('select_')) {
         return $return;
     }
 
+    
+    if (!function_exists('frm_g')) {
+
+        function frm_g($group,$name = '', $dataForm = array(), $extra = '') {
+            $type = "type='text'";
+            if (strpos(strtolower($extra), "type")) {
+                $type = "";
+            }
+            $value = "";
+
+            if (isset($dataForm[$name])) {
+                $value = $dataForm[$name];
+            }
+
+
+            return "<input name='".$group."[$name]' id='".$group."_$name' value='$value' $extra />";
+        }
+
+    }
+    if (!function_exists('textarea_g')) {
+
+        function textarea_g($group,$name = '', $dataForm = array(), $extra = '') {
+            $type = "type='text'";
+            if (strpos(strtolower($extra), "type")) {
+                $type = "";
+            }
+            $value = "";
+
+            if (isset($dataForm[$name])) {
+                $value = $dataForm[$name];
+            }
+
+            return "<textarea name='".$group."[$name]' id='".$group."_$name' $extra >$value</textarea>";
+        }
+
+    }
+    if (!function_exists('select_g')) {
+
+        function select_g($group,$name = '', $dataForm = array(), $options = array(), $extra = '', $pilih = true) {
+
+            $type = "type='text'";
+            if (strpos(strtolower($extra), "type")) {
+                $type = "";
+            }
+            $value = "";
+
+            if (isset($dataForm[$name])) {
+                $value = $dataForm[$name];
+            }
+
+
+            $return = "<select name='".$group."[$name]' id='".$group."_$name' $extra >";
+            if ($pilih)
+                $return.="<option value=''>--choose--</option>";
+
+            if (!empty($options))
+                foreach ($options as $optVal => $optName) {
+
+                    $selected = (trim($optVal) === trim($value)) ? "selected='selected'" : "";
+                    $return.=
+                            "<option value='$optVal' $selected >$optName</option>";
+                }
+
+            $return.="</select>";
+            return $return;
+        }
+
+    }
+
+
 }
 ?>

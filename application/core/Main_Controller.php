@@ -27,7 +27,7 @@ class Main_Controller extends CI_Controller {
        
      
         $dataMain['ses_userdata'] = $this->sessionUserData["user"];
-        $dataMain['ses_role'] = $this->sessionUserData["roles"];
+        $dataMain['ses_roles'] = $this->sessionUserData["roles"];
         
         $dataMain['base_url'] = base_url();
         $dataMain['site_url'] = site_url();

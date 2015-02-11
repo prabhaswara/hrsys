@@ -40,7 +40,7 @@ class meeting extends Main_Controller {
 
             $sql = "SELECT  met.meet_id recid,lktype.display_text lktype_sp_display_text, " .
                    "met.description met_sp_description, DATE_FORMAT(met.meettime,'%d-%m-%Y %H:%i') met_sp_meettime, ".
-                   "lkout.display_text lkout_sp_display_text,met.outcome_desc met_sp_outcome_desc ".
+                   "lkout.display_text lkout_sp_display_text,met.outcome_desc met_sp_outcome_desc, met.usercreate met_sp_usercreate ".
                    "from hrsys_cmpyclient_meet met " .
                    "left join tpl_lookup lktype on lktype.type='meet_type' and met.type=lktype.value " .
                    "left join tpl_lookup lkout on lkout.type='meet_outcome' and met.outcome=lkout.value " .
@@ -58,9 +58,28 @@ class meeting extends Main_Controller {
         
     }
     
+    public function showDetail($meet_id){
+        $dataMeet= $this->m_meeting->get($meet_id);
+        $shareSchedule=$this->m_employee->shareWithByMeet($meet_id,$this->user_id);
+        $type=cleanstr($dataMeet["type"])==""?"":$this->m_lookup->getDisplaytext("meet_type",$dataMeet["type"]);
+        $outcome=cleanstr($dataMeet["outcome"])==""?"":$this->m_lookup->getDisplaytext("meet_outcome",$dataMeet["outcome"]);
+        
+        $dataEmp=$this->m_employee->getByUserId($dataMeet["usercreate"]);
+      
+        $dataParse = array(              
+            "data"=>$dataMeet,
+            "shareSchedule"=>$shareSchedule,              
+            "type"=>$type,
+            "outcome"=>$outcome,
+            "createBy"=>isset($dataEmp["fullname"])?$dataEmp["fullname"]:"",
+                );
+        $this->loadContent('hrsys/meeting/showDetail', $dataParse);
+    }
+    
     public function showForm($client_id=0,$meet_id=0) {
      
         $postForm = isset($_POST['frm']) ? $_POST['frm'] : array();
+        $postOutcome = isset($_POST['outcome']) ? $_POST['outcome'] : array();
         $postShareSchedule = isset($_POST['shareSchedule']) ? $this->m_employee->sharewith($_POST['shareSchedule'],$this->user_id) : array();
         
         $create_edit = "Edit";
@@ -73,12 +92,10 @@ class meeting extends Main_Controller {
     
 
         $message = "";
-        if (!empty($postForm)) {
+        if (!empty($postForm) && $_POST["do"]=="schedule") {
             $validate = $this->m_meeting->validate($postForm, $isEdit);
             if ($validate["status"]) {
-               // echo "<pre>";  print_r($postForm);  exit;
-                
-                $postForm["cmpyclient_id"]=$client_id;
+               $postForm["cmpyclient_id"]=$client_id;
                 $dataSave["meeting"]=$postForm;
                 $dataSave["shareWith"]=$postShareSchedule;
                
@@ -94,22 +111,38 @@ class meeting extends Main_Controller {
             }
         }
         
-        if($isEdit && empty($postForm)){
+        if (!empty($postOutcome) && $_POST["do"] == "outcome") {
+            if ($this->m_meeting->updateOutCome($postOutcome, $this->sessionUserData)) {
+                echo "close_popup";
+                exit;
+            }
+        }
+
+        if($isEdit){
            
-            $postForm= $this->m_meeting->get($meet_id);
-            if(cleanstr($postForm["meettime"])!=""){
-                $meettime=  explode(" ",balikTglDate($postForm["meettime"], true,false)) ;                
-                
-                $postForm["meettime_d"]=$meettime[0];
-                $postForm["meettime_t"]=$meettime[1];
-                if($postForm["meettime_t"]=="00:00"){
-                    $postForm["meettime_t"]="";
+            $dataMeet= $this->m_meeting->get($meet_id);
+            if( empty($postForm)){
+                $postForm=$dataMeet;
+                if(cleanstr($postForm["meettime"])!=""){
+                    $meettime=  explode(" ",balikTglDate($postForm["meettime"], true,false)) ;                
+
+                    $postForm["meettime_d"]=$meettime[0];
+                    $postForm["meettime_t"]=$meettime[1];
+                    if($postForm["meettime_t"]=="00:00"){
+                        $postForm["meettime_t"]="";
+                    }
                 }
             }
-            $postShareSchedule=$this->m_employee->shareWithByMeet($meet_id,$this->user_id);
+            if(empty($postOutcome)){
+                $postOutcome=$dataMeet;
+            }
+            if(empty($postShareSchedule)){                
+                $postShareSchedule=$this->m_employee->shareWithByMeet($meet_id,$this->user_id);
+            }
             
         }
         $typeList = $this->m_lookup->comboLookup("meet_type");
+        $outcomeList = $this->m_lookup->comboLookup("meet_outcome");
         $timeList = array(""=>"")+$this->m_lookup->comboTime();
         $client = $this->m_client->get($client_id);    
         $dataParse = array(
@@ -117,9 +150,11 @@ class meeting extends Main_Controller {
             "message"=>$message,
             "postForm"=>$postForm,
             "postShareSchedule"=>$postShareSchedule,
+            "postOutcome"=>$postOutcome,
             "client"=> $client,
             "timeList"=>$timeList,
-            "typeList"=> $typeList
+            "typeList"=> $typeList,
+            'outcomeList'=>$outcomeList
                 );
         $this->loadContent('hrsys/meeting/showform', $dataParse);
         

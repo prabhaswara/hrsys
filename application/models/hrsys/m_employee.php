@@ -13,7 +13,11 @@ class M_Employee extends Main_Model {
     function get($id){
         return $this->db->where("employee_id",$id)->get("hrsys_employee")->row_array();
     }
-    
+    function getByUserId($user_id){
+        $return =$this->db->where("user_id",$user_id)->get("hrsys_employee")->row_array();
+      
+        return $return;
+    }
     function comboPIC() {
 
         $dataReturn = array();

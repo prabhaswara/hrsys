@@ -11,9 +11,10 @@ $meet_id = isset($postForm["meet_id"]) ? $postForm["meet_id"] : "0";
         <li><a href="#tabs-2">Outcome</a></li>
         <?php } ?>
     </ul>
-    <div id="tabs-1" style="min-height: 350px">
+    <div id="tabs-1" style="min-height: 400px">
         <form method="POST" id="formnya" class="form-tbl" action="<?= $site_url . "/hrsys/meeting/showform/" . $client["cmpyclient_id"] . "/" . $meet_id ?>">
             <?= frm_('meet_id', $postForm, "type='hidden'") ?>   
+            <input type="hidden" name="do" value="schedule"/>
 
             <table>
                 <tr>
@@ -58,23 +59,25 @@ $meet_id = isset($postForm["meet_id"]) ? $postForm["meet_id"] : "0";
         </form>
     </div>
     <?php if($isEdit){ ?>
-    <div id="tabs-2"  style="min-height: 350px">
-        <form method="POST" id="formnya" class="form-tbl" action="<?= $site_url . "/hrsys/meeting/outcome/" . $meet_id ?>">
-                <?= frm_('meet_id', $postForm, "type='hidden'") ?> 
+    <div id="tabs-2"  style="min-height: 400px">
+        <form method="POST" id="formOutCome" class="form-tbl" action="<?= $site_url . "/hrsys/meeting/showform/" . $client["cmpyclient_id"] . "/" . $meet_id ?>">
+            <?= frm_g('outcome','meet_id', $postOutcome, "type='hidden'") ?> 
+            <input type="hidden" name="do" value="outcome"/>
             <table>
                 <tr>
                     <td class="aright">Outcome:</td>
                     <td>
-                       
+                        <?= select_g('outcome','outcome', $postOutcome, $outcomeList, "class='kendodropdown'", false) ?>
                     </td>        
                 </tr>
                 <tr>
                     <td class="aright">Description:</td>
                     <td>
-                       
+                       <?= textarea_g('outcome','outcome_desc', $postOutcome, "class='w300' ") ?>
                     </td>        
                 </tr>
             </table>
+             <input type="submit" name="action" id="action" value="Save" class="w2ui-btn"/>
         </form>
     </div>
     <?php } ?>
@@ -87,8 +90,10 @@ $meet_id = isset($postForm["meet_id"]) ? $postForm["meet_id"] : "0";
 
 <script>
     $(function () {
-        $("#tabs").tabs();
-        $("#formnya").gn_onPopupSubmit("popupForm", "listInfMeeting");
+        $("#tabs").tabs(<?=(isset($_POST["do"])&&$_POST["do"]=="outcome")?"{active: 1}":""?>);
+       
+        $("#formnya").gn_onPopupSubmit("popupForm", w2ui["listInfMeeting"]);
+        $("#formOutCome").gn_onPopupSubmit("popupForm", w2ui["listInfMeeting"]);
 
         $("#shareSchedule").kendoMultiSelect({
             placeholder: "Select Name...",

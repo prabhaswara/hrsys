@@ -12,6 +12,10 @@ class M_lookup extends Main_Model {
         return $this->db->where("lookup_id",$id)->get("tpl_lookup")->row_array();
     }
     
+    function getDisplaytext($type,$value){
+        return $this->db->where(array("type"=>$type,"value"=>$value))->get("tpl_lookup")->row()->display_text;
+    }
+    
     function comboTime(){
         $return=array();
         for($i=0;$i<=23;$i++){
@@ -30,6 +34,8 @@ class M_lookup extends Main_Model {
         }
         return $return;
     }
+    
+    
 
     public function saveOrUpdate($datafrm,$user) {
         $return=false;

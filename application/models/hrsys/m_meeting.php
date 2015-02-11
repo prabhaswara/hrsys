@@ -15,7 +15,20 @@ class M_meeting extends Main_Model {
         return $this->db->where("meet_id",$id)->get("hrsys_cmpyclient_meet")->row_array();
     }
     
-    
+    public function updateOutCome($dataOutcome, $sessionData) {
+        // update meeting   
+        $return=false;
+        $meet_id = $dataOutcome["meet_id"];
+        unset($dataOutcome["meet_id"]);
+        
+        $this->db->set('dateupdate', 'NOW()', FALSE);
+        $this->db->set('userupdate', $sessionData["user"]["user_id"]);
+        $return=$this->db->update('hrsys_cmpyclient_meet', $dataOutcome, array('meet_id' => $meet_id));
+        
+       return $return;
+        
+    }
+
     public function saveOrUpdate($data, $sessionData) {
         
         $meeting=$data["meeting"];
