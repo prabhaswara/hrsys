@@ -1,11 +1,9 @@
 <div style="height:450px">
-
+    <input type="hidden" id="typesearchhide" value="active"/>
     <button id="createAppointment" class="jqbutton"> <span class="fa-edit">&nbsp;</span> Create an Appointment</button>
     <div id="listInfMeeting" style="height:300px" ></div>
 
 </div>
-
-
 
 <script>
     $(function () {
@@ -26,7 +24,7 @@
                 items: [
                     { type: 'break' },
                     { type: 'html',  id: 'item6',
-                            html: "<select id='typesearch' onchange='typesearchChange()'><option value='active'>Active Schedule</option><option value='all'>All Schedule</option></select>" 
+                            html: "<span id='typesearchspan'>wew</span>" 
                     }
                 ],
                 onClick: function (target, data) {
@@ -77,19 +75,30 @@
                 event.postData.typesearch=$("#typesearch").val();
                            
             },  
-            onLoad: function(event) {
-                $("#typesearch option:value='all'").attr("selected", "selected"); 
-              
+            onResize : function(event) {
+                //<select id='typesearch' onchange='typesearchChange()'><option value='active'>Active Schedule</option><option value='all'>All Schedule</option></select>
+                //typesearchspan
+                typesearch=$("#typesearchhide").val();
+             
+                $("#typesearchspan").html("awoooo");
+
+                $("#typesearchspan").html(
+                        "<select id='typesearch' onchange='typesearchChange(this.value)'>"+
+                        "<option value='active' "+(typesearch=="active"?"selected":"")+">Active Schedule</option>"+
+                        "<option value='all' "+(typesearch=="all"?"selected":"")+">All Schedule</option></select>");
+                
+           
                  
             }  
         });
             
-      
+     
 
         $(this).init_js("{base_url}");
     });
-    function typesearchChange()
+    function typesearchChange(valuenya)
     {
+        $("#typesearchhide").val(valuenya);
         w2ui['listInfMeeting'].reload();
     }
     function showForm(recid) {

@@ -36,7 +36,10 @@ class meeting extends Main_Controller {
                     $_POST["search"][$key] = str_replace("_sp_", ".", $value);
                 }
             
-            $where="met.cmpyclient_id ='$client_id' ";
+            $where="met.cmpyclient_id ='$client_id' and ";
+            if(isset($_POST["typesearch"])&&$_POST["typesearch"]=="active"){
+                $where.="( met.outcome ='' || met.outcome is null) and ";
+            }
 
             $sql = "SELECT  met.meet_id recid,lktype.display_text lktype_sp_display_text, " .
                    "met.description met_sp_description, DATE_FORMAT(met.meettime,'%d-%m-%Y %H:%i') met_sp_meettime, ".
@@ -44,7 +47,7 @@ class meeting extends Main_Controller {
                    "from hrsys_cmpyclient_meet met " .
                    "left join tpl_lookup lktype on lktype.type='meet_type' and met.type=lktype.value " .
                    "left join tpl_lookup lkout on lkout.type='meet_outcome' and met.outcome=lkout.value " .
-                   "WHERE ~search~ and $where  ORDER BY ~sort~";
+                   "WHERE ~search~ and $where 1=1 ORDER BY ~sort~";
 
 
             $data = $this->m_menu->w2grid($sql, $_POST);
