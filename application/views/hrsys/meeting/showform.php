@@ -9,6 +9,7 @@ $meet_id = isset($postForm["meet_id"]) ? $postForm["meet_id"] : "0";
         <li><a href="#tabs-1">Schedule</a></li>
         <?php if($isEdit){ ?>
         <li><a href="#tabs-2">Outcome</a></li>
+        <li><a href="#tabs-3">Operations</a></li>
         <?php } ?>
     </ul>
     <div id="tabs-1" style="min-height: 400px">
@@ -57,6 +58,7 @@ $meet_id = isset($postForm["meet_id"]) ? $postForm["meet_id"] : "0";
             </table>
             <input type="submit" name="action" id="action" value="Save" class="w2ui-btn"/>
         </form>
+        
     </div>
     <?php if($isEdit){ ?>
     <div id="tabs-2"  style="min-height: 400px">
@@ -80,7 +82,11 @@ $meet_id = isset($postForm["meet_id"]) ? $postForm["meet_id"] : "0";
              <input type="submit" name="action" id="action" value="Save" class="w2ui-btn"/>
         </form>
     </div>
+    <div id="tabs-3" style="min-height: 400px">
+        <input type="button" id="delete" value="Delete" class="w2ui-btn w2ui-btn-red"/>
+    </div>
     <?php } ?>
+    
 </div>
 
 <input type="hidden" id="client_cp" value="<?= $client["cp_name"] ?>" />
@@ -90,6 +96,28 @@ $meet_id = isset($postForm["meet_id"]) ? $postForm["meet_id"] : "0";
 
 <script>
     $(function () {
+         <?php if($isEdit){ ?>
+         
+       $("#delete").click(function () {
+            
+            if(confirm("Are you sure delete this?")){
+                    $.ajax({
+                    type: "POST",
+                    url: '{site_url}/hrsys/meeting/delete/<?=$meet_id?>',
+                    beforeSend: function (xhr) {
+                        $(this).loadingShow(true);
+
+                    },
+                    success: function (data) {
+                        w2popup.close();
+                        w2ui["listInfMeeting"].reload();
+                        $(this).loadingShow(false);
+                    }
+                });
+            }
+            return false;
+        });
+        <?php } ?>
         $("#tabs").tabs(<?=(isset($_POST["do"])&&$_POST["do"]=="outcome")?"{active: 1}":""?>);
        
         $("#formnya").gn_onPopupSubmit("popupForm", w2ui["listInfMeeting"]);
@@ -130,7 +158,7 @@ if (!empty($postShareSchedule)) {
             meettime_d = $("#meettime_d").val().trim();
             meettime_t = $("#meettime_t").val().trim();
 
-            description = "[<?= $client["name"] ?>]" + (person == "" ? "" : " meet " + person)
+            description = (person == "" ? "" : "meeting with " + person)
                     + (place == "" ? "" : " in " + place) + (meettime_d == "" ? "" : " at " + meettime_d) + (meettime_t == "" ? "" : " " + meettime_t);
 
             $("#description").val(description);

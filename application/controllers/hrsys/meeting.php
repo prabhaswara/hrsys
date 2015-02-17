@@ -78,7 +78,9 @@ class meeting extends Main_Controller {
                 );
         $this->loadContent('hrsys/meeting/showDetail', $dataParse);
     }
-    
+    public function delete($id){
+        $this->m_meeting->delete($id);
+    }
     public function showForm($client_id=0,$meet_id=0) {
      
         $postForm = isset($_POST['frm']) ? $_POST['frm'] : array();

@@ -30,7 +30,7 @@
                 </tr>
                 <tr>
                     <td class="aright">Date & Time :</td>
-                    <td><?=  balikTglDate($data["place"],true)?></td> 
+                    <td><?=  balikTglDate($data["meettime"],true)?></td> 
                 </tr>         
 
                 <tr>

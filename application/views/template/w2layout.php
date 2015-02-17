@@ -12,9 +12,10 @@
         <link rel="stylesheet" type="text/css" href="{base_url}js/w2ui-1.5.x/w2ui.css" />
         <link rel="stylesheet" type="text/css" href="{base_url}style/font-awesome/font-awesome.css" />
         <link rel="stylesheet" type="text/css" href="{base_url}style/notification/box.css" />
-        
         <link rel="stylesheet" type="text/css" href="{base_url}js/jquery-ui-1.11.2/jMetro/jquery-ui.css" />
- 
+        <link href='{base_url}js/fullcalendar-2.2.7/fullcalendar.css' rel='stylesheet' />
+        <link href='{base_url}js/fullcalendar-2.2.7/fullcalendar.print.css' rel='stylesheet' media='print' />
+        
 
         <link rel="stylesheet" type="text/css" href="{base_url}style/global_style.css" />       
        
@@ -25,6 +26,9 @@
         <script type="text/javascript" src="{base_url}js/w2ui-1.5.x/w2ui.js"></script>
         <script type="text/javascript" src="{base_url}js/idle-timer.js"></script>
         <script src="{base_url}js/kendoui/js/kendo.ui.core.min.js"></script>
+        <script src='{base_url}js/fullcalendar-2.2.7/lib/moment.min.js'></script>
+        <script src='{base_url}js/fullcalendar-2.2.7/fullcalendar.min.js'></script>
+
         <script type="text/javascript" src="{base_url}js/global_js.js"></script>
         
     </head>
