@@ -73,7 +73,8 @@
         </div>
         
         
-        <form method="POST" style="display:none" title='Relogin' id='relogin'><table ><tr><td width='80px'>Username</td><td><?=$ses_userdata["username"] ?><input type='hidden' name='username' id='username' value='<?=$ses_userdata["username"] ?>' /></td></tr><tr><td>Password</td><td><input type='password' name='password' id='password' /></td></tr><tr><td colspan=2><div style='color:red;display:none' id='login_message'>Login Failed</div></td></tr></table></form>
+        <form method="POST" style="display:none" title='Relogin' id='relogin'><table ><tr><td width='80px'>Username</td><td><?=$ses_userdata["username"] ?><input type='hidden' name='username' id='username' value='<?=$ses_userdata["username"] ?>' /></td></tr><tr><td>Password</td><td><input type='password' name='password' id='password' /></td></tr><tr><td colspan=2><div style='color:red;display:none' id='login_message'>Login Failed</div></td></tr></table> 
+            <input type="submit" value="Relogin" style="position: absolute;bottom: 10px;right: 50px;" /></form>
         
         
         <div id="ajaxDiv" class="ajax-hide">
@@ -114,7 +115,7 @@
                 });
   
       
-       $( document ).ajaxError(function( event, request, settings ) {
+         $( document ).ajaxError(function( event, request, settings ) {
                 alert( "Error requesting page " + settings.url);
                 });   
       
@@ -133,7 +134,8 @@
 
                             success: function(data) {
                                 if (data == 1) {
-                                    $("#relogin").dialog("close");
+                                    $("#relogin").data("kendoWindow").close();
+                                    $("password").val("");
                                 }
                                 else {
                                     $("#login_message").show();
@@ -149,18 +151,18 @@
                  postLogin();
                  return false;
                 });
-                $("#relogin").dialog({
-                autoOpen:false,
+                
+                $("#relogin").kendoWindow({
+                actions: {}, /*from Vlad's answer*/
+                height: "120px",
                 modal: true,
-                height: 200,
-                width: 300,
-                buttons: {
-                    Login: function() {
-                       postLogin();
-                    }
-                },
-                dialogClass: "loginDialog",
-                });
+                resizable: false,
+                title: "Relogin",
+                width: "300px",
+                visible: false /*don't show it yet*/
+               }).data("kendoWindow").center();
+
+
 
                 $.idleTimer(5000);
                 var userIsActive=true;   
@@ -168,16 +170,15 @@
                 $(document).bind("active.idleTimer", function(){userIsActive=true});   
                 
                 setInterval(function() {
-                    popupisopen=$("#relogin").dialog("isOpen");
+                 popupisopen=$("#relogin").is(":visible");
                     
                     if(!userIsActive && !popupisopen){                        
                         $.ajax({
                                 url: "{site_url}/login/chek",                               
                                 success: function(data) {
                                     if(data==0 && !popupisopen){
-                                       w2popup.close();       
-                                        $("#relogin").dialog("moveToTop");
-                                        $("#relogin").dialog("open");
+                                     //  w2popup.close();       
+                                        $("#relogin").data("kendoWindow").open();
                                     }                                   
                                 }
                             });  

@@ -121,13 +121,14 @@ class M_meeting extends Main_Model {
     }
     public function delete($meet_id ){
         $this->db->trans_start(TRUE);
+        
         $this->db->delete( 'hrsys_cmpyclient_trl', array( 'type'=>'meeting','value' => $meet_id ) );        
-        $sched=$this->db->where(array( 'type'=>'meeting','value ' => $meet_id ))
+        $sched=$this->db->where(array( 'type'=>'meeting','value' => $meet_id ))
                 ->get("hrsys_schedule")->row_array();
         if(!empty($sched)){
-            
-            $this->db->delete( 'hrsys_scheduleuser', array( 'schedule_id' => $sched["schedule_id'"] ) );
-            $this->db->delete( 'hrsys_schedule', array( 'schedule_id' => $sched["schedule_id'"] ) );
+           
+            $this->db->delete( 'hrsys_scheduleuser', array( 'schedule_id' => $sched["schedule_id"] ) );
+            $this->db->delete( 'hrsys_schedule', array( 'schedule_id' => $sched["schedule_id"] ) );
         }
         $this->db->delete( 'hrsys_cmpyclient_meet', array( 'meet_id' => $meet_id ) );
         $this->db->trans_complete();

@@ -40,6 +40,10 @@ body, td,th,div,span,label,a,span,input,textarea,p,option{
 .form-tbl {
     padding:5px;
 }
+.form-tbl table{    
+    border-spacing: 3;
+}
+
 .form-tbl table tr td{
     
     vertical-align: top;

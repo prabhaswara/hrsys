@@ -41,7 +41,7 @@ if (!function_exists('breadcrumb_')) {
     function breadcrumb_($items){
         $return="";
         if(!empty($items)){
-            $return.="<div class='breadcrumb'>";
+            $return.="<div class='gn_breadcrumb'>";
             foreach($items as $key=>$item){
                 $return.="<a href='".$item["link"]."'>".$item["text"]."</a>";
                 
