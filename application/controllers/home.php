@@ -11,7 +11,10 @@ class home extends Main_Controller {
     
 
     public function main_home(){
-        $this->loadContent('home');
+        $params=array(
+            "user_id"=>$this->user_id
+        );
+        $this->loadContent('home',$params);
     }
     public function index() {         
        exit;

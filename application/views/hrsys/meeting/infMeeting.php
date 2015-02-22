@@ -1,6 +1,6 @@
-<div style="height:450px">
+<div>
     <input type="hidden" id="typesearchhide" value="active"/>
-    <button id="createAppointment" class="jqbutton"> <span class="fa-edit">&nbsp;</span> Create an Appointment</button>
+    <button id="createAppointment" > <span class="fa-edit">&nbsp;</span> Create an Appointment</button>
     <div id="listInfMeeting" style="height:300px" ></div>
 
 </div>
@@ -24,7 +24,7 @@
                 items: [
                     { type: 'break' },
                     { type: 'html',  id: 'item6',
-                            html: "<span id='typesearchspan'>wew</span>" 
+                            html: "<span id='typesearchspan'></span>" 
                     }
                 ],
                 onClick: function (target, data) {
@@ -39,7 +39,7 @@
                 },
                 {field: 'recid', caption: '', size: '30px', searchable: false, sortable: false,
                     render: function (record) {
-                        if(1==<?=(in_array("hrsys_allmeeting", $ses_roles)?"1":0) ?> || record.met_sp_usercreate=='<?=$ses_userdata["user_id"]?>'){
+                        if(record.canedit=="1"){
                             return "<span class='fa-edit imgbt' onclick='editMeet(\"" + record.recid + "\")'></span>"
                         }else{
                             return "";
@@ -49,16 +49,10 @@
                 {field: 'lktype_sp_display_text', caption: 'Type', size: '120px', searchable: true, sortable: true},
                 {field: 'met_sp_meettime', caption: 'Time', size: '130px', searchable: false, sortable: true,
                     render: function (record) {
-                        tgl=record.met_sp_meettime;
-                        kembali=tgl;                        
-                        if(tgl.length>1){
-                            parts =tgl.split(' ');                          
-                            tglArray=parts[0].split('-');                        
-                            tgl= new Date(tglArray[2],tglArray[0]-1,tglArray[1]);
-                            hariini=new Date("<?=date("Y-m-d") ?>");                  
-                            if((record.lkout_sp_display_text==""||record.lkout_sp_display_text=== null ||record.lkout_sp_display_text=="null") && (hariini<tgl)){
-                                kembali="<span style='color:red'>"+kembali+"</span>";
-                            }                            
+                    kembali=record.met_sp_meettime;
+                        if(record.datediff<0){
+                            
+                            kembali="<span style='color:red'>"+kembali+"</span>";
                         }                       
                         return kembali;
 
@@ -80,7 +74,7 @@
                 //typesearchspan
                 typesearch=$("#typesearchhide").val();
              
-                $("#typesearchspan").html("awoooo");
+                $("#typesearchspan").html("");
 
                 $("#typesearchspan").html(
                         "<select id='typesearch' onchange='typesearchChange(this.value)'>"+

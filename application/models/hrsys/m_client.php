@@ -28,7 +28,7 @@ class M_client extends Main_Model {
 
      
         $this->db->set('dateupdate', 'NOW()', FALSE);
-        $this->db->set('usercreate', $sessionData["user"]["username"]);
+        $this->db->set('userupdate', $sessionData["user"]["user_id"]);
         $this->db->update('hrsys_cmpyclient', $datafrm,array('cmpyclient_id'=>$cmpyclient_id));
 
         $userInsert = (isset($sessionData["employee"]["fullname"]) && !empty($sessionData["employee"]["fullname"])) ? $sessionData["employee"]["fullname"] :

@@ -4,90 +4,88 @@ $meet_id = isset($postForm["meet_id"]) ? $postForm["meet_id"] : "0";
 
 {message}
 
-<div id="tabs">
-    <ul>
-        <li><a href="#tabs-1">Schedule</a></li>
-        <?php if($isEdit){ ?>
-        <li><a href="#tabs-2">Outcome</a></li>
-        <li><a href="#tabs-3">Operations</a></li>
-        <?php } ?>
-    </ul>
-    <div id="tabs-1" style="min-height: 400px">
-        <form method="POST" id="formnya" class="form-tbl" action="<?= $site_url . "/hrsys/meeting/showform/" . $client["cmpyclient_id"] . "/" . $meet_id ?>">
-            <?= frm_('meet_id', $postForm, "type='hidden'") ?>   
-            <input type="hidden" name="do" value="schedule"/>
+<div id="meet_tabs" style="width: 100%; height: 29px;"></div>
+<div id="meet_tabs_c" class="tabboxwui2" style="min-height: 400px" >
 
-            <table>
-                <tr>
-                    <td class="aright">Meeting Type:</td>
-                    <td>
-                        <?= select_('type', $postForm, $typeList, "class='kendodropdown'", false) ?>
-                    </td>        
-                </tr>
-                <tr>
-                    <td class="aright">Meet with:</td>
-                    <td>
-                        <?= frm_('person', $postForm, "class='w300'") ?>
-                        <span id="generate_person"  class='imgbt fa  fa-cog cursorPointer'></span>
-                    </td>        
-                </tr>
-                <tr>
-                    <td class="aright">Place:</td>
-                    <td><?= frm_('place', $postForm, "class='w300'") ?></td>        
-                </tr>
-                <tr>
-                    <td class="aright">Date & Time :</td>
-                    <td><?= frm_('meettime_d', $postForm, "class='w150 date'") ?>
-                        <?= select_('meettime_t', $postForm, $timeList, "style='width:90px' class='kendodropdown'", false) ?>
-                    </td> 
-                </tr>         
+</div>
 
-                <tr>
-                    <td class="aright">Description :</td>
-                    <td >
-                        <?= textarea_('description', $postForm, "class='w300' ") ?>
-                        <span id="generate_desc" style="vertical-align: top" class='imgbt fa  fa-cog cursorPointer'></span>
-                    </td> 
-                </tr>          
-                <tr>
-                    <td class="aright">Share with :</td>
-                    <td >
-                        <select id="shareSchedule" name="shareSchedule[]" multiple="multiple" class="w300"></select>
-                    </td> 
-                </tr>          
-            </table>
-            <input type="submit" name="action" id="action" value="Save" class="w2ui-btn"/>
-        </form>
-        
-    </div>
-    <?php if($isEdit){ ?>
-    <div id="tabs-2"  style="min-height: 400px">
+
+
+<div id="tabs-1" style="display:none" >
+    <form method="POST" id="formnya" class="form-tbl" action="<?= $site_url . "/hrsys/meeting/showform/" . $client["cmpyclient_id"] . "/" . $meet_id ?>">
+        <?= frm_('meet_id', $postForm, "type='hidden'") ?>   
+        <input type="hidden" name="do" value="schedule"/>
+
+        <table>
+            <tr>
+                <td class="aright">Meeting Type:</td>
+                <td>
+                    <?= select_('type', $postForm, $typeList, "class='kendodropdown'", false) ?>
+                </td>        
+            </tr>
+            <tr>
+                <td class="aright">Meet with:</td>
+                <td>
+                    <?= frm_('person', $postForm, "class='w300'") ?>
+                    <span id="generate_person"  class='imgbt fa  fa-cog cursorPointer'></span>
+                </td>        
+            </tr>
+            <tr>
+                <td class="aright">Place:</td>
+                <td><?= frm_('place', $postForm, "class='w300'") ?></td>        
+            </tr>
+            <tr>
+                <td class="aright">Date & Time :</td>
+                <td><?= frm_('meettime_d', $postForm, "class='w150 date'") ?>
+                    <?= select_('meettime_t', $postForm, $timeList, "style='width:90px' class='kendodropdown'", false) ?>
+                </td> 
+            </tr>         
+
+            <tr>
+                <td class="aright">Description :</td>
+                <td >
+                    <?= textarea_('description', $postForm, "class='w300' ") ?>
+                    <span id="generate_desc" style="vertical-align: top" class='imgbt fa  fa-cog cursorPointer'></span>
+                </td> 
+            </tr>          
+            <tr>
+                <td class="aright">Share with :</td>
+                <td >
+                    <select id="shareSchedule" name="shareSchedule[]" multiple="multiple" class="w300"></select>
+                </td> 
+            </tr>          
+        </table>
+        <input type="submit" name="action" id="action" value="Save" class="w2ui-btn"/>
+    </form>
+
+</div>
+<?php if ($isEdit) { ?>
+    <div id="tabs-2"  style="display:none">
         <form method="POST" id="formOutCome" class="form-tbl" action="<?= $site_url . "/hrsys/meeting/showform/" . $client["cmpyclient_id"] . "/" . $meet_id ?>">
-            <?= frm_g('outcome','meet_id', $postOutcome, "type='hidden'") ?> 
+            <?= frm_g('outcome', 'meet_id', $postOutcome, "type='hidden'") ?> 
             <input type="hidden" name="do" value="outcome"/>
             <table>
                 <tr>
                     <td class="aright">Outcome:</td>
                     <td>
-                        <?= select_g('outcome','outcome', $postOutcome, $outcomeList, "class='kendodropdown'", false) ?>
+                        <?= select_g('outcome', 'outcome', $postOutcome, $outcomeList, "class='kendodropdown'", false) ?>
                     </td>        
                 </tr>
                 <tr>
                     <td class="aright">Description:</td>
                     <td>
-                       <?= textarea_g('outcome','outcome_desc', $postOutcome, "class='w300' ") ?>
+                        <?= textarea_g('outcome', 'outcome_desc', $postOutcome, "class='w300' ") ?>
                     </td>        
                 </tr>
             </table>
-             <input type="submit" name="action" id="action" value="Save" class="w2ui-btn"/>
+            <input type="submit" name="action" id="action" value="Save" class="w2ui-btn"/>
         </form>
     </div>
-    <div id="tabs-3" style="min-height: 400px">
+    <div id="tabs-3" style="display:none">
         <input type="button" id="delete" value="Delete" class="w2ui-btn w2ui-btn-red"/>
     </div>
-    <?php } ?>
-    
-</div>
+<?php } ?>
+
 
 <input type="hidden" id="client_cp" value="<?= $client["cp_name"] ?>" />
 
@@ -96,30 +94,52 @@ $meet_id = isset($postForm["meet_id"]) ? $postForm["meet_id"] : "0";
 
 <script>
     $(function () {
-         <?php if($isEdit){ ?>
-         
-       $("#delete").click(function () {
-            
-            if(confirm("Are you sure delete this?")){
-                    $.ajax({
-                    type: "POST",
-                    url: '{site_url}/hrsys/meeting/delete/<?=$meet_id?>',
-                    beforeSend: function (xhr) {
-                        $(this).loadingShow(true);
+        
+        if (w2ui['meet_tabs'])
+            $().w2destroy("meet_tabs");
 
-                    },
-                    success: function (data) {
-                        w2popup.close();
-                        w2ui["listInfMeeting"].reload();
-                        $(this).loadingShow(false);
+        $("#meet_tabs").w2tabs(
+                {
+                    name: 'meet_tabs',
+                    tabs: [
+                        {id: 'tabs-1', caption: 'Schedule'}
+ <?php if($isEdit){ ?> ,{id: 'tabs-2', caption: 'Outcome'}
+                       ,{id: 'tabs-3', caption: 'Delete'}
+ <?php } ?>                
+                    ],
+                    onClick: function (event) {
+
+                        $("#meet_tabs_c").html($("#" + event.tab.id).html());
+
+
                     }
                 });
-            }
-            return false;
-        });
-        <?php } ?>
-        $("#tabs").tabs(<?=(isset($_POST["do"])&&$_POST["do"]=="outcome")?"{active: 1}":""?>);
-       
+        w2ui['meet_tabs'].click('tabs-1');
+        
+<?php if ($isEdit) { ?>
+
+            $("#delete").click(function () {
+
+                if (confirm("Are you sure delete this?")) {
+                    $.ajax({
+                        type: "POST",
+                        url: '{site_url}/hrsys/meeting/delete/<?= $meet_id ?>',
+                        beforeSend: function (xhr) {
+                            $(this).loadingShow(true);
+
+                        },
+                        success: function (data) {
+                            w2popup.close();
+                            w2ui["listInfMeeting"].reload();
+                            $(this).loadingShow(false);
+                        }
+                    });
+                }
+                return false;
+            });
+<?php } ?>
+
+
         $("#formnya").gn_onPopupSubmit("popupForm", w2ui["listInfMeeting"]);
         $("#formOutCome").gn_onPopupSubmit("popupForm", w2ui["listInfMeeting"]);
 
@@ -147,7 +167,7 @@ if (!empty($postShareSchedule)) {
 
 
 
-        $("#generate_person").click(function () {
+        $("#generate_person").click(function () {          
             $("#person").val($("#client_cp").val());
 
         });
@@ -163,6 +183,8 @@ if (!empty($postShareSchedule)) {
 
             $("#description").val(description);
         });
+
+
         $(this).init_js("{base_url}");
 
 

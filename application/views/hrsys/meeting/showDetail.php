@@ -1,13 +1,18 @@
+<?php
+$meet_id = isset($postForm["meet_id"]) ? $postForm["meet_id"] : "0";
+?>
 
 
-<div id="tabs">
-    <ul>
-        <li><a href="#tabs-1">Schedule</a></li>
-        <li><a href="#tabs-2">Outcome</a></li>
 
-    </ul>
-    <div id="tabs-1" style="min-height: 400px">
-        <form method="POST" id="formnya" class="form-tbl">
+<div id="meet_tabs" style="width: 100%; height: 29px;"></div>
+<div id="meet_tabs_c" class="tabboxwui2" style="min-height: 400px" >
+
+</div>
+
+
+
+<div id="tabs-1" style="display:none" >
+    <form method="POST" id="formnya" class="form-tbl">
  
             <input type="hidden" name="do" value="schedule"/>
 
@@ -51,9 +56,9 @@
                 
             </table>           
         </form>
-    </div>
+</div>
 
-    <div id="tabs-2"  style="min-height: 400px">
+    <div id="tabs-2"  style="display:none">
         <form method="POST" id="formOutCome" class="form-tbl" >
    
             <table>
@@ -68,12 +73,37 @@
             </table>         
         </form>
     </div>
-</div>
+
+
 
 
 <script>
     $(function () {
-        $("#tabs").tabs();       
+
+$("#tabs").tabs(<?= (isset($_POST["do"]) && $_POST["do"] == "outcome") ? "{active: 1}" : "" ?>);
+
+        if (w2ui['meet_tabs'])
+            $().w2destroy("meet_tabs");
+
+        $("#meet_tabs").w2tabs(
+                {
+                    name: 'meet_tabs',
+                    tabs: [
+                        {id: 'tabs-1', caption: 'Schedule'}
+                        ,{id: 'tabs-2', caption: 'Outcome'}
+               
+                    ],
+                    onClick: function (event) {
+
+                        $("#meet_tabs_c").html($("#" + event.tab.id).html());
+
+
+                    }
+                });
+        w2ui['meet_tabs'].click('tabs-1');
+        $(this).init_js("{base_url}");
+
+
 
     });
 </script>

@@ -25,9 +25,13 @@ class meeting extends Main_Controller {
     public function infMeeting($client_id) {
      
         if(!empty($_POST)&&$_POST["pg_action"]=="json"){
-            if (isset($_POST["sort"]) && !empty($_POST["sort"]))
-            foreach ($_POST["sort"] as $key => $value) {
-                $_POST["sort"][$key] = str_replace("_sp_", ".", $value);
+            if (isset($_POST["sort"]) && !empty($_POST["sort"])){
+                foreach ($_POST["sort"] as $key => $value) {
+                    $_POST["sort"][$key] = str_replace("_sp_", ".", $value);
+                }                
+            }else{
+                $_POST["sort"][0]['direction'] ='desc';
+                 $_POST["sort"][0]['field'] ='met.meettime'; 
             }
 
 
@@ -44,6 +48,7 @@ class meeting extends Main_Controller {
             $sql = "SELECT  met.meet_id recid,lktype.display_text lktype_sp_display_text, " .
                    "met.description met_sp_description, DATE_FORMAT(met.meettime,'%d-%m-%Y %H:%i') met_sp_meettime, ".
                    "lkout.display_text lkout_sp_display_text,met.outcome_desc met_sp_outcome_desc, met.usercreate met_sp_usercreate ".
+                    ",DATEDIFF(date(met.meettime),date(now())) datediff ".
                    "from hrsys_cmpyclient_meet met " .
                    "left join tpl_lookup lktype on lktype.type='meet_type' and met.type=lktype.value " .
                    "left join tpl_lookup lkout on lkout.type='meet_outcome' and met.outcome=lkout.value " .
@@ -51,6 +56,20 @@ class meeting extends Main_Controller {
 
 
             $data = $this->m_menu->w2grid($sql, $_POST);
+            
+            $dataReturn=array();
+            foreach ( $data['records'] as $row){
+                $canEdit="0";
+                
+                if(in_array("hrsys_allmeeting", $this->ses_roles) || $row["met_sp_usercreate"]==$this->user_id)
+                {
+                    $row["canedit"]="1";
+                    
+                }
+                
+                $dataReturn[]=$row;
+            }
+            $data['records']=$dataReturn;
             header("Content-Type: application/json;charset=utf-8");
             echo json_encode($data);
             exit();
@@ -163,6 +182,26 @@ class meeting extends Main_Controller {
                 );
         $this->loadContent('hrsys/meeting/showform', $dataParse);
         
+    }
+    
+    public function json_nextmeeting($user_id){
+        if (!isset($_POST["sort"])){            
+                 $_POST["sort"][0]['direction'] ='asc';
+                 $_POST["sort"][0]['field'] ='met.meettime';      
+            }
+            
+         $sql = "select met.meet_id recid,CONCAT(DAYNAME(met.meettime),CONCAT(', ', DATE_FORMAT(met.meettime,'%d-%m-%Y %H:%i'))) meetime ".
+                ",DATEDIFF(date(met.meettime),date(now())) datediff,met.description,met.person,met.place,client.name client from hrsys_cmpyclient_meet met ".
+                "join hrsys_cmpyclient client on met.cmpyclient_id=client.cmpyclient_id ".
+                "join hrsys_schedule sch on sch.type='meeting' and sch.value=met.meet_id ".
+                "join hrsys_scheduleuser schuser on sch.schedule_id=schuser.schedule_id ".
+                "WHERE ( met.outcome ='' || met.outcome is null) and schuser.user_id='$user_id'  and ~search~ ORDER BY ~sort~";
+
+
+            $data = $this->m_menu->w2grid($sql, $_POST);
+            header("Content-Type: application/json;charset=utf-8");
+            echo json_encode($data);
+            exit();
     }
    
   

@@ -7,7 +7,8 @@ class Main_Controller extends CI_Controller {
     var $sessionUserData="";   
     var $username="";
     var $user_id="";
-    
+    var $emp_id="";
+    var $ses_roles="";
 
     function __construct() {
        
@@ -18,6 +19,8 @@ class Main_Controller extends CI_Controller {
         $this->sessionUserData=$this->session->userdata(SES_USERDT);
         $this->username=$this->sessionUserData["user"]["username"];
         $this->user_id=$this->sessionUserData["user"]["user_id"];
+        $this->emp_id=$this->sessionUserData["employee"]["emp_id"];
+        $this->ses_roles=$this->sessionUserData["roles"];
         $this->load->helper('gn_frm','gn_str');
         $this->load->model('admin/m_menu');
         

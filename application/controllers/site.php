@@ -13,6 +13,12 @@ class site extends CI_Controller {
         echo "session expired";
     }
 
+    public function json_infomenu($menu_id) {
+         header("Content-Type: application/json;charset=utf-8");
+        $menu = $this->m_menu->get($menu_id);
+          echo json_encode($menu);
+    }
+    
     public function redirect($menu_id) {
         $menu = $this->m_menu->get($menu_id);
         if (isset($menu['url']) && cleanstr($menu['url']) != "") {
@@ -30,7 +36,7 @@ class site extends CI_Controller {
         $dataContent['site_url'] = site_url();
         $dataContent['base_url'] = base_url();
         
-        $dataMain['maincontent'] = $this->parser->parse("home", $dataContent, TRUE);
+        $dataMain['maincontent'] = '';//$this->parser->parse("home", $dataContent, TRUE);
         $dataMain['base_url'] = base_url();
         $dataMain['site_url'] = site_url();
         

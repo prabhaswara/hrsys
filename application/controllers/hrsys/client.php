@@ -48,7 +48,9 @@ class client extends Main_Controller {
          
         $dataParse = array(
             "id"=> $id,
-            "breadcrumb" => $breadcrumb
+            "breadcrumb" => $breadcrumb,
+            "client" =>$client,
+            "canDelete"=>true
         );
         $this->loadContent('hrsys/client/detclient', $dataParse);
     }
@@ -57,14 +59,28 @@ class client extends Main_Controller {
         $this->loadContent('hrsys/client/prospect');
     }
     public function infClient($id) {
-       $client = $this->m_client->get($id);        
-        $dataParse = array("client"=> $client);
-        $this->loadContent('hrsys/client/infClient', $dataParse);
+       $client = $this->m_client->get($id);   
+       $canEdit=false;
+       
+       if(
+        $this->user_id==$client["usercreate"]||
+        $this->emp_id==$client["pic"]
+               ){
+           $canEdit=true;
+       }
+       
+       $dataParse = array("client"=> $client,
+           "canEdit"=>$canEdit
+               
+               );
+       $this->loadContent('hrsys/client/infClient', $dataParse);
         
     }
    
     public function infVacancies() {
-       echo "detVacancies";
+       $client = $this->m_client->get($id);        
+       $dataParse = array("client"=> $client);
+       $this->loadContent('hrsys/vacancy/infVacancy', $dataParse);
     }
     public function infHistory($id) {
 
@@ -138,7 +154,7 @@ class client extends Main_Controller {
             $create_edit = "New";
             $isEdit = false;
         }
-
+        $comboPIC = array('' => '');
         $message = "";
         if (!empty($postForm)) {
             $validate = $this->m_client->validate($postForm, $isEdit);
@@ -166,11 +182,19 @@ class client extends Main_Controller {
         
         if($isEdit && empty($postForm)){
             $postForm=$this->m_client->get($id);
+            
+           
         }
-
+        if(isset($postForm["pic"]) && cleanstr($postForm["pic"])!=""){
+                
+                $isiComboPIC=$this->m_employee->comboPIC($postForm["pic"]);
+                if(!empty($isiComboPIC))
+                    $comboPIC +=$isiComboPIC;
+                
+            }
         $stat_list = $this->m_lookup->comboLookup("cmpyclient_stat");
 
-        $comboPIC = array('' => '') + $this->m_employee->comboPIC();
+        
 
         $dataParse = array(
             'isEdit' => $isEdit,

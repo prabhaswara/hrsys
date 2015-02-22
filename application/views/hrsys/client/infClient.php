@@ -1,5 +1,8 @@
-<div style="height: 450px">
-    <button class="jqbutton" id="editClient"> <span class="fa-edit">&nbsp;</span> Edit General Info</button>
+<div>
+<?php if($canEdit){
+?>
+    <button  id="editClient"> <span class="fa-edit">&nbsp;</span> Edit General Info</button>
+<?php } ?>
     <div class="form-tbl" >
         <table>
             <tr>

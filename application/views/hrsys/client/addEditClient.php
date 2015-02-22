@@ -42,7 +42,7 @@ if(!$isEdit){ ?>
             <tr id="picdiv" style="<?=(isset($postForm['status'])&&$postForm['status']==1)?"":"display:none"?>">
                 <td class="aright">PIC :</td>
                 <td>
-                    <?= select_('pic', $postForm,$comboPIC,"class='kendocombo' style='width:300px'",false) ?>
+                    <?= select_('pic', $postForm,$comboPIC,"style='width:300px'",false) ?>
                 </td> 
             </tr>
         </table>
@@ -57,7 +57,21 @@ if(!$isEdit){ ?>
          
         $(this).init_js("{base_url}");
         
-        
+        $("#pic").kendoComboBox({
+                        placeholder: "Select..",
+                       dataValueField: "emp_id",
+                        dataTextField: "name",
+                        filter: "contains",
+                        autoBind: false,
+                        dataSource: {
+                        serverFiltering: true,
+                            transport: {
+                                read: {
+                                    url: "{site_url}/hrsys/employee/pic",
+                                }
+                            }
+                        }
+                    });
         <?php if($isEdit){ ?>
             $("#formnya").submit(function (event) {
             $.ajax({
@@ -71,7 +85,7 @@ if(!$isEdit){ ?>
                 success: function (data) {
 
                     if (data == "close_popup") {
-                        $("#client_tabs").tabs('load',0);
+                       w2ui['client_tabs'].click('info');
                         w2popup.close();
                         
                     } else {

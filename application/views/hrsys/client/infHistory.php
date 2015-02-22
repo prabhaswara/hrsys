@@ -1,4 +1,4 @@
-<div style="height:450px">
+<div>
     <div id="listClientTrail" style="height:300px" ></div>
     
 </div>

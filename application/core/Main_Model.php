@@ -116,7 +116,7 @@ class Main_Model extends CI_Model {
         $data['status'] = 'success';
         $data['total']  = $db->query($cql)->first_row()->rows;
 
-       
+//       echo $sql;exit;
         // execute sql
         $rs = $db->query($sql)->result_array();
        

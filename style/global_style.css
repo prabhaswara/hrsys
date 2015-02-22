@@ -1,7 +1,7 @@
 body, td,th,div,span,label,a,span,input,textarea,p,option{
     font-family: verdana  !important;
     font-size: 12px;
-   /* color: #525252; */
+    /* color: #525252; */
 }
 
 .framepopup{
@@ -21,7 +21,7 @@ body, td,th,div,span,label,a,span,input,textarea,p,option{
 .listcheckbox li{
     width: 200px;
     height:30px;		
-  
+
     display:-moz-inline-stack;
     display:inline-block;
     zoom:1;
@@ -35,7 +35,7 @@ body, td,th,div,span,label,a,span,input,textarea,p,option{
     padding: 5px;
     font-size: 18px;
     background: #edf1f6;
-    
+
 }
 .form-tbl {
     padding:5px;
@@ -45,7 +45,7 @@ body, td,th,div,span,label,a,span,input,textarea,p,option{
 }
 
 .form-tbl table tr td{
-    
+
     vertical-align: top;
 }
 .aright{
@@ -53,7 +53,7 @@ body, td,th,div,span,label,a,span,input,textarea,p,option{
 }
 .tablegrid_stylefull{
     position: absolute;top:0px;bottom: 10px;right: 0px;left: 0px;
-    
+
 }
 
 .ajax-hide {
@@ -73,7 +73,7 @@ body, td,th,div,span,label,a,span,input,textarea,p,option{
     z-index:10000;
     background-color:white;
     opacity: .4;
- }
+}
 
 .ajax-loader {
     position: absolute;
@@ -82,61 +82,61 @@ body, td,th,div,span,label,a,span,input,textarea,p,option{
     margin-left: -32px; /* -1 * image width / 2 */
     margin-top: -32px;  /* -1 * image height / 2 */
     display: block;     
-    
+
 }
 
 .cursorPointer{
- cursor: pointer;   
+    cursor: pointer;   
 }
 
 .imgbt {
-  cursor: pointer;
-  display: inline-block;
-  border-radius: 4px;
-  margin: 0px 2px;
-  padding: 4px !important;
-  color: #666;
-  font-size: 12px !important;
-  border: 1px solid transparent;
+    cursor: pointer;
+    display: inline-block;
+    border-radius: 4px;
+    margin: 0px 2px;
+    padding: 4px !important;
+    color: #666;
+    font-size: 12px !important;
+    border: 1px solid transparent;
 
-  filter: progid:dximagetransform.microsoft.gradient(startColorstr='#ffe7e7e7', endColorstr='#ffffffff', GradientType=0);
-  outline: none;
-  
-  line-height: 100% !important;
-  user-select: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  -o-user-select: none;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    filter: progid:dximagetransform.microsoft.gradient(startColorstr='#ffe7e7e7', endColorstr='#ffffffff', GradientType=0);
+    outline: none;
+
+    line-height: 100% !important;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 .imgbt:hover {
-  text-decoration: none;
-  border: 1px solid #bbb;
-  background-image: -webkit-linear-gradient(#f7f7f7 0%, #dddddd 100%);
-  background-image: -moz-linear-gradient(#f7f7f7 0%, #dddddd 100%);
-  background-image: -ms-linear-gradient(#f7f7f7 0%, #dddddd 100%);
-  background-image: -o-linear-gradient(#f7f7f7 0%, #dddddd 100%);
-  background-image: linear-gradient(#f7f7f7 0%, #dddddd 100%);
-  filter: progid:dximagetransform.microsoft.gradient(startColorstr='#ffdddddd', endColorstr='#fff7f7f7', GradientType=0);
-  color: #333;
+    text-decoration: none;
+    border: 1px solid #bbb;
+    background-image: -webkit-linear-gradient(#f7f7f7 0%, #dddddd 100%);
+    background-image: -moz-linear-gradient(#f7f7f7 0%, #dddddd 100%);
+    background-image: -ms-linear-gradient(#f7f7f7 0%, #dddddd 100%);
+    background-image: -o-linear-gradient(#f7f7f7 0%, #dddddd 100%);
+    background-image: linear-gradient(#f7f7f7 0%, #dddddd 100%);
+    filter: progid:dximagetransform.microsoft.gradient(startColorstr='#ffdddddd', endColorstr='#fff7f7f7', GradientType=0);
+    color: #333;
 }
 .imgbt:active,
 .imgbt.clicked {
-  border: 1px solid #999;
-  background-image: -webkit-linear-gradient(#cccccc 0%, #cccccc 100%);
-  background-image: -moz-linear-gradient(#cccccc 0%, #cccccc 100%);
-  background-image: -ms-linear-gradient(#cccccc 0%, #cccccc 100%);
-  background-image: -o-linear-gradient(#cccccc 0%, #cccccc 100%);
-  background-image: linear-gradient(#cccccc 0%, #cccccc 100%);
-  filter: progid:dximagetransform.microsoft.gradient(startColorstr='#ffcccccc', endColorstr='#ffcccccc', GradientType=0);
-  text-shadow: 1px 1px 1px #eee;
+    border: 1px solid #999;
+    background-image: -webkit-linear-gradient(#cccccc 0%, #cccccc 100%);
+    background-image: -moz-linear-gradient(#cccccc 0%, #cccccc 100%);
+    background-image: -ms-linear-gradient(#cccccc 0%, #cccccc 100%);
+    background-image: -o-linear-gradient(#cccccc 0%, #cccccc 100%);
+    background-image: linear-gradient(#cccccc 0%, #cccccc 100%);
+    filter: progid:dximagetransform.microsoft.gradient(startColorstr='#ffcccccc', endColorstr='#ffcccccc', GradientType=0);
+    text-shadow: 1px 1px 1px #eee;
 }
 .imgbt:disabled {
-  border: 1px solid #bbb !important;
-  background: #f7f7f7 !important;
-  color: #bdbcbc !important;
-  text-shadow: none !important;
+    border: 1px solid #bbb !important;
+    background: #f7f7f7 !important;
+    color: #bdbcbc !important;
+    text-shadow: none !important;
 }
 .loginDialog {
     z-index: 1600;
@@ -164,9 +164,29 @@ body, td,th,div,span,label,a,span,input,textarea,p,option{
     text-align: right;
 }
 
+
+.homebox{
+    position: relative;
+    margin: 5px;
+    display: inline-block;
+    vertical-align: top;
+
+}
+
+.gn_square{        
+    border-radius: 5px; 
+    -moz-border-radius: 5px; 
+    -webkit-border-radius: 5px; 
+    border: 1px solid #A19B9B;
+    -webkit-box-shadow: 3px 3px 3px 0px rgba(0,0,0,0.32);
+    -moz-box-shadow: 3px 3px 3px 0px rgba(0,0,0,0.32);
+    box-shadow: 3px 3px 3px 0px rgba(0,0,0,0.32);
+}
+
+
 .k-tooltip{
-   background: #F5F6F7 !important; 
-   
+    background: #F5F6F7 !important; 
+
 }
 .k-textbox > input, .k-autocomplete .k-input, .k-picker-wrap .k-input, .k-numeric-wrap .k-input, .k-dropdown-wrap .k-input, .k-selectbox .k-input{
     height: 28px !important; 
@@ -182,3 +202,25 @@ body, td,th,div,span,label,a,span,input,textarea,p,option{
     padding:  0 !important;
     text-indent: 0.33em !important;
 }
+
+.w2ui-tabs {
+    background-color: transparent;
+}
+.w2ui-tabs .w2ui-tab.active {
+   background-color: #F5F6F7;
+}
+.w2ui-tabs .w2ui-tab {
+    margin: 1px 1px -2px 0 !important;
+    cursor: pointer;
+    background-color: silver;
+}
+
+.tabboxwui2 {
+    background-color: #F5F6F7;
+    width: 100%;
+    border: 1px solid silver;
+    border-top: 0px;
+    padding: 10px;
+    overflow: auto;
+}
+

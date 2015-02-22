@@ -25,6 +25,7 @@
         <script type="text/javascript" src="{base_url}js/jquery-ui-1.11.2/jquery-ui.min.js"></script>
         <script type="text/javascript" src="{base_url}js/w2ui-1.5.x/w2ui.js"></script>
         <script type="text/javascript" src="{base_url}js/idle-timer.js"></script>
+        <script type="text/javascript" src="{base_url}js/jquery-resize-master/jquery.ba-resize.min.js"></script>
         <script src="{base_url}js/kendoui/js/kendo.ui.core.min.js"></script>
         <script src='{base_url}js/fullcalendar-2.2.7/lib/moment.min.js'></script>
         <script src='{base_url}js/fullcalendar-2.2.7/fullcalendar.min.js'></script>
@@ -102,7 +103,18 @@
                     img: null,
                     nodes: {sideMenu},
                     onClick: function(event) {
-                        $(this).gn_loadmain('{site_url}/site/redirect/'+event.target);                    
+                        $.ajax({
+                            type: "POST",
+                            url: "{site_url}/site/json_infomenu/"+event.target,
+                            success: function(data) {
+                                if(data.url!=""){
+                                    $(this).gn_loadmain('{site_url}/site/redirect/'+event.target);    
+                                        
+                                }
+                            }
+                        });
+                        
+                                        
                         
                     }
                 }));             
@@ -183,7 +195,9 @@
                                 }
                             });  
                     }
-                }, 5000)
+                }, 5000);
+                
+                 $(this).gn_loadmain('{site_url}/home/main_home');
             });
         </script>
 

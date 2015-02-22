@@ -29,5 +29,18 @@ class employee extends Main_Controller {
         header("Content-Type: application/json;charset=utf-8");
         echo json_encode($data);
     }
+    public function pic(){
+        
+        
+        $name="";
+        if(isset($_GET["filter"]["filters"][0]["value"])){
+            $name=$_GET["filter"]["filters"][0]["value"];
+       
+        }
+        
+        $data=$this->m_employee->pic($name);
+        header("Content-Type: application/json;charset=utf-8");
+        echo json_encode($data);
+    }
     
 }

@@ -18,6 +18,15 @@ class M_Employee extends Main_Model {
       
         return $return;
     }
+    function isiComboPIC($id){
+        
+        $dataDB= $this->db->where("emp_id",$id)->get("hrsys_employee")->row();
+        if(!empty($dataDB)){
+            $dataReturn[$dataDB->emp_id] = $dataDB->fullname . " (" . $dataDB->emp_id . ")";
+            
+        }
+        return $dataReturn;
+    }
     function comboPIC() {
 
         $dataReturn = array();
@@ -54,6 +63,28 @@ class M_Employee extends Main_Model {
                 
                 $dataReturn[]=array(
                     "user_id"=>$emp->user_id,
+                    "name"=>$emp->fullname . " (" . $emp->emp_id . ")"
+                );
+                
+            }
+        }
+
+        return $dataReturn;
+    }
+    function pic($name) {
+
+        $dataReturn = array();
+        $this->db->select("emp_id,fullname,user_id");      
+        $this->db->like('fullname', $name, 'after');
+        
+        $this->db->order_by("fullname");
+        $dataEmployee =$this->db->get("hrsys_employee")->result();
+        //echo $this->db->last_query();exit;
+        if (!empty($dataEmployee)) {
+            foreach ($dataEmployee as $emp) {
+                
+                $dataReturn[]=array(
+                    "emp_id"=>$emp->emp_id,
                     "name"=>$emp->fullname . " (" . $emp->emp_id . ")"
                 );
                 

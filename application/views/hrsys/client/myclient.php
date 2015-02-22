@@ -20,32 +20,13 @@ $(function () {
             { field: 'lk_sp_display_text', caption: 'Status', size: '100', searchable: true,sortable: true  },
          
         ],
-        onAdd: function (event) {
-            editClient(0);
-        },
         onDblClick: function (event) {
-            editClient(event.recid);
+            $(this).gn_loadmain('{site_url}/hrsys/client/detclient/'+event.recid+'/myclient');
         }
     });
 
     
 });
 
-function editClient(recid) {
-    $().w2popup('open', {
-        name    : 'client_form',
-        title   : (recid == 0 ? 'Add Client' : 'Edit Client'),
-        body    : '<div id="client_form" class="framepopup">please wait..</div>',
-        style   : 'padding: 15px 0px 0px 0px',
-        width   : 500,
-        height  : 300, 
-        onOpen  : function (event) {
-            event.onComplete = function () {
-                
-               $( "#client_form" ).load( "{site_url}/admin/client/showForm/"+recid, function() {});
-            }
-           
-        }
-    });
-}
+
 </script>
