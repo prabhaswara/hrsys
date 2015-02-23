@@ -96,22 +96,7 @@
     }
 
     function detailVac(id) {
-        $().w2popup('open', {
-            name: 'popupForm',
-            title: 'View',
-            body: '<div id="popupForm" class="framepopup">please wait..</div>',
-            style: 'padding: 5px 0px 0px 0px',
-            width: 500,
-            height: 500,
-            onOpen: function (event) {
-                event.onComplete = function () {
-
-                    $("#popupForm").load("{site_url}/hrsys/vacancy/showDetail/" + id, function () {
-                    });
-                }
-
-            }
-        });
+       $(this).gn_loadmain('{site_url}/hrsys/vacancy/'+id+'/'+$("#frompage").val());
     }
     function editVac(id) {
         showForm(id);

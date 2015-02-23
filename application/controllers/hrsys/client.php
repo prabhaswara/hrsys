@@ -50,7 +50,8 @@ class client extends Main_Controller {
             "id"=> $id,
             "breadcrumb" => $breadcrumb,
             "client" =>$client,
-            "canDelete"=>true
+            "canDelete"=>true,
+            "frompage"=>$frompage
         );
         $this->loadContent('hrsys/client/detclient', $dataParse);
     }

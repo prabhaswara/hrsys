@@ -1,6 +1,6 @@
 <h2 class="form-title">Detail Client</h2>
 <div style="padding: 10px;">
-
+    <input type="hidden" id="frompage" value="{frompage}" />
     <?php
     echo breadcrumb_($breadcrumb)
     ?>
