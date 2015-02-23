@@ -1,4 +1,5 @@
 <div>
+    <button value="142459840454e9a5840c1e4" id="pindah" onclick="detailVac(this.value)">Pindah</button>
     <input type="hidden" id="typesearchhide" value="open"/>
     <button id="createAppointment" > <span class="fa-edit">&nbsp;</span> Add Job Vacancy</button>
     <div id="listInfVacancy" style="height:300px" ></div>
@@ -34,7 +35,7 @@
             columns: [
                 {field: 'recid', caption: '', size: '30px', searchable: false, sortable: false,
                     render: function (record) {
-                        return "<span class='fa-zoom-in imgbt' onclick='detailVac(\"" + record.recid + "\")' ></span>"
+                        return "<span class='fa-zoom-in imgbt' onClick='$( \"#pindah\" ).click()' ></span>"
                     }
                 },
                 {field: 'lkstat_sp_display_text', caption: 'Status', size: '120px', searchable: true, sortable: true},
@@ -49,6 +50,9 @@
                 event.postData.typesearch=$("#typesearch").val();
                            
             },  
+            onDblClick: function (event) {
+                detailVac(event.recid);
+            },
             onResize : function(event) {
                 //<select id='typesearch' onchange='typesearchChange()'><option value='active'>Active Schedule</option><option value='all'>All Schedule</option></select>
                 //typesearchspan
@@ -96,7 +100,9 @@
     }
 
     function detailVac(id) {
-       $(this).gn_loadmain('{site_url}/hrsys/vacancy/'+id+'/'+$("#frompage").val());
+    
+       $(window).gn_loadmain('{site_url}/hrsys/vacancy/contentVacancy/'+id+'/'+$("#frompage").val());
+       return false;
     }
     function editVac(id) {
         showForm(id);

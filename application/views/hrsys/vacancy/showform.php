@@ -93,7 +93,7 @@ if (!empty($postShareMaintance)) {
                 },
                 success: function (data) {
                     if (data == "close_popup") {
-                       w2ui['client_tabs'].click('info');
+                       w2ui['client_tabs'].click('vacancies');
                         w2popup.close();
                         
                     } else {

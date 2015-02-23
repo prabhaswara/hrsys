@@ -72,10 +72,40 @@ class vacancy extends Main_Controller {
     
     public function contentVacancy($id,$frompage=""){
         
-        $vacancy=$this->m_vacancy->get($id);        
-        $client_id=$this->m_client>get($vacancy["client_id"]);     
+        $vacancyData=$this->m_vacancy->getDetails($id);
+        $vacancy=$vacancyData["vacancy"];
         
-        $dataParse = array("vacancy"=> $vacancy);
+        $client=$this->m_client->get($vacancy["cmpyclient_id"]);     
+        
+        $site_url=  site_url();
+        
+        switch ($frompage) {
+            case "allclient":
+                $breadcrumb[]=array("link"=>"$site_url/hrsys/client/allclient","text"=>"All Client");
+                break;
+            case "prospect":
+                $breadcrumb[]=array("link"=>"$site_url/hrsys/client/prospect","text"=>"Prospect Client");
+                break;
+            case "myclient":
+                $breadcrumb[]=array("link"=>"$site_url/hrsys/client/myclient","text"=>"My Client");             
+                break;
+            
+            case "addEditClient":
+                $breadcrumb[]=array("link"=>"$site_url/hrsys/client/addEditClient","text"=>"New Client");             
+                break;
+        }
+         $breadcrumb[]=array("link"=>"$site_url/hrsys/client/detclient/".$client["cmpyclient_id"]."/".$frompage,"text"=>$client["name"]); 
+         $breadcrumb[]=array("link"=>"$site_url/hrsys/vacancy/contentVacancy/".$vacancy["vacancy_id"]."/".$frompage,"text"=>$vacancy["name"]); 
+         
+        
+        
+        
+        $dataParse = array(
+            "vacancyData"=> $vacancyData,
+            "client"=> $client,
+            "frompage"=>$frompage,    
+            "breadcrumb"=>$breadcrumb,    
+                );
         $this->loadContent('hrsys/vacancy/contentVacancy', $dataParse);
     }
     public function detailVacancy(){
