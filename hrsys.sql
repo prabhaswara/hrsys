@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Feb 24, 2015 at 05:41 
+-- Generation Time: Feb 24, 2015 at 11:50 PM
 -- Server version: 5.1.37
 -- PHP Version: 5.3.0
 
@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS `ci_sessions` (
 --
 
 INSERT INTO `ci_sessions` (`session_id`, `ip_address`, `user_agent`, `last_activity`, `user_data`) VALUES
-('5873d3852ddbba1c44d78c25f80c60c0', '::1', 'Mozilla/5.0 (Windows NT 6.1; rv:35.0) Gecko/20100101 Firefox/35.0', 1424774391, 'a:2:{s:9:"user_data";s:0:"";s:12:"hrsys_userdt";a:3:{s:4:"user";a:8:{s:7:"user_id";s:23:"142199957054c1fdd26eca3";s:8:"username";s:7:"gunawan";s:10:"active_non";s:1:"1";s:10:"last_login";N;s:10:"datecreate";s:19:"2015-01-23 14:52:26";s:10:"usercreate";N;s:10:"dateupdate";s:19:"2015-02-17 20:39:54";s:10:"userupdate";s:23:"142199935954c1fcffd9501";}s:5:"roles";a:4:{i:0;s:10:"adm_lookup";i:1;s:8:"adm_menu";i:2;s:8:"adm_role";i:3;s:8:"adm_user";}s:8:"employee";a:7:{s:6:"emp_id";s:6:"820547";s:4:"name";s:7:"Gunawan";s:8:"fullname";s:19:"Gunawan Prabhaswara";s:5:"phone";N;s:9:"birthdate";N;s:3:"sex";N;s:7:"user_id";s:23:"142199957054c1fdd26eca3";}}}');
+('63b671071a8ee8c1c4cdb6dee468ef1c', '::1', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:35.0) Gecko/20100101 Firefox/35.0', 1424796559, 'a:2:{s:9:"user_data";s:0:"";s:12:"hrsys_userdt";a:3:{s:4:"user";a:8:{s:7:"user_id";s:23:"142274855454cd6b8aeea54";s:8:"username";s:4:"rika";s:10:"active_non";s:1:"1";s:10:"last_login";N;s:10:"datecreate";s:19:"2015-02-01 06:55:30";s:10:"usercreate";s:5:"admin";s:10:"dateupdate";s:19:"2015-02-01 06:55:30";s:10:"userupdate";N;}s:5:"roles";a:0:{}s:8:"employee";a:7:{s:6:"emp_id";s:4:"1005";s:4:"name";s:4:"Rika";s:8:"fullname";s:12:"Rika Fadilah";s:5:"phone";N;s:9:"birthdate";N;s:3:"sex";N;s:7:"user_id";s:23:"142274855454cd6b8aeea54";}}}');
 
 -- --------------------------------------------------------
 
@@ -51,6 +51,7 @@ INSERT INTO `ci_sessions` (`session_id`, `ip_address`, `user_agent`, `last_activ
 CREATE TABLE IF NOT EXISTS `hrsys_candidate` (
   `candidate_id` varchar(30) NOT NULL,
   `name` varchar(100) DEFAULT NULL,
+  `phone` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`candidate_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
@@ -366,14 +367,14 @@ CREATE TABLE IF NOT EXISTS `tpl_menu` (
   `dateupdate` datetime DEFAULT NULL,
   `userupdate` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`menu_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=18 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=21 ;
 
 --
 -- Dumping data for table `tpl_menu`
 --
 
 INSERT INTO `tpl_menu` (`menu_id`, `menu_title`, `url`, `parent_id`, `attributes`, `order_num`, `active_non`, `role_id`, `datecreate`, `usercreate`, `dateupdate`, `userupdate`) VALUES
-(1, 'Admin', '', 0, '', 5, 1, '', NULL, NULL, '2015-02-24 17:28:51', '142199957054c1fdd26eca3'),
+(1, 'Admin', '', 0, '', 6, 1, '', NULL, NULL, '2015-02-24 21:33:39', '142199957054c1fdd26eca3'),
 (2, 'User', '/admin/user', 1, '', 2, 1, 'adm_user', NULL, NULL, '2015-01-26 09:24:04', NULL),
 (3, 'Lookup', '/admin/lookup', 1, '', 3, 1, 'adm_lookup', NULL, NULL, '2015-01-27 09:26:11', NULL),
 (4, 'Menu', '/admin/menu', 1, '', 4, 1, 'adm_menu', NULL, NULL, '2015-01-26 09:23:53', NULL),
@@ -385,7 +386,10 @@ INSERT INTO `tpl_menu` (`menu_id`, `menu_title`, `url`, `parent_id`, `attributes
 (14, 'Prospect Client', 'hrsys/client/prospect', 12, '', 2, 1, '', '2015-01-31 11:01:54', 'admin', '2015-01-31 11:37:57', 'admin'),
 (15, 'My Client', 'hrsys/client/myclient', 12, '', 3, 1, '', '2015-01-31 11:10:51', 'admin', '2015-01-31 11:38:06', 'admin'),
 (16, 'All Client', 'hrsys/client/allclient', 12, '', 4, 1, '', '2015-01-31 11:12:40', 'admin', '2015-02-01 14:45:54', 'admin'),
-(17, 'My Dashboard', '/hrsys/dashboard/myDasboard', 0, '', 2, 1, '', '2015-02-24 17:25:32', '142199957054c1fdd26eca3', '2015-02-24 17:28:19', '142199957054c1fdd26eca3');
+(17, 'My Dashboard', '/hrsys/dashboard/myDasboard', 0, '', 2, 1, '', '2015-02-24 17:25:32', '142199957054c1fdd26eca3', '2015-02-24 17:28:19', '142199957054c1fdd26eca3'),
+(18, 'Candidates', '', 0, '', 5, 1, '', '2015-02-24 21:34:54', '142199957054c1fdd26eca3', '2015-02-24 21:34:54', NULL),
+(19, 'New Candidate', 'hrsys/candidate/addEditCandidate', 18, '', 1, 1, '', '2015-02-24 21:36:54', '142199957054c1fdd26eca3', '2015-02-24 22:28:16', '142199957054c1fdd26eca3'),
+(20, 'Search Candidate', 'hrsys/candidate/listCandidate', 18, '', 2, 1, '', '2015-02-24 21:39:17', '142199957054c1fdd26eca3', '2015-02-24 22:27:33', '142199957054c1fdd26eca3');
 
 -- --------------------------------------------------------
 

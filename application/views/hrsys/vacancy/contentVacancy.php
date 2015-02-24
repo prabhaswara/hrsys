@@ -64,6 +64,8 @@
             </tr>          
         </table>
     </form>
+    <button id="addCandidate" > <span class="fa-edit">&nbsp;</span> Add Candidate</button>
+    <button id="searchCandidate" > <span class="fa-search">&nbsp;</span> Search Candidate</button>
 </div>
 
 
@@ -113,6 +115,13 @@
             }
             return false;
 
+        });
+        
+        $("#addCandidate").click(function () {
+           $(window).gn_loadmain('{site_url}/hrsys/candidate/addEditCandidate/0/<?=$vacancy["vacancy_id"]?>/{frompage}'); 
+        });
+        $("#searchCandidate").click(function () {
+            $(window).gn_loadmain('{site_url}/hrsys/candidate/listCandidate/0/<?=$vacancy["vacancy_id"]?>/{frompage}');
         });
 
     });
