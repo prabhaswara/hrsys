@@ -77,7 +77,7 @@
                     name: 'detVacTab',
                     tabs: [
                         {id: 'vacancy_tab', caption: 'Vacancy', url: ''}
-                       ,{id: 'candidate_tab', caption: 'Shortlist Candidates', url: ''}
+                       ,{id: 'candidate_tab', caption: 'Shortlist Candidates', url: "{site_url}/hrsys/vacancy/cvCandidates/<?= $vacancy["vacancy_id"] ?>/"}
                        
                     ],
                     onClick: function (event) {

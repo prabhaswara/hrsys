@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Feb 22, 2015 at 10:05 PM
+-- Generation Time: Feb 24, 2015 at 05:41 
 -- Server version: 5.1.37
 -- PHP Version: 5.3.0
 
@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS `ci_sessions` (
 --
 
 INSERT INTO `ci_sessions` (`session_id`, `ip_address`, `user_agent`, `last_activity`, `user_data`) VALUES
-('5be9f6c92eaac19b42f8b1891e25572c', '::1', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:35.0) Gecko/20100101 Firefox/35.0', 1424617327, 'a:2:{s:9:"user_data";s:0:"";s:12:"hrsys_userdt";a:3:{s:4:"user";a:8:{s:7:"user_id";s:23:"142274855454cd6b8aeea54";s:8:"username";s:4:"rika";s:10:"active_non";s:1:"1";s:10:"last_login";N;s:10:"datecreate";s:19:"2015-02-01 06:55:30";s:10:"usercreate";s:5:"admin";s:10:"dateupdate";s:19:"2015-02-01 06:55:30";s:10:"userupdate";N;}s:5:"roles";a:0:{}s:8:"employee";a:7:{s:6:"emp_id";s:4:"1005";s:4:"name";s:4:"Rika";s:8:"fullname";s:12:"Rika Fadilah";s:5:"phone";N;s:9:"birthdate";N;s:3:"sex";N;s:7:"user_id";s:23:"142274855454cd6b8aeea54";}}}');
+('5873d3852ddbba1c44d78c25f80c60c0', '::1', 'Mozilla/5.0 (Windows NT 6.1; rv:35.0) Gecko/20100101 Firefox/35.0', 1424774391, 'a:2:{s:9:"user_data";s:0:"";s:12:"hrsys_userdt";a:3:{s:4:"user";a:8:{s:7:"user_id";s:23:"142199957054c1fdd26eca3";s:8:"username";s:7:"gunawan";s:10:"active_non";s:1:"1";s:10:"last_login";N;s:10:"datecreate";s:19:"2015-01-23 14:52:26";s:10:"usercreate";N;s:10:"dateupdate";s:19:"2015-02-17 20:39:54";s:10:"userupdate";s:23:"142199935954c1fcffd9501";}s:5:"roles";a:4:{i:0;s:10:"adm_lookup";i:1;s:8:"adm_menu";i:2;s:8:"adm_role";i:3;s:8:"adm_user";}s:8:"employee";a:7:{s:6:"emp_id";s:6:"820547";s:4:"name";s:7:"Gunawan";s:8:"fullname";s:19:"Gunawan Prabhaswara";s:5:"phone";N;s:9:"birthdate";N;s:3:"sex";N;s:7:"user_id";s:23:"142199957054c1fdd26eca3";}}}');
 
 -- --------------------------------------------------------
 
@@ -366,25 +366,26 @@ CREATE TABLE IF NOT EXISTS `tpl_menu` (
   `dateupdate` datetime DEFAULT NULL,
   `userupdate` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`menu_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=17 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=18 ;
 
 --
 -- Dumping data for table `tpl_menu`
 --
 
 INSERT INTO `tpl_menu` (`menu_id`, `menu_title`, `url`, `parent_id`, `attributes`, `order_num`, `active_non`, `role_id`, `datecreate`, `usercreate`, `dateupdate`, `userupdate`) VALUES
-(1, 'Admin', '', 0, '', 4, 1, '', NULL, NULL, '2015-01-27 10:46:06', 'admin'),
+(1, 'Admin', '', 0, '', 5, 1, '', NULL, NULL, '2015-02-24 17:28:51', '142199957054c1fdd26eca3'),
 (2, 'User', '/admin/user', 1, '', 2, 1, 'adm_user', NULL, NULL, '2015-01-26 09:24:04', NULL),
 (3, 'Lookup', '/admin/lookup', 1, '', 3, 1, 'adm_lookup', NULL, NULL, '2015-01-27 09:26:11', NULL),
 (4, 'Menu', '/admin/menu', 1, '', 4, 1, 'adm_menu', NULL, NULL, '2015-01-26 09:23:53', NULL),
 (8, 'Role', '/admin/role', 1, '', 1, 1, 'adm_role', '2015-01-12 16:43:50', NULL, '2015-01-26 09:20:43', NULL),
 (9, 'Home', '/home/main_home', 0, '', 1, 1, '', '2015-01-26 09:27:06', NULL, '2015-01-27 09:36:19', NULL),
-(10, 'Calendar', '/hrsys/calendar', 0, '', 2, 1, '', '2015-01-26 09:27:37', NULL, '2015-01-27 09:37:02', NULL),
-(12, 'Client', '', 0, '', 3, 1, '', '2015-01-31 10:57:52', 'admin', '2015-01-31 10:57:52', NULL),
+(10, 'Calendar', '/hrsys/calendar', 0, '', 3, 1, '', '2015-01-26 09:27:37', NULL, '2015-02-24 17:28:27', '142199957054c1fdd26eca3'),
+(12, 'Client', '', 0, '', 4, 1, '', '2015-01-31 10:57:52', 'admin', '2015-02-24 17:28:58', '142199957054c1fdd26eca3'),
 (13, 'New Client', 'hrsys/client/addEditClient', 12, '', 1, 1, '', '2015-01-31 10:58:53', 'admin', '2015-02-09 09:58:14', '142199935954c1fcffd9501'),
 (14, 'Prospect Client', 'hrsys/client/prospect', 12, '', 2, 1, '', '2015-01-31 11:01:54', 'admin', '2015-01-31 11:37:57', 'admin'),
 (15, 'My Client', 'hrsys/client/myclient', 12, '', 3, 1, '', '2015-01-31 11:10:51', 'admin', '2015-01-31 11:38:06', 'admin'),
-(16, 'All Client', 'hrsys/client/allclient', 12, '', 4, 1, '', '2015-01-31 11:12:40', 'admin', '2015-02-01 14:45:54', 'admin');
+(16, 'All Client', 'hrsys/client/allclient', 12, '', 4, 1, '', '2015-01-31 11:12:40', 'admin', '2015-02-01 14:45:54', 'admin'),
+(17, 'My Dashboard', '/hrsys/dashboard/myDasboard', 0, '', 2, 1, '', '2015-02-24 17:25:32', '142199957054c1fdd26eca3', '2015-02-24 17:28:19', '142199957054c1fdd26eca3');
 
 -- --------------------------------------------------------
 
@@ -410,7 +411,8 @@ INSERT INTO `tpl_role` (`role_id`, `name`, `datecreate`, `usercreate`, `dateupda
 ('adm_lookup', 'Admin Lookup', '2015-01-12 16:58:15', NULL, '2015-01-12 16:58:15', NULL),
 ('adm_menu', 'Admin Menu', '2015-01-12 16:58:27', NULL, '2015-01-12 16:58:49', NULL),
 ('adm_role', 'Admin Role', '2015-01-12 16:58:37', NULL, '2015-01-12 17:03:58', NULL),
-('adm_user', 'Admin User', '2015-01-12 16:58:03', NULL, '2015-01-12 16:58:03', NULL);
+('adm_user', 'Admin User', '2015-01-12 16:58:03', NULL, '2015-01-12 16:58:03', NULL),
+('hrsys_allmeeting', 'Full Access Meeting', '2015-02-11 10:19:51', '142199935954c1fcffd9501', '2015-02-11 10:19:51', NULL);
 
 -- --------------------------------------------------------
 

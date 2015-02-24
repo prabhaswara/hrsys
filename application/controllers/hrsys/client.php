@@ -23,12 +23,15 @@ class client extends Main_Controller {
     }
     
 
-    public function detclient($id, $frompage = "") {
+    public function detclient($id, $frompage = "home") {
 
         $client = $this->m_client->get($id);
         $breadcrumb = array();
         $site_url=  site_url();
         switch ($frompage) {
+            case "home":
+                $breadcrumb[]=array("link"=>"$site_url/home/main_home","text"=>"Home");
+                break;
             case "allclient":
                 $breadcrumb[]=array("link"=>"$site_url/hrsys/client/allclient","text"=>"All Client");
                 break;
@@ -109,7 +112,39 @@ class client extends Main_Controller {
         $this->loadContent('hrsys/client/myclient');
         
     }
+    
+    
+    public function json_listClientByPIC($pic) {
 
+        if (isset($_POST["sort"]) && !empty($_POST["sort"]))
+            foreach ($_POST["sort"] as $key => $value) {
+                $_POST["sort"][$key] = str_replace("_sp_", ".", $value);
+            }
+
+
+        if (isset($_POST["search"]) && !empty($_POST["search"]))
+            foreach ($_POST["search"] as $key => $value) {
+                $_POST["search"][$key] = str_replace("_sp_", ".", $value);
+            }
+
+        $where = "1=1";
+        
+         $where = "cl.pic='$pic'";
+         
+
+        $sql = "SELECT cl.cmpyclient_id cl_sp_cmpyclient_id,cl.name cl_sp_name,cl.cp_name cl_sp_cp_name,cl.cp_phone cl_sp_cp_phone, " .
+                "emp.fullname emp_sp_fullname, lk.display_text lk_sp_display_text " .
+                "from hrsys_cmpyclient cl " .
+                "left join tpl_lookup lk on lk.type='cmpyclient_stat' and cl.status=lk.value " .
+                "left join hrsys_employee emp on cl.pic=emp.emp_id " .
+                "WHERE ~search~ and $where  ORDER BY ~sort~";
+
+
+        $data = $this->m_menu->w2grid($sql, $_POST);
+        header("Content-Type: application/json;charset=utf-8");
+        echo json_encode($data);
+    }
+    
     public function json_listClient($status) {
 
         if (isset($_POST["sort"]) && !empty($_POST["sort"]))
@@ -129,7 +164,7 @@ class client extends Main_Controller {
         } elseif ($status == "prospect") {
             $where = "cl.status='0'";
         } elseif ($status == "my") {
-            $where = "cl.status='1' and cl.pic='" . (isset($this->sessionUserData["employee"]["emp_id"]) ? $this->sessionUserData["employee"]["emp_id"] : "") . "'";
+            $where = "cl.pic='" . (isset($this->sessionUserData["employee"]["emp_id"]) ? $this->sessionUserData["employee"]["emp_id"] : "") . "'";
         }
 
         $sql = "SELECT cl.cmpyclient_id cl_sp_cmpyclient_id,cl.name cl_sp_name,cl.cp_name cl_sp_cp_name,cl.cp_phone cl_sp_cp_phone, " .

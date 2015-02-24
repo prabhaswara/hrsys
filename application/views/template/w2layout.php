@@ -128,6 +128,7 @@
       
          $( document ).ajaxError(function( event, request, settings ) {
                 alert( "Error requesting page " + settings.url);
+                $(this).loadingShow(false);
                 });   
       
                 /*    

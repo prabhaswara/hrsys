@@ -6,6 +6,10 @@
     <div class="form-tbl" >
         <table>
             <tr>
+                <td class="aright">Create By :</td>
+                <td><?= $client["empcrt_fullname"] ?></td>        
+            </tr>
+            <tr>
                 <td class="aright">Company Name :</td>
                 <td><?= $client["name"] ?></td>        
             </tr>

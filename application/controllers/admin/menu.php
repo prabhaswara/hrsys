@@ -14,13 +14,19 @@ class Menu extends Main_Controller {
                 $_POST["sort"][$key]=  str_replace("_sp_", ".", $value);
             }
         
-        
+        $where="";
         if(isset($_POST["search"])&& !empty($_POST["search"]))
         foreach($_POST["search"] as $key=>$value){
             $_POST["search"][$key]=  str_replace("_sp_", ".", $value);
+            if ($value["field"]=="pp_sp_menu_title" && $value["value"]=="null"){
+                unset($_POST["search"][$key]);
+                $where="mn.parent_id ='0' and ";
+            }
+            
+
         }
         
-        $sql="SELECT mn.menu_id mn_menu_id,pp.menu_title pp_sp_menu_title,mn.menu_title mn_sp_menu_title,mn.url mn_sp_url,mn.attributes mn_sp_attributes,lk.display_text lk_sp_display_text,mn.order_num mn_sp_order_num,rl.name rl_sp_name FROM tpl_menu mn left join tpl_menu pp on mn.parent_id=pp.menu_id left join tpl_lookup lk on lk.value=mn.active_non and lk.type='active_non' left join tpl_role rl on mn.role_id=rl.role_id    WHERE ~search~ ORDER BY ~sort~";
+        $sql="SELECT mn.menu_id mn_menu_id,pp.menu_title pp_sp_menu_title,mn.menu_title mn_sp_menu_title,mn.url mn_sp_url,mn.attributes mn_sp_attributes,lk.display_text lk_sp_display_text,mn.order_num mn_sp_order_num,rl.name rl_sp_name FROM tpl_menu mn left join tpl_menu pp on mn.parent_id=pp.menu_id left join tpl_lookup lk on lk.value=mn.active_non and lk.type='active_non' left join tpl_role rl on mn.role_id=rl.role_id    WHERE   ~search~ and $where 1=1 ORDER BY ~sort~";
         
         
         $data = $this->m_menu->w2grid(

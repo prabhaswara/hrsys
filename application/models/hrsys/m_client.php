@@ -12,9 +12,11 @@ class M_client extends Main_Model {
     }
 
     function get($id) {
-        $sql="select cl.*,emp.fullname emp_pic, lk.display_text status_text from hrsys_cmpyclient cl  ".
+        $sql="select cl.*,emp.fullname emp_pic, lk.display_text status_text,empcrt.fullname empcrt_fullname  from hrsys_cmpyclient cl  ".
              "left join tpl_lookup lk on lk.type='cmpyclient_stat' and cl.status=lk.value ".
              "left join hrsys_employee emp on cl.pic=emp.emp_id ".
+             "left join tpl_user user on cl.usercreate=user.user_id ".
+             "left join hrsys_employee empcrt on user.user_id=empcrt.user_id ".
              "where cl.cmpyclient_id='$id'";
         return $this->db->query($sql)->row_array();
     }

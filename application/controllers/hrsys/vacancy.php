@@ -70,7 +70,7 @@ class vacancy extends Main_Controller {
         
     }
     
-    public function contentVacancy($id,$frompage=""){
+    public function contentVacancy($id,$frompage="home"){
         
         $vacancyData=$this->m_vacancy->getDetails($id);
         $vacancy=$vacancyData["vacancy"];
@@ -80,6 +80,9 @@ class vacancy extends Main_Controller {
         $site_url=  site_url();
         
         switch ($frompage) {
+            case "home":
+                $breadcrumb[]=array("link"=>"$site_url/home/main_home","text"=>"Home");
+                break;
             case "allclient":
                 $breadcrumb[]=array("link"=>"$site_url/hrsys/client/allclient","text"=>"All Client");
                 break;
@@ -108,8 +111,14 @@ class vacancy extends Main_Controller {
                 );
         $this->loadContent('hrsys/vacancy/contentVacancy', $dataParse);
     }
-    public function detailVacancy(){
+    public function cvCandidates($vacancy_id){
         
+        $vacancy=$this->m_vacancy->get($vacancy_id);
+      
+        $dataParse = array(
+            "vacancy"=> $vacancy,       
+                );
+        $this->loadContent('hrsys/vacancy/cvCandidates', $dataParse);
     }
     public function showForm($client_id=0,$vacancy_id=0) {
             
@@ -174,4 +183,40 @@ class vacancy extends Main_Controller {
         
     }
     
+    public function jsonListVacOpenByPIC($pic) {
+
+        $where = "";
+
+        if (isset($_POST["sort"]) && !empty($_POST["sort"])) {
+            foreach ($_POST["sort"] as $key => $value) {
+                $_POST["sort"][$key] = str_replace("_sp_", ".", $value);
+            }
+        } else {
+            $_POST["sort"][0]['direction'] = 'desc';
+            $_POST["sort"][0]['field'] = 'vac.opendate';
+        }
+
+
+        if (isset($_POST["search"]) && !empty($_POST["search"]))
+            foreach ($_POST["search"] as $key => $value) {
+                $_POST["search"][$key] = str_replace("_sp_", ".", $value);
+            }
+
+        
+        $where.="vac.status='1' and vac.pic ='$pic' and ";
+
+        $sql = "SELECT  vac.vacancy_id recid,client.name client_sp_name,vac.name vac_sp_name,DATE_FORMAT(vac.opendate,'%d-%m-%Y') vac_sp_opendate" .
+                ",lkstat.display_text lkstat_sp_display_text,vac.usercreate vac_sp_usercreate " .
+                "from hrsys_vacancy vac " .
+                "join hrsys_cmpyclient client on vac.cmpyclient_id=client.cmpyclient_id ".
+                "left join tpl_lookup lkstat on lkstat.type='vacancy_stat' and vac.status=lkstat.value " .
+                "WHERE ~search~ and $where 1=1 ORDER BY ~sort~";
+
+
+        $data = $this->m_menu->w2grid($sql, $_POST);
+        header("Content-Type: application/json;charset=utf-8");
+        echo json_encode($data);
+        exit();
+    }
+
 }
