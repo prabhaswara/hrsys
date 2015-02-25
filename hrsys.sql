@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Feb 24, 2015 at 11:50 PM
+-- Generation Time: Feb 25, 2015 at 05:21 
 -- Server version: 5.1.37
 -- PHP Version: 5.3.0
 
@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS `ci_sessions` (
 --
 
 INSERT INTO `ci_sessions` (`session_id`, `ip_address`, `user_agent`, `last_activity`, `user_data`) VALUES
-('63b671071a8ee8c1c4cdb6dee468ef1c', '::1', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:35.0) Gecko/20100101 Firefox/35.0', 1424796559, 'a:2:{s:9:"user_data";s:0:"";s:12:"hrsys_userdt";a:3:{s:4:"user";a:8:{s:7:"user_id";s:23:"142274855454cd6b8aeea54";s:8:"username";s:4:"rika";s:10:"active_non";s:1:"1";s:10:"last_login";N;s:10:"datecreate";s:19:"2015-02-01 06:55:30";s:10:"usercreate";s:5:"admin";s:10:"dateupdate";s:19:"2015-02-01 06:55:30";s:10:"userupdate";N;}s:5:"roles";a:0:{}s:8:"employee";a:7:{s:6:"emp_id";s:4:"1005";s:4:"name";s:4:"Rika";s:8:"fullname";s:12:"Rika Fadilah";s:5:"phone";N;s:9:"birthdate";N;s:3:"sex";N;s:7:"user_id";s:23:"142274855454cd6b8aeea54";}}}');
+('f725ff77dc4eb39a0d54c8b9ffc13ccb', '::1', 'Mozilla/5.0 (Windows NT 6.1; rv:35.0) Gecko/20100101 Firefox/35.0', 1424859406, 'a:2:{s:9:"user_data";s:0:"";s:12:"hrsys_userdt";a:3:{s:4:"user";a:8:{s:7:"user_id";s:23:"142274855454cd6b8aeea54";s:8:"username";s:4:"rika";s:10:"active_non";s:1:"1";s:10:"last_login";N;s:10:"datecreate";s:19:"2015-02-01 06:55:30";s:10:"usercreate";s:5:"admin";s:10:"dateupdate";s:19:"2015-02-01 06:55:30";s:10:"userupdate";N;}s:5:"roles";a:0:{}s:8:"employee";a:7:{s:6:"emp_id";s:4:"1005";s:4:"name";s:4:"Rika";s:8:"fullname";s:12:"Rika Fadilah";s:5:"phone";N;s:9:"birthdate";N;s:3:"sex";N;s:7:"user_id";s:23:"142274855454cd6b8aeea54";}}}');
 
 -- --------------------------------------------------------
 
@@ -50,6 +50,7 @@ INSERT INTO `ci_sessions` (`session_id`, `ip_address`, `user_agent`, `last_activ
 
 CREATE TABLE IF NOT EXISTS `hrsys_candidate` (
   `candidate_id` varchar(30) NOT NULL,
+  `status` int(11) DEFAULT NULL,
   `name` varchar(100) DEFAULT NULL,
   `phone` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`candidate_id`)
@@ -87,10 +88,25 @@ CREATE TABLE IF NOT EXISTS `hrsys_cmpyclient` (
 --
 
 INSERT INTO `hrsys_cmpyclient` (`cmpyclient_id`, `name`, `address`, `website`, `cp_name`, `cp_phone`, `status`, `pic`, `datecreate`, `usercreate`, `dateupdate`, `userupdate`) VALUES
-('142346926454d86ad0af277', 'Pertamina', 'Jl. Medan Merdeka Timur 1A', 'http://www.pertamina.com/', 'Branjangan', '', '0', '', '2015-02-09 15:07:20', '142199935954c1fcffd9501', '2015-02-09 15:07:20', ''),
-('142434018554e5b4d90188e', 'ZTE', 'The East Building Kuningan Jakarta', 'www.zte.co.cn', 'Ryan Oktora', '08212123', '1', '1005', '2015-02-19 17:02:41', 'rika', '2015-02-22 17:22:54', ''),
-('142460071754e9ae8d2e6a3', 'test', '', '', '', '', '0', '', '2015-02-22 17:24:53', 'rika', '2015-02-22 17:25:04', ''),
-('142460082254e9aef6760a4', 'zz', '', '', '', '', '0', '', '2015-02-22 17:26:38', '142274855454cd6b8aeea54', '2015-02-22 17:28:04', '142274855454cd6b8aeea54');
+('142485912054ed9ff00b24a', 'PT Nishiyama', '', '', '', '', '1', '1001', '2015-02-25 17:11:36', '142274812054cd69d85cf66', '2015-02-25 17:11:36', ''),
+('142485913454ed9ffe1fd43', 'PT Super Potato', '', '', '', '', '1', '1001', '2015-02-25 17:11:50', '142274812054cd69d85cf66', '2015-02-25 17:11:50', ''),
+('142485914754eda00b28ddb', 'PT Omron manufacturing of Indonesia', '', '', '', '', '1', '1001', '2015-02-25 17:12:03', '142274812054cd69d85cf66', '2015-02-25 17:12:03', ''),
+('142485916754eda01f9cb73', 'PT Sumisho E-commerce Indonesia', '', '', '', '', '1', '1001', '2015-02-25 17:12:23', '142274812054cd69d85cf66', '2015-02-25 17:12:23', ''),
+('142485919554eda03b9c271', 'PT AIG Indonesia', '', '', '', '', '1', '1002', '2015-02-25 17:12:51', '142274810554cd69c9f0e29', '2015-02-25 17:12:51', ''),
+('142485920954eda0498bf85', 'PT Nera Indonesia', '', '', '', '', '1', '1002', '2015-02-25 17:13:05', '142274810554cd69c9f0e29', '2015-02-25 17:13:05', ''),
+('142485922354eda057c080f', 'PT Sejati Group', '', '', '', '', '1', '1001', '2015-02-25 17:13:19', '142274810554cd69c9f0e29', '2015-02-25 17:13:19', ''),
+('142485923954eda06797c25', 'PT Modern International', '', '', '', '', '1', '1002', '2015-02-25 17:13:35', '142274810554cd69c9f0e29', '2015-02-25 17:13:35', ''),
+('142485925254eda07461495', 'PT Ismaya Group', '', '', '', '', '1', '1002', '2015-02-25 17:13:48', '142274810554cd69c9f0e29', '2015-02-25 17:13:48', ''),
+('142485926254eda07ecc43f', 'PT PSN', '', '', '', '', '1', '1002', '2015-02-25 17:13:58', '142274810554cd69c9f0e29', '2015-02-25 17:13:58', ''),
+('142485929654eda0a0e83fd', 'NEC Indonesia', '', '', '', '', '1', '1003', '2015-02-25 17:14:32', '142274831954cd6a9f6fab9', '2015-02-25 17:14:32', ''),
+('142485931054eda0aeb706b', 'Lintas Teknologi', '', '', '', '', '1', '1003', '2015-02-25 17:14:46', '142274831954cd6a9f6fab9', '2015-02-25 17:14:46', ''),
+('142485932754eda0bf3c4c1', 'Tanggara Mitrakom', '', '', '', '', '1', '1003', '2015-02-25 17:15:03', '142274831954cd6a9f6fab9', '2015-02-25 17:15:03', ''),
+('142485937154eda0eb63436', 'PT Dimension Data Indonesia', '', '', '', '', '1', '1004', '2015-02-25 17:15:47', '142274833454cd6aaeed52b', '2015-02-25 17:15:47', ''),
+('142485938654eda0fa1b2a6', 'Liputan 6 com', '', '', '', '', '1', '1004', '2015-02-25 17:16:02', '142274833454cd6aaeed52b', '2015-02-25 17:16:02', ''),
+('142485942554eda121d300d', 'PT ZTE Indonesia', '', '', '', '', '1', '1005', '2015-02-25 17:16:41', '142274855454cd6b8aeea54', '2015-02-25 17:16:41', ''),
+('142485943854eda12e27638', 'PT indo Kordsa Global Tbk', '', '', '', '', '1', '1005', '2015-02-25 17:16:54', '142274855454cd6b8aeea54', '2015-02-25 17:16:54', ''),
+('142485945254eda13c4ca7d', 'PT Mitra Solusi Telematika', '', '', '', '', '1', '1005', '2015-02-25 17:17:08', '142274855454cd6b8aeea54', '2015-02-25 17:17:08', ''),
+('142485946454eda14830919', 'AKR Corporindo', '', '', '', '', '1', '1005', '2015-02-25 17:17:20', '142274855454cd6b8aeea54', '2015-02-25 17:17:20', '');
 
 -- --------------------------------------------------------
 
@@ -119,8 +135,6 @@ CREATE TABLE IF NOT EXISTS `hrsys_cmpyclient_meet` (
 -- Dumping data for table `hrsys_cmpyclient_meet`
 --
 
-INSERT INTO `hrsys_cmpyclient_meet` (`meet_id`, `cmpyclient_id`, `type`, `person`, `place`, `meettime`, `description`, `outcome`, `outcome_desc`, `datecreate`, `usercreate`, `dateupdate`, `userupdate`) VALUES
-('142434053954e5b63b0067c', '142434018554e5b4d90188e', '1', 'Ryan Oktora', 'Pacific Place', '2015-02-20 13:00:00', 'meeting with Ryan Oktora in Pacific Place at 20-02-2015 13:00', '', '', '2015-02-19 17:08:35', '142274855454cd6b8aeea54', '2015-02-20 11:19:25', '142274855454cd6b8aeea54');
 
 -- --------------------------------------------------------
 
@@ -144,18 +158,25 @@ CREATE TABLE IF NOT EXISTS `hrsys_cmpyclient_trl` (
 --
 
 INSERT INTO `hrsys_cmpyclient_trl` (`cmpyclient_trl_id`, `cmpyclient_id`, `type`, `value`, `description`, `datecreate`, `usercreate`) VALUES
-('142346926454d86ad0b63a8', '142346926454d86ad0af277', '', '', 'admin Created Pertamina', '2015-02-09 15:07:20', '142199935954c1fcffd9501'),
-('142434018554e5b4d90bcb1', '142434018554e5b4d90188e', '', '', 'admin Created ZTE', '2015-02-19 17:02:41', '142199935954c1fcffd9501'),
-('142434053954e5b63b08a5e', '142434018554e5b4d90188e', 'meeting', '142434053954e5b63b0067c', 'meeting with Ryan Oktora in Pacific Place at 20-02-2015 13:00', '2015-02-19 17:08:35', '142274855454cd6b8aeea54'),
-('142451024254e84d22c4043', '142434018554e5b4d90188e', '', '', 'Rika Fadilah Update Info ZTE', '2015-02-21 16:16:58', '142274855454cd6b8aeea54'),
-('142451025754e84d31cc3b4', '142434018554e5b4d90188e', '', '', 'Rika Fadilah Update Info ZTE', '2015-02-21 16:17:13', '142274855454cd6b8aeea54'),
-('142459782054e9a33c7300a', '142434018554e5b4d90188e', 'vacancy', '142459782054e9a33c72e17', 'rika Create Vacancy ', '2015-02-22 16:36:36', '142274855454cd6b8aeea54'),
-('142459840454e9a5840c40d', '142434018554e5b4d90188e', 'vacancy', '142459840454e9a5840c1e4', 'Rika Fadilah Create Vacancy programmer net', '2015-02-22 16:46:20', '142274855454cd6b8aeea54'),
-('142460059854e9ae1604346', '142434018554e5b4d90188e', '', '', 'Rika Fadilah Update Info ZTE', '2015-02-22 17:22:54', '142274855454cd6b8aeea54'),
-('142460071754e9ae8d2e999', '142460071754e9ae8d2e6a3', '', '', 'Rika Fadilah Created test', '2015-02-22 17:24:53', '142274855454cd6b8aeea54'),
-('142460072854e9ae986a788', '142460071754e9ae8d2e6a3', '', '', 'Rika Fadilah Update Info test', '2015-02-22 17:25:04', '142274855454cd6b8aeea54'),
-('142460082254e9aef6764c4', '142460082254e9aef6760a4', '', '', 'Rika Fadilah Created zz', '2015-02-22 17:26:38', '142274855454cd6b8aeea54'),
-('142460090854e9af4cd7391', '142460082254e9aef6760a4', '', '', 'Rika Fadilah Update Info zz', '2015-02-22 17:28:04', '142274855454cd6b8aeea54');
+('142485912054ed9ff0150d0', '142485912054ed9ff00b24a', '', '', 'Victor Siahaan Created PT Nishiyama', '2015-02-25 17:11:36', '142274812054cd69d85cf66'),
+('142485913454ed9ffe1ffa9', '142485913454ed9ffe1fd43', '', '', 'Victor Siahaan Created PT Super Potato', '2015-02-25 17:11:50', '142274812054cd69d85cf66'),
+('142485914754eda00b290aa', '142485914754eda00b28ddb', '', '', 'Victor Siahaan Created PT Omron manufacturing of Indonesia', '2015-02-25 17:12:03', '142274812054cd69d85cf66'),
+('142485916754eda01f9cdc4', '142485916754eda01f9cb73', '', '', 'Victor Siahaan Created PT Sumisho E-commerce Indonesia', '2015-02-25 17:12:23', '142274812054cd69d85cf66'),
+('142485919554eda03b9c525', '142485919554eda03b9c271', '', '', 'Budi Wicaksono Created PT AIG Indonesia', '2015-02-25 17:12:51', '142274810554cd69c9f0e29'),
+('142485920954eda0498c213', '142485920954eda0498bf85', '', '', 'Budi Wicaksono Created PT Nera Indonesia', '2015-02-25 17:13:05', '142274810554cd69c9f0e29'),
+('142485922354eda057c0ad9', '142485922354eda057c080f', '', '', 'Budi Wicaksono Created PT Sejati Group', '2015-02-25 17:13:19', '142274810554cd69c9f0e29'),
+('142485923954eda06797e76', '142485923954eda06797c25', '', '', 'Budi Wicaksono Created PT Modern International', '2015-02-25 17:13:35', '142274810554cd69c9f0e29'),
+('142485925254eda0746175f', '142485925254eda07461495', '', '', 'Budi Wicaksono Created PT Ismaya Group', '2015-02-25 17:13:48', '142274810554cd69c9f0e29'),
+('142485926254eda07ecc68c', '142485926254eda07ecc43f', '', '', 'Budi Wicaksono Created PT PSN', '2015-02-25 17:13:58', '142274810554cd69c9f0e29'),
+('142485929654eda0a0e86d0', '142485929654eda0a0e83fd', '', '', 'Farah Alika Created NEC Indonesia', '2015-02-25 17:14:32', '142274831954cd6a9f6fab9'),
+('142485931054eda0aeb729a', '142485931054eda0aeb706b', '', '', 'Farah Alika Created Lintas Teknologi', '2015-02-25 17:14:46', '142274831954cd6a9f6fab9'),
+('142485932754eda0bf3c774', '142485932754eda0bf3c4c1', '', '', 'Farah Alika Created Tanggara Mitrakom', '2015-02-25 17:15:03', '142274831954cd6a9f6fab9'),
+('142485937154eda0eb636f9', '142485937154eda0eb63436', '', '', 'Kartika Dewi Created PT Dimension Data Indonesia', '2015-02-25 17:15:47', '142274833454cd6aaeed52b'),
+('142485938654eda0fa1b4bd', '142485938654eda0fa1b2a6', '', '', 'Kartika Dewi Created Liputan 6 com', '2015-02-25 17:16:02', '142274833454cd6aaeed52b'),
+('142485942554eda121d322a', '142485942554eda121d300d', '', '', 'Rika Fadilah Created PT ZTE Indonesia', '2015-02-25 17:16:41', '142274855454cd6b8aeea54'),
+('142485943854eda12e278d8', '142485943854eda12e27638', '', '', 'Rika Fadilah Created PT indo Kordsa Global Tbk', '2015-02-25 17:16:54', '142274855454cd6b8aeea54'),
+('142485945254eda13c4cc92', '142485945254eda13c4ca7d', '', '', 'Rika Fadilah Created PT Mitra Solusi Telematika', '2015-02-25 17:17:08', '142274855454cd6b8aeea54'),
+('142485946454eda14830b5d', '142485946454eda14830919', '', '', 'Rika Fadilah Created AKR Corporindo', '2015-02-25 17:17:20', '142274855454cd6b8aeea54');
 
 -- --------------------------------------------------------
 
@@ -209,9 +230,6 @@ CREATE TABLE IF NOT EXISTS `hrsys_schedule` (
 -- Dumping data for table `hrsys_schedule`
 --
 
-INSERT INTO `hrsys_schedule` (`schedule_id`, `scheduletime`, `description`, `type`, `value`, `datecreate`, `usercreate`, `dateupdate`, `userupdate`) VALUES
-('142418053054e3453252653', '2015-02-19 13:00:00', 'meeting with Branjangan in Standart Charter at 19-02-2015 13:00', 'meeting', '142418053054e3453252460', '2015-02-17 20:41:46', '142199957054c1fdd26eca3', '2015-02-17 20:41:46', '142199957054c1fdd26eca3'),
-('142434053954e5b63b008a6', '2015-02-20 13:00:00', 'meeting with Ryan Oktora in Pacific Place at 20-02-2015 13:00', 'meeting', '142434053954e5b63b0067c', '2015-02-19 17:08:35', '142274855454cd6b8aeea54', '2015-02-20 11:19:25', '142274855454cd6b8aeea54');
 
 -- --------------------------------------------------------
 
@@ -229,12 +247,6 @@ CREATE TABLE IF NOT EXISTS `hrsys_scheduleuser` (
 -- Dumping data for table `hrsys_scheduleuser`
 --
 
-INSERT INTO `hrsys_scheduleuser` (`schedule_id`, `user_id`) VALUES
-('142418053054e3453252653', '142199957054c1fdd26eca3'),
-('142418053054e3453252653', '142274812054cd69d85cf66'),
-('142418053054e3453252653', '142274855454cd6b8aeea54'),
-('142434053954e5b63b008a6', '142274831954cd6a9f6fab9'),
-('142434053954e5b63b008a6', '142274855454cd6b8aeea54');
 
 -- --------------------------------------------------------
 
@@ -262,9 +274,6 @@ CREATE TABLE IF NOT EXISTS `hrsys_vacancy` (
 -- Dumping data for table `hrsys_vacancy`
 --
 
-INSERT INTO `hrsys_vacancy` (`vacancy_id`, `cmpyclient_id`, `name`, `opendate`, `description`, `num_position`, `pic`, `status`, `datecreate`, `usercreate`, `dateupdate`, `userupdate`) VALUES
-('142459782054e9a33c72e17', '142434018554e5b4d90188e', 'prog', '2015-02-20', '121', 1, '1005', NULL, '2015-02-22 16:36:36', '142274855454cd6b8aeea54', '2015-02-22 16:36:36', '142274855454cd6b8aeea54'),
-('142459840454e9a5840c1e4', '142434018554e5b4d90188e', 'programmer net', '2015-02-22', 'wew', 1, '1005', 1, '2015-02-22 16:46:20', '142274855454cd6b8aeea54', '2015-02-22 16:46:20', '142274855454cd6b8aeea54');
 
 -- --------------------------------------------------------
 
@@ -273,11 +282,15 @@ INSERT INTO `hrsys_vacancy` (`vacancy_id`, `cmpyclient_id`, `name`, `opendate`, 
 --
 
 CREATE TABLE IF NOT EXISTS `hrsys_vacancycandidate` (
+  `vacancycandidate_id` varchar(30) NOT NULL,
   `vacancy_id` varchar(30) NOT NULL,
   `candidate_id` varchar(30) NOT NULL,
-  `status` int(11) DEFAULT NULL,
-  `recommendation_from` varchar(30) DEFAULT NULL,
-  PRIMARY KEY (`vacancy_id`,`candidate_id`)
+  `current_state` int(11) DEFAULT NULL,
+  `datecreate` datetime DEFAULT NULL,
+  `usercreate` varchar(30) DEFAULT NULL,
+  `dateupdate` datetime DEFAULT NULL,
+  `userupdate` varchar(30) DEFAULT NULL,
+  PRIMARY KEY (`vacancycandidate_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
@@ -301,10 +314,6 @@ CREATE TABLE IF NOT EXISTS `hrsys_vacancyuser` (
 -- Dumping data for table `hrsys_vacancyuser`
 --
 
-INSERT INTO `hrsys_vacancyuser` (`vacancy_id`, `user_id`) VALUES
-('142459782054e9a33c72e17', '142274855454cd6b8aeea54'),
-('142459840454e9a5840c1e4', '142274831954cd6a9f6fab9'),
-('142459840454e9a5840c1e4', '142274855454cd6b8aeea54');
 
 -- --------------------------------------------------------
 
@@ -323,7 +332,7 @@ CREATE TABLE IF NOT EXISTS `tpl_lookup` (
   `dateupdate` datetime DEFAULT NULL,
   `userupdate` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`lookup_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=21 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=30 ;
 
 --
 -- Dumping data for table `tpl_lookup`
@@ -345,7 +354,16 @@ INSERT INTO `tpl_lookup` (`lookup_id`, `value`, `display_text`, `type`, `order_n
 (17, 'meeting', 'Meeting', 'trail', 1, '2015-02-09 14:49:37', '142199935954c1fcffd9501', '2015-02-09 14:49:37', NULL),
 (18, 'vacancy', 'Vacancy', 'trail', 2, '2015-02-09 14:51:21', '142199935954c1fcffd9501', '2015-02-09 14:51:21', NULL),
 (19, '1', 'Open Vacancy', 'vacancy_stat', 1, '2015-02-22 06:49:28', '142199957054c1fdd26eca3', '2015-02-22 06:49:28', NULL),
-(20, '0', 'Close Vacancy', 'vacancy_stat', 2, '2015-02-22 06:49:50', '142199957054c1fdd26eca3', '2015-02-22 06:49:50', NULL);
+(20, '0', 'Close Vacancy', 'vacancy_stat', 2, '2015-02-22 06:49:50', '142199957054c1fdd26eca3', '2015-02-22 06:49:50', NULL),
+(21, '1', 'Open', 'candidate_stat', 1, '2015-02-25 13:46:23', '142199957054c1fdd26eca3', '2015-02-25 13:46:23', NULL),
+(22, '0', 'Close', 'candidate_stat', 2, '2015-02-25 13:46:47', '142199957054c1fdd26eca3', '2015-02-25 13:46:47', NULL),
+(23, '1', 'Short List', 'applicant_stat', 1, '2015-02-25 13:55:46', '142199957054c1fdd26eca3', '2015-02-25 13:55:46', NULL),
+(24, '2', 'Process of Interview', 'applicant_stat', 2, '2015-02-25 13:58:04', '142199957054c1fdd26eca3', '2015-02-25 14:23:37', '142199957054c1fdd26eca3'),
+(25, '3', 'Job Over', 'applicant_stat', 3, '2015-02-25 14:08:46', '142199957054c1fdd26eca3', '2015-02-25 14:09:01', '142199957054c1fdd26eca3'),
+(26, '4', 'Rejected From Candidate', 'applicant_stat', 4, '2015-02-25 14:10:00', '142199957054c1fdd26eca3', '2015-02-25 14:10:07', '142199957054c1fdd26eca3'),
+(27, '5', 'Rejected From Client', 'applicant_stat', 5, '2015-02-25 14:16:46', '142199957054c1fdd26eca3', '2015-02-25 14:16:46', NULL),
+(28, '6', 'Not Qualified', 'applicant_stat', 6, '2015-02-25 14:27:42', '142199957054c1fdd26eca3', '2015-02-25 14:27:42', NULL),
+(29, '7', 'Placemented', 'applicant_stat', 7, '2015-02-25 14:36:05', '142199957054c1fdd26eca3', '2015-02-25 14:36:19', '142199957054c1fdd26eca3');
 
 -- --------------------------------------------------------
 

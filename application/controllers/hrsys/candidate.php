@@ -27,9 +27,37 @@ class candidate extends Main_Controller {
              
         }
         $vacancy=$this->m_vacancy->get($vacancy_id);
-
         $breadcrumb=$this->setBreedcum($vacancy_id, $frompage);
         $breadcrumb[] = array("link" => "#", "text" => "$create_edit Candidate");
+        
+        if (!empty($postForm)) {
+            $validate = $this->m_candidate->validate($postForm, $isEdit);
+            if ($validate["status"]) {
+                $dataSave["candidate"]=$postForm;
+                if ($this->m_candidate->saveOrUpdate($dataSave, $this->sessionUserData)) {
+                    
+                    if($frompage==""){
+                        redirect("hrsys/candidate/addEditCandidate/");
+                    }
+                    else{
+                        redirect("hrsys/vacancy/contentVacancy/$vacancy_id/$frompage");
+                    }
+                    exit;
+                }
+            }
+
+            $error_message = isset($validate["message"]) ? $validate["message"] : array();
+            if (!empty($error_message)) {
+                $message = showMessage($error_message);
+            }
+            
+          
+        }
+        
+        if (empty($postForm) && !$isEdit){
+            
+        }
+        
             
         $dataParse = array(
             "message"=>$message,
