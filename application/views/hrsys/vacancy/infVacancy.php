@@ -1,5 +1,4 @@
 <div>
-    <button value="142459840454e9a5840c1e4" id="pindah" onclick="detailVac(this.value)">Pindah</button>
     <input type="hidden" id="typesearchhide" value="open"/>
     <button id="createAppointment" > <span class="fa-edit">&nbsp;</span> Add Job Vacancy</button>
     <div id="listInfVacancy" style="height:300px" ></div>

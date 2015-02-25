@@ -6,85 +6,85 @@ $meet_id = isset($postForm["meet_id"]) ? $postForm["meet_id"] : "0";
 
 <div id="meet_tabs" style="width: 100%; height: 29px;"></div>
 <div id="meet_tabs_c" class="tabboxwui2" style="min-height: 400px" >
+    <div id="tabs-1" class="contentTab"  style="display:none" >
+        <form method="POST" id="formnya" class="form-tbl" action="<?= $site_url . "/hrsys/meeting/showform/" . $client["cmpyclient_id"] . "/" . $meet_id ?>">
+            <?= frm_('meet_id', $postForm, "type='hidden'") ?>   
+            <input type="hidden" name="do" value="schedule"/>
 
-</div>
-
-
-
-<div id="tabs-1" style="display:none" >
-    <form method="POST" id="formnya" class="form-tbl" action="<?= $site_url . "/hrsys/meeting/showform/" . $client["cmpyclient_id"] . "/" . $meet_id ?>">
-        <?= frm_('meet_id', $postForm, "type='hidden'") ?>   
-        <input type="hidden" name="do" value="schedule"/>
-
-        <table>
-            <tr>
-                <td class="aright">Meeting Type:</td>
-                <td>
-                    <?= select_('type', $postForm, $typeList, "class='kendodropdown'", false) ?>
-                </td>        
-            </tr>
-            <tr>
-                <td class="aright">Meet with:</td>
-                <td>
-                    <?= frm_('person', $postForm, "class='w300'") ?>
-                    <span id="generate_person"  class='imgbt fa  fa-cog cursorPointer'></span>
-                </td>        
-            </tr>
-            <tr>
-                <td class="aright">Place:</td>
-                <td><?= frm_('place', $postForm, "class='w300'") ?></td>        
-            </tr>
-            <tr>
-                <td class="aright">Date & Time :</td>
-                <td><?= frm_('meettime_d', $postForm, "class='w150 date'") ?>
-                    <?= select_('meettime_t', $postForm, $timeList, "style='width:90px' class='kendodropdown'", false) ?>
-                </td> 
-            </tr>         
-
-            <tr>
-                <td class="aright">Description :</td>
-                <td >
-                    <?= textarea_('description', $postForm, "class='w300' ") ?>
-                    <span id="generate_desc" style="vertical-align: top" class='imgbt fa  fa-cog cursorPointer'></span>
-                </td> 
-            </tr>          
-            <tr>
-                <td class="aright">Share with :</td>
-                <td >
-                    <select id="shareSchedule" name="shareSchedule[]" multiple="multiple" class="w300"></select>
-                </td> 
-            </tr>          
-        </table>
-        <input type="submit" name="action" id="action" value="Save" class="w2ui-btn"/>
-    </form>
-
-</div>
-<?php if ($isEdit) { ?>
-    <div id="tabs-2"  style="display:none">
-        <form method="POST" id="formOutCome" class="form-tbl" action="<?= $site_url . "/hrsys/meeting/showform/" . $client["cmpyclient_id"] . "/" . $meet_id ?>">
-            <?= frm_g('outcome', 'meet_id', $postOutcome, "type='hidden'") ?> 
-            <input type="hidden" name="do" value="outcome"/>
             <table>
                 <tr>
-                    <td class="aright">Outcome:</td>
+                    <td class="aright">Meeting Type:</td>
                     <td>
-                        <?= select_g('outcome', 'outcome', $postOutcome, $outcomeList, "class='kendodropdown'", false) ?>
+                        <?= select_('type', $postForm, $typeList, "class='kendodropdown'", false) ?>
                     </td>        
                 </tr>
                 <tr>
-                    <td class="aright">Description:</td>
+                    <td class="aright">Meet with:</td>
                     <td>
-                        <?= textarea_g('outcome', 'outcome_desc', $postOutcome, "class='w300' ") ?>
+                        <?= frm_('person', $postForm, "class='w300'") ?>
+                        <span id="generate_person"  class='imgbt fa  fa-cog cursorPointer'></span>
                     </td>        
                 </tr>
+                <tr>
+                    <td class="aright">Place:</td>
+                    <td><?= frm_('place', $postForm, "class='w300'") ?></td>        
+                </tr>
+                <tr>
+                    <td class="aright">Date & Time :</td>
+                    <td><?= frm_('meettime_d', $postForm, "class='w150 date'") ?>
+                        <?= select_('meettime_t', $postForm, $timeList, "style='width:90px' class='kendodropdown'", false) ?>
+                    </td> 
+                </tr>         
+
+                <tr>
+                    <td class="aright">Description :</td>
+                    <td >
+                        <?= textarea_('description', $postForm, "class='w300' ") ?>
+                        <span id="generate_desc" style="vertical-align: top" class='imgbt fa  fa-cog cursorPointer'></span>
+                    </td> 
+                </tr>          
+                <tr>
+                    <td class="aright">Share with :</td>
+                    <td >
+                        <select id="shareSchedule" name="shareSchedule[]" multiple="multiple" class="w300"></select>
+                    </td> 
+                </tr>          
             </table>
             <input type="submit" name="action" id="action" value="Save" class="w2ui-btn"/>
         </form>
+
     </div>
-    <div id="tabs-3" style="display:none">
-        <input type="button" id="delete" value="Delete" class="w2ui-btn w2ui-btn-red"/>
-    </div>
-<?php } ?>
+    <?php if ($isEdit) { ?>
+        <div id="tabs-2" class="contentTab"  style="display:none">
+            <form method="POST" id="formOutCome" class="form-tbl" action="<?= $site_url . "/hrsys/meeting/showform/" . $client["cmpyclient_id"] . "/" . $meet_id ?>">
+                <?= frm_g('outcome', 'meet_id', $postOutcome, "type='hidden'") ?> 
+                <input type="hidden" name="do" value="outcome"/>
+                <table>
+                    <tr>
+                        <td class="aright">Outcome:</td>
+                        <td>
+                            <?= select_g('outcome', 'outcome', $postOutcome, $outcomeList, "class='kendodropdown'", false) ?>
+                        </td>        
+                    </tr>
+                    <tr>
+                        <td class="aright">Description:</td>
+                        <td>
+                            <?= textarea_g('outcome', 'outcome_desc', $postOutcome, "class='w300' ") ?>
+                        </td>        
+                    </tr>
+                </table>
+                <input type="submit" name="action" id="action" value="Save" class="w2ui-btn"/>
+            </form>
+        </div>
+        <div id="tabs-3" class="contentTab" style="display:none">
+            <input type="button" id="delete" value="Delete" class="w2ui-btn w2ui-btn-red"/>
+        </div>
+    <?php } ?>
+</div>
+
+
+
+
 
 
 <input type="hidden" id="client_cp" value="<?= $client["cp_name"] ?>" />
@@ -109,7 +109,8 @@ $meet_id = isset($postForm["meet_id"]) ? $postForm["meet_id"] : "0";
                     ],
                     onClick: function (event) {
 
-                        $("#meet_tabs_c").html($("#" + event.tab.id).html());
+                        $(".contentTab").hide();
+                        $("#" + event.tab.id).show();
 
 
                     }

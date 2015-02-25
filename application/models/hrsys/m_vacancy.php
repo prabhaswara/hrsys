@@ -60,15 +60,15 @@ class M_vacancy extends Main_Model {
             
             
             // insert trail
-            $dataTrl["cmpyvcient_trl_id"] = $this->uniqID();
-            $dataTrl["cmpyvcient_id"] = $vacancy["cmpyvcient_id"];
+            $dataTrl["cmpyclient_trl_id"] = $this->uniqID();
+            $dataTrl["cmpyclient_id"] = $vacancy["cmpyclient_id"];
             $dataTrl["description"] = $userInsert." Create Vacancy ".$vacancy["name"];
             $dataTrl["type"] = "vacancy";
             $dataTrl["value"] = $vacancy_id;
             
             $this->db->set('datecreate', 'NOW()', FALSE);
             $this->db->set('usercreate', $sessionData["user"]["user_id"]);
-            $this->db->insert('hrsys_cmpyvcient_trl', $dataTrl);
+            $this->db->insert('hrsys_cmpyclient_trl', $dataTrl);
                     
         }else{
              // update vacancy   
@@ -79,7 +79,7 @@ class M_vacancy extends Main_Model {
            
             // update trail        
             $dataTrl["description"] = $userInsert." Create Vacancy ".$vacancy["name"];
-            $this->db->update('hrsys_cmpyvcient_trl', $dataTrl, array('value' => $vacancy_id,'type'=>'vacancy'));       
+            $this->db->update('hrsys_cmpyclient_trl', $dataTrl, array('value' => $vacancy_id,'type'=>'vacancy'));       
              
         }
         
@@ -105,15 +105,15 @@ class M_vacancy extends Main_Model {
 
         if (!empty($datafrm)) {
 
-            if (vceanstr($datafrm["opendate"]) == "") {
+            if (cleanstr($datafrm["opendate"]) == "") {
                 $return["status"] = false;
                 $return["message"]["opendate"] = "Open Date cannot be empty";
             }
-            if (vceanstr($datafrm["name"]) == "") {
+            if (cleanstr($datafrm["name"]) == "") {
                 $return["status"] = false;
                 $return["message"]["name"] = "Job Name cannot be empty";
             }
-            if (vceanstr($datafrm["pic"]) == "") {
+            if (cleanstr($datafrm["pic"]) == "") {
                 $return["status"] = false;
                 $return["message"]["pic"] = "PIC cannot be empty";
             }

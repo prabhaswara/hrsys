@@ -55,7 +55,7 @@ if(!$isEdit){ ?>
         
         
          
-        $(this).init_js("{base_url}");
+        
         
         $("#pic").kendoComboBox({
                         placeholder: "Select..",
@@ -115,7 +115,7 @@ if(!$isEdit){ ?>
             
         });
         
-        
+        $(this).init_js("{base_url}");
     });
 </script>
 
