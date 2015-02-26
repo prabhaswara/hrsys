@@ -35,7 +35,17 @@ body, td,th,div,span,label,a,span,input,textarea,p,option{
     padding: 5px;
     font-size: 18px;
     background: #edf1f6;
+    height: 30px;
 
+}
+.content_body{
+padding: 10px;
+position: absolute;
+top:30px;
+bottom: 0px;
+right: 0px;
+left: 0px;
+    
 }
 .form-tbl {
     padding:5px;
@@ -217,10 +227,11 @@ body, td,th,div,span,label,a,span,input,textarea,p,option{
 
 .tabboxwui2 {
     background-color: #F5F6F7;
-    width: 100%;
-    border: 1px solid silver;
+        border: 1px solid silver;
     border-top: 0px;
     padding: 10px;
     overflow: auto;
 }
-
+.gn_breadcrumb{
+    height: 25px;
+}

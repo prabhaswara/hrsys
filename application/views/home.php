@@ -50,7 +50,7 @@
                 {field: 'meetime', caption: 'Time', size: '190px', searchable: true, sortable: true
                     , render: function(record) {
                         kembali = record.meetime;
-                        if (record.datediff < 0) {
+                        if(record.lewat==1){
 
                             kembali = "<span style='color:red'>" + kembali + "</span>";
                         }

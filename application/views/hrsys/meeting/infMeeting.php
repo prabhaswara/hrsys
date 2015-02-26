@@ -53,7 +53,7 @@
                 {field: 'met_sp_meettime', caption: 'Time', size: '130px', searchable: false, sortable: true,
                     render: function (record) {
                     kembali=record.met_sp_meettime;
-                        if(record.datediff<0){
+                        if(record.lewat==1){
                             
                             kembali="<span style='color:red'>"+kembali+"</span>";
                         }                       

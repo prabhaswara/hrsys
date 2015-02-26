@@ -34,19 +34,56 @@ class M_candidate extends Main_Model {
     }
     
     public function saveOrUpdate($data, $sessionData) {
-        $candidate=$data["meeting"];
+        $vacancy_id=$data["vacancy_id"];
         
+        $candidate=$data["candidate"];
         $candidate_id = $candidate["candidate_id"];    
+        $candidate["status"]=candidate_stat_open;
         
-        
-        if($candidate_id=="" ||$candidate_id==0){ //baru
-            $candidate_id=$this->uniqID();
-            
-            
-        }
         
         $this->db->trans_start(TRUE);
         
+        if($candidate_id==0){
+            
+            $candidate_id=$this->uniqID();
+            $candidate["candidate_id"]=$candidate_id;
+            /*
+            $this->db->set('dateupdate', 'NOW()', FALSE);
+            $this->db->set('userupdate', $sessionData["user"]["user_id"]);
+            $this->db->set('datecreate', 'NOW()', FALSE);
+            $this->db->set('usercreate', $sessionData["user"]["user_id"]);             
+             */
+            
+            $this->db->insert('hrsys_candidate', $candidate);
+            
+            if($vacancy_id!=0){
+                $vacancycandidate["vacancycandidate_id"]=$this->uniqID();
+                $vacancycandidate["candidate_id"]=$candidate_id;
+                $vacancycandidate["vacancy_id"]=$vacancy_id;
+                $vacancycandidate["current_state"]=applicant_stat_shortlist;
+                
+                $this->db->set('dateupdate', 'NOW()', FALSE);
+                $this->db->set('userupdate', $sessionData["user"]["user_id"]);
+                $this->db->set('datecreate', 'NOW()', FALSE);
+                $this->db->set('usercreate', $sessionData["user"]["user_id"]);             
+            
+                $this->db->insert('hrsys_vacancycandidate', $vacancycandidate);
+            
+             
+                
+                
+            }
+            
+        }
+        else{
+           
+        }
+        
+        
+        
+        $this->db->trans_complete();
+
+        return $this->db->trans_status();
     }
     
 }

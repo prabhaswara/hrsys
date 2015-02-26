@@ -60,12 +60,16 @@ class meeting extends Main_Controller {
             
             $dataReturn=array();
             foreach ( $data['records'] as $row){
-                $canEdit="0";
-                
+                $row["canedit"]="0";                
                 if( $client["pic"]==$this->user_id||$row["met_sp_usercreate"]==$this->user_id || in_array("hrsys_allmeeting", $this->ses_roles))
                 {
                     $row["canedit"]="1";
                     
+                }
+                $row["lewat"]="0";
+                        
+                if(cleanstr($row["lkout_sp_display_text"])=="" && cleanstr($row["datediff"]) <0 ){
+                    $row["lewat"]="1";
                 }
                 
                 $dataReturn[]=$row;
@@ -170,7 +174,7 @@ class meeting extends Main_Controller {
                 $postOutcome=$dataMeet;
             }
             if(empty($postShareSchedule)){                
-                $postShareSchedule=$this->m_employee->shareWithByMeet($meet_id,$this->user_id);
+                $postShareSchedule=$this->m_employee->shareWithByMeet($meet_id,$dataMeet["usercreate"]);
             }
             
         }
@@ -199,7 +203,7 @@ class meeting extends Main_Controller {
                  $_POST["sort"][0]['field'] ='met.meettime';      
             }
             
-         $sql = "select met.meet_id recid,CONCAT(DAYNAME(met.meettime),CONCAT(', ', DATE_FORMAT(met.meettime,'%d-%m-%Y %H:%i'))) meetime ".
+         $sql = "select met.meet_id recid,met.outcome,CONCAT(DAYNAME(met.meettime),CONCAT(', ', DATE_FORMAT(met.meettime,'%d-%m-%Y %H:%i'))) meetime ".
                 ",DATEDIFF(date(met.meettime),date(now())) datediff,met.description,met.person,met.place,client.name client from hrsys_cmpyclient_meet met ".
                 "join hrsys_cmpyclient client on met.cmpyclient_id=client.cmpyclient_id ".
                 "join hrsys_schedule sch on sch.type='meeting' and sch.value=met.meet_id ".
@@ -208,6 +212,19 @@ class meeting extends Main_Controller {
 
 
             $data = $this->m_menu->w2grid($sql, $_POST);
+            
+            $dataReturn=array();
+            foreach ( $data['records'] as $row){
+                
+                $row["lewat"]="0";
+                        
+                if(cleanstr($row["outcome"])=="" && $row["datediff"] <0 ){
+                    $row["lewat"]="1";
+                }
+                
+                $dataReturn[]=$row;
+            }
+            $data['records']=$dataReturn;
             header("Content-Type: application/json;charset=utf-8");
             echo json_encode($data);
             exit();

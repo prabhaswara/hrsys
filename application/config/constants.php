@@ -1,5 +1,12 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
+define("candidate_stat_open", 1);
+define("candidate_stat_close", 0);
+
+
+define("applicant_stat_shortlist", 1);
+
+
 /*
 |--------------------------------------------------------------------------
 | File and Directory Modes

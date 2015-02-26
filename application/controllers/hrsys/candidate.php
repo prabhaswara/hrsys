@@ -28,14 +28,17 @@ class candidate extends Main_Controller {
         }
         $vacancy=$this->m_vacancy->get($vacancy_id);
         $breadcrumb=$this->setBreedcum($vacancy_id, $frompage);
+        
         $breadcrumb[] = array("link" => "#", "text" => "$create_edit Candidate");
         
         if (!empty($postForm)) {
             $validate = $this->m_candidate->validate($postForm, $isEdit);
             if ($validate["status"]) {
                 $dataSave["candidate"]=$postForm;
+                $dataSave["vacancy_id"]=$vacancy_id;
+                
                 if ($this->m_candidate->saveOrUpdate($dataSave, $this->sessionUserData)) {
-                    
+                  
                     if($frompage==""){
                         redirect("hrsys/candidate/addEditCandidate/");
                     }
@@ -43,6 +46,9 @@ class candidate extends Main_Controller {
                         redirect("hrsys/vacancy/contentVacancy/$vacancy_id/$frompage");
                     }
                     exit;
+                }
+                else{
+                    echo "wew";exit;
                 }
             }
 

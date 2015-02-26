@@ -1,12 +1,12 @@
 <h2 class="form-title">Detail Client</h2>
-<div style="padding: 10px;">
+<div class="content_body">
     <input type="hidden" id="frompage" value="{frompage}" />
     <?php
     echo breadcrumb_($breadcrumb)
     ?>
 
     <div id="client_tabs" style="width: 100%; height: 29px;"></div>
-    <div id="client_tabs_c" class="tabboxwui2" style="min-height: 400px">
+    <div id="client_tabs_c" class="tabboxwui2" style="position: absolute;top: 64px;bottom: 10px;left: 10px;right: 10px">
 
     </div>
 
