@@ -33,6 +33,10 @@
                 <td class="aright">Status :</td>
                 <td><?= $client["status_text"] ?></td>     
             </tr>
+            <tr>
+                <td class="aright">Date Join :</td>
+                <td><?= ($client["datejoin"]=="0000-00-00"?"":balikTgl($client["datejoin"])) ?></td>     
+            </tr>
             <tr >
                 <td class="aright">PIC :</td>
                 <td><?= $client["emp_pic"] ?></td>      

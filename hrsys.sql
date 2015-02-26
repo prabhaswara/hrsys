@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Feb 25, 2015 at 11:02 PM
+-- Generation Time: Feb 26, 2015 at 05:04 
 -- Server version: 5.1.37
 -- PHP Version: 5.3.0
 
@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS `ci_sessions` (
 --
 
 INSERT INTO `ci_sessions` (`session_id`, `ip_address`, `user_agent`, `last_activity`, `user_data`) VALUES
-('770405b4f88060edaefe6f9044786f33', '::1', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:35.0) Gecko/20100101 Firefox/35.0', 1424879106, 'a:2:{s:9:"user_data";s:0:"";s:12:"hrsys_userdt";a:3:{s:4:"user";a:8:{s:7:"user_id";s:23:"142274855454cd6b8aeea54";s:8:"username";s:4:"rika";s:10:"active_non";s:1:"1";s:10:"last_login";N;s:10:"datecreate";s:19:"2015-02-01 06:55:30";s:10:"usercreate";s:5:"admin";s:10:"dateupdate";s:19:"2015-02-01 06:55:30";s:10:"userupdate";N;}s:5:"roles";a:0:{}s:8:"employee";a:7:{s:6:"emp_id";s:4:"1005";s:4:"name";s:4:"Rika";s:8:"fullname";s:12:"Rika Fadilah";s:5:"phone";N;s:9:"birthdate";N;s:3:"sex";N;s:7:"user_id";s:23:"142274855454cd6b8aeea54";}}}');
+('af98ec92ad88d2e996b21c883d9b8dc4', '::1', 'Mozilla/5.0 (Windows NT 6.1; rv:35.0) Gecko/20100101 Firefox/35.0', 1424934865, 'a:2:{s:9:"user_data";s:0:"";s:12:"hrsys_userdt";a:3:{s:4:"user";a:8:{s:7:"user_id";s:23:"142274855454cd6b8aeea54";s:8:"username";s:4:"rika";s:10:"active_non";s:1:"1";s:10:"last_login";N;s:10:"datecreate";s:19:"2015-02-01 06:55:30";s:10:"usercreate";s:5:"admin";s:10:"dateupdate";s:19:"2015-02-26 11:06:17";s:10:"userupdate";s:23:"142199957054c1fdd26eca3";}s:5:"roles";a:5:{i:0;s:10:"adm_lookup";i:1;s:8:"adm_menu";i:2;s:8:"adm_role";i:3;s:8:"adm_user";i:4;s:16:"hrsys_allmeeting";}s:8:"employee";a:7:{s:6:"emp_id";s:4:"1005";s:4:"name";s:4:"Rika";s:8:"fullname";s:12:"Rika Fadilah";s:5:"phone";N;s:9:"birthdate";N;s:3:"sex";N;s:7:"user_id";s:23:"142274855454cd6b8aeea54";}}}');
 
 -- --------------------------------------------------------
 
@@ -53,6 +53,7 @@ CREATE TABLE IF NOT EXISTS `hrsys_candidate` (
   `status` int(11) DEFAULT NULL,
   `name` varchar(100) DEFAULT NULL,
   `phone` varchar(100) DEFAULT NULL,
+  `expectedsalary` bigint(20) unsigned DEFAULT NULL,
   PRIMARY KEY (`candidate_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
@@ -69,17 +70,18 @@ CREATE TABLE IF NOT EXISTS `hrsys_candidate` (
 
 CREATE TABLE IF NOT EXISTS `hrsys_cmpyclient` (
   `cmpyclient_id` varchar(30) NOT NULL,
-  `name` varchar(100) NOT NULL,
-  `address` text NOT NULL,
-  `website` varchar(100) NOT NULL,
-  `cp_name` varchar(100) NOT NULL,
-  `cp_phone` varchar(100) NOT NULL,
-  `status` varchar(30) NOT NULL,
+  `name` varchar(100) DEFAULT NULL,
+  `address` text,
+  `website` varchar(100) DEFAULT NULL,
+  `cp_name` varchar(100) DEFAULT NULL,
+  `cp_phone` varchar(100) DEFAULT NULL,
+  `status` varchar(30) DEFAULT NULL,
   `pic` varchar(25) DEFAULT NULL,
-  `datecreate` datetime NOT NULL,
-  `usercreate` varchar(30) NOT NULL,
-  `dateupdate` datetime NOT NULL,
-  `userupdate` varchar(30) NOT NULL,
+  `datejoin` date DEFAULT NULL,
+  `datecreate` datetime DEFAULT NULL,
+  `usercreate` varchar(30) DEFAULT NULL,
+  `dateupdate` datetime DEFAULT NULL,
+  `userupdate` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`cmpyclient_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -87,26 +89,26 @@ CREATE TABLE IF NOT EXISTS `hrsys_cmpyclient` (
 -- Dumping data for table `hrsys_cmpyclient`
 --
 
-INSERT INTO `hrsys_cmpyclient` (`cmpyclient_id`, `name`, `address`, `website`, `cp_name`, `cp_phone`, `status`, `pic`, `datecreate`, `usercreate`, `dateupdate`, `userupdate`) VALUES
-('142485912054ed9ff00b24a', 'PT Nishiyama', '', '', '', '', '1', '1001', '2015-02-25 17:11:36', '142274812054cd69d85cf66', '2015-02-25 17:11:36', ''),
-('142485913454ed9ffe1fd43', 'PT Super Potato', '', '', '', '', '1', '1001', '2015-02-25 17:11:50', '142274812054cd69d85cf66', '2015-02-25 17:11:50', ''),
-('142485914754eda00b28ddb', 'PT Omron manufacturing of Indonesia', '', '', '', '', '1', '1001', '2015-02-25 17:12:03', '142274812054cd69d85cf66', '2015-02-25 17:12:03', ''),
-('142485916754eda01f9cb73', 'PT Sumisho E-commerce Indonesia', '', '', '', '', '1', '1001', '2015-02-25 17:12:23', '142274812054cd69d85cf66', '2015-02-25 17:12:23', ''),
-('142485919554eda03b9c271', 'PT AIG Indonesia', '', '', '', '', '1', '1002', '2015-02-25 17:12:51', '142274810554cd69c9f0e29', '2015-02-25 17:12:51', ''),
-('142485920954eda0498bf85', 'PT Nera Indonesia', '', '', '', '', '1', '1002', '2015-02-25 17:13:05', '142274810554cd69c9f0e29', '2015-02-25 17:13:05', ''),
-('142485922354eda057c080f', 'PT Sejati Group', '', '', '', '', '1', '1001', '2015-02-25 17:13:19', '142274810554cd69c9f0e29', '2015-02-25 17:13:19', ''),
-('142485923954eda06797c25', 'PT Modern International', '', '', '', '', '1', '1002', '2015-02-25 17:13:35', '142274810554cd69c9f0e29', '2015-02-25 17:13:35', ''),
-('142485925254eda07461495', 'PT Ismaya Group', '', '', '', '', '1', '1002', '2015-02-25 17:13:48', '142274810554cd69c9f0e29', '2015-02-25 17:13:48', ''),
-('142485926254eda07ecc43f', 'PT PSN', '', '', '', '', '1', '1002', '2015-02-25 17:13:58', '142274810554cd69c9f0e29', '2015-02-25 17:13:58', ''),
-('142485929654eda0a0e83fd', 'NEC Indonesia', '', '', '', '', '1', '1003', '2015-02-25 17:14:32', '142274831954cd6a9f6fab9', '2015-02-25 17:14:32', ''),
-('142485931054eda0aeb706b', 'Lintas Teknologi', '', '', '', '', '1', '1003', '2015-02-25 17:14:46', '142274831954cd6a9f6fab9', '2015-02-25 17:14:46', ''),
-('142485932754eda0bf3c4c1', 'Tanggara Mitrakom', '', '', '', '', '1', '1003', '2015-02-25 17:15:03', '142274831954cd6a9f6fab9', '2015-02-25 17:15:03', ''),
-('142485937154eda0eb63436', 'PT Dimension Data Indonesia', '', '', '', '', '1', '1004', '2015-02-25 17:15:47', '142274833454cd6aaeed52b', '2015-02-25 17:15:47', ''),
-('142485938654eda0fa1b2a6', 'Liputan 6 com', '', '', '', '', '1', '1004', '2015-02-25 17:16:02', '142274833454cd6aaeed52b', '2015-02-25 17:16:02', ''),
-('142485942554eda121d300d', 'PT ZTE Indonesia', '', '', 'Ryan Oktora', '', '1', '1005', '2015-02-25 17:16:41', '142274855454cd6b8aeea54', '2015-02-25 17:16:41', ''),
-('142485943854eda12e27638', 'PT indo Kordsa Global Tbk', '', '', '', '', '1', '1005', '2015-02-25 17:16:54', '142274855454cd6b8aeea54', '2015-02-25 17:16:54', ''),
-('142485945254eda13c4ca7d', 'PT Mitra Solusi Telematika', '', '', '', '', '1', '1005', '2015-02-25 17:17:08', '142274855454cd6b8aeea54', '2015-02-25 17:17:08', ''),
-('142485946454eda14830919', 'AKR Corporindo', '', '', '', '', '1', '1005', '2015-02-25 17:17:20', '142274855454cd6b8aeea54', '2015-02-25 17:17:20', '');
+INSERT INTO `hrsys_cmpyclient` (`cmpyclient_id`, `name`, `address`, `website`, `cp_name`, `cp_phone`, `status`, `pic`, `datejoin`, `datecreate`, `usercreate`, `dateupdate`, `userupdate`) VALUES
+('142485912054ed9ff00b24a', 'PT Nishiyama', '', '', '', '', '1', '1001', NULL, '2015-02-25 17:11:36', '142274812054cd69d85cf66', '2015-02-25 17:11:36', ''),
+('142485913454ed9ffe1fd43', 'PT Super Potato', '', '', '', '', '1', '1001', NULL, '2015-02-25 17:11:50', '142274812054cd69d85cf66', '2015-02-25 17:11:50', ''),
+('142485914754eda00b28ddb', 'PT Omron manufacturing of Indonesia', '', '', '', '', '1', '1001', NULL, '2015-02-25 17:12:03', '142274812054cd69d85cf66', '2015-02-25 17:12:03', ''),
+('142485916754eda01f9cb73', 'PT Sumisho E-commerce Indonesia', '', '', '', '', '1', '1001', NULL, '2015-02-25 17:12:23', '142274812054cd69d85cf66', '2015-02-25 17:12:23', ''),
+('142485919554eda03b9c271', 'PT AIG Indonesia', '', '', '', '', '1', '1002', NULL, '2015-02-25 17:12:51', '142274810554cd69c9f0e29', '2015-02-25 17:12:51', ''),
+('142485920954eda0498bf85', 'PT Nera Indonesia', '', '', '', '', '1', '1002', NULL, '2015-02-25 17:13:05', '142274810554cd69c9f0e29', '2015-02-25 17:13:05', ''),
+('142485922354eda057c080f', 'PT Sejati Group', '', '', '', '', '1', '1001', NULL, '2015-02-25 17:13:19', '142274810554cd69c9f0e29', '2015-02-25 17:13:19', ''),
+('142485923954eda06797c25', 'PT Modern International', '', '', '', '', '1', '1002', NULL, '2015-02-25 17:13:35', '142274810554cd69c9f0e29', '2015-02-25 17:13:35', ''),
+('142485925254eda07461495', 'PT Ismaya Group', '', '', '', '', '1', '1002', NULL, '2015-02-25 17:13:48', '142274810554cd69c9f0e29', '2015-02-25 17:13:48', ''),
+('142485926254eda07ecc43f', 'PT PSN', '', '', '', '', '1', '1002', NULL, '2015-02-25 17:13:58', '142274810554cd69c9f0e29', '2015-02-25 17:13:58', ''),
+('142485929654eda0a0e83fd', 'NEC Indonesia', '', '', '', '', '1', '1003', NULL, '2015-02-25 17:14:32', '142274831954cd6a9f6fab9', '2015-02-25 17:14:32', ''),
+('142485931054eda0aeb706b', 'Lintas Teknologi', '', '', '', '', '1', '1003', NULL, '2015-02-25 17:14:46', '142274831954cd6a9f6fab9', '2015-02-25 17:14:46', ''),
+('142485932754eda0bf3c4c1', 'Tanggara Mitrakom', '', '', '', '', '1', '1003', NULL, '2015-02-25 17:15:03', '142274831954cd6a9f6fab9', '2015-02-25 17:15:03', ''),
+('142485937154eda0eb63436', 'PT Dimension Data Indonesia', '', '', '', '', '1', '1004', NULL, '2015-02-25 17:15:47', '142274833454cd6aaeed52b', '2015-02-25 17:15:47', ''),
+('142485938654eda0fa1b2a6', 'Liputan 6 com', '', '', '', '', '1', '1004', NULL, '2015-02-25 17:16:02', '142274833454cd6aaeed52b', '2015-02-25 17:16:02', ''),
+('142485942554eda121d300d', 'PT ZTE Indonesia', '', '', 'Ryan Oktora', '', '1', '1005', NULL, '2015-02-25 17:16:41', '142274855454cd6b8aeea54', '2015-02-25 17:16:41', ''),
+('142485943854eda12e27638', 'PT indo Kordsa Global Tbk', '', '', '', '', '1', '1005', NULL, '2015-02-25 17:16:54', '142274855454cd6b8aeea54', '2015-02-25 17:16:54', ''),
+('142485945254eda13c4ca7d', 'PT Mitra Solusi Telematika', '', '', '', '', '1', '1005', NULL, '2015-02-25 17:17:08', '142274855454cd6b8aeea54', '2015-02-25 17:17:08', ''),
+('142485946454eda14830919', 'AKR Corporindo', '', '', '', '', '1', '1005', NULL, '2015-02-25 17:17:20', '142274855454cd6b8aeea54', '2015-02-25 17:17:20', '');
 
 -- --------------------------------------------------------
 
@@ -274,6 +276,8 @@ CREATE TABLE IF NOT EXISTS `hrsys_vacancy` (
   `opendate` date DEFAULT NULL,
   `description` text,
   `num_position` int(11) DEFAULT NULL,
+  `salary_1` bigint(20) unsigned DEFAULT NULL,
+  `salary_2` bigint(20) unsigned DEFAULT NULL,
   `pic` varchar(30) DEFAULT NULL,
   `status` int(11) DEFAULT NULL,
   `datecreate` datetime DEFAULT NULL,
@@ -287,8 +291,8 @@ CREATE TABLE IF NOT EXISTS `hrsys_vacancy` (
 -- Dumping data for table `hrsys_vacancy`
 --
 
-INSERT INTO `hrsys_vacancy` (`vacancy_id`, `cmpyclient_id`, `name`, `opendate`, `description`, `num_position`, `pic`, `status`, `datecreate`, `usercreate`, `dateupdate`, `userupdate`) VALUES
-('142487593454ede19e47b1b', '142485942554eda121d300d', 'Account manager Government', '2015-02-25', '5 year Experience', 1, '1005', 1, '2015-02-25 21:51:50', '142274855454cd6b8aeea54', '2015-02-25 21:51:50', '142274855454cd6b8aeea54');
+INSERT INTO `hrsys_vacancy` (`vacancy_id`, `cmpyclient_id`, `name`, `opendate`, `description`, `num_position`, `salary_1`, `salary_2`, `pic`, `status`, `datecreate`, `usercreate`, `dateupdate`, `userupdate`) VALUES
+('142487593454ede19e47b1b', '142485942554eda121d300d', 'Account manager Government', '2015-02-25', '5 year Experience', 1, NULL, NULL, '1005', 1, '2015-02-25 21:51:50', '142274855454cd6b8aeea54', '2015-02-25 21:51:50', '142274855454cd6b8aeea54');
 
 -- --------------------------------------------------------
 
@@ -301,6 +305,8 @@ CREATE TABLE IF NOT EXISTS `hrsys_vacancycandidate` (
   `vacancy_id` varchar(30) NOT NULL,
   `candidate_id` varchar(30) NOT NULL,
   `current_state` int(11) DEFAULT NULL,
+  `approvedsalary` bigint(20) unsigned DEFAULT NULL,
+  `expectedsalary` bigint(20) unsigned DEFAULT NULL,
   `datecreate` datetime DEFAULT NULL,
   `usercreate` varchar(30) DEFAULT NULL,
   `dateupdate` datetime DEFAULT NULL,
@@ -452,7 +458,9 @@ INSERT INTO `tpl_role` (`role_id`, `name`, `datecreate`, `usercreate`, `dateupda
 ('adm_menu', 'Admin Menu', '2015-01-12 16:58:27', NULL, '2015-01-12 16:58:49', NULL),
 ('adm_role', 'Admin Role', '2015-01-12 16:58:37', NULL, '2015-01-12 17:03:58', NULL),
 ('adm_user', 'Admin User', '2015-01-12 16:58:03', NULL, '2015-01-12 16:58:03', NULL),
-('hrsys_allmeeting', 'Full Access Meeting', '2015-02-11 10:19:51', '142199935954c1fcffd9501', '2015-02-11 10:19:51', NULL);
+('hrsys_allclient', 'Full Access Client', '2015-02-26 14:17:26', '142274855454cd6b8aeea54', '2015-02-26 14:17:26', NULL),
+('hrsys_allmeeting', 'Full Access Meeting', '2015-02-11 10:19:51', '142199935954c1fcffd9501', '2015-02-11 10:19:51', NULL),
+('hrsys_allvacancies', 'Full Access Vacancies', '2015-02-26 13:29:32', '142274855454cd6b8aeea54', '2015-02-26 13:29:32', NULL);
 
 -- --------------------------------------------------------
 
@@ -484,7 +492,7 @@ INSERT INTO `tpl_user` (`user_id`, `username`, `password`, `active_non`, `last_l
 ('142274812054cd69d85cf66', 'victor', 'ffc150a160d37e92012c196b6af4160d', 1, NULL, '2015-02-01 06:48:16', 'admin', '2015-02-01 06:48:16', NULL),
 ('142274831954cd6a9f6fab9', 'farah', '9b0f4d720720fd55436ac7f07ac8a840', 1, NULL, '2015-02-01 06:51:35', 'admin', '2015-02-01 06:51:35', NULL),
 ('142274833454cd6aaeed52b', 'kartika', '2aca90f14de1638d56273cf4ff6b537d', 1, NULL, '2015-02-01 06:51:50', 'admin', '2015-02-01 06:51:50', NULL),
-('142274855454cd6b8aeea54', 'rika', 'e32994c67f9a773e841f9e97bd26f014', 1, NULL, '2015-02-01 06:55:30', 'admin', '2015-02-01 06:55:30', NULL);
+('142274855454cd6b8aeea54', 'rika', 'e32994c67f9a773e841f9e97bd26f014', 1, NULL, '2015-02-01 06:55:30', 'admin', '2015-02-26 11:06:17', '142199957054c1fdd26eca3');
 
 -- --------------------------------------------------------
 
@@ -519,7 +527,12 @@ INSERT INTO `tpl_user_role` (`user_id`, `role_id`) VALUES
 ('142200025654c200803ce9e', 'adm_lookup'),
 ('142200025654c200803ce9e', 'adm_menu'),
 ('142200060654c201de9f09d', 'adm_lookup'),
-('142200060654c201de9f09d', 'adm_menu');
+('142200060654c201de9f09d', 'adm_menu'),
+('142274855454cd6b8aeea54', 'adm_lookup'),
+('142274855454cd6b8aeea54', 'adm_menu'),
+('142274855454cd6b8aeea54', 'adm_role'),
+('142274855454cd6b8aeea54', 'adm_user'),
+('142274855454cd6b8aeea54', 'hrsys_allmeeting');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

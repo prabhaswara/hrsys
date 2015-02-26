@@ -1,6 +1,9 @@
 <div>
     <input type="hidden" id="typesearchhide" value="active"/>
+    <?php if($canEdit) { ?>
     <button id="createAppointment" > <span class="fa-edit">&nbsp;</span> Create an Appointment</button>
+    <?php } ?>
+    
     <div id="listInfMeeting" style="height:300px" ></div>
 
 </div>

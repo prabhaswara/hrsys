@@ -1,6 +1,8 @@
 <div>
     <input type="hidden" id="typesearchhide" value="open"/>
+    <?php if($canedit){ ?>
     <button id="createAppointment" > <span class="fa-edit">&nbsp;</span> Add Job Vacancy</button>
+    <?php }?>
     <div id="listInfVacancy" style="height:300px" ></div>
 
 </div>
@@ -32,11 +34,13 @@
                 }
             },
             columns: [
+             <?php if($canedit){ ?>
                 {field: 'recid', caption: '', size: '30px', searchable: false, sortable: false,
                     render: function (record) {
                         return "<span class='fa-zoom-in imgbt' onClick='$( \"#pindah\" ).click()' ></span>"
                     }
                 },
+            <?php } ?>
                 {field: 'lkstat_sp_display_text', caption: 'Status', size: '120px', searchable: true, sortable: true},
                 {field: 'vac_sp_opendate', caption: 'Open Date', size: '120px', searchable: true, sortable: true},
                 {field: 'vac_sp_name', caption: 'Vacany Name', size: '100%', searchable: true, sortable: true}
@@ -49,9 +53,11 @@
                 event.postData.typesearch=$("#typesearch").val();
                            
             },  
+            <?php if($canedit){ ?>
             onDblClick: function (event) {
                 detailVac(event.recid);
             },
+            <?php } ?>
             onResize : function(event) {
                 //<select id='typesearch' onchange='typesearchChange()'><option value='active'>Active Schedule</option><option value='all'>All Schedule</option></select>
                 //typesearchspan

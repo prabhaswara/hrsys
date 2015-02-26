@@ -28,32 +28,27 @@
                         ,{id: 'vacancies', caption: 'Vacancies', url: '{site_url}/hrsys/vacancy/infVacancy/<?= $id ?>'}
                         <?php } ?>
                         ,{id: 'history', caption: 'History', url: '{site_url}/hrsys/client/infHistory/<?= $id ?>'}
-                        <?php if($canDelete){ ?>
-                        ,{id: 'delete', caption: 'Delete', url: '{site_url}/hrsys/client/infVacancies/<?= $id ?>'}
+                        <?php if($canedit) { ?>
+                        ,{id: 'operation', caption: 'Operation', url: '{site_url}/hrsys/client/infoperation/<?= $id ?>'}
                         <?php } ?>
                     ],
                     onClick: function (event) {
-                        if(event.tab.id=="delete"){
-                            $("#client_tabs_c").html("<input type='button' id='delete' value='Delete' class='w2ui-btn w2ui-btn-red'/>");
-                        }
-                        else{                        
+                                               
                             for (var widget in w2ui) {
                                 var nm = w2ui[widget].name;
                                 if (['main_layout', 'sidebar', 'client_tabs'].indexOf(nm) == -1)
                                     $().w2destroy(nm);
                             }
 
-                            $(this).loadingShow(true);
-                            $.ajax({
-                                url: event.tab.url,
-                                success: function (data) {
-                                    $("#client_tabs_c").html(data);
-                                    $(this).loadingShow(false);
+                                $(this).loadingShow(true);
+                                        $.ajax({
+                                        url: event.tab.url,
+                                                success: function (data) {
+                                                $("#client_tabs_c").html(data);
+                                                        $(this).loadingShow(false);
+                                                }
+                                        });
                                 }
-                            });
-
-                        }
-                    }
                 });
                 w2ui['client_tabs'].click('info');
 

@@ -22,24 +22,36 @@ class M_client extends Main_Model {
     }
 
     
-    public function editClient($datafrm, $sessionData) {
-        
+    public function editClient($datafrm, $sessionData,$method="editinfo") {
+       
         $cmpyclient_id=$datafrm["cmpyclient_id"];
+        $dtLama=$this->get($cmpyclient_id);
+        
         unset($datafrm["cmpyclient_id"]);
         $this->db->trans_start(TRUE);
 
+        if(isset($datafrm["datejoin"])&& cleanstr($datafrm["datejoin"])!=""){
+            $datafrm["datejoin"]=  balikTgl($datafrm["datejoin"]);
+        }
+        
+        $userInsert = (isset($sessionData["employee"]["fullname"]) && !empty($sessionData["employee"]["fullname"])) ? $sessionData["employee"]["fullname"] :
+        $sessionData["user"]["username"];
+        $dataTrl["cmpyclient_trl_id"] = $this->uniqID();
+        $dataTrl["cmpyclient_id"] = $cmpyclient_id;        
+        $dataTrl["description"] = "$userInsert Update Info " . $dtLama["name"];
+        if($method=="changeToClient"){
+            $datafrm["status"] ="1";
+            $dataTrl["description"] = $dtLama["name"]." change status from prospect to client";
+        }
      
         $this->db->set('dateupdate', 'NOW()', FALSE);
         $this->db->set('userupdate', $sessionData["user"]["user_id"]);
         $this->db->update('hrsys_cmpyclient', $datafrm,array('cmpyclient_id'=>$cmpyclient_id));
 
-        $userInsert = (isset($sessionData["employee"]["fullname"]) && !empty($sessionData["employee"]["fullname"])) ? $sessionData["employee"]["fullname"] :
-        $sessionData["user"]["username"];
+        
 
 
-        $dataTrl["cmpyclient_trl_id"] = $this->uniqID();
-        $dataTrl["cmpyclient_id"] = $cmpyclient_id;
-        $dataTrl["description"] = "$userInsert Update Info " . $datafrm["name"];
+        
         $this->db->set('datecreate', 'NOW()', FALSE);
         $this->db->set('usercreate', $sessionData["user"]["user_id"]);
         $this->db->insert('hrsys_cmpyclient_trl', $dataTrl);
@@ -59,7 +71,12 @@ class M_client extends Main_Model {
         $this->db->set('usercreate', $sessionData["user"]["user_id"]);
         $this->db->set('dateupdate', 'NOW()', FALSE);
         $this->db->set('usercreate', $sessionData["user"]["user_id"]);
-        $this->db->insert('hrsys_cmpyclient', $datafrm);
+       
+        
+        if(isset($datafrm["datejoin"])&& cleanstr($datafrm["datejoin"])!=""){
+            $datafrm["datejoin"]=  balikTgl($datafrm["datejoin"]);
+        }
+         $this->db->insert('hrsys_cmpyclient', $datafrm);
 
         $userInsert = (isset($sessionData["employee"]["fullname"]) && !empty($sessionData["employee"]["fullname"])) ? $sessionData["employee"]["fullname"] :
         $sessionData["user"]["username"];
@@ -68,6 +85,7 @@ class M_client extends Main_Model {
         $dataTrl["cmpyclient_trl_id"] = $this->uniqID();
         $dataTrl["cmpyclient_id"] = $this->cmpyclient_id;
         $dataTrl["description"] = "$userInsert Created " . $datafrm["name"];
+        
         $this->db->set('datecreate', 'NOW()', FALSE);
         $this->db->set('usercreate', $sessionData["user"]["user_id"]);
         $this->db->insert('hrsys_cmpyclient_trl', $dataTrl);

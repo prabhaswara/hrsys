@@ -24,6 +24,7 @@ class vacancy extends Main_Controller {
     
     public function infVacancy($client_id) {
      
+        $client=$this->m_client->get($client_id);
         $where="";
         if(!empty($_POST)&&$_POST["pg_action"]=="json"){
             if (isset($_POST["sort"]) && !empty($_POST["sort"])){
@@ -60,7 +61,15 @@ class vacancy extends Main_Controller {
             exit();
         
         }
-        $dataParse = array("client_id"=> $client_id);
+        
+        $canedit=false;
+        if ($client["pic"] == $this->emp_id || in_array("hrsys_allvacancies", $this->ses_roles)) {
+            $canedit=true;
+        }
+
+        $dataParse = array("client_id"=> $client_id,
+            "canedit"=>$canedit
+            );
         $this->loadContent('hrsys/vacancy/infVacancy', $dataParse);
         
     }

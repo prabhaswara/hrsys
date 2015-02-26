@@ -24,6 +24,7 @@ class meeting extends Main_Controller {
     
     public function infMeeting($client_id) {
      
+        $client=$this->m_client->get($client_id);     
         if(!empty($_POST)&&$_POST["pg_action"]=="json"){
             if (isset($_POST["sort"]) && !empty($_POST["sort"])){
                 foreach ($_POST["sort"] as $key => $value) {
@@ -61,7 +62,7 @@ class meeting extends Main_Controller {
             foreach ( $data['records'] as $row){
                 $canEdit="0";
                 
-                if(in_array("hrsys_allmeeting", $this->ses_roles) || $row["met_sp_usercreate"]==$this->user_id)
+                if( $client["pic"]==$this->user_id||$row["met_sp_usercreate"]==$this->user_id || in_array("hrsys_allmeeting", $this->ses_roles))
                 {
                     $row["canedit"]="1";
                     
@@ -75,7 +76,15 @@ class meeting extends Main_Controller {
             exit();
         
         }
-        $dataParse = array("client_id"=> $client_id);
+        $canEdit = false;
+
+        if ($client["pic"] == $this->emp_id || in_array("hrsys_allmeeting", $this->ses_roles)) {
+            $canEdit=true;
+        }
+        $dataParse = array(
+            "client_id"=> $client_id,
+            "canEdit"=>$canEdit
+                );
         $this->loadContent('hrsys/meeting/infMeeting', $dataParse);
         
     }

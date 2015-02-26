@@ -49,11 +49,17 @@ class client extends Main_Controller {
          $breadcrumb[]=array("link"=>"#","text"=>$client["name"]);  
      
          
+        $canedit=false;
+        if ($client["status"]=='0' ||$client["pic"] == $this->emp_id || in_array("hrsys_allclient", $this->ses_roles)) {
+            $canedit=true;
+           
+        }
+        
         $dataParse = array(
             "id"=> $id,
+            "canedit"=>$canedit,
             "breadcrumb" => $breadcrumb,
-            "client" =>$client,
-            "canDelete"=>true,
+            "client" =>$client,            
             "frompage"=>$frompage
         );
         $this->loadContent('hrsys/client/detclient', $dataParse);
@@ -64,7 +70,7 @@ class client extends Main_Controller {
     }
     public function infClient($id) {
        $client = $this->m_client->get($id);   
-       $canEdit=false;
+      
        
        if(
         $this->user_id==$client["usercreate"]||
@@ -72,7 +78,11 @@ class client extends Main_Controller {
                ){
            $canEdit=true;
        }
-       
+       $canedit=false;
+        if ($client["status"]=='0' ||$client["pic"] == $this->user_id || in_array("hrsys_allclient", $this->ses_roles)) {
+            $canedit=true;
+           
+        }
        $dataParse = array("client"=> $client,
            "canEdit"=>$canEdit
                
@@ -81,10 +91,54 @@ class client extends Main_Controller {
         
     }
    
-    public function infVacancies() {
+    public function infoperation($id) {
        $client = $this->m_client->get($id);        
-       $dataParse = array("client"=> $client);
-       $this->loadContent('hrsys/vacancy/infVacancy', $dataParse);
+       $dataParse = array(
+           "canDelete"=>true,
+           "client"=> $client
+               );
+       $this->loadContent('hrsys/client/infoperation', $dataParse);
+    }
+    public function changePICJoinDate($id,$method) {
+        
+       $postForm = isset($_POST['frm']) ? $_POST['frm'] : array();
+       $client=$this->m_client->get($id);  
+     
+        $comboPIC = array('' => '');
+        $message = "";
+        if (!empty($postForm)) {
+            $postForm["cmpyclient_id"]=$id;
+                if ($this->m_client->editClient($postForm, $this->sessionUserData,$method)) {
+                    echo "close_popup";
+                    exit;
+                }
+        }else{
+            
+            $postForm=$client;          
+            $postForm["datejoin"]=  balikTgl($postForm["datejoin"]);
+            if($postForm["datejoin"]=="00-00-0000")
+                 $postForm["datejoin"]="";
+        }
+        
+        if(isset($postForm["pic"]) && cleanstr($postForm["pic"])!=""){
+                
+                $isiComboPIC=$this->m_employee->comboPIC($postForm["pic"]);
+                if(!empty($isiComboPIC))
+                    $comboPIC +=$isiComboPIC;
+                
+            }
+       
+        
+
+        $dataParse = array(
+            'client'=>$client,
+            'method'=>$method,
+            'postForm' => $postForm,
+            'message' => $message,          
+            'comboPIC' => $comboPIC,
+        );
+        
+       $this->loadContent('hrsys/client/changePICJoinDate', $dataParse);
     }
     public function infHistory($id) {
 
