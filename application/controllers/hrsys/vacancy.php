@@ -120,6 +120,43 @@ class vacancy extends Main_Controller {
                 );
         $this->loadContent('hrsys/vacancy/contentVacancy', $dataParse);
     }
+    public function jsonVacancyCandidate($vacancy_id) {
+
+        $where = "";
+
+        if (isset($_POST["sort"]) && !empty($_POST["sort"])) {
+            foreach ($_POST["sort"] as $key => $value) {
+                $_POST["sort"][$key] = str_replace("_sp_", ".", $value);
+            }
+        } else {
+            $_POST["sort"][0]['direction'] = 'desc';
+            $_POST["sort"][0]['field'] = 'vc.dateupdate';
+        }
+
+
+        if (isset($_POST["search"]) && !empty($_POST["search"]))
+            foreach ($_POST["search"] as $key => $value) {
+                $_POST["search"][$key] = str_replace("_sp_", ".", $value);
+            }
+
+        $where="vc.vacancy_id='$vacancy_id' and ";
+        if(isset($_POST["typesearch"])&&$_POST["typesearch"]!=""){
+                $where.="vc.applicant_stat='".$_POST["typesearch"]."' and";
+        }
+
+        $sql = "SELECT  vc.vacancycandidate_id recid, c.name c_sp_name,c.phone c_sp_phone,vc.expectedsalary vc_sp_expectedsalary,klstate.display_text klstate_sp_display_text " .
+               "from hrsys_vacancycandidate vc " .
+               "join hrsys_candidate c on vc.candidate_id=c.candidate_id ".
+               "left join tpl_lookup klstate on klstate.type='applicant_stat' and vc.applicant_stat=klstate.value " .
+               "WHERE ~search~ and $where 1=1 ORDER BY ~sort~";
+
+
+        $data = $this->m_menu->w2grid($sql, $_POST);
+        header("Content-Type: application/json;charset=utf-8");
+        echo json_encode($data);
+        exit();
+    }
+    
     public function cvCandidates($vacancy_id){
         
         $vacancy=$this->m_vacancy->get($vacancy_id);

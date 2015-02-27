@@ -60,7 +60,7 @@ class M_candidate extends Main_Model {
                 $vacancycandidate["vacancycandidate_id"]=$this->uniqID();
                 $vacancycandidate["candidate_id"]=$candidate_id;
                 $vacancycandidate["vacancy_id"]=$vacancy_id;
-                $vacancycandidate["current_state"]=applicant_stat_shortlist;
+                $vacancycandidate["applicant_stat"]=applicant_stat_shortlist;
                 
                 $this->db->set('dateupdate', 'NOW()', FALSE);
                 $this->db->set('userupdate', $sessionData["user"]["user_id"]);

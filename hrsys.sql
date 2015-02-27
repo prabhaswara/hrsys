@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Feb 26, 2015 at 05:04 
+-- Generation Time: Feb 27, 2015 at 04:19 
 -- Server version: 5.1.37
 -- PHP Version: 5.3.0
 
@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS `ci_sessions` (
 --
 
 INSERT INTO `ci_sessions` (`session_id`, `ip_address`, `user_agent`, `last_activity`, `user_data`) VALUES
-('af98ec92ad88d2e996b21c883d9b8dc4', '::1', 'Mozilla/5.0 (Windows NT 6.1; rv:35.0) Gecko/20100101 Firefox/35.0', 1424934865, 'a:2:{s:9:"user_data";s:0:"";s:12:"hrsys_userdt";a:3:{s:4:"user";a:8:{s:7:"user_id";s:23:"142274855454cd6b8aeea54";s:8:"username";s:4:"rika";s:10:"active_non";s:1:"1";s:10:"last_login";N;s:10:"datecreate";s:19:"2015-02-01 06:55:30";s:10:"usercreate";s:5:"admin";s:10:"dateupdate";s:19:"2015-02-26 11:06:17";s:10:"userupdate";s:23:"142199957054c1fdd26eca3";}s:5:"roles";a:5:{i:0;s:10:"adm_lookup";i:1;s:8:"adm_menu";i:2;s:8:"adm_role";i:3;s:8:"adm_user";i:4;s:16:"hrsys_allmeeting";}s:8:"employee";a:7:{s:6:"emp_id";s:4:"1005";s:4:"name";s:4:"Rika";s:8:"fullname";s:12:"Rika Fadilah";s:5:"phone";N;s:9:"birthdate";N;s:3:"sex";N;s:7:"user_id";s:23:"142274855454cd6b8aeea54";}}}');
+('f7f64b2a9731eff4a6756953b76b95c1', '::1', 'Mozilla/5.0 (Windows NT 6.1; rv:35.0) Gecko/20100101 Firefox/35.0', 1425008524, 'a:2:{s:9:"user_data";s:0:"";s:12:"hrsys_userdt";a:3:{s:4:"user";a:8:{s:7:"user_id";s:23:"142274855454cd6b8aeea54";s:8:"username";s:4:"rika";s:10:"active_non";s:1:"1";s:10:"last_login";N;s:10:"datecreate";s:19:"2015-02-01 06:55:30";s:10:"usercreate";s:5:"admin";s:10:"dateupdate";s:19:"2015-02-26 11:06:17";s:10:"userupdate";s:23:"142199957054c1fdd26eca3";}s:5:"roles";a:5:{i:0;s:10:"adm_lookup";i:1;s:8:"adm_menu";i:2;s:8:"adm_role";i:3;s:8:"adm_user";i:4;s:16:"hrsys_allmeeting";}s:8:"employee";a:7:{s:6:"emp_id";s:4:"1005";s:4:"name";s:4:"Rika";s:8:"fullname";s:12:"Rika Fadilah";s:5:"phone";N;s:9:"birthdate";N;s:3:"sex";N;s:7:"user_id";s:23:"142274855454cd6b8aeea54";}}}');
 
 -- --------------------------------------------------------
 
@@ -61,6 +61,9 @@ CREATE TABLE IF NOT EXISTS `hrsys_candidate` (
 -- Dumping data for table `hrsys_candidate`
 --
 
+INSERT INTO `hrsys_candidate` (`candidate_id`, `status`, `name`, `phone`, `expectedsalary`) VALUES
+('142500613154efde338685e', 1, 'Gunawan', '0812', NULL),
+('142500639054efdf3663a51', 1, 'Sule', '0815', NULL);
 
 -- --------------------------------------------------------
 
@@ -184,7 +187,8 @@ INSERT INTO `hrsys_cmpyclient_trl` (`cmpyclient_trl_id`, `cmpyclient_id`, `type`
 ('142485946454eda14830b5d', '142485946454eda14830919', '', '', 'Rika Fadilah Created AKR Corporindo', '2015-02-25 17:17:20', '142274855454cd6b8aeea54'),
 ('142487425654eddb10ef97d', '142485942554eda121d300d', 'meeting', '142487425654eddb10ef536', 'meeting with Ryan Oktora in Mall Ambasador at 04-02-2015 12:00', '2015-02-25 21:23:52', '142274855454cd6b8aeea54'),
 ('142487521954edded318023', '142485938654eda0fa1b2a6', 'meeting', '142487521954edded317bd3', 'meeting with Bobi in Senayan City at 27-02-2015 14:00', '2015-02-25 21:39:55', '142274833454cd6aaeed52b'),
-('142487593454ede19e47d86', '142485942554eda121d300d', 'vacancy', '142487593454ede19e47b1b', 'Rika Fadilah Create Vacancy Account manager Government', '2015-02-25 21:51:50', '142274855454cd6b8aeea54');
+('142487593454ede19e47d86', '142485942554eda121d300d', 'vacancy', '142487593454ede19e47b1b', 'Rika Fadilah Create Vacancy Account manager Government', '2015-02-25 21:51:50', '142274855454cd6b8aeea54'),
+('142500632154efdef1a00f0', '142485942554eda121d300d', 'vacancy', '142500632154efdef19feaa', 'Rika Fadilah Create Vacancy test', '2015-02-27 10:04:57', '142274855454cd6b8aeea54');
 
 -- --------------------------------------------------------
 
@@ -292,7 +296,8 @@ CREATE TABLE IF NOT EXISTS `hrsys_vacancy` (
 --
 
 INSERT INTO `hrsys_vacancy` (`vacancy_id`, `cmpyclient_id`, `name`, `opendate`, `description`, `num_position`, `salary_1`, `salary_2`, `pic`, `status`, `datecreate`, `usercreate`, `dateupdate`, `userupdate`) VALUES
-('142487593454ede19e47b1b', '142485942554eda121d300d', 'Account manager Government', '2015-02-25', '5 year Experience', 1, NULL, NULL, '1005', 1, '2015-02-25 21:51:50', '142274855454cd6b8aeea54', '2015-02-25 21:51:50', '142274855454cd6b8aeea54');
+('142487593454ede19e47b1b', '142485942554eda121d300d', 'Account manager Government', '2015-02-25', '5 year Experience', 1, NULL, NULL, '1005', 1, '2015-02-25 21:51:50', '142274855454cd6b8aeea54', '2015-02-25 21:51:50', '142274855454cd6b8aeea54'),
+('142500632154efdef19feaa', '142485942554eda121d300d', 'test', '2015-02-27', 'wew', 1, NULL, NULL, '1005', 1, '2015-02-27 10:04:57', '142274855454cd6b8aeea54', '2015-02-27 10:04:57', '142274855454cd6b8aeea54');
 
 -- --------------------------------------------------------
 
@@ -304,7 +309,7 @@ CREATE TABLE IF NOT EXISTS `hrsys_vacancycandidate` (
   `vacancycandidate_id` varchar(30) NOT NULL,
   `vacancy_id` varchar(30) NOT NULL,
   `candidate_id` varchar(30) NOT NULL,
-  `current_state` int(11) DEFAULT NULL,
+  `applicant_stat` int(11) DEFAULT NULL,
   `approvedsalary` bigint(20) unsigned DEFAULT NULL,
   `expectedsalary` bigint(20) unsigned DEFAULT NULL,
   `datecreate` datetime DEFAULT NULL,
@@ -318,6 +323,9 @@ CREATE TABLE IF NOT EXISTS `hrsys_vacancycandidate` (
 -- Dumping data for table `hrsys_vacancycandidate`
 --
 
+INSERT INTO `hrsys_vacancycandidate` (`vacancycandidate_id`, `vacancy_id`, `candidate_id`, `applicant_stat`, `approvedsalary`, `expectedsalary`, `datecreate`, `usercreate`, `dateupdate`, `userupdate`) VALUES
+('142500613154efde3386b12', '142487593454ede19e47b1b', '142500613154efde338685e', 1, NULL, NULL, '2015-02-27 10:01:47', '142274855454cd6b8aeea54', '2015-02-27 10:01:47', '142274855454cd6b8aeea54'),
+('142500639054efdf3663bfb', '142487593454ede19e47b1b', '142500639054efdf3663a51', 1, NULL, NULL, '2015-02-27 10:06:06', '142274855454cd6b8aeea54', '2015-02-27 10:06:06', '142274855454cd6b8aeea54');
 
 -- --------------------------------------------------------
 
@@ -336,7 +344,8 @@ CREATE TABLE IF NOT EXISTS `hrsys_vacancyuser` (
 --
 
 INSERT INTO `hrsys_vacancyuser` (`vacancy_id`, `user_id`) VALUES
-('142487593454ede19e47b1b', '142274855454cd6b8aeea54');
+('142487593454ede19e47b1b', '142274855454cd6b8aeea54'),
+('142500632154efdef19feaa', '142274855454cd6b8aeea54');
 
 -- --------------------------------------------------------
 

@@ -107,6 +107,8 @@ class candidate extends Main_Controller {
         }
         return $breadcrumb;
     }
+    
+    
 
     public function listCandidate() {
         $this->user_id;
