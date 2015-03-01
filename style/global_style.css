@@ -157,7 +157,15 @@ left: 0px;
 {
     display:none;
 }
-
+.w50{
+    width: 50px;
+}
+.w75{
+    width: 75px;
+}
+.w100{
+    width: 100px;
+}
 .w150{
     width: 150px;
 }
@@ -234,4 +242,8 @@ left: 0px;
 }
 .gn_breadcrumb{
     height: 25px;
+}
+
+.kendonumber {
+    text-align: right;
 }

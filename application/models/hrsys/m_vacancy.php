@@ -15,19 +15,27 @@ class M_vacancy extends Main_Model {
         return $this->db->where("vacancy_id",$id)->get("hrsys_vacancy")->row_array();
     }
     
+    function getVCIdName($vacancy_id){
+        $sql="select c.candidate_id id,c.name text from hrsys_vacancycandidate vc ".
+             "join hrsys_candidate c on vc.candidate_id=c.candidate_id where vc.vacancy_id='$vacancy_id' order by c.name asc";
+        return $this->db->query($sql)->result_array();
+    }
+    
     function getDetails($id){
         $dataReturn=array();
         
-        $sql="select vc.*,emp.fullname emp_pic, lk.display_text status_text from hrsys_vacancy vc  ".
+        $sql="select vc.*,emp.fullname emp_pic, lk.display_text status_text,lksex.display_text sex_text from hrsys_vacancy vc  ".
              "left join tpl_lookup lk on lk.type='vacancy_stat' and vc.status=lk.value ".
+             "left join tpl_lookup lksex on lksex.type='sex' and vc.sex=lksex.value ".
              "left join hrsys_employee emp on vc.pic=emp.emp_id ".
              "where vc.vacancy_id='$id'";
-        $vacancy= $this->db->query($sql)->row_array();
         
-        $dataReturn["vacancy"]= $vacancy;
+        //$vacancy= $this->db->query($sql)->row_array();
+        
+       // $dataReturn["vacancy"]= $vacancy;
   
         
-        return $dataReturn;
+        return $this->db->query($sql)->row_array();
         
     }
     

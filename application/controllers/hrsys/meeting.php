@@ -94,7 +94,7 @@ class meeting extends Main_Controller {
     }
     
     public function showDetail($meet_id){
-        $dataMeet= $this->m_meeting->get($meet_id);
+        $dataMeet= $this->m_meeting->getDetails($meet_id);
         $shareSchedule=$this->m_employee->shareWithByMeet($meet_id,$dataMeet["usercreate"]);
         $type=cleanstr($dataMeet["type"])==""?"":$this->m_lookup->getDisplaytext("meet_type",$dataMeet["type"]);
         $outcome=cleanstr($dataMeet["outcome"])==""?"":$this->m_lookup->getDisplaytext("meet_outcome",$dataMeet["outcome"]);

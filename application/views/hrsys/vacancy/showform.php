@@ -19,13 +19,40 @@ $vacancy_id = isset($postForm["vacancy_id"]) ? $postForm["vacancy_id"] : "0";
                 <td><?= frm_('opendate', $postForm, "class='w150 date required'") ?></td>        
             </tr>
             <tr>
+                <td class="aright">Number of Positions:</td>
+                <td><?= frm_('num_position', $postForm, "class='w75 kendonumber'") ?></td>        
+            </tr>
+            <tr>
                 <td class="aright">Job Name:</td>
                 <td><?= frm_('name', $postForm, "class='w300 required' ") ?></td>        
             </tr>
+            
             <tr>
-                <td class="aright">Number of Positions:</td>
-                <td><?= frm_('num_position', $postForm, "class='w150 kendonumber'") ?></td>        
+                <td class="aright">Salary Range (IDR) :</td>
+                <td>
+                    <?= frm_('salary_1', $postForm, "class=' kendonumber' style='width:140px'") ?> - 
+                    <?= frm_('salary_2', $postForm, "class=' kendonumber' style='width:140px'") ?>
+                
+                </td>        
             </tr>
+            
+            <tr>
+                <td class="aright">Age :</td>
+                <td>
+                    <?= frm_('age_1', $postForm, "class=' kendonumber w75'") ?> - 
+                    <?= frm_('age_2', $postForm, "class=' kendonumber w75'") ?>
+                
+                </td>        
+            </tr>
+            <tr>
+                <td class="aright">Sex :</td>
+                <td>
+                    <?= select_('sex', $postForm,$sex_list,"class='kendodropdown'",false) ?>
+                
+                </td>        
+            </tr>
+            
+            
             <tr>
                 <td class="aright">Description :</td>
                 <td >

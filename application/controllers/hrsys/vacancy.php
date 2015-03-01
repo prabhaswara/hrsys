@@ -79,10 +79,25 @@ class vacancy extends Main_Controller {
         
     }
     
-    public function contentVacancy($id,$frompage="home"){
+    public function contentVacancy($vacancy_id,$frompage="home"){
         
-        $vacancyData=$this->m_vacancy->getDetails($id);
-        $vacancy=$vacancyData["vacancy"];
+        $vacancy=$this->m_vacancy->getDetails($vacancy_id);
+        
+        $shareVacant=$this->m_employee->shareVacantById($vacancy_id,$vacancy["usercreate"]);
+        
+        $shareName=array();
+        if(!empty($shareVacant)){
+            foreach ($shareVacant as $row){
+                $shareName[]=$row["name"];
+            }
+            $shareVacant=  implode(", ", $shareName);
+        }
+        else{
+            $shareVacant="";
+        }
+        
+        
+        
         
         $client=$this->m_client->get($vacancy["cmpyclient_id"]);     
         
@@ -111,10 +126,14 @@ class vacancy extends Main_Controller {
          
         
         
+        $sidebarCandidate=json_encode($this->m_vacancy->getVCIdName($vacancy_id));
+        
         
         $dataParse = array(
-            "vacancyData"=> $vacancyData,
+            "vacancy"=> $vacancy,
             "client"=> $client,
+            "shareVacant"=>$shareVacant,
+            "sidebarCandidate"=>$sidebarCandidate,
             "frompage"=>$frompage,    
             "breadcrumb"=>$breadcrumb,    
                 );
@@ -144,7 +163,7 @@ class vacancy extends Main_Controller {
                 $where.="vc.applicant_stat='".$_POST["typesearch"]."' and";
         }
 
-        $sql = "SELECT  vc.vacancycandidate_id recid, c.name c_sp_name,c.phone c_sp_phone,vc.expectedsalary vc_sp_expectedsalary,klstate.display_text klstate_sp_display_text " .
+        $sql = "SELECT  vc.vacancycandidate_id recid,c.candidate_id c_sp_candidate_id ,c.name c_sp_name,c.phone c_sp_phone,vc.expectedsalary vc_sp_expectedsalary,klstate.display_text klstate_sp_display_text " .
                "from hrsys_vacancycandidate vc " .
                "join hrsys_candidate c on vc.candidate_id=c.candidate_id ".
                "left join tpl_lookup klstate on klstate.type='applicant_stat' and vc.applicant_stat=klstate.value " .
@@ -205,6 +224,7 @@ class vacancy extends Main_Controller {
         if (empty($postForm) && !$isEdit){
             $postForm["pic"]=$this->emp_id;
             $postForm["opendate"]=  today();
+            $postForm["num_position"]=  1;
         }
         
         if(isset($postForm["pic"]) && cleanstr($postForm["pic"])!=""){
@@ -217,12 +237,14 @@ class vacancy extends Main_Controller {
             
         
         $client = $this->m_client->get($client_id);    
+        $sex_list=array(""=>"")+$this->m_lookup->comboLookup("sex");
         $dataParse = array(
             "isEdit"=>$isEdit,
             "postForm"=>$postForm,
             "postShareMaintance"=>$postShareMaintance,
             "client"=>$client,
             "comboPIC"=>$comboPIC,
+            "sex_list"=>$sex_list,
             "message"=>$message
                 );
         $this->loadContent('hrsys/vacancy/showform', $dataParse);

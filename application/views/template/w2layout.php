@@ -26,6 +26,7 @@
         <script type="text/javascript" src="{base_url}js/idle-timer.js"></script>
         <script type="text/javascript" src="{base_url}js/jquery-resize-master/jquery.ba-resize.min.js"></script>
         <script src="{base_url}js/kendoui/js/kendo.ui.core.min.js"></script>
+        <script src="{base_url}js/kendoui/js/cultures/kendo.culture.id-ID.min.js"></script>
         <script src='{base_url}js/fullcalendar-2.2.7/lib/moment.min.js'></script>
         <script src='{base_url}js/fullcalendar-2.2.7/fullcalendar.min.js'></script>
 

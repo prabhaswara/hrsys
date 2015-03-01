@@ -76,7 +76,42 @@ class candidate extends Main_Controller {
         );
         $this->loadContent('hrsys/candidate/addEditCandidate', $dataParse);
     }
-
+    
+    public function listCandidate($vacancy_id = "", $frompage = "") {
+        $vacancy=$this->m_vacancy->get($vacancy_id);
+        $breadcrumb=$this->setBreedcum($vacancy_id, $frompage);
+        
+        $breadcrumb[] = array("link" => "#", "text" => "List Candidate");
+        
+        $dataParse = array(            
+            "vacancy_id"=>$vacancy_id,
+            "vacancy"=>$vacancy,
+            "frompage"=>$frompage,    
+            "breadcrumb"=>$breadcrumb,
+        );
+        $this->loadContent('hrsys/candidate/listCandidate', $dataParse);
+    }
+    
+    public function infoCandidate($candidate_id){   
+        $candidate=$this->m_candidate->get($candidate_id);
+        if(empty($candidate)) exit;
+        
+        echo "info candidate=".$candidate["name"];
+        
+    }
+    public function cvCandidate($candidate_id){
+        $candidate=$this->m_candidate->get($candidate_id);
+        if(empty($candidate)) exit;
+        echo "cv candidate=".$candidate["name"];
+        
+    }
+    public function historyCandidate($candidate_id){
+        $candidate=$this->m_candidate->get($candidate_id);
+        if(empty($candidate)) exit;
+        echo "history candidate=".$candidate["name"];
+        
+    }
+    
     private function setBreedcum($vacancy_id, $frompage) {
 
         $breadcrumb = array();
@@ -110,12 +145,6 @@ class candidate extends Main_Controller {
     
     
 
-    public function listCandidate() {
-        $this->user_id;
-
-        $dataParse = array(
-        );
-        $this->loadContent('hrsys/candidate/listCandidate', $dataParse);
-    }
+    
 
 }

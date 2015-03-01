@@ -7,6 +7,16 @@ function cleanNumber($str) {
     return ($str == null ||$str=="") ? "0" : trim($str);
 }
 
+function numSep($number){
+    if($number!=""){
+        return number_format($number,0,",",".");
+        
+    }  else {
+        return "";
+    }
+    
+}
+
 function isDate($date){//dd/MM/yyyy with leap years 100% integrated Valid years : from 1600 to 9999 
     $date=  str_replace("-", "/", $date);
   return 1 === preg_match(

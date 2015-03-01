@@ -14,6 +14,13 @@ class M_meeting extends Main_Model {
     function get($id){
         return $this->db->where("meet_id",$id)->get("hrsys_cmpyclient_meet")->row_array();
     }
+    function getDetails($id){
+        $sql="select met.*,c.name client_name from hrsys_cmpyclient_meet met  ".
+             "left join hrsys_cmpyclient c on c.cmpyclient_id=met.cmpyclient_id ".
+             "where met.meet_id='$id'";
+        return $this->db->query($sql)->row_array();
+        
+    }
     
     public function updateOutCome($dataOutcome, $sessionData) {
         // update meeting   

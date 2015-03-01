@@ -23,6 +23,11 @@ class dashboard extends Main_Controller {
     }
     
     public function myDasboard(){
-        
+        $dataParse=array();
+        $this->loadContent('hrsys/dasboard/myDasboard', $dataParse);
+    }
+    public function executiveDasboard(){
+        $dataParse=array();
+        $this->loadContent('hrsys/dasboard/executiveDasboard', $dataParse);
     }
 }

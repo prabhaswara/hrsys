@@ -22,6 +22,10 @@ $meet_id = isset($postForm["meet_id"]) ? $postForm["meet_id"] : "0";
                 </tr>
                 
                 <tr>
+                    <td  class="aright">Client:</td>
+                    <td><?=$data["client_name"]?></td>        
+                </tr>
+                <tr>
                     <td  class="aright">Meeting Type:</td>
                     <td><?=$type?></td>        
                 </tr>
