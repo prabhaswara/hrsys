@@ -33,15 +33,17 @@
                 <td class="aright">Status :</td>
                 <td><?= $client["status_text"] ?></td>     
             </tr>
-            <tr>
-                <td class="aright">Date Join :</td>
-                <td><?= ($client["datejoin"]=="0000-00-00"?"":balikTgl($client["datejoin"])) ?></td>     
+         <?php if($client["status"]==1){ ?>
+            
+            <tr >
+                <td class="aright">Account Manager :</td>
+                <td><?= $client["emp_am"] ?></td>      
             </tr>
             <tr >
-                <td class="aright">PIC :</td>
-                <td><?= $client["emp_pic"] ?></td>      
+                <td class="aright">Fee :</td>
+                <td><?= $client["ck_fee"].(cleanstr($client["ck_fee"])!=""?"%":"") ?></td>      
             </tr>
-
+         <?php } ?>
         </table>
     </div>
 </div>

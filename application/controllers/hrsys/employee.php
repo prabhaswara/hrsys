@@ -25,11 +25,11 @@ class employee extends Main_Controller {
        
         }
         
-        $data=$this->m_employee->sharewith($name,$this->user_id);
+        $data=$this->m_employee->sharewith($name,$this->user_id,1);
         header("Content-Type: application/json;charset=utf-8");
         echo json_encode($data);
     }
-    public function pic(){
+    public function account_manager(){
         
         
         $name="";
@@ -38,7 +38,7 @@ class employee extends Main_Controller {
        
         }
         
-        $data=$this->m_employee->pic($name);
+        $data=$this->m_employee->account_manager($name);
         header("Content-Type: application/json;charset=utf-8");
         echo json_encode($data);
     }

@@ -37,7 +37,7 @@
              <?php if($canedit){ ?>
                 {field: 'recid', caption: '', size: '30px', searchable: false, sortable: false,
                     render: function (record) {
-                        return "<span class='fa-zoom-in imgbt' onClick='$( \"#pindah\" ).click()' ></span>"
+                        return "<span class='fa-zoom-in imgbt' onClick='detailVac(\""+record.recid+"\")' ></span>"
                     }
                 },
             <?php } ?>
@@ -89,9 +89,9 @@
             name: 'lookup_form',
             title: (recid == 0 ? 'Create Vacancy' : 'Edit Vacancy'),
             body: '<div id="popupForm" class="framepopup">please wait..</div>',
-            style: 'padding: 5px 0px 0px 0px',
-            width: 500,
-            height: 500,
+            style: 'padding: 0px 0px 0px 0px',
+            width: 900,
+            height: 400,
             modal: true,
             onOpen: function (event) {
                 event.onComplete = function () {

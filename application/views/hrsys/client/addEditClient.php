@@ -39,16 +39,11 @@ if(!$isEdit){ ?>
                     <?= select_('status', $postForm,$stat_list,"class='kendodropdown'",false) ?>
                 </td> 
             </tr>
+           
             <tr class="statusClientDiv" style="<?=(isset($postForm['status'])&&$postForm['status']==1)?"":"display:none"?>">
-                <td class="aright">Date Join :</td>
+                <td class="aright">Account Manager :</td>
                 <td>
-                    <?= frm_('datejoin', $postForm, "class='w150 date'") ?>
-                </td> 
-            </tr>
-            <tr class="statusClientDiv" style="<?=(isset($postForm['status'])&&$postForm['status']==1)?"":"display:none"?>">
-                <td class="aright">PIC :</td>
-                <td>
-                    <?= select_('pic', $postForm,$comboPIC,"style='width:300px'",false) ?>
+                    <?= select_('account_manager', $postForm,$comboAM,"style='width:300px'",false) ?>
                 </td> 
             </tr>
  <?php }?>
@@ -64,7 +59,7 @@ if(!$isEdit){ ?>
          
         
         
-        $("#pic").kendoComboBox({
+        $("#account_manager").kendoComboBox({
                         placeholder: "Select..",
                        dataValueField: "emp_id",
                         dataTextField: "name",
@@ -74,7 +69,7 @@ if(!$isEdit){ ?>
                         serverFiltering: true,
                             transport: {
                                 read: {
-                                    url: "{site_url}/hrsys/employee/pic",
+                                    url: "{site_url}/hrsys/employee/account_manager",
                                 }
                             }
                         }

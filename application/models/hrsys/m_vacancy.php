@@ -24,10 +24,10 @@ class M_vacancy extends Main_Model {
     function getDetails($id){
         $dataReturn=array();
         
-        $sql="select vc.*,emp.fullname emp_pic, lk.display_text status_text,lksex.display_text sex_text from hrsys_vacancy vc  ".
+        $sql="select vc.*,emp.fullname emp_am, lk.display_text status_text,lksex.display_text sex_text from hrsys_vacancy vc  ".
              "left join tpl_lookup lk on lk.type='vacancy_stat' and vc.status=lk.value ".
              "left join tpl_lookup lksex on lksex.type='sex' and vc.sex=lksex.value ".
-             "left join hrsys_employee emp on vc.pic=emp.emp_id ".
+             "left join hrsys_employee emp on vc.account_manager=emp.emp_id ".
              "where vc.vacancy_id='$id'";
         
         //$vacancy= $this->db->query($sql)->row_array();
@@ -121,9 +121,9 @@ class M_vacancy extends Main_Model {
                 $return["status"] = false;
                 $return["message"]["name"] = "Job Name cannot be empty";
             }
-            if (cleanstr($datafrm["pic"]) == "") {
+            if (cleanstr($datafrm["account_manager"]) == "") {
                 $return["status"] = false;
-                $return["message"]["pic"] = "PIC cannot be empty";
+                $return["message"]["account_manager"] = "PIC cannot be empty";
             }
             
         }

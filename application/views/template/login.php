@@ -15,16 +15,26 @@
         <script type="text/javascript" src="{base_url}js/global_js.js"></script>
     </head>
     <body>  
+    <center>
+
+        <div style="margin-top: 200px;border:1px solid silver;width: 300px;padding: 50px">
     <?=$message ?>
         <form method="POST">
-      <label for="username">Username:</label>
-      <input type="text" size="20" id="username" name="username"/>
-      <br/>
-      <label for="password">Password:</label>
-      <input type="password" size="20" id="passowrd" name="password"/>
-      <br/>
-      <input type="submit" value="Login"/>
+            
+            <table>
+                <tr><td><label for="username">Username</label></td><td width="5px">:</td>
+                    <td><input type="text" size="20" id="username" name="username"/></td>
+                </tr>
+                <tr><td><label for="username">Password</label></td><td width="5px">:</td>
+                    <td><input type="password" size="20" id="password" name="password"/></td>
+                </tr>
+            </table>
+            <input type="submit" value="Login"/>
+      
+      
     </form>
+        </div>
+            </center>
  </body>
 </html>
 

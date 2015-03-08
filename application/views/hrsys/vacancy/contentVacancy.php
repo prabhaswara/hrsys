@@ -1,16 +1,16 @@
-<?php
 
-?>
 <h2 class="form-title">Vacancy</h2>
 <div class="content_body">
     <input type="hidden" id="frompage" value="{frompage}" />
     <?php
     echo breadcrumb_($breadcrumb)
     ?>
-
+    
     <div id="detVacTab" style="width: 100%; height: 29px;"></div>
     <div id="detVacTab_c" class="tabboxwui2" style="position: absolute;top: 64px;bottom: 10px;left: 10px;right: 10px">
         <div id="vacancy_tab" class='divtab' style="display:none" >
+            
+            <button id="editVacancy" style="position: absolute;left: 10px" > <span class="fa-edit">&nbsp;</span> Edit</button>
             <form  class="form-tbl" >
                 <table>
                     <tr>
@@ -21,8 +21,8 @@
                                     <td><?= $vacancy["status_text"] ?></td>        
                                 </tr>
                                 <tr>
-                                    <td class="aright">PIC:</td>
-                                    <td><?= $vacancy["emp_pic"] ?></td>        
+                                    <td class="aright">Account Manager:</td>
+                                    <td><?= $vacancy["emp_am"] ?></td>        
                                 </tr>
                                 <tr>
                                     <td class="aright">Open Date:</td>
@@ -35,6 +35,12 @@
                                 <tr>
                                     <td class="aright">Number of Positions:</td>
                                     <td><?= $vacancy["num_position"] ?></td>        
+                                </tr>                              
+                                <tr>
+                                    <td class="aright">Fee:</td>
+                                    <td>
+                                    <?=$vacancy["fee"].(cleanstr($vacancy["fee"])!=""?"%":"") ?>
+                                    </td>        
                                 </tr>                              
                             </table>
 
@@ -223,6 +229,25 @@
         $("#addCandidate").click(function () {
             $(window).gn_loadmain('{site_url}/hrsys/candidate/addEditCandidate/0/<?= $vacancy["vacancy_id"] ?>/{frompage}');
         });
+        $("#editVacancy").click(function () {
+            $().w2popup('open', {
+                name: 'lookup_form',
+                title: 'Edit Vacancy',
+                body: '<div id="popupForm" class="framepopup">please wait..</div>',
+                style: 'padding: 0px 0px 0px 0px',
+                width: 900,
+                height: 400,
+                modal: true,
+                onOpen: function (event) {
+                    event.onComplete = function () {
+
+                        $("#popupForm").load("{site_url}/hrsys/vacancy/showform/<?= $vacancy["cmpyclient_id"]."/".$vacancy["vacancy_id"]."/".$frompage   ?>", function () {
+                        });
+                    }
+
+                }
+            });
+        });
         $("#searchCandidate").click(function () {
             $(window).gn_loadmain('{site_url}/hrsys/candidate/listCandidate/<?= $vacancy["vacancy_id"] ?>/{frompage}');
         });
@@ -239,9 +264,10 @@
                 w2ui['layoutdetcandidate'].load('main', '{site_url}/hrsys/candidate/cvCandidate/'+candidate_id);
             }else if(tab=="history"){
                 w2ui['layoutdetcandidate'].load('main', '{site_url}/hrsys/candidate/historyCandidate/'+candidate_id);
-            }
-            
+            }            
         }
+        
+    
         
 
     });

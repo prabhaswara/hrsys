@@ -18,7 +18,7 @@
             <tr>
                 <td class="aright">PIC :</td>
                 <td>
-                    <?= select_('pic', $postForm,$comboPIC,"style='width:300px'",false) ?>
+                    <?= select_('account_manager', $postForm,$comboPIC,"style='width:300px'",false) ?>
                 </td> 
             </tr>
 

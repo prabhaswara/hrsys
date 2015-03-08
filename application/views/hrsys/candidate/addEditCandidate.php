@@ -22,19 +22,31 @@ if(cleanstr($frompage)!=""){
                 <td><?= frm_('name', $postForm, "class='w300 required' ") ?></td>        
             </tr>
             <tr>
+                <td class="aright">Birth Day:</td>
+                <td><?= frm_('birthdate', $postForm, "class='w150 date' ") ?></td>        
+            </tr>
+            <tr>
+                <td class="aright">Sex:</td>
+                <td><?= select_('sex', $postForm,$sex_list,"class='kendodropdown'",false) ?></td>        
+            </tr>
+            <tr>
                 <td class="aright">Phone:</td>
-                <td><?= frm_('phone', $postForm, "class='w300' ") ?></td>        
+                <td><?= frm_('phone', $postForm, "class='w200' ") ?></td>        
             </tr>
             <tr>
-                <td class="aright">Skill:</td>
+                <td class="aright">Email:</td>
+                <td><?= frm_('email', $postForm, "class='w200' ") ?></td>        
+            </tr>
+            <tr>
+                <td class="aright">Expected Salary (IDR):</td>
+                <td><?= frm_('expectedsalary', $postForm, "class='w200 kendonumber' ") ?></td>        
+            </tr>
+            <tr>
+                <td class="aright">Expertise:</td>
                 <td></td>        
             </tr>
             <tr>
-                <td class="aright">Upload CV:</td>
-                <td></td>        
-            </tr>
-            <tr>
-                <td class="aright">Summary:</td>
+                <td class="aright">Curriculum vitae:</td>
                 <td></td>        
             </tr>
             <tr>

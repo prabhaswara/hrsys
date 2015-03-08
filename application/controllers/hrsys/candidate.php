@@ -64,7 +64,8 @@ class candidate extends Main_Controller {
             
         }
         
-            
+        $sex_list=array(""=>"")+$this->m_lookup->comboLookup("sex");
+        
         $dataParse = array(
             "message"=>$message,
             "isEdit"=>$isEdit,
@@ -73,6 +74,7 @@ class candidate extends Main_Controller {
             "vacancy"=>$vacancy,
             "frompage"=>$frompage,    
             "breadcrumb"=>$breadcrumb,
+            "sex_list"=>$sex_list
         );
         $this->loadContent('hrsys/candidate/addEditCandidate', $dataParse);
     }

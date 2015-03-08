@@ -50,7 +50,7 @@ class client extends Main_Controller {
      
          
         $canedit=false;
-        if ($client["status"]=='0' ||$client["pic"] == $this->emp_id || in_array("hrsys_allclient", $this->ses_roles)) {
+        if ($client["status"]=='0' ||$client["account_manager"] == $this->emp_id || in_array("hrsys_allclient", $this->ses_roles)) {
             $canedit=true;
            
         }
@@ -74,12 +74,12 @@ class client extends Main_Controller {
        
        if(
         $this->user_id==$client["usercreate"]||
-        $this->emp_id==$client["pic"]
+        $this->emp_id==$client["account_manager"]
                ){
            $canEdit=true;
        }
        $canedit=false;
-        if ($client["status"]=='0' ||$client["pic"] == $this->user_id || in_array("hrsys_allclient", $this->ses_roles)) {
+        if ($client["status"]=='0' ||$client["account_manager"] == $this->user_id || in_array("hrsys_allclient", $this->ses_roles)) {
             $canedit=true;
            
         }
@@ -104,7 +104,7 @@ class client extends Main_Controller {
        $postForm = isset($_POST['frm']) ? $_POST['frm'] : array();
        $client=$this->m_client->get($id);  
      
-        $comboPIC = array('' => '');
+        $comboAM = array('' => '');
         $message = "";
         if (!empty($postForm)) {
             $postForm["cmpyclient_id"]=$id;
@@ -120,11 +120,11 @@ class client extends Main_Controller {
                  $postForm["datejoin"]="";
         }
         
-        if(isset($postForm["pic"]) && cleanstr($postForm["pic"])!=""){
+        if(isset($postForm["account_manager"]) && cleanstr($postForm["account_manager"])!=""){
                 
-                $isiComboPIC=$this->m_employee->comboPIC($postForm["pic"]);
+                $isiComboPIC=$this->m_employee->comboAM($postForm["account_manager"]);
                 if(!empty($isiComboPIC))
-                    $comboPIC +=$isiComboPIC;
+                    $comboAM +=$isiComboPIC;
                 
             }
        
@@ -135,7 +135,7 @@ class client extends Main_Controller {
             'method'=>$method,
             'postForm' => $postForm,
             'message' => $message,          
-            'comboPIC' => $comboPIC,
+            'comboAM' => $comboAM,
         );
         
        $this->loadContent('hrsys/client/changePICJoinDate', $dataParse);
@@ -168,7 +168,7 @@ class client extends Main_Controller {
     }
     
     
-    public function json_listClientByPIC($pic) {
+    public function json_listClientByPIC($account_manager) {
 
         if (isset($_POST["sort"]) && !empty($_POST["sort"]))
             foreach ($_POST["sort"] as $key => $value) {
@@ -183,14 +183,14 @@ class client extends Main_Controller {
 
         $where = "1=1";
         
-         $where = "cl.pic='$pic'";
+         $where = "cl.account_manager='$account_manager'";
          
 
         $sql = "SELECT cl.cmpyclient_id cl_sp_cmpyclient_id,cl.name cl_sp_name,cl.cp_name cl_sp_cp_name,cl.cp_phone cl_sp_cp_phone, " .
                 "emp.fullname emp_sp_fullname, lk.display_text lk_sp_display_text " .
                 "from hrsys_cmpyclient cl " .
                 "left join tpl_lookup lk on lk.type='cmpyclient_stat' and cl.status=lk.value " .
-                "left join hrsys_employee emp on cl.pic=emp.emp_id " .
+                "left join hrsys_employee emp on cl.account_manager=emp.emp_id " .
                 "WHERE ~search~ and $where  ORDER BY ~sort~";
 
 
@@ -218,14 +218,14 @@ class client extends Main_Controller {
         } elseif ($status == "prospect") {
             $where = "cl.status='0'";
         } elseif ($status == "my") {
-            $where = "cl.pic='" . (isset($this->sessionUserData["employee"]["emp_id"]) ? $this->sessionUserData["employee"]["emp_id"] : "") . "'";
+            $where = "cl.account_manager='" . (isset($this->sessionUserData["employee"]["emp_id"]) ? $this->sessionUserData["employee"]["emp_id"] : "") . "'";
         }
 
         $sql = "SELECT cl.cmpyclient_id cl_sp_cmpyclient_id,cl.name cl_sp_name,cl.cp_name cl_sp_cp_name,cl.cp_phone cl_sp_cp_phone, " .
                 "emp.fullname emp_sp_fullname, lk.display_text lk_sp_display_text " .
                 "from hrsys_cmpyclient cl " .
                 "left join tpl_lookup lk on lk.type='cmpyclient_stat' and cl.status=lk.value " .
-                "left join hrsys_employee emp on cl.pic=emp.emp_id " .
+                "left join hrsys_employee emp on cl.account_manager=emp.emp_id " .
                 "WHERE ~search~ and $where  ORDER BY ~sort~";
 
 
@@ -244,7 +244,7 @@ class client extends Main_Controller {
             $create_edit = "New";
             $isEdit = false;
         }
-        $comboPIC = array('' => '');
+        $comboAM = array('' => '');
         $message = "";
         if (!empty($postForm)) {
             $validate = $this->m_client->validate($postForm, $isEdit);
@@ -275,11 +275,11 @@ class client extends Main_Controller {
             
            
         }
-        if(isset($postForm["pic"]) && cleanstr($postForm["pic"])!=""){
+        if(isset($postForm["account_manager"]) && cleanstr($postForm["account_manager"])!=""){
                 
-                $isiComboPIC=$this->m_employee->comboPIC($postForm["pic"]);
+                $isiComboPIC=$this->m_employee->comboAM($postForm["account_manager"]);
                 if(!empty($isiComboPIC))
-                    $comboPIC +=$isiComboPIC;
+                    $comboAM +=$isiComboPIC;
                 
             }
         $stat_list = $this->m_lookup->comboLookup("cmpyclient_stat");
@@ -291,7 +291,7 @@ class client extends Main_Controller {
             'postForm' => $postForm,
             'message' => $message,
             'stat_list' => $stat_list,
-            'comboPIC' => $comboPIC,
+            'comboAM' => $comboAM,
         );
         $this->loadContent('hrsys/client/addEditClient', $dataParse);
     }

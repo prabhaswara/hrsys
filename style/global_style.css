@@ -51,7 +51,9 @@ left: 0px;
     padding:5px;
 }
 .form-tbl table{    
-    border-spacing: 3;
+    border: 0px;
+    border-collapse: separate;
+    border-spacing: 3px;
 }
 
 .form-tbl table tr td{

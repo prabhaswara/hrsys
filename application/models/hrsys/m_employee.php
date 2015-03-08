@@ -18,7 +18,7 @@ class M_Employee extends Main_Model {
       
         return $return;
     }
-    function isiComboPIC($id){
+    function isiComboAM($id){
         
         $dataDB= $this->db->where("emp_id",$id)->get("hrsys_employee")->row();
         if(!empty($dataDB)){
@@ -27,10 +27,13 @@ class M_Employee extends Main_Model {
         }
         return $dataReturn;
     }
-    function comboPIC() {
-
+    function comboAM() {
+        
         $dataReturn = array();
-        $dataEmployee = $this->db->select("emp_id,fullname")->order_by("fullname")->get("hrsys_employee")->result();
+        $dataEmployee = $this->db->select("emp_id,fullname")->order_by("fullname")
+                ->where("active_non",1)
+                ->get("hrsys_employee")
+                ->result();
 
 
         if (!empty($dataEmployee)) {
@@ -43,12 +46,16 @@ class M_Employee extends Main_Model {
         return $dataReturn;
     }
     
-    function sharewith($where,$user_login) {
+    function sharewith($where,$user_login,$active=null) {
 
         $dataReturn = array();
         $this->db->select("emp_id,fullname,user_id")
                 ->where("(user_id IS NOT NULL or user_id!='') and user_id != '$user_login'", null, false) ;               
-                
+           
+        if($active!=null){
+  
+            $this->db->where('active_non',1); 
+        }
 
         if(is_array($where)){
             $this->db->where_in('user_id',$where);            
@@ -71,7 +78,7 @@ class M_Employee extends Main_Model {
 
         return $dataReturn;
     }
-    function pic($name) {
+    function account_manager($name) {
 
         $dataReturn = array();
         $this->db->select("emp_id,fullname,user_id");      
@@ -101,6 +108,25 @@ class M_Employee extends Main_Model {
              "join hrsys_employee emp on schuser.user_id=emp.user_id ". 
              "where meet.meet_id='$meet_id' and (emp.user_id IS NOT NULL or emp.user_id!='') and emp.user_id != '$user_login'"
             ;
+        $dataReturn=array();
+        $dataResult=$this->db->query($sql)->result();
+        if (!empty($dataResult)) {
+            foreach ($dataResult as $emp) {
+                
+                $dataReturn[]=array(
+                    "user_id"=>$emp->user_id,
+                    "name"=>$emp->fullname . " (" . $emp->emp_id . ")"
+                );
+                
+            }
+        }
+        return $dataReturn;
+    }
+    public function maintainceByVacancy($vacancy_id,$userCreate){
+        $sql="select emp.user_id,emp.emp_id,emp.fullname from hrsys_vacancyuser vu ".
+             "join hrsys_employee emp on vu.user_id =emp.user_id ".
+             "where vu.vacancy_id='$vacancy_id' and emp.user_id!='$userCreate'";
+                
         $dataReturn=array();
         $dataResult=$this->db->query($sql)->result();
         if (!empty($dataResult)) {

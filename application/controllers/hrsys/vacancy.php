@@ -63,7 +63,7 @@ class vacancy extends Main_Controller {
         }
         
         $canedit=false;
-        if ($client["pic"] == $this->emp_id || in_array("hrsys_allvacancies", $this->ses_roles)) {
+        if ($client["account_manager"] == $this->emp_id || in_array("hrsys_allvacancies", $this->ses_roles)) {
             $canedit=true;
         }
 
@@ -185,12 +185,14 @@ class vacancy extends Main_Controller {
                 );
         $this->loadContent('hrsys/vacancy/cvCandidates', $dataParse);
     }
-    public function showForm($client_id=0,$vacancy_id=0) {
+    public function showForm($client_id=0,$vacancy_id=0,$frompage="") {
             
         $postForm = isset($_POST['frm']) ? $_POST['frm'] : array();
         $postShareMaintance = isset($_POST['shareMaintance']) ? $this->m_employee->sharewith($_POST['shareMaintance'],$this->user_id) : array();
+        $client = $this->m_client->get($client_id);    
         
-        $comboPIC=array(''=>'');
+        
+        $comboAM=array(''=>'');
         $create_edit = "Edit";
         $isEdit = true;
         if ($vacancy_id == 0 ) {           
@@ -222,36 +224,41 @@ class vacancy extends Main_Controller {
         }
         
         if (empty($postForm) && !$isEdit){
-            $postForm["pic"]=$this->emp_id;
+            $postForm["account_manager"]=$this->emp_id;
             $postForm["opendate"]=  today();
             $postForm["num_position"]=  1;
+            $postForm["fee"]= cleanstr($client["ck_fee"]);
         }
-        
-        if(isset($postForm["pic"]) && cleanstr($postForm["pic"])!=""){
+        else if (empty($postForm) && $isEdit){
+            $postForm=$this->m_vacancy->get($vacancy_id);
+            $postShareMaintance =$this->m_employee->maintainceByVacancy($vacancy_id,$postForm["usercreate"]);
+            $postForm["opendate"]=  balikTgl($postForm["opendate"]);
+        }
+        if(isset($postForm["account_manager"]) && cleanstr($postForm["account_manager"])!=""){
                 
-                $isiComboPIC=$this->m_employee->isiComboPIC($postForm["pic"]);
-                if(!empty($isiComboPIC))
-                    $comboPIC +=$isiComboPIC;
+                $isiComboAM=$this->m_employee->isiComboAM($postForm["account_manager"]);
+                if(!empty($isiComboAM))
+                    $comboAM +=$isiComboAM;
                 
             }
             
         
-        $client = $this->m_client->get($client_id);    
         $sex_list=array(""=>"")+$this->m_lookup->comboLookup("sex");
         $dataParse = array(
             "isEdit"=>$isEdit,
             "postForm"=>$postForm,
             "postShareMaintance"=>$postShareMaintance,
             "client"=>$client,
-            "comboPIC"=>$comboPIC,
+            "comboAM"=>$comboAM,
             "sex_list"=>$sex_list,
+            "frompage"=>$frompage,
             "message"=>$message
                 );
         $this->loadContent('hrsys/vacancy/showform', $dataParse);
         
     }
     
-    public function jsonListVacOpenByPIC($pic) {
+    public function jsonListVacOpenByPIC($account_manager) {
 
         $where = "";
 
@@ -271,7 +278,7 @@ class vacancy extends Main_Controller {
             }
 
         
-        $where.="vac.status='1' and vac.pic ='$pic' and ";
+        $where.="vac.status='1' and vac.account_manager ='$account_manager' and ";
 
         $sql = "SELECT  vac.vacancy_id recid,client.name client_sp_name,vac.name vac_sp_name,DATE_FORMAT(vac.opendate,'%d-%m-%Y') vac_sp_opendate" .
                 ",lkstat.display_text lkstat_sp_display_text,vac.usercreate vac_sp_usercreate " .

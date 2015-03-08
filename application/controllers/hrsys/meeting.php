@@ -61,7 +61,7 @@ class meeting extends Main_Controller {
             $dataReturn=array();
             foreach ( $data['records'] as $row){
                 $row["canedit"]="0";                
-                if( $client["pic"]==$this->user_id||$row["met_sp_usercreate"]==$this->user_id || in_array("hrsys_allmeeting", $this->ses_roles))
+                if( $client["account_manager"]==$this->user_id||$row["met_sp_usercreate"]==$this->user_id || in_array("hrsys_allmeeting", $this->ses_roles))
                 {
                     $row["canedit"]="1";
                     
@@ -82,7 +82,7 @@ class meeting extends Main_Controller {
         }
         $canEdit = false;
 
-        if ($client["pic"] == $this->emp_id || in_array("hrsys_allmeeting", $this->ses_roles)) {
+        if ($client["account_manager"] == $this->emp_id || in_array("hrsys_allmeeting", $this->ses_roles)) {
             $canEdit=true;
         }
         $dataParse = array(

@@ -16,7 +16,7 @@ $(function () {
             { field: 'cl_sp_name', caption: 'Client', size: '100%', searchable: true,sortable: true  },
             { field: 'cl_sp_cp_name', caption: 'Contact Person', size: '150', searchable: true,sortable: true  },
             { field: 'cl_sp_cp_phone', caption: 'CP Phone', size: '100', searchable: true,sortable: true  },
-            { field: 'emp_sp_fullname', caption: 'PIC', size: '100', searchable: true,sortable: true  },
+            { field: 'emp_sp_fullname', caption: 'account_manager', size: '100', searchable: true,sortable: true  },
             { field: 'lk_sp_display_text', caption: 'Status', size: '100', searchable: true,sortable: true  },
          
         ],
