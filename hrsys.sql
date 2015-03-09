@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Mar 08, 2015 at 11:20 PM
+-- Generation Time: Mar 10, 2015 at 12:22 AM
 -- Server version: 5.1.37
 -- PHP Version: 5.3.0
 
@@ -40,16 +40,7 @@ CREATE TABLE IF NOT EXISTS `ci_sessions` (
 --
 
 INSERT INTO `ci_sessions` (`session_id`, `ip_address`, `user_agent`, `last_activity`, `user_data`) VALUES
-('0421ac8b26754308a3a2f1e83460fec4', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:36.0) Gecko/20100101 Firefox/36.0', 1425785130, 'a:2:{s:9:"user_data";s:0:"";s:12:"hrsys_userdt";a:3:{s:4:"user";a:8:{s:7:"user_id";s:23:"142274855454cd6b8aeea54";s:8:"username";s:4:"rika";s:10:"active_non";s:1:"1";s:10:"last_login";N;s:10:"datecreate";s:19:"2015-02-01 06:55:30";s:10:"usercreate";s:5:"admin";s:10:"dateupdate";s:19:"2015-02-26 11:06:17";s:10:"userupdate";s:23:"142199957054c1fdd26eca3";}s:5:"roles";a:5:{i:0;s:10:"adm_lookup";i:1;s:8:"adm_menu";i:2;s:8:"adm_role";i:3;s:8:"adm_user";i:4;s:16:"hrsys_allmeeting";}s:8:"employee";a:8:{s:6:"emp_id";s:4:"1005";s:4:"name";s:4:"Rika";s:8:"fullname";s:12:"Rika Fadilah";s:5:"phone";N;s:9:"birthdate";N;s:3:"sex";N;s:7:"user_id";s:23:"142274855454cd6b8aeea54";s:10:"active_non";s:1:"1";}}}'),
-('154e8106e18c8f83a0922eb96be729a6', '::1', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:36.0) Gecko/20100101 Firefox/36.0', 1425830239, ''),
-('21c2f9ac458cac3a6e9930a77850ecc9', '::1', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:36.0) Gecko/20100101 Firefox/36.0', 1425830239, ''),
-('2b2a0ba15187e11b7b5546ca0bc1e607', '::1', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:36.0) Gecko/20100101 Firefox/36.0', 1425830240, ''),
-('31c219e37cf61c97632ccc7abbb160f3', '::1', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:36.0) Gecko/20100101 Firefox/36.0', 1425830240, ''),
-('583d5b048d25bc069d99dfe56839f714', '::1', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:36.0) Gecko/20100101 Firefox/36.0', 1425782407, 'a:2:{s:9:"user_data";s:0:"";s:12:"hrsys_userdt";a:3:{s:4:"user";a:8:{s:7:"user_id";s:23:"142274855454cd6b8aeea54";s:8:"username";s:4:"rika";s:10:"active_non";s:1:"1";s:10:"last_login";N;s:10:"datecreate";s:19:"2015-02-01 06:55:30";s:10:"usercreate";s:5:"admin";s:10:"dateupdate";s:19:"2015-02-26 11:06:17";s:10:"userupdate";s:23:"142199957054c1fdd26eca3";}s:5:"roles";a:5:{i:0;s:10:"adm_lookup";i:1;s:8:"adm_menu";i:2;s:8:"adm_role";i:3;s:8:"adm_user";i:4;s:16:"hrsys_allmeeting";}s:8:"employee";a:8:{s:6:"emp_id";s:4:"1005";s:4:"name";s:4:"Rika";s:8:"fullname";s:12:"Rika Fadilah";s:5:"phone";N;s:9:"birthdate";N;s:3:"sex";N;s:7:"user_id";s:23:"142274855454cd6b8aeea54";s:10:"active_non";s:1:"1";}}}'),
-('63c39f01c79e901d96a0d3375a78ef9d', '::1', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:36.0) Gecko/20100101 Firefox/36.0', 1425830240, ''),
-('7954c606f1561b1f842e3645d74cc200', '::1', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:36.0) Gecko/20100101 Firefox/36.0', 1425830240, ''),
-('cc7707b760d3c0c8345f480e3274a64d', '::1', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:36.0) Gecko/20100101 Firefox/36.0', 1425830239, ''),
-('e78a1c4826ff79af75e2c990daafbbd2', '::1', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:36.0) Gecko/20100101 Firefox/36.0', 1425830239, '');
+('0c7273298b7dbdaa880486376da9d4ef', '::1', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:36.0) Gecko/20100101 Firefox/36.0', 1425921611, 'a:2:{s:9:"user_data";s:0:"";s:12:"hrsys_userdt";a:3:{s:4:"user";a:8:{s:7:"user_id";s:23:"142274855454cd6b8aeea54";s:8:"username";s:4:"rika";s:10:"active_non";s:1:"1";s:10:"last_login";N;s:10:"datecreate";s:19:"2015-02-01 06:55:30";s:10:"usercreate";s:5:"admin";s:10:"dateupdate";s:19:"2015-02-26 11:06:17";s:10:"userupdate";s:23:"142199957054c1fdd26eca3";}s:5:"roles";a:5:{i:0;s:10:"adm_lookup";i:1;s:8:"adm_menu";i:2;s:8:"adm_role";i:3;s:8:"adm_user";i:4;s:16:"hrsys_allmeeting";}s:8:"employee";a:8:{s:6:"emp_id";s:4:"1005";s:4:"name";s:4:"Rika";s:8:"fullname";s:12:"Rika Fadilah";s:5:"phone";N;s:9:"birthdate";N;s:3:"sex";N;s:7:"user_id";s:23:"142274855454cd6b8aeea54";s:10:"active_non";s:1:"1";}}}');
 
 -- --------------------------------------------------------
 
@@ -381,19 +372,21 @@ INSERT INTO `hrsys_scheduleuser` (`schedule_id`, `user_id`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `hrsys_skill` (
-  `skill` varchar(200) DEFAULT NULL
+  `skill_id` varchar(30) NOT NULL,
+  `skill` varchar(200) DEFAULT NULL,
+  PRIMARY KEY (`skill_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `hrsys_skill`
 --
 
-INSERT INTO `hrsys_skill` (`skill`) VALUES
-('PHP'),
-('Magento'),
-('Microsoft Dynamics AX'),
-('Rubby'),
-('HTML 5');
+INSERT INTO `hrsys_skill` (`skill_id`, `skill`) VALUES
+('142485912054ed9ff00b24a', 'PHP'),
+('142485913454ed9ffe1fd43', 'Magento'),
+('142485914754eda00b28ddb', 'Microsoft Dynamics AX'),
+('142485916754eda01f9cb73', 'Rubby'),
+('142485919554eda03b9c271', 'HTML 5');
 
 -- --------------------------------------------------------
 
@@ -428,7 +421,7 @@ CREATE TABLE IF NOT EXISTS `hrsys_vacancy` (
 --
 
 INSERT INTO `hrsys_vacancy` (`vacancy_id`, `cmpyclient_id`, `name`, `opendate`, `description`, `num_position`, `fee`, `salary_1`, `salary_2`, `age_1`, `age_2`, `sex`, `account_manager`, `status`, `datecreate`, `usercreate`, `dateupdate`, `userupdate`) VALUES
-('142487593454ede19e47b1b', '142485942554eda121d300d', 'Account manager Government', '2015-03-08', '5 year Experience', 1, '1', 0, 0, 0, 0, '', '1005', 1, '2015-02-25 21:51:50', '142274855454cd6b8aeea54', '2015-03-08 10:04:26', '142274855454cd6b8aeea54'),
+('142487593454ede19e47b1b', '142485942554eda121d300d', 'Account manager Government', '2015-03-08', '5 year Experience', 1, '1', 0, 0, 0, 0, '', '1005', 1, '2015-02-25 21:51:50', '142274855454cd6b8aeea54', '2015-03-10 00:12:22', '142274855454cd6b8aeea54'),
 ('142500632154efdef19feaa', '142485942554eda121d300d', 'test', '2015-02-27', 'wew', 1, NULL, NULL, NULL, NULL, NULL, NULL, '1005', 1, '2015-02-27 10:04:57', '142274855454cd6b8aeea54', '2015-02-27 10:04:57', '142274855454cd6b8aeea54'),
 ('142521701754f315f933caa', '142485942554eda121d300d', 'aa', '2015-03-01', '', 1, NULL, 10000000, 12000000, 20, 30, 'm', '1005', 1, '2015-03-01 20:36:33', '142274855454cd6b8aeea54', '2015-03-01 20:36:33', '142274855454cd6b8aeea54'),
 ('142537880754f58df752105', '142485942554eda121d300d', 'It Helpdesk manager', '2015-03-03', '', 1, NULL, 0, 0, 0, 0, '', '1005', 1, '2015-03-03 17:33:03', '142274855454cd6b8aeea54', '2015-03-03 17:33:03', '142274855454cd6b8aeea54'),

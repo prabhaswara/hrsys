@@ -84,6 +84,7 @@ $vacancy_id = isset($postForm["vacancy_id"]) ? $postForm["vacancy_id"] : "0";
                     </td> 
                 </tr>           
             </table>
+          
         </td>
     </table>
 
@@ -94,6 +95,55 @@ $vacancy_id = isset($postForm["vacancy_id"]) ? $postForm["vacancy_id"] : "0";
     $(function () {
 
         
+        $("#add_expertise").kendoAutoComplete({
+                        filter: "contains",
+                        dataValueField: "skill_id",
+                        dataTextField: "skill",           
+                        dataSource: {
+                            serverFiltering: true,
+                            transport: {
+                                read: {
+                                    url: "{site_url}/hrsys/skill/searchSkill",
+                                }
+                            }
+                        },
+                        change: function(e) {
+                                                     
+                           expertise=$('#expertise').data("kendoMultiSelect");                      
+                        
+                            var values = expertise.value().slice();    
+                            console.log($('#add_expertise').val());
+                            console.log(values);
+                            if(jQuery.inArray($('#add_expertise').val(),values)){
+                                
+                                 $("#add_expertise").data("kendoAutoComplete").value("");                         
+                            }
+                        },
+                        select: function(e) {
+                        skill_name=e.item.text();
+                        skill_id=this.dataItem(e.item.index()).skill_id;
+                        
+                        expertise=$('#expertise').data("kendoMultiSelect");                      
+                        
+                        var values = expertise.value().slice();                        
+                        if(jQuery.inArray(skill_id,values)){
+                            expertise.dataSource.add( { skill_id: skill_id, skill_name: skill_name });
+                            $.merge(values, [skill_id]);                        
+                            expertise.value(values);                            
+                        }
+                        
+                      }
+                    });
+                    
+        $("#btn_add_expertise").click(function() {
+           console.log($("#add_expertise").val());
+           return false;
+        });
+        $("#expertise").kendoMultiSelect({
+            dataTextField: "skill_name",
+            dataValueField: "skill_id"
+        });
+  
 
         $("#shareMaintance").kendoMultiSelect({
             placeholder: "Select Name...",
