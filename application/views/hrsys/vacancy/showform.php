@@ -71,8 +71,9 @@ $vacancy_id = isset($postForm["vacancy_id"]) ? $postForm["vacancy_id"] : "0";
                 <tr>
                     <td class="aright">Expertise :</td>
                     <td>
-
-                        <input type="text" id="add_expertise" /><button id="btn_add_expertise">Add</button>
+                        <div style="height: 30px;margin-bottom: 3px">
+                            <input type="text" id="add_expertise" style="float:left;margin: 0;height: 30px" /><button style="float:left;margin: 0 ;height: 30px"  id="btn_add_expertise">Add</button>
+                        </div>
                         <select id="expertise" name="expertise[]" multiple="multiple" class="w250"></select>
 
                     </td>        
