@@ -24,8 +24,9 @@ class Main_Controller extends CI_Controller {
         $this->load->helper('gn_frm','gn_str');
         $this->load->model('admin/m_menu');
         
+     
     }
-
+    
     function loadContent($content, $dataMain = array()) {
        
      

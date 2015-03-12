@@ -102,7 +102,7 @@ class M_vacancy extends Main_Model {
         $this->db->delete( 'hrsys_vacancy_skill', array( 'vacancy_id' => $vacancy_id ) );
         if(!empty($expertise)){
             foreach ($expertise as $row){
-                $this->db->insert('hrsys_vacancy_skill', array( 'vacancy_id' => $vacancy_id,'skill_id'=>$row["skill_id"] )); 
+                $this->db->insert('hrsys_vacancy_skill', array( 'vacancy_id' => $vacancy_id,'skill'=>$row["skill"])); 
             }            
         }     
         

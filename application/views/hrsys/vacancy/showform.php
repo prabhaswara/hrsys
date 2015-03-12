@@ -127,6 +127,7 @@ if (!empty($postShareMaintance)) {
                         autoBind: false,
                         dataSource: {
                         serverFiltering: true,
+                        pageSize:3,
                             transport: {
                                 read: {
                                     url: "{site_url}/hrsys/employee/account_manager",

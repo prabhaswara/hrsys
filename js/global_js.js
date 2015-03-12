@@ -17,7 +17,7 @@
          if(data_select.length>0){
               $("#"+multiselect).kendoMultiSelect({
                 dataTextField: "skill",
-                dataValueField: "skill_id",
+                dataValueField: "skill",
                 autoBind: false,
                 value:data_select,
                 open: function(e) {
@@ -27,7 +27,7 @@
          }else{
              $("#"+multiselect).kendoMultiSelect({
                 dataTextField: "skill",
-                dataValueField: "skill_id",
+                dataValueField: "skill",
                 autoBind: false,
                 open: function(e) {
                   e.sender.ul.css('display', 'none'); 
@@ -37,7 +37,7 @@
          
         $("#"+tx).kendoComboBox({
                         filter: "contains",
-                        dataValueField: "skill_id",
+                        dataValueField: "skill",
                         dataTextField: "skill",           
                         dataSource: {
                             serverFiltering: true,
@@ -62,15 +62,13 @@
                         },
                         select: function(e) {
                             
-                        skill=e.item.text();
-                        skill_id=this.dataItem(e.item.index()).skill_id;
-                        
+                        skill=e.item.text();                        
                         expertise=$("#"+multiselect).data("kendoMultiSelect");                      
                         
                         var values = expertise.value().slice();                        
-                        if(jQuery.inArray(skill_id,values)==-1){                          
-                            expertise.dataSource.add( { skill_id: skill_id, skill: skill });
-                            $.merge(values, [skill_id]);                        
+                        if(jQuery.inArray(skill,values)==-1){                          
+                            expertise.dataSource.add( { skill: skill });
+                            $.merge(values, [skill]);                        
                             expertise.value(values);                            
                         }
                         
@@ -94,14 +92,13 @@
                 success: function (data) {
                    
                     skill=data.skill;
-                    skill_id=data.skill_id;
 
                     expertise=$("#"+multiselect).data("kendoMultiSelect");                      
 
                     var values = expertise.value().slice();                        
-                    if(jQuery.inArray(skill_id,values)==-1){                          
-                        expertise.dataSource.add( { skill_id: skill_id, skill: skill });
-                        $.merge(values, [skill_id]);                        
+                    if(jQuery.inArray(skill,values)==-1){                          
+                        expertise.dataSource.add( { skill: skill });
+                        $.merge(values, [skill]);                        
                         expertise.value(values);                            
                     }
                     tx_expertise.value("");
