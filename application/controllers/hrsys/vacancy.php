@@ -19,7 +19,7 @@ class vacancy extends Main_Controller {
 
     public function __construct() {
         parent::__construct();
-        $this->load->model(array('hrsys/m_client','hrsys/m_vacancy','hrsys/m_employee', 'admin/m_lookup'));
+        $this->load->model(array('hrsys/m_client','hrsys/m_vacancy','hrsys/m_employee','hrsys/m_skill', 'admin/m_lookup'));
     }
     
     public function infVacancy($client_id) {
@@ -189,8 +189,9 @@ class vacancy extends Main_Controller {
             
         $postForm = isset($_POST['frm']) ? $_POST['frm'] : array();
         $postShareMaintance = isset($_POST['shareMaintance']) ? $this->m_employee->sharewith($_POST['shareMaintance'],$this->user_id) : array();
+        $postExpertise = isset($_POST['expertise']) ? $this->m_skill->expertise($_POST['expertise']) : array();
         $client = $this->m_client->get($client_id);    
-        
+     
         
         $comboAM=array(''=>'');
         $create_edit = "Edit";
@@ -209,6 +210,7 @@ class vacancy extends Main_Controller {
                 
                 $dataSave["vacancy"]=$postForm;
                 $dataSave["shareMaintance"]=$postShareMaintance;
+                $dataSave["expertise"]=$postExpertise;
                 if ($this->m_vacancy->saveOrUpdate($dataSave, $this->sessionUserData)) {
                     echo "close_popup";
                     exit;
@@ -232,6 +234,7 @@ class vacancy extends Main_Controller {
         else if (empty($postForm) && $isEdit){
             $postForm=$this->m_vacancy->get($vacancy_id);
             $postShareMaintance =$this->m_employee->maintainceByVacancy($vacancy_id,$postForm["usercreate"]);
+            $postExpertise =$this->m_skill->getExpertiseVacancy($vacancy_id);
             $postForm["opendate"]=  balikTgl($postForm["opendate"]);
         }
         if(isset($postForm["account_manager"]) && cleanstr($postForm["account_manager"])!=""){
@@ -248,6 +251,7 @@ class vacancy extends Main_Controller {
             "isEdit"=>$isEdit,
             "postForm"=>$postForm,
             "postShareMaintance"=>$postShareMaintance,
+            "postExpertise"=>$postExpertise,
             "client"=>$client,
             "comboAM"=>$comboAM,
             "sex_list"=>$sex_list,

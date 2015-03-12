@@ -31,7 +31,7 @@ class skill extends Main_Controller {
     }
     
     public function addSkill(){
-        $data=$this->m_skill->searchSkill($name);
+        $data=$this->m_skill->addSkill($_POST["skill_name"]);
         header("Content-Type: application/json;charset=utf-8");
         echo json_encode($data);
     }

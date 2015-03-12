@@ -44,6 +44,7 @@ class M_vacancy extends Main_Model {
         
         $vacancy=$data["vacancy"];
         $shareMaintance=$data["shareMaintance"]; 
+        $expertise=$data["expertise"]; 
         
         $userInsert = (isset($sessionData["employee"]["fullname"]) && !empty($sessionData["employee"]["fullname"])) ? $sessionData["employee"]["fullname"] :
         $sessionData["user"]["username"];
@@ -91,12 +92,17 @@ class M_vacancy extends Main_Model {
              
         }
         
-        $this->db->delete( 'hrsys_vacancyuser', array( 'vacancy_id' => $vacancy_id ) );
-        
+        $this->db->delete( 'hrsys_vacancyuser', array( 'vacancy_id' => $vacancy_id ) );        
         $this->db->insert('hrsys_vacancyuser', array( 'vacancy_id' => $vacancy_id,'user_id'=>$sessionData["user"]["user_id"] )); 
         if(!empty($shareMaintance)){
             foreach ($shareMaintance as $row){
                 $this->db->insert('hrsys_vacancyuser', array( 'vacancy_id' => $vacancy_id,'user_id'=>$row["user_id"] )); 
+            }            
+        }     
+        $this->db->delete( 'hrsys_vacancy_skill', array( 'vacancy_id' => $vacancy_id ) );
+        if(!empty($expertise)){
+            foreach ($expertise as $row){
+                $this->db->insert('hrsys_vacancy_skill', array( 'vacancy_id' => $vacancy_id,'skill_id'=>$row["skill_id"] )); 
             }            
         }     
         

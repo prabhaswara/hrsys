@@ -74,7 +74,7 @@ $vacancy_id = isset($postForm["vacancy_id"]) ? $postForm["vacancy_id"] : "0";
                         <div style="height: 30px;margin-bottom: 3px">
                             <input type="text" id="add_expertise" style="float:left;margin: 0;height: 30px" /><button style="float:left;margin: 0 ;height: 30px"  id="btn_add_expertise">Add</button>
                         </div>
-                        <select id="expertise" name="expertise[]" multiple="multiple" class="w250"></select>
+                        <select  id="expertise" name="expertise[]" multiple="multiple" class="w250"></select>
 
                     </td>        
                 </tr>    
@@ -95,64 +95,9 @@ $vacancy_id = isset($postForm["vacancy_id"]) ? $postForm["vacancy_id"] : "0";
 <script>
     $(function () {
         
-        $("#expertise").kendoMultiSelect({
-            dataTextField: "skill",
-            dataValueField: "skill_id",
-            open: function(e) {
-              e.sender.ul.css('display', 'none'); 
-              }
-        });
-        $("#add_expertise").kendoComboBox({
-                        filter: "contains",
-                        dataValueField: "skill_id",
-                        dataTextField: "skill",           
-                        dataSource: {
-                            serverFiltering: true,
-                            transport: {
-                                read: {
-                                    url: "{site_url}/hrsys/skill/searchSkill",
-                                }
-                            }
-                        },
-                        change: function(e) {
-                                         
-                           list_expertise=$('#expertise').data("kendoMultiSelect");                      
-                           tx_expertise=$("#add_expertise").data("kendoComboBox");
-                            var values = list_expertise.value().slice(); 
-                            var item=tx_expertise.value();                          
-                            if(jQuery.inArray(item,values)!=-1){
-                                
-                                 tx_expertise.value("");                         
-                            }
-                        
-                         
-                        },
-                        select: function(e) {
-                            
-                        skill=e.item.text();
-                        skill_id=this.dataItem(e.item.index()).skill_id;
-                        
-                        expertise=$('#expertise').data("kendoMultiSelect");                      
-                        
-                        var values = expertise.value().slice();                        
-                        if(jQuery.inArray(skill_id,values)==-1){                          
-                            expertise.dataSource.add( { skill_id: skill_id, skill: skill });
-                            $.merge(values, [skill_id]);                        
-                            expertise.value(values);                            
-                        }
-                        
-                      }
-                    });
-                    $("#add_expertise").data("kendoComboBox").wrapper.find(".k-dropdown-wrap").removeClass("k-dropdown-wrap").addClass("k-autocomplete").find("span").hide();
-                    
-                    
-        $("#btn_add_expertise").click(function() {
-           console.log($("#add_expertise").val());
-           return false;
-        });
-        
-  
+        $(this).setSkillList("add_expertise","btn_add_expertise","expertise","{site_url}",<?=json_encode($postExpertise) ?>);
 
+        $("#btn_add_expertise").kendoButton({icon: "save"});
         $("#shareMaintance").kendoMultiSelect({
             placeholder: "Select Name...",
             dataValueField: "user_id",
