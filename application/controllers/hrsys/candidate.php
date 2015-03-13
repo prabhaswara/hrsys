@@ -13,11 +13,13 @@ class candidate extends Main_Controller {
 
     public function __construct() {
         parent::__construct();
-        $this->load->model(array('admin/m_lookup', "hrsys/m_candidate", "hrsys/m_vacancy", "hrsys/m_client"));
+        $this->load->model(array('admin/m_lookup', "hrsys/m_candidate", "hrsys/m_vacancy", "hrsys/m_client", "hrsys/m_skill"));
     }
 
     public function addEditCandidate($candidate_id = 0, $vacancy_id = "", $frompage = "") {
         $postForm = isset($_POST['frm']) ? $_POST['frm'] : array();
+        $postExpertise = isset($_POST['expertise']) ? $this->m_skill->expertise($_POST['expertise']) : array();
+        
         $message="";
         $create_edit = "Edit";
         $isEdit = true;
@@ -36,6 +38,7 @@ class candidate extends Main_Controller {
             if ($validate["status"]) {
                 $dataSave["candidate"]=$postForm;
                 $dataSave["vacancy_id"]=$vacancy_id;
+                $dataSave["expertise"]=$postExpertise;
                 
                 if ($this->m_candidate->saveOrUpdate($dataSave, $this->sessionUserData)) {
                   
@@ -70,6 +73,7 @@ class candidate extends Main_Controller {
             "message"=>$message,
             "isEdit"=>$isEdit,
             "postForm"=>$postForm,
+            "postExpertise"=>$postExpertise,
             "vacancy_id"=>$vacancy_id,
             "vacancy"=>$vacancy,
             "frompage"=>$frompage,    
@@ -92,6 +96,39 @@ class candidate extends Main_Controller {
             "breadcrumb"=>$breadcrumb,
         );
         $this->loadContent('hrsys/candidate/listCandidate', $dataParse);
+    }
+    public function jsonListCandidate() {
+       $where = "";
+
+        if (isset($_POST["sort"]) && !empty($_POST["sort"])) {
+            foreach ($_POST["sort"] as $key => $value) {
+                $_POST["sort"][$key] = str_replace("_sp_", ".", $value);
+            }
+        } else {
+            $_POST["sort"][0]['direction'] = 'asc';
+            $_POST["sort"][0]['field'] = 'c.name';
+        }
+
+
+        if (isset($_POST["search"]) && !empty($_POST["search"]))
+            foreach ($_POST["search"] as $key => $value) {
+                $_POST["search"][$key] = str_replace("_sp_", ".", $value);
+            }
+
+       
+
+        $sql = "SELECT c.candidate_id recid,lksat.display_text lksat_sp_display_text, c.name c_sp_name,c.expectedsalary c_sp_expectedsalary " .
+               ", lksex.display_text lksex_sp_display_text,YEAR(now())-YEAR(c.birthdate)  c_sp_birthdate ".
+               "from hrsys_candidate c " .
+               "left join tpl_lookup lksat on lksat.type='candidate_stat' and c.status=lksat.value " .
+               "left join tpl_lookup lksex on lksex.type='sex' and c.sex=lksex.value " .
+               "WHERE ~search~ and $where 1=1 ORDER BY ~sort~";
+
+
+        $data = $this->m_menu->w2grid($sql, $_POST);
+        header("Content-Type: application/json;charset=utf-8");
+        echo json_encode($data);
+        exit();
     }
     
     public function infoCandidate($candidate_id){   

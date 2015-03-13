@@ -10,7 +10,7 @@ class M_skill extends Main_Model {
     }
 
     function searchSkill($search,$limit=10) {
-        return $this->db->like("skill", $search)->limit($limit)->get("hrsys_skill")->result_array();
+        return $this->db->like("skill", $search)->limit($limit)->order_by("skill")->get("hrsys_skill")->result_array();
     }
 
     function getExpertiseVacancy($vacancy_id) {

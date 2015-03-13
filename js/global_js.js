@@ -74,7 +74,8 @@
                         
                       }
                     });
-                    $("#"+tx).data("kendoComboBox").wrapper.find(".k-dropdown-wrap").removeClass("k-dropdown-wrap").addClass("k-autocomplete").find("span").hide();
+                   // $("#"+tx).data("kendoComboBox").wrapper.find(".k-dropdown-wrap").removeClass("k-dropdown-wrap").addClass("k-autocomplete").find("span").hide();
+                    $("#"+tx).data("kendoComboBox").wrapper.find(".k-dropdown-wrap").removeClass("k-dropdown-wrap").find("span").hide();
                     
                 
         $("#"+btn).click(function() {

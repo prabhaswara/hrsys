@@ -42,8 +42,15 @@ if(cleanstr($frompage)!=""){
                 <td><?= frm_('expectedsalary', $postForm, "class='w200 kendonumber' ") ?></td>        
             </tr>
             <tr>
-                <td class="aright">Expertise:</td>
-                <td></td>        
+                    <td class="aright">Expertise :</td>
+                    <td>
+                        <div style="height: 30px;margin-bottom: 3px">
+                            <select id="add_expertise" style="margin: 0;height: 30px;width: 270px;float:left;border-radius: 3px 0px 0px 3px" ></select>                         
+                            <input style="margin: 0 ;height: 30px;width: 30px;float:left;border-left: 0px;border-radius: 0px 5px 5px 0px" type="image" src="{base_url}/images/save_button.png" id="btn_add_expertise" width="60" height="60">
+                        </div>
+                        <select  id="expertise" name="expertise[]" multiple="multiple" class="w300"></select>
+
+                    </td>        
             </tr>
             <tr>
                 <td class="aright">Curriculum vitae:</td>
@@ -66,6 +73,9 @@ if(cleanstr($frompage)!=""){
 
        $("#formnya").gn_onsubmit();
        
+       $(this).setSkillList("add_expertise","btn_add_expertise","expertise","{site_url}",<?=json_encode($postExpertise) ?>);
+       $("#btn_add_expertise").kendoButton({ imageUrl: "{base_url}/images/save_button.png"});
+        
         $(".gn_breadcrumb a").click(function () {
             href = $(this).attr("href");
             if (href != "#" && href != "") {

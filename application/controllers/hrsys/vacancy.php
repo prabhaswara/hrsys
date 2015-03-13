@@ -96,7 +96,17 @@ class vacancy extends Main_Controller {
             $shareVacant="";
         }
         
-        
+        $expertise =$this->m_skill->getExpertiseVacancy($vacancy_id);
+        $skill=array();
+        if(!empty($expertise)){
+            foreach ($expertise as $row){
+                $skill[]=$row["skill"];
+            }
+            $expertise=  implode(", ", $skill);
+        }
+        else{
+            $expertise="";
+        }        
         
         
         $client=$this->m_client->get($vacancy["cmpyclient_id"]);     
@@ -127,12 +137,13 @@ class vacancy extends Main_Controller {
         
         
         $sidebarCandidate=json_encode($this->m_vacancy->getVCIdName($vacancy_id));
-        
+       
         
         $dataParse = array(
             "vacancy"=> $vacancy,
             "client"=> $client,
             "shareVacant"=>$shareVacant,
+            "expertise"=>$expertise,
             "sidebarCandidate"=>$sidebarCandidate,
             "frompage"=>$frompage,    
             "breadcrumb"=>$breadcrumb,    

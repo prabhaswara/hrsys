@@ -70,6 +70,10 @@
                                     <td ><?= $vacancy["description"] ?></td> 
                                 </tr>          
                                 <tr>
+                                    <td class="aright">Expertise :</td>
+                                    <td ><?= $expertise ?></td> 
+                                </tr>          
+                                <tr>
                                     <td class="aright">Maintenance:</td>
                                     <td >
                                         <?=$shareVacant?>

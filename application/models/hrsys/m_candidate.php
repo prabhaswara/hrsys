@@ -37,9 +37,13 @@ class M_candidate extends Main_Model {
         $vacancy_id=$data["vacancy_id"];
         
         $candidate=$data["candidate"];
+        $expertise=$data["expertise"]; 
         $candidate_id = $candidate["candidate_id"];    
         $candidate["status"]=candidate_stat_open;
         
+        if(cleanstr($candidate["birthdate"])!=""){
+            $candidate["birthdate"]=  balikTgl($candidate["birthdate"]);
+        }
         
         $this->db->trans_start(TRUE);
         
@@ -47,12 +51,12 @@ class M_candidate extends Main_Model {
             
             $candidate_id=$this->uniqID();
             $candidate["candidate_id"]=$candidate_id;
-            /*
+           
             $this->db->set('dateupdate', 'NOW()', FALSE);
             $this->db->set('userupdate', $sessionData["user"]["user_id"]);
             $this->db->set('datecreate', 'NOW()', FALSE);
             $this->db->set('usercreate', $sessionData["user"]["user_id"]);             
-             */
+          
             
             $this->db->insert('hrsys_candidate', $candidate);
             
@@ -68,10 +72,6 @@ class M_candidate extends Main_Model {
                 $this->db->set('usercreate', $sessionData["user"]["user_id"]);             
             
                 $this->db->insert('hrsys_vacancycandidate', $vacancycandidate);
-            
-             
-                
-                
             }
             
         }
@@ -79,6 +79,12 @@ class M_candidate extends Main_Model {
            
         }
         
+        $this->db->delete( 'hrsys_candidate_skill', array( 'candidate_id' => $candidate_id ) );
+        if(!empty($expertise)){
+            foreach ($expertise as $row){
+                $this->db->insert('hrsys_candidate_skill', array( 'candidate_id' => $candidate_id,'skill'=>$row["skill"])); 
+            }            
+        } 
         
         
         $this->db->trans_complete();
