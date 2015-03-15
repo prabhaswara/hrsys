@@ -6,6 +6,8 @@ $(function () {
  
     $('#listMenu').w2grid({
         name    : 'listMenu',
+        autoLoad: false,
+        limit:50,
         url     : '{site_url}/admin/menu/json_list',
         header  : 'List of menu',
         show: {

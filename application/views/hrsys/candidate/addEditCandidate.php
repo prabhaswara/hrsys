@@ -13,7 +13,7 @@ if(cleanstr($frompage)!=""){
     echo breadcrumb_($breadcrumb)
     ?>
 {message}
-<form method="POST" id="formnya" class="form-tbl" action="{site_url}/hrsys/candidate/addEditCandidate/<?=$candidate_id?>/{vacancy_id}/{frompage}">
+<form  method="POST" id="formnya" class="form-tbl" enctype="multipart/form-data" action="{site_url}/hrsys/candidate/addEditCandidate/<?=$candidate_id?>/{vacancy_id}/{frompage}">
         <?= frm_('candidate_id', $postForm, "type='hidden'") ?>   
     
         <table>
@@ -54,7 +54,10 @@ if(cleanstr($frompage)!=""){
             </tr>
             <tr>
                 <td class="aright">Curriculum vitae:</td>
-                <td></td>        
+                <td>
+                    <input name="cv" type="file" />
+                    
+                </td>        
             </tr>
             <tr>
                 <td></td>
@@ -71,7 +74,7 @@ if(cleanstr($frompage)!=""){
 <script>
     $(function () {
 
-       $("#formnya").gn_onsubmit();
+       $("#formnya").gn_onsubmitFile();
        
        $(this).setSkillList("add_expertise","btn_add_expertise","expertise","{site_url}",<?=json_encode($postExpertise) ?>);
        $("#btn_add_expertise").kendoButton({ imageUrl: "{base_url}/images/save_button.png"});

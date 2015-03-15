@@ -70,7 +70,7 @@ class client extends Main_Controller {
     }
     public function infClient($id) {
        $client = $this->m_client->get($id);   
-      
+      $canEdit=false;
        
        if(
         $this->user_id==$client["usercreate"]||

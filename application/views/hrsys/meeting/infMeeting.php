@@ -21,6 +21,8 @@
 
         $('#listInfMeeting').w2grid({
             name: 'listInfMeeting',
+            autoLoad: false,
+            limit:50,
             url: '{site_url}/hrsys/meeting/infMeeting/<?= $client_id ?>',
             show: {toolbar: true},
             toolbar: {

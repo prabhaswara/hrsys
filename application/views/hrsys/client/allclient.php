@@ -5,6 +5,8 @@ $(function () {
     gridName='listClient';
     $('#listClient').w2grid({
         name    : gridName,
+        autoLoad: false,
+        limit:50,
         url     : '{site_url}/hrsys/client/json_listClient/all',
         header  : 'All client',
         show: {

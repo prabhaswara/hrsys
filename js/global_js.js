@@ -214,10 +214,38 @@
                 }
             });
             return false;
-
         });
+    };
+    $.fn.gn_onsubmitFile = function () {
+        $(this).submit(function (event) {
+            $.ajax({
+                type: "POST",
+                data: new FormData(this),
+    mimeType:"multipart/form-data",
+    contentType: false,
+        cache: false,
+        processData:false,                
+                url: $(this).attr("action"),
+                beforeSend: function (xhr) {
+                    $("#ajaxDiv").attr("class", "ajax-show");
 
+                },
+                success: function (data) {
 
+                    w2ui['main_layout'].content('main', data);
+                    loadingShow(false);
+                },
+                statusCode: {
+                    500: function () {
+                        loadingShow(false);
+                    },
+                    404: function () {
+                        loadingShow(false);
+                    }
+                }
+            });
+            return false;
+        });
     };
     
     ///

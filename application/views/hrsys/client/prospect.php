@@ -7,6 +7,8 @@ $(function () {
         name    : gridName,
         url     : '{site_url}/hrsys/client/json_listClient/prospect',
         header  : 'Prospect client',
+        autoLoad: false,
+        limit:50,
         show: {
             header        : true,
             toolbar       : true,

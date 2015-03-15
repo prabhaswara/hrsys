@@ -6,6 +6,8 @@ $(function () {
     gridName='listRole';
     $('#listRole').w2grid({
         name    : gridName,
+        autoLoad: false,
+        limit:50,
         url     : '{site_url}/admin/role/json_list',
         header  : 'List of role',
         show: {

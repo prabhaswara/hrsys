@@ -20,6 +20,8 @@
 
         $('#listInfVacancy').w2grid({
             name: 'listInfVacancy',
+            autoLoad: false,
+            limit:50,
             url: '{site_url}/hrsys/vacancy/infVacancy/<?= $client_id ?>',
             show: {toolbar: true},
             toolbar: {

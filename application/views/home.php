@@ -69,6 +69,8 @@
      
         $('#myClient').w2grid({
             name    : "myClient",
+            autoLoad: false,
+            limit:20,
             url     : '{site_url}/hrsys/client/json_listClientByPIC/{emp_id}',        
             columns: [
                 { field: 'cl_sp_name', caption: 'Client', size: '100%', searchable: true,sortable: true  },
@@ -82,6 +84,8 @@
         });
         $('#myOpenVacancy').w2grid({
             name    : "myOpenVacancy",
+            autoLoad: false,
+            limit:20,
             url     : '{site_url}/hrsys/vacancy/jsonListVacOpenByPIC/{emp_id}',        
             columns: [
                 { field: 'vac_sp_name', caption: 'Vacancy', size: '100%', searchable: true,sortable: true  },

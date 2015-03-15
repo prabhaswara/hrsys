@@ -16,7 +16,10 @@ class candidate extends Main_Controller {
         $this->load->model(array('admin/m_lookup', "hrsys/m_candidate", "hrsys/m_vacancy", "hrsys/m_client", "hrsys/m_skill"));
     }
 
+    
     public function addEditCandidate($candidate_id = 0, $vacancy_id = "", $frompage = "") {
+        $ds=DIRECTORY_SEPARATOR;
+        
         $postForm = isset($_POST['frm']) ? $_POST['frm'] : array();
         $postExpertise = isset($_POST['expertise']) ? $this->m_skill->expertise($_POST['expertise']) : array();
         
@@ -26,7 +29,6 @@ class candidate extends Main_Controller {
         if ($candidate_id == 0 ) {           
             $create_edit = "New";
             $isEdit = false;
-             
         }
         $vacancy=$this->m_vacancy->get($vacancy_id);
         $breadcrumb=$this->setBreedcum($vacancy_id, $frompage);
@@ -34,14 +36,23 @@ class candidate extends Main_Controller {
         $breadcrumb[] = array("link" => "#", "text" => "$create_edit Candidate");
         
         if (!empty($postForm)) {
+            
             $validate = $this->m_candidate->validate($postForm, $isEdit);
             if ($validate["status"]) {
                 $dataSave["candidate"]=$postForm;
                 $dataSave["vacancy_id"]=$vacancy_id;
                 $dataSave["expertise"]=$postExpertise;
                 
-                if ($this->m_candidate->saveOrUpdate($dataSave, $this->sessionUserData)) {
-                  
+                if ($this->m_candidate->saveOrUpdate($dataSave, $this->sessionUserData,$candidate_id)) {
+                
+                    if(isset($_FILES["cv"])&&!empty($_FILES["cv"])){
+                        $ds=DIRECTORY_SEPARATOR;
+                        $filename=$this->dir_candidate.$candidate_id.$ds."main_cv.pdf";
+                        $this->upload_file("cv",$filename);
+                       
+                    }
+                    
+                    
                     if($frompage==""){
                         redirect("hrsys/candidate/addEditCandidate/");
                     }
@@ -88,9 +99,13 @@ class candidate extends Main_Controller {
         $breadcrumb=$this->setBreedcum($vacancy_id, $frompage);
         
         $breadcrumb[] = array("link" => "#", "text" => "List Candidate");
+        $postForm = isset($_POST['frm']) ? $_POST['frm'] : array();
+        $sex_list=array(""=>"")+$this->m_lookup->comboLookup("sex");
         
         $dataParse = array(            
             "vacancy_id"=>$vacancy_id,
+            "postForm"=>$postForm,
+            "sex_list"=>$sex_list,
             "vacancy"=>$vacancy,
             "frompage"=>$frompage,    
             "breadcrumb"=>$breadcrumb,
@@ -117,11 +132,13 @@ class candidate extends Main_Controller {
 
        
 
-        $sql = "SELECT c.candidate_id recid,lksat.display_text lksat_sp_display_text, c.name c_sp_name,c.expectedsalary c_sp_expectedsalary " .
+        $sql = "SELECT c.candidate_id recid,lksat.display_text lksat_sp_display_text, c.name c_sp_name, c.phone c_sp_phone,c.expectedsalary c_sp_expectedsalary " .
                ", lksex.display_text lksex_sp_display_text,YEAR(now())-YEAR(c.birthdate)  c_sp_birthdate ".
+               ", ms.skill ms_sp_skill ".
                "from hrsys_candidate c " .
                "left join tpl_lookup lksat on lksat.type='candidate_stat' and c.status=lksat.value " .
                "left join tpl_lookup lksex on lksex.type='sex' and c.sex=lksex.value " .
+               "left join (select candidate_id ,group_concat(skill separator', ') skill from hrsys_candidate_skill group by candidate_id) ms on ms.candidate_id=c.candidate_id ".
                "WHERE ~search~ and $where 1=1 ORDER BY ~sort~";
 
 
@@ -131,6 +148,19 @@ class candidate extends Main_Controller {
         exit();
     }
     
+    public function detcandidate($candidate_id,$frompage="home",$vacancy_id=0){   
+        $candidate=$this->m_candidate->get($candidate_id);
+        $vacancy="";
+         $dataParse = array(
+           
+            
+            "vacancy"=>$vacancy,
+            "frompage"=>$frompage,    
+            "sex_list"=>$sex_list
+        );
+        $this->loadContent('hrsys/candidate/detcandidate', $dataParse);
+        
+    }
     public function infoCandidate($candidate_id){   
         $candidate=$this->m_candidate->get($candidate_id);
         if(empty($candidate)) exit;

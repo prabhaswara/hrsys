@@ -20,7 +20,7 @@ class M_candidate extends Main_Model {
             'status' => true,
             'message' => array()
         );
-
+      
         if (!empty($datafrm)) {
 
             if (cleanstr($datafrm["name"]) == "") {
@@ -28,12 +28,15 @@ class M_candidate extends Main_Model {
                 $return["message"]["name"] = "Candidate Name cannot be empty";
             }
             
+            if(isset($_FILES["cv"]["type"])&& !in_array($_FILES["cv"]["type"], array("application/pdf","text/pdf")) ){
+                $return["message"]["cv"] = "Curriculum vitae must pdf file ";
+            }
+            
         }
 
         return $return;
     }
-    
-    public function saveOrUpdate($data, $sessionData) {
+    public function saveOrUpdate($data, $sessionData,&$candidate_id) {
         $vacancy_id=$data["vacancy_id"];
         
         $candidate=$data["candidate"];

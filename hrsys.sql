@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Mar 13, 2015 at 05:06 
+-- Generation Time: Mar 16, 2015 at 06:08 AM
 -- Server version: 5.1.37
 -- PHP Version: 5.3.0
 
@@ -40,7 +40,8 @@ CREATE TABLE IF NOT EXISTS `ci_sessions` (
 --
 
 INSERT INTO `ci_sessions` (`session_id`, `ip_address`, `user_agent`, `last_activity`, `user_data`) VALUES
-('44b0c513590441f0bbb369594419a491', '::1', 'Mozilla/5.0 (Windows NT 6.1; rv:36.0) Gecko/20100101 Firefox/36.0', 1426241156, 'a:2:{s:9:"user_data";s:0:"";s:12:"hrsys_userdt";a:3:{s:4:"user";a:8:{s:7:"user_id";s:23:"142274855454cd6b8aeea54";s:8:"username";s:4:"rika";s:10:"active_non";s:1:"1";s:10:"last_login";N;s:10:"datecreate";s:19:"2015-02-01 06:55:30";s:10:"usercreate";s:5:"admin";s:10:"dateupdate";s:19:"2015-02-26 11:06:17";s:10:"userupdate";s:23:"142199957054c1fdd26eca3";}s:5:"roles";a:5:{i:0;s:10:"adm_lookup";i:1;s:8:"adm_menu";i:2;s:8:"adm_role";i:3;s:8:"adm_user";i:4;s:16:"hrsys_allmeeting";}s:8:"employee";a:8:{s:6:"emp_id";s:4:"1005";s:4:"name";s:4:"Rika";s:8:"fullname";s:12:"Rika Fadilah";s:5:"phone";N;s:9:"birthdate";N;s:3:"sex";N;s:7:"user_id";s:23:"142274855454cd6b8aeea54";s:10:"active_non";s:1:"1";}}}');
+('52351aabf540d3520e85ce81b6999e69', '::1', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:36.0) Gecko/20100101 Firefox/36.0', 1426385133, 'a:2:{s:9:"user_data";s:0:"";s:12:"hrsys_userdt";a:3:{s:4:"user";a:8:{s:7:"user_id";s:23:"142274855454cd6b8aeea54";s:8:"username";s:4:"rika";s:10:"active_non";s:1:"1";s:10:"last_login";N;s:10:"datecreate";s:19:"2015-02-01 06:55:30";s:10:"usercreate";s:5:"admin";s:10:"dateupdate";s:19:"2015-02-26 11:06:17";s:10:"userupdate";s:23:"142199957054c1fdd26eca3";}s:5:"roles";a:5:{i:0;s:10:"adm_lookup";i:1;s:8:"adm_menu";i:2;s:8:"adm_role";i:3;s:8:"adm_user";i:4;s:16:"hrsys_allmeeting";}s:8:"employee";a:8:{s:6:"emp_id";s:4:"1005";s:4:"name";s:4:"Rika";s:8:"fullname";s:12:"Rika Fadilah";s:5:"phone";N;s:9:"birthdate";N;s:3:"sex";N;s:7:"user_id";s:23:"142274855454cd6b8aeea54";s:10:"active_non";s:1:"1";}}}'),
+('ad363a4616bf8b977b8dff5b600b8d3f', '::1', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:36.0) Gecko/20100101 Firefox/36.0', 1426387898, 'a:2:{s:9:"user_data";s:0:"";s:12:"hrsys_userdt";a:3:{s:4:"user";a:8:{s:7:"user_id";s:23:"142274855454cd6b8aeea54";s:8:"username";s:4:"rika";s:10:"active_non";s:1:"1";s:10:"last_login";N;s:10:"datecreate";s:19:"2015-02-01 06:55:30";s:10:"usercreate";s:5:"admin";s:10:"dateupdate";s:19:"2015-02-26 11:06:17";s:10:"userupdate";s:23:"142199957054c1fdd26eca3";}s:5:"roles";a:5:{i:0;s:10:"adm_lookup";i:1;s:8:"adm_menu";i:2;s:8:"adm_role";i:3;s:8:"adm_user";i:4;s:16:"hrsys_allmeeting";}s:8:"employee";a:8:{s:6:"emp_id";s:4:"1005";s:4:"name";s:4:"Rika";s:8:"fullname";s:12:"Rika Fadilah";s:5:"phone";N;s:9:"birthdate";N;s:3:"sex";N;s:7:"user_id";s:23:"142274855454cd6b8aeea54";s:10:"active_non";s:1:"1";}}}');
 
 -- --------------------------------------------------------
 
@@ -72,10 +73,7 @@ CREATE TABLE IF NOT EXISTS `hrsys_candidate` (
 INSERT INTO `hrsys_candidate` (`candidate_id`, `status`, `name`, `phone`, `email`, `expectedsalary`, `birthdate`, `sex`, `cv_url`, `datecreate`, `usercreate`, `dateupdate`, `userupdate`) VALUES
 ('142500613154efde338685e', 1, 'Gunawan', '0812', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 ('142500639054efdf3663a51', 1, 'Sule', '0815', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-('142537896754f58e97a9b06', 1, 'Tedja Tjandra', '08125393837', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-('142537907454f58f029c148', 1, 'rika', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-('142537995054f5926ec4b60', 1, 'dsadsad', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-('14262383875502abb3a7e8e', 1, 'David Tony', '0821', 'd_tony@gmail.com', 14000000, '1986-02-01', 'm', NULL, NULL, NULL, NULL, NULL);
+('14263876715504f2d7dcc8a', 1, 'Hermawan', '021', 'hermawan@gmail.com', 8000000, '1985-11-13', 'm', NULL, '2015-03-15', '142274855454cd6b8aeea54', '2015-03-15', '142274855454cd6b8aeea54');
 
 -- --------------------------------------------------------
 
@@ -111,13 +109,9 @@ CREATE TABLE IF NOT EXISTS `hrsys_candidate_skill` (
 --
 
 INSERT INTO `hrsys_candidate_skill` (`candidate_id`, `skill`) VALUES
-('14262382525502ab2cc4cd3', 'PHP'),
-('14262382525502ab2cc4cd3', 'Codeigniter'),
-('14262382525502ab2cc4cd3', 'Oracle'),
-('14262383875502abb3a7e8e', 'PHP'),
-('14262383875502abb3a7e8e', 'Codeigniter'),
-('14262383875502abb3a7e8e', 'Oracle'),
-('14262383875502abb3a7e8e', 'HTML 5');
+('14263876715504f2d7dcc8a', 'Java'),
+('14263876715504f2d7dcc8a', 'Oracle'),
+('14263876715504f2d7dcc8a', 'Mysql');
 
 -- --------------------------------------------------------
 
@@ -397,7 +391,9 @@ INSERT INTO `hrsys_skill` (`skill`) VALUES
 ('Yii'),
 ('SAP'),
 ('Cisco'),
-('Oracle');
+('Oracle'),
+('Java'),
+('Mysql');
 
 -- --------------------------------------------------------
 

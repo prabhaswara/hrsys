@@ -10,6 +10,8 @@ $(function () {
 //    }
     $('#listUser').w2grid({
         name    : gridName,
+        autoLoad: false,
+        limit:50,
         url     : '{site_url}/admin/user/json_list',
         header  : 'List of user',
         show: {

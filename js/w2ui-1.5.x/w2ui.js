@@ -3500,7 +3500,9 @@ w2utils.keyboard = (function (obj) {
                 if (this.autoLoad === true) {
                     more.show().find('td').html('<div><div style="width: 20px; height: 20px;" class="w2ui-spinner"></div></div>');
                 } else {
-                    more.find('td').html('<div>'+ w2utils.lang('Load') + ' ' + obj.limit + ' ' + w2utils.lang('More') + '...</div>');
+                //    more.find('td').html('<div>'+ w2utils.lang('Load') + ' ' + obj.limit + ' ' + w2utils.lang('More') + '...</div>');
+                    more.find('td').html('<div>'+ w2utils.lang('Load') + ' ' + w2utils.lang('More') + '...</div>');
+                
                 }
             }
             if (this.last.xhr) try { this.last.xhr.abort(); } catch (e) {}
@@ -6890,7 +6892,8 @@ w2utils.keyboard = (function (obj) {
                             });
                     }
                     if (more.find('td').text().indexOf('Load') == -1) {
-                        more.find('td').html('<div>'+ w2utils.lang('Load') + ' ' + obj.limit + ' ' + w2utils.lang('More') + '...</div>');
+                       // more.find('td').html('<div>'+ w2utils.lang('Load') + ' ' + obj.limit + ' ' + w2utils.lang('More') + '...</div>');
+                        more.find('td').html('<div>'+ w2utils.lang('Load') + ' ' + w2utils.lang('More') + '...</div>');
                     }
                 }
             }

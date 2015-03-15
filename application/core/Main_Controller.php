@@ -9,13 +9,40 @@ class Main_Controller extends CI_Controller {
     var $user_id="";
     var $emp_id="";
     var $ses_roles="";
+    var $dir_candidate;
 
+    function mkpath($path)
+    {
+      if(@mkdir($path) or file_exists($path)) return true;
+      return ($this->mkpath(dirname($path)) and mkdir($path, 0755, true));
+    }
+    function upload_file($name,$filepath){
+        $ds=DIRECTORY_SEPARATOR;
+        
+        $array=  explode($ds, $filepath);
+        array_pop($array );
+        $path=  implode($ds, $array);
+        
+        $this->mkpath($path);
+        if(file_exists($filepath)) unlink($filepath);
+        if(move_uploaded_file($_FILES[$name]['tmp_name'], $filepath)) {
+           return true;
+        } else{
+           return false;
+        }
+        
+    }
+    
     function __construct() {
        
         parent::__construct();
         if($this->session->userdata(SES_USERDT)==null){
              redirect("site/sessionexpired");
         }
+        
+        $ds=DIRECTORY_SEPARATOR;
+        $this->dir_candidate="fl".$ds."candidates".$ds;
+                
         $this->sessionUserData=$this->session->userdata(SES_USERDT);
         $this->username=$this->sessionUserData["user"]["username"];
         $this->user_id=$this->sessionUserData["user"]["user_id"];

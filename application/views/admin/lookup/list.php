@@ -7,6 +7,8 @@ $(function () {
 
     $('#listLookup').w2grid({
         name    : gridName,
+        autoLoad: false,
+        limit:50,
         url     : '{site_url}/admin/lookup/json_list',
         header  : 'List of lookup',
         show: {

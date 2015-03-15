@@ -7,6 +7,8 @@ $(function () {
     
     $('#listClientTrail').w2grid({
         name    : 'listClientTrail',
+        autoLoad: false,
+        limit:50,
         url     : '{site_url}/hrsys/client/infHistory/<?=$client_id?>',
         header  : 'List of lookup',
         show: {         
