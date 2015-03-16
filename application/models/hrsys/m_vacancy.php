@@ -11,6 +11,24 @@ class M_vacancy extends Main_Model {
         parent::__construct();
     }
     
+    function listOpenVacancy($emp_id,$user_id,$selectAll){
+        
+        $dataReturn=array();
+        if($selectAll){
+            $dataReturn=$this->db
+                    ->where("status","1")
+                    ->order_by("name")
+                    ->get("hrsys_vacancy")->row_array();
+        }else{
+            $sql="select v.* from hrsys_vacancy v left join "
+                ."hrsys_vacancyuser vc on vc.vacancy_id=v.vacancy_id and vc.user_id='$user_id' "
+                ."where v.account_manager='$emp_id' or vc.user_id is not null ";
+            $dataReturn = $this->db->query($sql)->result_array();
+        }       
+      
+        return $dataReturn;
+    }
+    
     function get($id){
         return $this->db->where("vacancy_id",$id)->get("hrsys_vacancy")->row_array();
     }

@@ -25,6 +25,7 @@ class vacancy extends Main_Controller {
     public function infVacancy($client_id) {
      
         $client=$this->m_client->get($client_id);
+        $user_id=$this->user_id;
         $where="";
         if(!empty($_POST)&&$_POST["pg_action"]=="json"){
             if (isset($_POST["sort"]) && !empty($_POST["sort"])){
@@ -49,9 +50,11 @@ class vacancy extends Main_Controller {
             $where.="vac.cmpyclient_id ='$client_id' and ";
             
             $sql = "SELECT  vac.vacancy_id recid,vac.name vac_sp_name,DATE_FORMAT(vac.opendate,'%d-%m-%Y') vac_sp_opendate" .
-                   ",lkstat.display_text lkstat_sp_display_text,vac.usercreate vac_sp_usercreate ".
+                   ",lkstat.display_text lkstat_sp_display_text,vac.usercreate vac_sp_usercreate".
+                    ",vu.user_id vu_sp_user_id ".
                    "from hrsys_vacancy vac " .
                    "left join tpl_lookup lkstat on lkstat.type='vacancy_stat' and vac.status=lkstat.value " .
+                   "left join hrsys_vacancyuser vu on vu.vacancy_id=vac.vacancy_id and vu.user_id='$user_id' ".
                    "WHERE ~search~ and $where 1=1 ORDER BY ~sort~";
 
 
@@ -271,6 +274,12 @@ class vacancy extends Main_Controller {
                 );
         $this->loadContent('hrsys/vacancy/showform', $dataParse);
         
+    }
+    
+    public function jsonDetVac($vacancy_id){
+        header("Content-Type: application/json;charset=utf-8");
+        echo json_encode($this->m_vacancy->getDetails($vacancy_id));
+        exit();
     }
     
     public function jsonListVacOpenByPIC($account_manager) {

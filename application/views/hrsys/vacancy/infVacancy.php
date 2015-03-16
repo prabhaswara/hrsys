@@ -36,13 +36,20 @@
                 }
             },
             columns: [
-             <?php if($canedit){ ?>
+          
                 {field: 'recid', caption: '', size: '30px', searchable: false, sortable: false,
                     render: function (record) {
+                      
+                       
+                        if(record.vu_sp_user_id!=null || 1==<?=$canedit?"1":0 ?>){
                         return "<span class='fa-zoom-in imgbt' onClick='detailVac(\""+record.recid+"\")' ></span>"
+                        }
+                        else{
+                         return "";
+                        }
                     }
                 },
-            <?php } ?>
+         
                 {field: 'lkstat_sp_display_text', caption: 'Status', size: '120px', searchable: true, sortable: true},
                 {field: 'vac_sp_opendate', caption: 'Open Date', size: '120px', searchable: true, sortable: true},
                 {field: 'vac_sp_name', caption: 'Vacany Name', size: '100%', searchable: true, sortable: true}

@@ -64,15 +64,15 @@
                                 <tr>
                                     <td class="aright">Sex :</td>
                                     <td ><?= $vacancy["sex_text"] ?></td> 
-                                </tr>          
-                                <tr>
-                                    <td class="aright">Description :</td>
-                                    <td ><?= $vacancy["description"] ?></td> 
-                                </tr>          
+                                </tr>        
                                 <tr>
                                     <td class="aright">Expertise :</td>
                                     <td ><?= $expertise ?></td> 
-                                </tr>          
+                                </tr>
+                                <tr>
+                                    <td class="aright">Description :</td>
+                                    <td ><?= $vacancy["description"] ?></td> 
+                                </tr> 
                                 <tr>
                                     <td class="aright">Maintenance:</td>
                                     <td >
@@ -158,7 +158,7 @@
                             tabs: [
                                 { id: 'info', caption: 'Info Candidate' },
                                 { id: 'cv', caption: 'Curriculum Vitae' },
-                                { id: 'history', caption: 'History' },
+                                { id: 'history', caption: 'History' }
                             ],
                             onClick: function (event) {
                                 //this.owner.content('main', event);
@@ -263,11 +263,11 @@
                 candidate_id=w2ui['candidatebar'].selected ;           
             
             if(tab=="info"){
-                w2ui['layoutdetcandidate'].load('main', '{site_url}/hrsys/candidate/infoCandidate/'+candidate_id);
+                w2ui['layoutdetcandidate'].load('main', '{site_url}/hrsys/candidate/infoCandidate/'+candidate_id+"/<?=$vacancy["vacancy_id"] ?>");
             }else if(tab=="cv"){
-                w2ui['layoutdetcandidate'].load('main', '{site_url}/hrsys/candidate/cvCandidate/'+candidate_id);
+                w2ui['layoutdetcandidate'].load('main', '{site_url}/hrsys/candidate/cvCandidate/'+candidate_id)+"/<?=$vacancy["vacancy_id"] ?>";
             }else if(tab=="history"){
-                w2ui['layoutdetcandidate'].load('main', '{site_url}/hrsys/candidate/historyCandidate/'+candidate_id);
+                w2ui['layoutdetcandidate'].load('main', '{site_url}/hrsys/candidate/historyCandidate/'+candidate_id+"/<?=$vacancy["vacancy_id"] ?>");
             }            
         }
         

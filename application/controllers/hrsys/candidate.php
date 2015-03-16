@@ -97,8 +97,9 @@ class candidate extends Main_Controller {
     public function listCandidate($vacancy_id = "", $frompage = "") {
         $vacancy=$this->m_vacancy->get($vacancy_id);
         $breadcrumb=$this->setBreedcum($vacancy_id, $frompage);
+        $site_url = site_url();
         
-        $breadcrumb[] = array("link" => "#", "text" => "List Candidate");
+        $breadcrumb[] = array("link" => "$site_url/hrsys/candidate/listCandidate/$vacancy_id/$frompage", "text" => "Search Candidate");
         $postForm = isset($_POST['frm']) ? $_POST['frm'] : array();
         $sex_list=array(""=>"")+$this->m_lookup->comboLookup("sex");
         
@@ -148,24 +149,67 @@ class candidate extends Main_Controller {
         exit();
     }
     
-    public function detcandidate($candidate_id,$frompage="home",$vacancy_id=0){   
+    public function detcandidate($candidate_id,$vacancy_id=0,$frompage=""){   
+        $vacancy=$this->m_vacancy->get($vacancy_id);
         $candidate=$this->m_candidate->get($candidate_id);
-        $vacancy="";
-         $dataParse = array(
-           
-            
+        $breadcrumb=$this->setBreedcum($vacancy_id, $frompage);
+        $site_url = site_url();
+        
+        $breadcrumb[] = array("link" => "$site_url/hrsys/candidate/listCandidate/$vacancy_id/$frompage", "text" => "Search Candidate");
+        $breadcrumb[] = array("link" => "$site_url/hrsys/candidate/detcandidate/$candidate_id/$vacancy_id/$frompage", "text" => $candidate["name"]);
+        
+        $postForm = isset($_POST['frm']) ? $_POST['frm'] : array();
+        $sex_list=array(""=>"")+$this->m_lookup->comboLookup("sex");
+        
+        $dataParse = array(            
+            "candidate"=>$candidate,
+            "vacancy_id"=>$vacancy_id,
+            "postForm"=>$postForm,        
             "vacancy"=>$vacancy,
             "frompage"=>$frompage,    
-            "sex_list"=>$sex_list
+            "breadcrumb"=>$breadcrumb,
         );
         $this->loadContent('hrsys/candidate/detcandidate', $dataParse);
         
     }
-    public function infoCandidate($candidate_id){   
-        $candidate=$this->m_candidate->get($candidate_id);
+    public function infoCandidate($candidate_id,$vacancy_id=0,$showAddVac="hide"){   
+        $candidate=$this->m_candidate->getDetail($candidate_id);
+        $vacancy=$this->m_vacancy->getDetails($vacancy_id);
+      
+        $expertise =$this->m_skill->getExpertiseVacancy($vacancy_id);
+        $skill=array();
+        if(!empty($expertise)){
+            foreach ($expertise as $row){
+                $skill[]=$row["skill"];
+            }
+            $expertise=  implode(", ", $skill);
+        }
+        else{
+            $expertise="";
+        } 
+        
         if(empty($candidate)) exit;
         
-        echo "info candidate=".$candidate["name"];
+       // print_r($this->sessionUserData);
+      
+        $listVact=$this->m_vacancy->listOpenVacancy($this->emp_id,$this->user_id,in_array("hrsys_allclient", $this->ses_roles));
+       
+        
+        $listVacany=array();
+        if(!empty($listVact)){
+            foreach ($listVact as $vac){             
+               $listVacany[$vac["vacancy_id"]]=$vac["name"]; 
+            }
+        }        
+       
+        $dataParse = array(            
+            "candidate"=>$candidate,       
+            "listVacany"=>$listVacany,       
+            "vacancy"=>$vacancy,
+            "expertise"=>$expertise,
+            "showAddVac"=>$showAddVac
+        );
+        $this->loadContent('hrsys/candidate/infoCandidate', $dataParse);
         
     }
     public function cvCandidate($candidate_id){

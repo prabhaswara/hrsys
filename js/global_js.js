@@ -5,7 +5,7 @@
 
         $(".kendodropdown").kendoDropDownList();
         $(".kendocombo").kendoComboBox();
-        $(".jqbutton").button();
+        $(".kendobutton").kendoButton();
         $(".date").kendoDatePicker({format: "dd-MM-yyyy"});
         $(".date").mask('99-99-9999');
         $(".kendonumber").kendoNumericTextBox({culture: "id-ID",format: "n0"  ,min:0});

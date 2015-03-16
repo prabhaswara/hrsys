@@ -1,4 +1,4 @@
-<h2 class="form-title">List Candidate</h2>
+<h2 class="form-title">Search Candidate</h2>
 <div style="padding: 10px;">
     <?php
     echo breadcrumb_($breadcrumb)
@@ -44,7 +44,7 @@
 
 <script>
      function detailCandidate(recid){
-             $(window).gn_loadmain('{site_url}/hrsys/candidate/detcandidate/'+recid+'/{frompage}');
+             $(window).gn_loadmain('{site_url}/hrsys/candidate/detcandidate/'+recid+'/{vacancy_id}/{frompage}');
             return false;
         }
     $(function() {

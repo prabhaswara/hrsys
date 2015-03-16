@@ -14,6 +14,20 @@ class M_candidate extends Main_Model {
     function get($id){
         return $this->db->where("candidate_id",$id)->get("hrsys_candidate")->row_array();
     }
+    function getDetail($id){
+       $sql = "SELECT c.candidate_id,lksat.display_text status, c.name, c.email, c.phone ,c.expectedsalary " .
+               ", lksex.display_text sex,c.birthdate,YEAR(now())-YEAR(c.birthdate) age ".
+               ", ms.skill skill ".
+               "from hrsys_candidate c " .
+               "left join tpl_lookup lksat on lksat.type='candidate_stat' and c.status=lksat.value " .
+               "left join tpl_lookup lksex on lksex.type='sex' and c.sex=lksex.value " .
+               "left join (select candidate_id ,group_concat(skill separator', ') skill from hrsys_candidate_skill group by candidate_id order by skill) ms on ms.candidate_id=c.candidate_id ".
+               "WHERE c.candidate_id='$id'";
+       
+       return $this->db->query($sql)->row_array();
+       
+       
+    }
     
     public function validate($datafrm, $isEdit) {
         $return = array(
