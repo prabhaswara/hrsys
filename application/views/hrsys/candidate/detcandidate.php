@@ -6,7 +6,7 @@
         ?>
     </div> 
 </div>
-
+<input type="hidden" id="frompage" value="{frompage}" />
 <div id="candidateTab" style="width: 100%; height: 29px;"></div>
 <div id="candidateTab_c" class="tabboxwui2" style="position: absolute;top: 89px;bottom: 10px;left: 0px;right: 0px"></div>
 

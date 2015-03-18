@@ -109,8 +109,7 @@
 
 <script>
     function detailCandidate(candidate_id){
-         w2ui['detVacTab'].click('candidate_tab'); 
-         console.log(candidate_id);
+         w2ui['detVacTab'].click('candidate_tab');        
          w2ui['candidatebar'].click(candidate_id);   
          w2ui['candidatebar'].select(candidate_id);   
          

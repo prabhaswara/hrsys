@@ -50,6 +50,29 @@ class M_candidate extends Main_Model {
 
         return $return;
     }
+    
+    public function addCandidateToVacancy($candidate_id,$vacancy_id,$sessionData){
+        
+        $chek=$this->db
+                ->where("vacancy_id",$vacancy_id)
+                ->where("candidate_id",$candidate_id)
+                ->get("hrsys_vacancycandidate")->row_array();
+        if(empty($chek)){
+            $vacancycandidate=array();
+            $vacancycandidate["vacancycandidate_id"] = $this->generateID("vacancycandidate_id", "hrsys_vacancycandidate");
+            $vacancycandidate["candidate_id"] = $candidate_id;
+            $vacancycandidate["vacancy_id"] = $vacancy_id;
+            $vacancycandidate["applicant_stat"] = applicant_stat_shortlist;
+
+            $this->db->set('dateupdate', 'NOW()', FALSE);
+            $this->db->set('userupdate', $sessionData["user"]["user_id"]);
+            $this->db->set('datecreate', 'NOW()', FALSE);
+            $this->db->set('usercreate', $sessionData["user"]["user_id"]);
+            $this->db->insert('hrsys_vacancycandidate', $vacancycandidate);
+        }
+        
+    }
+    
     public function saveOrUpdate($data, $sessionData,&$candidate_id) {
         $vacancy_id=$data["vacancy_id"];
         
@@ -66,7 +89,7 @@ class M_candidate extends Main_Model {
         
         if($candidate_id==0){
             
-            $candidate_id=$this->uniqID();
+            $candidate_id=$this->generateID("candidate_id", "hrsys_candidate");
             $candidate["candidate_id"]=$candidate_id;
            
             $this->db->set('dateupdate', 'NOW()', FALSE);
@@ -78,7 +101,7 @@ class M_candidate extends Main_Model {
             $this->db->insert('hrsys_candidate', $candidate);
             
             if($vacancy_id!=0){
-                $vacancycandidate["vacancycandidate_id"]=$this->uniqID();
+                $vacancycandidate["vacancycandidate_id"]=$this->generateID("vacancycandidate_id","hrsys_vacancycandidate");
                 $vacancycandidate["candidate_id"]=$candidate_id;
                 $vacancycandidate["vacancy_id"]=$vacancy_id;
                 $vacancycandidate["applicant_stat"]=applicant_stat_shortlist;

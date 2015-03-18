@@ -16,6 +16,11 @@ class candidate extends Main_Controller {
         $this->load->model(array('admin/m_lookup', "hrsys/m_candidate", "hrsys/m_vacancy", "hrsys/m_client", "hrsys/m_skill"));
     }
 
+    function addCandidate($candidate_id,$vacancy_id,$frompage="allclient"){
+        
+        $this->m_candidate->addCandidateToVacancy($candidate_id,$vacancy_id,$this->sessionUserData);
+        redirect("hrsys/vacancy/contentVacancy/$vacancy_id/$frompage");
+    }
     
     public function addEditCandidate($candidate_id = 0, $vacancy_id = "", $frompage = "") {
         $ds=DIRECTORY_SEPARATOR;

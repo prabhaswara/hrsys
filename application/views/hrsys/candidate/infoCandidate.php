@@ -40,10 +40,13 @@
         <?php
         
                 if(empty($vacancy))
-                echo select_("choose_v",array() ,$listVacany,"style='width:200px' class='kendodropdown'");
+                    echo select_("v_vacancy_id",array() ,$listVacany,"style='width:200px' class='kendodropdown'");
+                else
+                    echo "<input type='hidden' id='v_vacancy_id' value='".(empty($vacancy)?'':$vacancy['vacancy_id'])."'/>";
         ?>
+        
         <button id="btn_addtoshortlist" style="float: right" class="kendobutton">Add To Shortlist</button>
-        <input type="hidden" id="v_vacancy_id" value="<?= empty($vacancy)?"":$vacancy["vacancy_id"] ?>" />
+      
     </div>
 
     <table>
@@ -79,8 +82,16 @@
 <script>
     $(function () {
         $("#btn_addtoshortlist").click(function () {
+           vacancy_id=$("#v_vacancy_id").val();
+           frompage=$("#frompage").val();
+           w2confirm('Are you sure add candidate to shortlist ?')
+            .yes(function () { 
+               $(window).gn_loadmain('{site_url}/hrsys/candidate/addCandidate/<?=$candidate["candidate_id"] ?>/'+vacancy_id+'/'+frompage);
            
-            return false;
+            });
+    
+           
+           return false;
         });
     $(this).init_js("{base_url}");
                 
