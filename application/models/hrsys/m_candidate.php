@@ -14,6 +14,10 @@ class M_candidate extends Main_Model {
     function get($id){
         return $this->db->where("candidate_id",$id)->get("hrsys_candidate")->row_array();
     }
+    
+    function getExperties($candidate_id){
+        return $this->db->where("candidate_id",$candidate_id)->order_by("skill")->get("hrsys_candidate_skill")->result_array();
+    }
     function getDetail($id){
        $sql = "SELECT c.candidate_id,lksat.display_text status, c.name, c.email, c.phone ,c.expectedsalary " .
                ", lksex.display_text sex,c.birthdate,YEAR(now())-YEAR(c.birthdate) age ".
@@ -63,7 +67,8 @@ class M_candidate extends Main_Model {
             $vacancycandidate["candidate_id"] = $candidate_id;
             $vacancycandidate["vacancy_id"] = $vacancy_id;
             $vacancycandidate["applicant_stat"] = applicant_stat_shortlist;
-
+            
+            $this->db->set('candidate_manager', $sessionData["employee"]["emp_id"]);
             $this->db->set('dateupdate', 'NOW()', FALSE);
             $this->db->set('userupdate', $sessionData["user"]["user_id"]);
             $this->db->set('datecreate', 'NOW()', FALSE);
@@ -105,6 +110,7 @@ class M_candidate extends Main_Model {
                 $vacancycandidate["candidate_id"]=$candidate_id;
                 $vacancycandidate["vacancy_id"]=$vacancy_id;
                 $vacancycandidate["applicant_stat"]=applicant_stat_shortlist;
+                $this->db->set('candidate_manager', $sessionData["employee"]["emp_id"]);
                 
                 $this->db->set('dateupdate', 'NOW()', FALSE);
                 $this->db->set('userupdate', $sessionData["user"]["user_id"]);

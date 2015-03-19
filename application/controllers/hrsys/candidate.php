@@ -24,9 +24,10 @@ class candidate extends Main_Controller {
     
     public function addEditCandidate($candidate_id = 0, $vacancy_id = "", $frompage = "") {
         $ds=DIRECTORY_SEPARATOR;
-        
+        $site_url=  site_url();
         $postForm = isset($_POST['frm']) ? $_POST['frm'] : array();
         $postExpertise = isset($_POST['expertise']) ? $this->m_skill->expertise($_POST['expertise']) : array();
+        $candidate="";
         
         $message="";
         $create_edit = "Edit";
@@ -38,7 +39,14 @@ class candidate extends Main_Controller {
         $vacancy=$this->m_vacancy->get($vacancy_id);
         $breadcrumb=$this->setBreedcum($vacancy_id, $frompage);
         
-        $breadcrumb[] = array("link" => "#", "text" => "$create_edit Candidate");
+        if($isEdit){
+            $candidate=$this->m_candidate->get($candidate_id);
+            $breadcrumb[] = array("link" => "$site_url/hrsys/candidate/listCandidate/$vacancy_id/$frompage", "text" => "Search Candidate");
+            $breadcrumb[] = array("link" => "$site_url/hrsys/candidate/detcandidate/$candidate_id/$vacancy_id/$frompage", "text" => $candidate["name"]);
+        
+        }
+        
+        $breadcrumb[] = array("link" => "$site_url/hrsys/candidate/addEditCandidate/$candidate_id/$vacancy_id/$frompage", "text" => "$create_edit Candidate");
         
         if (!empty($postForm)) {
             
@@ -67,7 +75,7 @@ class candidate extends Main_Controller {
                     exit;
                 }
                 else{
-                    echo "wew";exit;
+                    echo "error system save candidate";exit;
                 }
             }
 
@@ -79,8 +87,9 @@ class candidate extends Main_Controller {
           
         }
         
-        if (empty($postForm) && !$isEdit){
-            
+        if (empty($postForm) && $isEdit){
+            $postForm=$candidate;
+            $postExpertise=$this->m_candidate->getExperties($candidate_id);
         }
         
         $sex_list=array(""=>"")+$this->m_lookup->comboLookup("sex");
@@ -205,22 +214,35 @@ class candidate extends Main_Controller {
             foreach ($listVact as $vac){             
                $listVacany[$vac["vacancy_id"]]=$vac["name"]; 
             }
-        }        
+        }       
+        
+        $canEdit=$showAddVac=="show"?true:false;
        
         $dataParse = array(            
             "candidate"=>$candidate,       
             "listVacany"=>$listVacany,       
             "vacancy"=>$vacancy,
             "expertise"=>$expertise,
-            "showAddVac"=>$showAddVac
+            "showAddVac"=>$showAddVac,
+            "canEdit"=>$canEdit
         );
         $this->loadContent('hrsys/candidate/infoCandidate', $dataParse);
         
     }
+    
+    public function uploadDoc(){
+        
+    }
+    
     public function cvCandidate($candidate_id){
-        $candidate=$this->m_candidate->get($candidate_id);
-        if(empty($candidate)) exit;
-        echo "cv candidate=".$candidate["name"];
+        
+        $ds=DIRECTORY_SEPARATOR;
+        $filepath=$this->dir_candidate.$candidate_id.$ds."main_cv.pdf";
+        if(file_exists($filepath))
+        {
+            $hrefPDF=$this->site_candidate.$candidate_id."/main_cv.pdf";
+            echo "<iframe src='$hrefPDF' width='100%' style='height:100%;border:none' align='right'>[Your browser does <em>not</em> support <code>iframe</code>,or has been configured not to display inline frames.You can access <a href='$hrefPDF'>the document</a>via a link though.]</iframe>";
+        }
         
     }
     public function historyCandidate($candidate_id){

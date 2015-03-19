@@ -177,9 +177,10 @@ class vacancy extends Main_Controller {
                 $where.="vc.applicant_stat='".$_POST["typesearch"]."' and";
         }
 
-        $sql = "SELECT  vc.vacancycandidate_id recid,c.candidate_id c_sp_candidate_id ,c.name c_sp_name,c.phone c_sp_phone,vc.expectedsalary vc_sp_expectedsalary,klstate.display_text klstate_sp_display_text " .
+        $sql = "SELECT  vc.vacancycandidate_id recid,c.candidate_id c_sp_candidate_id ,c.name c_sp_name,c.phone c_sp_phone,vc.expectedsalary vc_sp_expectedsalary,klstate.display_text klstate_sp_display_text,cm.fullname cm_sp_fullname " .
                "from hrsys_vacancycandidate vc " .
                "join hrsys_candidate c on vc.candidate_id=c.candidate_id ".
+               "left join hrsys_employee cm on vc.candidate_manager=cm.emp_id ".
                "left join tpl_lookup klstate on klstate.type='applicant_stat' and vc.applicant_stat=klstate.value " .
                "WHERE ~search~ and $where 1=1 ORDER BY ~sort~";
 

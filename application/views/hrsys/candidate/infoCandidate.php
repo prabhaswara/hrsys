@@ -1,3 +1,16 @@
+<?php 
+    if($canEdit){
+?>
+<div>
+    <button id="editInfo">Edit Info</button>
+    <button id="mntDoc">Maintenance Documents</button>
+</div>
+<?php
+    }
+
+?>
+
+
 <div  class="form-tbl" >      
     <table>
         <tr>
@@ -81,18 +94,29 @@
 
 <script>
     $(function () {
-        $("#btn_addtoshortlist").click(function () {
-           vacancy_id=$("#v_vacancy_id").val();
-           frompage=$("#frompage").val();
-           w2confirm('Are you sure add candidate to shortlist ?')
-            .yes(function () { 
-               $(window).gn_loadmain('{site_url}/hrsys/candidate/addCandidate/<?=$candidate["candidate_id"] ?>/'+vacancy_id+'/'+frompage);
-           
-            });
-    
+              
+    $("#editInfo").click(function () {
+        
+        vacancy_id=$("#v_vacancy_id").val();
+        frompage=$("#frompage").val();
+        $(window).gn_loadmain('{site_url}/hrsys/candidate/addEditCandidate/<?= $candidate["candidate_id"] ?>/'+vacancy_id+'/'+frompage);
+        
+        
+    });
+    $("#mntDoc").click(function () {
            
            return false;
-        });
+    });
+    
+    $("#btn_addtoshortlist").click(function () {
+        vacancy_id=$("#v_vacancy_id").val();
+        frompage=$("#frompage").val();
+        w2confirm('Are you sure add candidate to shortlist ?')
+        .yes(function () { 
+            $(window).gn_loadmain('{site_url}/hrsys/candidate/addCandidate/<?= $candidate["candidate_id"] ?>/'+vacancy_id+'/'+frompage);
+        });           
+        return false;
+    });
     $(this).init_js("{base_url}");
                 
 

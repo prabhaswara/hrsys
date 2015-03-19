@@ -186,10 +186,11 @@
                         return "<span class='fa-zoom-in imgbt' onclick='detailCandidate(\"" + record.c_sp_candidate_id + "\")' ></span>"
                     }
                 },
+                {field: 'klstate_sp_display_text', caption: 'State', size: '120px', searchable: true, sortable: true},
                 {field: 'c_sp_name', caption: 'Name', size: '100%', searchable: true, sortable: true},
                 {field: 'c_sp_phone', caption: 'Phone', size: '120px', searchable: true, sortable: true},
                 {field: 'cv_sp_expectedsalary', caption: 'Expected Salary', size: '120px', searchable: true, sortable: true},
-                {field: 'klstate_sp_display_text', caption: 'State', size: '120px', searchable: true, sortable: true}
+                {field: 'cm_sp_fullname', caption: 'CM', size: '120px', searchable: true, sortable: true}
             ],
             onRequest: function(event) {
                 event.postData.typesearch=$("#typesearch").val();
