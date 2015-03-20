@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Mar 16, 2015 at 06:08 AM
+-- Generation Time: Mar 20, 2015 at 02:24 
 -- Server version: 5.1.37
 -- PHP Version: 5.3.0
 
@@ -40,8 +40,8 @@ CREATE TABLE IF NOT EXISTS `ci_sessions` (
 --
 
 INSERT INTO `ci_sessions` (`session_id`, `ip_address`, `user_agent`, `last_activity`, `user_data`) VALUES
-('52351aabf540d3520e85ce81b6999e69', '::1', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:36.0) Gecko/20100101 Firefox/36.0', 1426385133, 'a:2:{s:9:"user_data";s:0:"";s:12:"hrsys_userdt";a:3:{s:4:"user";a:8:{s:7:"user_id";s:23:"142274855454cd6b8aeea54";s:8:"username";s:4:"rika";s:10:"active_non";s:1:"1";s:10:"last_login";N;s:10:"datecreate";s:19:"2015-02-01 06:55:30";s:10:"usercreate";s:5:"admin";s:10:"dateupdate";s:19:"2015-02-26 11:06:17";s:10:"userupdate";s:23:"142199957054c1fdd26eca3";}s:5:"roles";a:5:{i:0;s:10:"adm_lookup";i:1;s:8:"adm_menu";i:2;s:8:"adm_role";i:3;s:8:"adm_user";i:4;s:16:"hrsys_allmeeting";}s:8:"employee";a:8:{s:6:"emp_id";s:4:"1005";s:4:"name";s:4:"Rika";s:8:"fullname";s:12:"Rika Fadilah";s:5:"phone";N;s:9:"birthdate";N;s:3:"sex";N;s:7:"user_id";s:23:"142274855454cd6b8aeea54";s:10:"active_non";s:1:"1";}}}'),
-('ad363a4616bf8b977b8dff5b600b8d3f', '::1', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:36.0) Gecko/20100101 Firefox/36.0', 1426387898, 'a:2:{s:9:"user_data";s:0:"";s:12:"hrsys_userdt";a:3:{s:4:"user";a:8:{s:7:"user_id";s:23:"142274855454cd6b8aeea54";s:8:"username";s:4:"rika";s:10:"active_non";s:1:"1";s:10:"last_login";N;s:10:"datecreate";s:19:"2015-02-01 06:55:30";s:10:"usercreate";s:5:"admin";s:10:"dateupdate";s:19:"2015-02-26 11:06:17";s:10:"userupdate";s:23:"142199957054c1fdd26eca3";}s:5:"roles";a:5:{i:0;s:10:"adm_lookup";i:1;s:8:"adm_menu";i:2;s:8:"adm_role";i:3;s:8:"adm_user";i:4;s:16:"hrsys_allmeeting";}s:8:"employee";a:8:{s:6:"emp_id";s:4:"1005";s:4:"name";s:4:"Rika";s:8:"fullname";s:12:"Rika Fadilah";s:5:"phone";N;s:9:"birthdate";N;s:3:"sex";N;s:7:"user_id";s:23:"142274855454cd6b8aeea54";s:10:"active_non";s:1:"1";}}}');
+('4883e9e9fc132aafdfbd55e8c64d49d9', '::1', 'Mozilla/5.0 (Windows NT 6.1; rv:36.0) Gecko/20100101 Firefox/36.0', 1426833571, 'a:2:{s:9:"user_data";s:0:"";s:12:"hrsys_userdt";a:3:{s:4:"user";a:8:{s:7:"user_id";s:23:"142274855454cd6b8aeea54";s:8:"username";s:4:"rika";s:10:"active_non";s:1:"1";s:10:"last_login";N;s:10:"datecreate";s:19:"2015-02-01 06:55:30";s:10:"usercreate";s:5:"admin";s:10:"dateupdate";s:19:"2015-02-26 11:06:17";s:10:"userupdate";s:23:"142199957054c1fdd26eca3";}s:5:"roles";a:5:{i:0;s:10:"adm_lookup";i:1;s:8:"adm_menu";i:2;s:8:"adm_role";i:3;s:8:"adm_user";i:4;s:16:"hrsys_allmeeting";}s:8:"employee";a:8:{s:6:"emp_id";s:4:"1005";s:4:"name";s:4:"Rika";s:8:"fullname";s:12:"Rika Fadilah";s:5:"phone";N;s:9:"birthdate";N;s:3:"sex";N;s:7:"user_id";s:23:"142274855454cd6b8aeea54";s:10:"active_non";s:1:"1";}}}'),
+('9c88245559e4d00252fded66ffee0ae6', '::1', 'Mozilla/5.0 (Windows NT 6.1; rv:36.0) Gecko/20100101 Firefox/36.0', 1426835991, 'a:2:{s:9:"user_data";s:0:"";s:12:"hrsys_userdt";a:3:{s:4:"user";a:8:{s:7:"user_id";s:23:"142274855454cd6b8aeea54";s:8:"username";s:4:"rika";s:10:"active_non";s:1:"1";s:10:"last_login";N;s:10:"datecreate";s:19:"2015-02-01 06:55:30";s:10:"usercreate";s:5:"admin";s:10:"dateupdate";s:19:"2015-02-26 11:06:17";s:10:"userupdate";s:23:"142199957054c1fdd26eca3";}s:5:"roles";a:5:{i:0;s:10:"adm_lookup";i:1;s:8:"adm_menu";i:2;s:8:"adm_role";i:3;s:8:"adm_user";i:4;s:16:"hrsys_allmeeting";}s:8:"employee";a:8:{s:6:"emp_id";s:4:"1005";s:4:"name";s:4:"Rika";s:8:"fullname";s:12:"Rika Fadilah";s:5:"phone";N;s:9:"birthdate";N;s:3:"sex";N;s:7:"user_id";s:23:"142274855454cd6b8aeea54";s:10:"active_non";s:1:"1";}}}');
 
 -- --------------------------------------------------------
 
@@ -58,7 +58,6 @@ CREATE TABLE IF NOT EXISTS `hrsys_candidate` (
   `expectedsalary` bigint(20) unsigned DEFAULT NULL,
   `birthdate` date DEFAULT NULL,
   `sex` char(1) DEFAULT NULL,
-  `cv_url` varchar(500) DEFAULT NULL,
   `datecreate` date DEFAULT NULL,
   `usercreate` varchar(30) DEFAULT NULL,
   `dateupdate` date DEFAULT NULL,
@@ -70,10 +69,11 @@ CREATE TABLE IF NOT EXISTS `hrsys_candidate` (
 -- Dumping data for table `hrsys_candidate`
 --
 
-INSERT INTO `hrsys_candidate` (`candidate_id`, `status`, `name`, `phone`, `email`, `expectedsalary`, `birthdate`, `sex`, `cv_url`, `datecreate`, `usercreate`, `dateupdate`, `userupdate`) VALUES
-('142500613154efde338685e', 1, 'Gunawan', '0812', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-('142500639054efdf3663a51', 1, 'Sule', '0815', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-('14263876715504f2d7dcc8a', 1, 'Hermawan', '021', 'hermawan@gmail.com', 8000000, '1985-11-13', 'm', NULL, '2015-03-15', '142274855454cd6b8aeea54', '2015-03-15', '142274855454cd6b8aeea54');
+INSERT INTO `hrsys_candidate` (`candidate_id`, `status`, `name`, `phone`, `email`, `expectedsalary`, `birthdate`, `sex`, `datecreate`, `usercreate`, `dateupdate`, `userupdate`) VALUES
+('142500613154efde338685e', 1, 'Gunawan', '0812', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+('142500639054efdf3663a51', 1, 'Sule', '0815', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+('14263876715504f2d7dcc8a', 1, 'Hermawan', '021', 'hermawan@gmail.com', 8000000, '1985-11-13', 'm', '2015-03-15', '142274855454cd6b8aeea54', '2015-03-15', '142274855454cd6b8aeea54'),
+('1426816898550b7f82f351d', 1, 'Sigit', '08123', '', 0, '1984-03-20', 'm', '2015-03-20', '142274855454cd6b8aeea54', '2015-03-20', '142274855454cd6b8aeea54');
 
 -- --------------------------------------------------------
 
@@ -111,7 +111,10 @@ CREATE TABLE IF NOT EXISTS `hrsys_candidate_skill` (
 INSERT INTO `hrsys_candidate_skill` (`candidate_id`, `skill`) VALUES
 ('14263876715504f2d7dcc8a', 'Java'),
 ('14263876715504f2d7dcc8a', 'Oracle'),
-('14263876715504f2d7dcc8a', 'Mysql');
+('14263876715504f2d7dcc8a', 'Mysql'),
+('1426816898550b7f82f351d', '#C'),
+('1426816898550b7f82f351d', '.Net'),
+('1426816898550b7f82f351d', 'SQL Server');
 
 -- --------------------------------------------------------
 
@@ -276,7 +279,9 @@ INSERT INTO `hrsys_cmpyclient_trl` (`cmpyclient_trl_id`, `cmpyclient_id`, `type`
 ('142537909154f58f132e778', '142485912054ed9ff00b24a', 'vacancy', '142537909154f58f132e436', 'Victor Siahaan Create Vacancy IT Manager', '2015-03-03 17:37:47', '142274812054cd69d85cf66'),
 ('142537994254f592666a9ab', '142485919554eda03b9c271', 'vacancy', '142537994254f592666a5d2', 'Budi Wicaksono Create Vacancy test', '2015-03-03 17:51:58', '142274810554cd69c9f0e29'),
 ('142569897054fa709a72415', '142569897054fa709a7208a', '', '', 'Rika Fadilah Created test', '2015-03-07 10:29:06', '142274855454cd6b8aeea54'),
-('142569921654fa719078e34', '142569897054fa709a7208a', 'vacancy', '142569921654fa719078be7', 'Rika Fadilah Create Vacancy sss', '2015-03-07 10:33:12', '142274855454cd6b8aeea54');
+('142569921654fa719078e34', '142569897054fa709a7208a', 'vacancy', '142569921654fa719078be7', 'Rika Fadilah Create Vacancy sss', '2015-03-07 10:33:12', '142274855454cd6b8aeea54'),
+('1426731393550a31810d93d', '142485942554eda121d300d', 'vacancy', '1426731393550a3181067b9', 'Rika Fadilah Create Vacancy Programmer', '2015-03-19 09:16:09', '142274855454cd6b8aeea54'),
+('1426731505550a31f1e67a5', '142485942554eda121d300d', 'vacancy', '1426731505550a31f1e64f3', 'Rika Fadilah Create Vacancy Account Manager', '2015-03-19 09:18:01', '142274855454cd6b8aeea54');
 
 -- --------------------------------------------------------
 
@@ -393,7 +398,10 @@ INSERT INTO `hrsys_skill` (`skill`) VALUES
 ('Cisco'),
 ('Oracle'),
 ('Java'),
-('Mysql');
+('Mysql'),
+('.Net'),
+('#C'),
+('SQL Server');
 
 -- --------------------------------------------------------
 
@@ -428,15 +436,8 @@ CREATE TABLE IF NOT EXISTS `hrsys_vacancy` (
 --
 
 INSERT INTO `hrsys_vacancy` (`vacancy_id`, `cmpyclient_id`, `name`, `opendate`, `description`, `num_position`, `fee`, `salary_1`, `salary_2`, `age_1`, `age_2`, `sex`, `account_manager`, `status`, `datecreate`, `usercreate`, `dateupdate`, `userupdate`) VALUES
-('142487593454ede19e47b1b', '142485942554eda121d300d', 'Account manager Government', '2015-03-08', '5 year Experience', 1, '1', 0, 0, 0, 0, '', '1005', 1, '2015-02-25 21:51:50', '142274855454cd6b8aeea54', '2015-03-13 09:45:34', '142274855454cd6b8aeea54'),
-('142500632154efdef19feaa', '142485942554eda121d300d', 'test', '2015-02-27', 'wew', 1, NULL, NULL, NULL, NULL, NULL, NULL, '1005', 1, '2015-02-27 10:04:57', '142274855454cd6b8aeea54', '2015-02-27 10:04:57', '142274855454cd6b8aeea54'),
-('142521701754f315f933caa', '142485942554eda121d300d', 'aa', '2015-03-01', '', 1, NULL, 10000000, 12000000, 20, 30, 'm', '1005', 1, '2015-03-01 20:36:33', '142274855454cd6b8aeea54', '2015-03-01 20:36:33', '142274855454cd6b8aeea54'),
-('142537880754f58df752105', '142485942554eda121d300d', 'It Helpdesk manager', '2015-03-03', '', 1, NULL, 0, 0, 0, 0, '', '1005', 1, '2015-03-03 17:33:03', '142274855454cd6b8aeea54', '2015-03-03 17:33:03', '142274855454cd6b8aeea54'),
-('142537881554f58dff40c7e', '142485942554eda121d300d', 'RSM-', '2015-03-07', 'responsible in manage account', 12, '25', 200000000, 300000000, 40, 50, '', '1005', 1, '2015-03-03 17:33:11', '142274855454cd6b8aeea54', '2015-03-07 15:41:06', '142274855454cd6b8aeea54'),
-('142537901054f58ec2cf821', '142485932754eda0bf3c4c1', 'programmer', '2015-03-03', '', 1, NULL, 0, 0, 0, 0, '', '1003', 1, '2015-03-03 17:36:26', '142274831954cd6a9f6fab9', '2015-03-03 17:36:26', '142274831954cd6a9f6fab9'),
-('142537909154f58f132e436', '142485912054ed9ff00b24a', 'IT Manager', '2015-03-03', '', 1, NULL, 0, 0, 35, 0, 'm', '1001', 1, '2015-03-03 17:37:47', '142274812054cd69d85cf66', '2015-03-03 17:37:47', '142274812054cd69d85cf66'),
-('142537994254f592666a5d2', '142485919554eda03b9c271', 'test', '2015-03-03', '', 1, NULL, 0, 0, 0, 0, '', '1002', 1, '2015-03-03 17:51:58', '142274810554cd69c9f0e29', '2015-03-03 17:51:58', '142274810554cd69c9f0e29'),
-('142569921654fa719078be7', '142569897054fa709a7208a', 'sss', '2015-03-07', 'gs', 1, NULL, 3, 5, 1, 2, 'm', '1005', 1, '2015-03-07 10:33:12', '142274855454cd6b8aeea54', '2015-03-07 10:33:12', '142274855454cd6b8aeea54');
+('1426731393550a3181067b9', '142485942554eda121d300d', 'Programmer', '2015-03-19', 'test', 1, '25', 10000000, 15000000, 30, 35, 'm', '1005', 1, '2015-03-19 09:16:09', '142274855454cd6b8aeea54', '2015-03-20 13:43:16', '142274855454cd6b8aeea54'),
+('1426731505550a31f1e64f3', '142485942554eda121d300d', 'Account Manager', '2015-03-19', '', 1, '25', 0, 0, 0, 0, '', '1005', 1, '2015-03-19 09:18:01', '142274855454cd6b8aeea54', '2015-03-19 09:18:01', '142274855454cd6b8aeea54');
 
 -- --------------------------------------------------------
 
@@ -464,10 +465,8 @@ CREATE TABLE IF NOT EXISTS `hrsys_vacancycandidate` (
 --
 
 INSERT INTO `hrsys_vacancycandidate` (`vacancycandidate_id`, `vacancy_id`, `candidate_id`, `applicant_stat`, `approvedsalary`, `expectedsalary`, `datecreate`, `usercreate`, `dateupdate`, `userupdate`, `candidate_manager`) VALUES
-('142500613154efde3386b12', '142487593454ede19e47b1b', '142500613154efde338685e', 1, NULL, NULL, '2015-02-27 10:01:47', '142274855454cd6b8aeea54', '2015-02-27 10:01:47', '142274855454cd6b8aeea54', NULL),
-('142500639054efdf3663bfb', '142487593454ede19e47b1b', '142500639054efdf3663a51', 1, NULL, NULL, '2015-02-27 10:06:06', '142274855454cd6b8aeea54', '2015-02-27 10:06:06', '142274855454cd6b8aeea54', NULL),
-('142537907454f58f029c28b', '142537901054f58ec2cf821', '142537907454f58f029c148', 1, NULL, NULL, '2015-03-03 17:37:30', '142274831954cd6a9f6fab9', '2015-03-03 17:37:30', '142274831954cd6a9f6fab9', NULL),
-('142537995054f5926ec4ce8', '142537994254f592666a5d2', '142537995054f5926ec4b60', 1, NULL, NULL, '2015-03-03 17:52:06', '142274810554cd69c9f0e29', '2015-03-03 17:52:06', '142274810554cd69c9f0e29', NULL);
+('1426731407550a318f46442', '1426731393550a3181067b9', '142500613154efde338685e', 1, NULL, NULL, '2015-03-19 09:16:23', '142274855454cd6b8aeea54', '2015-03-19 09:16:23', '142274855454cd6b8aeea54', '1005'),
+('1426731454550a31bec3f34', '1426731393550a3181067b9', '14263876715504f2d7dcc8a', 1, NULL, NULL, '2015-03-19 09:17:10', '142274810554cd69c9f0e29', '2015-03-19 09:17:10', '142274810554cd69c9f0e29', '1002');
 
 -- --------------------------------------------------------
 
@@ -486,23 +485,9 @@ CREATE TABLE IF NOT EXISTS `hrsys_vacancyuser` (
 --
 
 INSERT INTO `hrsys_vacancyuser` (`vacancy_id`, `user_id`) VALUES
-('142487593454ede19e47b1b', '142274855454cd6b8aeea54'),
-('142500632154efdef19feaa', '142274855454cd6b8aeea54'),
-('142521701754f315f933caa', '142274810554cd69c9f0e29'),
-('142521701754f315f933caa', '142274831954cd6a9f6fab9'),
-('142521701754f315f933caa', '142274855454cd6b8aeea54'),
-('142537880754f58df752105', '142274855454cd6b8aeea54'),
-('142537881554f58dff40c7e', '142274810554cd69c9f0e29'),
-('142537881554f58dff40c7e', '142274812054cd69d85cf66'),
-('142537881554f58dff40c7e', '142274831954cd6a9f6fab9'),
-('142537881554f58dff40c7e', '142274833454cd6aaeed52b'),
-('142537881554f58dff40c7e', '142274855454cd6b8aeea54'),
-('142537901054f58ec2cf821', '142274831954cd6a9f6fab9'),
-('142537909154f58f132e436', '142274812054cd69d85cf66'),
-('142537909154f58f132e436', '142274855454cd6b8aeea54'),
-('142537994254f592666a5d2', '142274810554cd69c9f0e29'),
-('142569921654fa719078be7', '142274810554cd69c9f0e29'),
-('142569921654fa719078be7', '142274855454cd6b8aeea54');
+('1426731393550a3181067b9', '142274810554cd69c9f0e29'),
+('1426731393550a3181067b9', '142274855454cd6b8aeea54'),
+('1426731505550a31f1e64f3', '142274855454cd6b8aeea54');
 
 -- --------------------------------------------------------
 
@@ -520,8 +505,9 @@ CREATE TABLE IF NOT EXISTS `hrsys_vacancy_skill` (
 --
 
 INSERT INTO `hrsys_vacancy_skill` (`vacancy_id`, `skill`) VALUES
-('142487593454ede19e47b1b', 'PHP'),
-('142487593454ede19e47b1b', 'Cisco');
+('1426731393550a3181067b9', '.Net'),
+('1426731393550a3181067b9', 'Java'),
+('1426731393550a3181067b9', 'PHP');
 
 -- --------------------------------------------------------
 

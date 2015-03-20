@@ -14,9 +14,10 @@ class M_skill extends Main_Model {
     }
 
     function getExpertiseVacancy($vacancy_id) {
-        return $this->db->where("vacancy_id", $vacancy_id)->get("hrsys_vacancy_skill")->result_array();
+        return $this->db->where("vacancy_id", $vacancy_id)->order_by("skill")->get("hrsys_vacancy_skill")->result_array();
     }
-function expertise($skill_list){
+    
+    function expertise($skill_list){
         $dataReturn = array();
         foreach($skill_list as $skill){
             $dataReturn[]=array("skill"=>$skill);

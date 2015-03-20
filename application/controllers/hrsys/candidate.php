@@ -49,7 +49,7 @@ class candidate extends Main_Controller {
         $breadcrumb[] = array("link" => "$site_url/hrsys/candidate/addEditCandidate/$candidate_id/$vacancy_id/$frompage", "text" => "$create_edit Candidate");
         
         if (!empty($postForm)) {
-            
+           
             $validate = $this->m_candidate->validate($postForm, $isEdit);
             if ($validate["status"]) {
                 $dataSave["candidate"]=$postForm;
@@ -58,21 +58,14 @@ class candidate extends Main_Controller {
                 
                 if ($this->m_candidate->saveOrUpdate($dataSave, $this->sessionUserData,$candidate_id)) {
                 
-                    if(isset($_FILES["cv"])&&!empty($_FILES["cv"])){
+                    if(isset($_FILES["cv"])&&!empty($_FILES["cv"]) && cleanstr($_FILES["cv"]["name"])!=""){
                         $ds=DIRECTORY_SEPARATOR;
                         $filename=$this->dir_candidate.$candidate_id.$ds."main_cv.pdf";
                         $this->upload_file("cv",$filename);
                        
                     }
                     
-                    
-                    if($frompage==""){
-                        redirect("hrsys/candidate/addEditCandidate/");
-                    }
-                    else{
-                        redirect("hrsys/vacancy/contentVacancy/$vacancy_id/$frompage");
-                    }
-                    exit;
+                    redirect( "hrsys/candidate/detCandidate/$candidate_id/$vacancy_id/$frompage");
                 }
                 else{
                     echo "error system save candidate";exit;
@@ -83,12 +76,14 @@ class candidate extends Main_Controller {
             if (!empty($error_message)) {
                 $message = showMessage($error_message);
             }
-            
+           
           
         }
         
         if (empty($postForm) && $isEdit){
             $postForm=$candidate;
+            
+            $postForm["birthdate"]=  balikTgl($postForm["birthdate"]);
             $postExpertise=$this->m_candidate->getExperties($candidate_id);
         }
         
@@ -107,7 +102,7 @@ class candidate extends Main_Controller {
         );
         $this->loadContent('hrsys/candidate/addEditCandidate', $dataParse);
     }
-    
+        
     public function listCandidate($vacancy_id = "", $frompage = "") {
         $vacancy=$this->m_vacancy->get($vacancy_id);
         $breadcrumb=$this->setBreedcum($vacancy_id, $frompage);
@@ -127,6 +122,7 @@ class candidate extends Main_Controller {
         );
         $this->loadContent('hrsys/candidate/listCandidate', $dataParse);
     }
+    
     public function jsonListCandidate() {
        $where = "";
 
@@ -229,10 +225,7 @@ class candidate extends Main_Controller {
         $this->loadContent('hrsys/candidate/infoCandidate', $dataParse);
         
     }
-    
-    public function uploadDoc(){
-        
-    }
+   
     
     public function cvCandidate($candidate_id){
         
@@ -283,7 +276,71 @@ class candidate extends Main_Controller {
         return $breadcrumb;
     }
     
+    public function maintenanceDoc($candidate_id = 0, $vacancy_id = "", $frompage = "") {
+        $ds = DIRECTORY_SEPARATOR;
+        $site_url=  site_url();
+        
+        $vacancy = $this->m_vacancy->get($vacancy_id);
+        $breadcrumb = $this->setBreedcum($vacancy_id, $frompage);
+        
+        $folder=$this->dir_candidate . $candidate_id . $ds."doc".$ds;
+        
+        
+        if (isset($_FILES["filedoc"]) && !empty($_FILES["filedoc"]) && cleanstr($_FILES["filedoc"]["name"]) != "") {
+            $ds = DIRECTORY_SEPARATOR;
+            $filename = $folder . $_FILES["filedoc"]["name"];
+            $this->upload_file("filedoc", $filename);
+        }
+        
+        $listFile=array();
+        if (is_dir($folder)) {
+            if ($dh = opendir($folder)) {
+                while (($file = readdir($dh)) !== false) {                    
+                    if(!is_dir($folder.$file))
+                        $listFile[]=$file;
+                }
+                closedir($dh);
+            }
+        }
+
+        $candidate = $this->m_candidate->get($candidate_id);
+        $breadcrumb[] = array("link" => "$site_url/hrsys/candidate/listCandidate/$vacancy_id/$frompage", "text" => "Search Candidate");
+        $breadcrumb[] = array("link" => "$site_url/hrsys/candidate/detcandidate/$candidate_id/$vacancy_id/$frompage", "text" => $candidate["name"]);
+        $breadcrumb[] = array("link" => "$site_url/hrsys/candidate/maintenanceDoc/$candidate_id/$vacancy_id/$frompage", "text" => "Maintenance DOC");
+
+        $dataParse = array(
+            "candidate"=>$candidate,
+            "vacancy_id"=>$vacancy_id,
+            "vacancy"=>$vacancy,
+            "frompage"=>$frompage,    
+            "breadcrumb"=>$breadcrumb,
+            "listFile"=>$listFile
+           
+        );
+        $this->loadContent('hrsys/candidate/maintenanceDoc', $dataParse);
+    }
+    public function deleteDoc($filename,$candidate_id, $vacancy_id = "", $frompage = "") {
+        $ds = DIRECTORY_SEPARATOR;
+        $site_url=  site_url();
+        $filepath=$this->dir_candidate . $candidate_id . $ds."doc".$ds.$filename;        
+        if(file_exists($filepath)) unlink($filepath);
+        
+        redirect("hrsys/candidate/maintenanceDoc/$candidate_id/$vacancy_id/$frompage");
+        
+    }
     
+    public function downloadDoc($filename,$candidate_id) {
+        $ds = DIRECTORY_SEPARATOR;
+        $site_url=  site_url();
+        $filepath=$this->dir_candidate . $candidate_id . $ds."doc".$ds.$filename; 
+        
+        header("Content-type: ".mime_content_type($filepath)); 
+        header("Content-disposition: attachment; filename=$filename");                             
+        readfile($filepath);          
+        exit();
+        
+        
+    }
 
     
 

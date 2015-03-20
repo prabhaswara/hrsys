@@ -100,29 +100,15 @@ class M_candidate extends Main_Model {
             $this->db->set('dateupdate', 'NOW()', FALSE);
             $this->db->set('userupdate', $sessionData["user"]["user_id"]);
             $this->db->set('datecreate', 'NOW()', FALSE);
-            $this->db->set('usercreate', $sessionData["user"]["user_id"]);             
-          
-            
-            $this->db->insert('hrsys_candidate', $candidate);
-            
-            if($vacancy_id!=0){
-                $vacancycandidate["vacancycandidate_id"]=$this->generateID("vacancycandidate_id","hrsys_vacancycandidate");
-                $vacancycandidate["candidate_id"]=$candidate_id;
-                $vacancycandidate["vacancy_id"]=$vacancy_id;
-                $vacancycandidate["applicant_stat"]=applicant_stat_shortlist;
-                $this->db->set('candidate_manager', $sessionData["employee"]["emp_id"]);
-                
-                $this->db->set('dateupdate', 'NOW()', FALSE);
-                $this->db->set('userupdate', $sessionData["user"]["user_id"]);
-                $this->db->set('datecreate', 'NOW()', FALSE);
-                $this->db->set('usercreate', $sessionData["user"]["user_id"]);             
-            
-                $this->db->insert('hrsys_vacancycandidate', $vacancycandidate);
-            }
-            
+            $this->db->set('usercreate', $sessionData["user"]["user_id"]);           
+            $this->db->insert('hrsys_candidate', $candidate);       
+
         }
         else{
-           
+            $this->db->set('dateupdate', 'NOW()', FALSE);
+            $this->db->set('userupdate', $sessionData["user"]["user_id"]);
+            
+            $this->db->update('hrsys_candidate', $candidate,array('candidate_id'=>$candidate_id));
         }
         
         $this->db->delete( 'hrsys_candidate_skill', array( 'candidate_id' => $candidate_id ) );

@@ -279,7 +279,20 @@ class vacancy extends Main_Controller {
     
     public function jsonDetVac($vacancy_id){
         header("Content-Type: application/json;charset=utf-8");
-        echo json_encode($this->m_vacancy->getDetails($vacancy_id));
+        $data=$this->m_vacancy->getDetails($vacancy_id);
+        $expertise =$this->m_skill->getExpertiseVacancy($vacancy_id);
+        $skill=array();
+        if(!empty($expertise)){
+            foreach ($expertise as $row){
+                $skill[]=$row["skill"];
+            }
+            $expertise=  implode(", ", $skill);
+        }
+        else{
+            $expertise="";
+        }   
+        $data["expertise"]=$expertise;
+        echo json_encode($data);
         exit();
     }
     

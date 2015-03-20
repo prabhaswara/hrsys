@@ -18,7 +18,7 @@
             <td><?= $candidate["name"] ?></td>        
         </tr>
         <tr>
-            <td class="aright">Birth Day:</td>
+            <td class="aright">Birth Date:</td>
             <td><?= balikTgl($candidate["birthdate"]) .
  (cleanstr($candidate["age"]) == "" ? "" : ", " . $candidate["age"] . " years old" )
 ?></td>        
@@ -65,7 +65,7 @@
     <table>
         <tr>
             <td class="aright">Vacancy :</td>
-            <td><?= empty($vacancy)?"":$vacancy["name"] ?></td>
+            <td id="v_vacancy"><?= empty($vacancy)?"":$vacancy["name"] ?></td>
         </tr>
         <tr>
             <td class="aright">Salary :</td>
@@ -93,24 +93,81 @@
 </div>
 
 <script>
+     function numberseparator(x) {
+            return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+          }
+          
     $(function () {
-              
-    $("#editInfo").click(function () {
         
+       
+
+<?php 
+    if(empty($vacancy)){
+?>
+        $("#v_vacancy_id").change(function () {
+            
+            $.ajax({
+                type: "POST",            
+                url: '{site_url}/hrsys/vacancy/jsonDetVac/'+$("#v_vacancy_id").val(),
+                beforeSend: function (xhr) {
+                    $("#ajaxDiv").attr("class", "ajax-show");
+
+                },
+                success: function (data) {
+                    $("#v_vacancy").html(data.name);
+                    
+                    salary="";
+                    if(data.salary_1=="0" ){data.salary_1="";}
+                    if(data.salary_2=="0" ){ data.salary_2="";}                    
+                    if(data.salary_1!="" || data.salary_2!=""){
+                        salary=numberseparator(data.salary_1)+" - "+numberseparator(data.salary_2)+" (IDR)" ;
+                    }
+                    $("#v_salary").html(salary);
+                    
+                    age="";
+                    if(data.age_1=="0" ){data.age_1="";}
+                    if(data.age_2=="0" ){ data.age_2="";}                    
+                    if(data.age_1!="" || data.age_2!=""){
+                        age=data.age_1+" - "+data.age_2
+                    }                    
+                    $("#v_age").html(age);
+                  
+                    $("#v_sex").html(data.sex_text);
+                    $("#v_expertise").html(data.expertise);
+                    $("#v_description").html(data.description);
+                   console.log(data);
+                    $("#ajaxDiv").attr("class", "ajax-hide");
+                    
+                }                
+            });
+        });
+<?php
+    }
+?>
+    
+    $("#editInfo").click(function () {   
         vacancy_id=$("#v_vacancy_id").val();
-        frompage=$("#frompage").val();
+        frompage=$("#frompage").val(); 
+    
         $(window).gn_loadmain('{site_url}/hrsys/candidate/addEditCandidate/<?= $candidate["candidate_id"] ?>/'+vacancy_id+'/'+frompage);
-        
-        
+        return false;        
     });
-    $("#mntDoc").click(function () {
-           
-           return false;
+    $("#mntDoc").click(function () { 
+        vacancy_id=$("#v_vacancy_id").val();
+        frompage=$("#frompage").val(); 
+        $(window).gn_loadmain('{site_url}/hrsys/candidate/maintenanceDoc/<?= $candidate["candidate_id"] ?>/'+vacancy_id+'/'+frompage);
+        return false;
     });
     
     $("#btn_addtoshortlist").click(function () {
+      
         vacancy_id=$("#v_vacancy_id").val();
-        frompage=$("#frompage").val();
+        frompage=$("#frompage").val(); 
+        if(vacancy_id==""){
+        w2alert('Please Select Vacancy');
+        return false;
+    }
+      
         w2confirm('Are you sure add candidate to shortlist ?')
         .yes(function () { 
             $(window).gn_loadmain('{site_url}/hrsys/candidate/addCandidate/<?= $candidate["candidate_id"] ?>/'+vacancy_id+'/'+frompage);
