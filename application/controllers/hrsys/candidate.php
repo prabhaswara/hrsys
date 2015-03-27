@@ -210,7 +210,25 @@ class candidate extends Main_Controller {
             foreach ($listVact as $vac){             
                $listVacany[$vac["vacancy_id"]]=$vac["name"]; 
             }
-        }       
+        }  
+        
+        ///
+        $ds = DIRECTORY_SEPARATOR;        
+        $folder=$this->dir_candidate . $candidate_id . $ds."doc".$ds;
+        
+        
+        $listFile=array();
+        if (is_dir($folder)) {
+            if ($dh = opendir($folder)) {
+                while (($file = readdir($dh)) !== false) {                    
+                    if(!is_dir($folder.$file))
+                        $listFile[]=$file;
+                }
+                closedir($dh);
+            }
+        }
+        
+        $cv=file_exists($this->dir_candidate . $candidate_id . $ds."main_cv.pdf");
         
         $canEdit=$showAddVac=="show"?true:false;
        
@@ -220,7 +238,9 @@ class candidate extends Main_Controller {
             "vacancy"=>$vacancy,
             "expertise"=>$expertise,
             "showAddVac"=>$showAddVac,
-            "canEdit"=>$canEdit
+            "canEdit"=>$canEdit,
+            "listFile"=>$listFile,
+            "cv"=>$cv
         );
         $this->loadContent('hrsys/candidate/infoCandidate', $dataParse);
         
@@ -326,6 +346,22 @@ class candidate extends Main_Controller {
         if(file_exists($filepath)) unlink($filepath);
         
         redirect("hrsys/candidate/maintenanceDoc/$candidate_id/$vacancy_id/$frompage");
+        
+    }
+    public function downloadCV($candidate_id) {
+        $ds = DIRECTORY_SEPARATOR;
+        $site_url=  site_url();
+        $filepath=$this->dir_candidate . $candidate_id . $ds."main_cv.pdf"; 
+        
+        $candidate=$this->m_candidate->get($candidate_id);
+        
+        $filename=  str_replace(" ", "_", $candidate["name"].".pdf");
+        
+        header("Content-type: ".mime_content_type($filepath)); 
+        header("Content-disposition: attachment; filename=cv_".$filename);                             
+        readfile($filepath);          
+        exit();
+        
         
     }
     

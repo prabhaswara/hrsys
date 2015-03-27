@@ -42,7 +42,27 @@
         <tr>
             <td class="aright">Expertise :</td>
             <td><?= $candidate["skill"] ?></td>        
-        </tr>               
+        </tr>     
+        
+        <tr>
+            <td class="aright">Curriculum vitae :</td>
+            <td><?=$cv?"<a href='$site_url/hrsys/candidate/downloadCV/".$candidate["candidate_id"]."'>main_cv.pdf</a>":""  ?></td>        
+        </tr>
+        
+        
+        <?php
+    if(!empty($listFile)){
+        $row=0;
+        foreach($listFile as $file){
+            echo "<tr> <td class='aright'>".($row==0?"Other Documents :":"")." </td> <td>".
+                 "<a href='$site_url/hrsys/candidate/downloadDoc/$file/".$candidate["candidate_id"]."'>$file</a>".
+                 "</td></tr>";
+        $row++;
+            
+        }
+        
+    }
+?>
 
     </table>
 
@@ -89,6 +109,8 @@
             <td class="aright">Description :</td>
             <td  id="v_description"><?= empty($vacancy)?"":$vacancy["description"] ?></td> 
         </tr>
+        
+        
     </table>
 </div>
 
