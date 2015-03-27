@@ -221,12 +221,12 @@
             $.ajax({
                 type: "POST",
                 data: new FormData(this),
-    mimeType:"multipart/form-data",
-    contentType: false,
-        cache: false,
-        processData:false,                
+                mimeType: "multipart/form-data",
+                contentType: false,
+                cache: false,
+                processData: false,
                 url: $(this).attr("action"),
-                beforeSend: function (xhr) {
+                beforeSend: function(xhr) {
                     $("#ajaxDiv").attr("class", "ajax-show");
 
                 },
@@ -248,7 +248,7 @@
         });
     };
     
-    ///
+   
         $.fn.gn_onPopupSubmit = function (divpopup,grid) {
         $(this).submit(function (event) {
             $.ajax({
@@ -286,7 +286,52 @@
 
 
     };
-    ///
+    
+     $.fn.gn_onPopupSubmitFile = function (divpopup,grid) {
+         
+        $(this).submit(function (event) {
+             
+            $.ajax({
+                type: "POST",
+                data: new FormData(this),
+                mimeType:"multipart/form-data",
+                contentType: false,
+                cache: false,
+                processData:false, 
+                url: $(this).attr("action"),
+                beforeSend: function (xhr) {
+                    $("#ajaxDiv").attr("class", "ajax-show");
+
+                },
+                success: function (data) {
+
+                    if (data == "close_popup") {
+                        w2popup.close();
+                    } else {
+                        $('#'+divpopup).html(data);
+                    }
+                    loadingShow(false);
+                    
+                    if(grid!=null)
+                         grid.reload();
+                },
+                statusCode: {
+                    500: function () {
+                        loadingShow(false);
+                    },
+                    404: function () {
+                        loadingShow(false);
+                    }
+                }
+            });
+            return false;
+
+        });
+
+
+    };
+    
+  
 
 
     $.fn.gn_loadmain = function (url) {

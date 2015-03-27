@@ -46,7 +46,7 @@ class client extends Main_Controller {
                 $breadcrumb[]=array("link"=>"$site_url/hrsys/client/addEditClient","text"=>"New Client");             
                 break;
         }
-         $breadcrumb[]=array("link"=>"#","text"=>$client["name"]);  
+         $breadcrumb[]=array("link"=>"$site_url/hrsys/client/detclient/$id/$frompage","text"=>$client["name"]);  
      
          
         $canedit=false;
@@ -68,8 +68,129 @@ class client extends Main_Controller {
     public function prospect() {
         $this->loadContent('hrsys/client/prospect');
     }
+    public function formContract($client_id=0,$cmpyclient_ctrk_id =0) {
+     
+        $ds=DIRECTORY_SEPARATOR;
+        
+        $postForm = isset($_POST['frm']) ? $_POST['frm'] : array();
+       
+        $create_edit = "Edit";
+        $isEdit = true;
+        if ($cmpyclient_ctrk_id  == 0 ) {           
+            $create_edit = "New";
+            $isEdit = false;
+             
+        }
+     
+
+        $message = "";
+        if (!empty($postForm) ) {
+            $folder=$this->dir_client.$client_id;
+            $postfile=$_FILES["doc_url"];
+            
+            $validate = $this->m_client->validateContract($postForm,$postfile,$folder);
+            if ($validate["status"]) {
+                
+               if(!empty($postfile) && cleanstr($postfile["name"])!=""){
+                    $postForm["doc_url"]=$postfile["name"];
+               }
+               $postForm["cmpyclient_id"]=$client_id;
+               $oldContract=$this->m_client->getContract($cmpyclient_ctrk_id);
+               if ($this->m_client->saveUpdateContract($postForm, $this->sessionUserData,$cmpyclient_ctrk_id)) {
+                   
+                   $newContract=$this->m_client->getContract($cmpyclient_ctrk_id);
+                   
+                   if(!empty($oldContract)&&!empty($postfile)&&$oldContract["doc_url"]!=$newContract["doc_url"]&&file_exists($folder.$ds.$oldContract["doc_url"])){
+                        unlink($folder.$ds.$oldContract["doc_url"]);
+                   }
+                   
+                   if(!empty($postfile) && cleanstr($postfile["name"])!=""){
+                        $ds=DIRECTORY_SEPARATOR;
+                        $filename=$folder.$ds.$postfile["name"];
+                        $this->upload_file("doc_url",$filename);
+                       
+                    }
+                    
+                    echo "close_popup";
+                    exit;
+               }
+            }
+            
+            $error_message = isset($validate["message"]) ? $validate["message"] : array();
+            if (!empty($error_message)) {
+                $message = showMessage($error_message);
+            }
+        }
+        
+
+        if($isEdit && empty($postForm)){
+           $postForm=$this->m_client->getContract($cmpyclient_ctrk_id);
+            $postForm["contractdate_1"]=  balikTgl($postForm["contractdate_1"]);
+            $postForm["contractdate_2"]=  balikTgl($postForm["contractdate_2"]);
+            $postForm["cmpyclient_ctrk_id"]=  $cmpyclient_ctrk_id;
+            
+        }
+  
+        $client = $this->m_client->get($client_id);    
+        $dataParse = array(
+            "isEdit"=>$isEdit,
+            "message"=>$message,
+            "postForm"=>$postForm,           
+            "client"=> $client
+                );
+        $this->loadContent('hrsys/client/formContract', $dataParse);
+        
+    }
+    public function viewContract($client_id) {
+        
+    }
+    public function infContract($client_id) {
+        
+      $client=$this->m_client->get($client_id);
+        $user_id=$this->user_id;
+        $where="";
+        if(!empty($_POST)&&$_POST["pg_action"]=="json"){
+            
+            if (isset($_POST["sort"]) && !empty($_POST["sort"])){
+                foreach ($_POST["sort"] as $key => $value) {
+                    $_POST["sort"][$key] = str_replace("_sp_", ".", $value);
+                }                
+            }else{
+                $_POST["sort"][0]['direction'] ='desc';
+                 $_POST["sort"][0]['field'] ='contractdate_2 '; 
+            }
+            if (isset($_POST["search"]) && !empty($_POST["search"]))
+                foreach ($_POST["search"] as $key => $value) {
+                    $_POST["search"][$key] = str_replace("_sp_", ".", $value);
+                }       
+         
+            
+            $where.="cmpyclient_id ='$client_id' and ";
+            
+            $sql = "SELECT *".
+                   "from hrsys_cmpyclient_ctrk " .
+                   "WHERE ~search~ and $where 1=1 ORDER BY ~sort~";
+
+
+            $data = $this->m_menu->w2grid($sql, $_POST);
+            header("Content-Type: application/json;charset=utf-8");
+            echo json_encode($data);
+            exit();
+        
+        }
+        
+        $canedit=false;
+        if ($client["account_manager"] == $this->emp_id || in_array("hrsys_allvacancies", $this->ses_roles)) {
+            $canedit=true;
+        }
+
+        $dataParse = array("client_id"=> $client_id,
+            "canedit"=>$canedit
+            );
+       $this->loadContent('hrsys/client/infContract', $dataParse);
+    }
     public function infClient($id) {
-       $client = $this->m_client->get($id);   
+      $client = $this->m_client->get($id);   
       $canEdit=false;
        
        if(

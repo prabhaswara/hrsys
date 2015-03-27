@@ -37,7 +37,7 @@ class M_client extends Main_Model {
         
         $userInsert = (isset($sessionData["employee"]["fullname"]) && !empty($sessionData["employee"]["fullname"])) ? $sessionData["employee"]["fullname"] :
         $sessionData["user"]["username"];
-        $dataTrl["cmpyclient_trl_id"] = $this->uniqID();
+        $dataTrl["cmpyclient_trl_id"] = $this->generateID("cmpyclient_trl_id","hrsys_cmpyclient_trl");
         $dataTrl["cmpyclient_id"] = $cmpyclient_id;        
         $dataTrl["description"] = "$userInsert Update Info " . $dtLama["name"];
         if($method=="changeToClient"){
@@ -62,11 +62,12 @@ class M_client extends Main_Model {
         return $this->db->trans_status();
     }
 
+    
     public function newClient($datafrm, $sessionData) {
         unset($datafrm["cmpyclient_id"]);
         $this->db->trans_start(TRUE);
 
-        $this->cmpyclient_id = $this->uniqID();
+        $this->cmpyclient_id = $this->generateID("cmpyclient_id","hrsys_cmpyclient");
         $this->db->set('cmpyclient_id', $this->cmpyclient_id);
         $this->db->set('datecreate', 'NOW()', FALSE);
         $this->db->set('usercreate', $sessionData["user"]["user_id"]);
@@ -83,7 +84,7 @@ class M_client extends Main_Model {
         $sessionData["user"]["username"];
 
 
-        $dataTrl["cmpyclient_trl_id"] = $this->uniqID();
+        $dataTrl["cmpyclient_trl_id"] = $this->generateID("cmpyclient_trl_id","hrsys_cmpyclient_trl");
         $dataTrl["cmpyclient_id"] = $this->cmpyclient_id;
         $dataTrl["description"] = "$userInsert Created " . $datafrm["name"];
         
@@ -115,6 +116,119 @@ class M_client extends Main_Model {
 
         return $return;
     }
+    
+    public function validateContract($datafrm,$file,$folder) {
+        $return = array(
+            'status' => true,
+            'message' => array()
+        );
+        $cmpyclient_ctrk_id=$datafrm["cmpyclient_ctrk_id"];
+
+        if (!empty($datafrm)) {
+            
+            
+
+            if (cleanstr($datafrm["contract_num"]) == "") {
+                $return["status"] = false;
+                $return["message"]["contract_num"] = "Contract Number cannot be empty";
+            }
+            if (cleanstr($datafrm["contractdate_1"]) == "") {
+                $return["status"] = false;
+                $return["message"]["contractdate_1"] = "Begin Date cannot be empty";
+            }
+            if (cleanstr($datafrm["contractdate_2"]) == "") {
+                $return["status"] = false;
+                $return["message"]["contractdate_2"] = "End Date cannot be empty";
+            }
+            if(isset($file["name"])&&$file["name"]!=""){
+                
+                $filename=$file["name"];
+                $filetype=$file["type"];
+                
+                $fileExist=file_exists($folder.DIRECTORY_SEPARATOR.$filename);
+              
+                if(!in_array($filetype, array("application/pdf","text/pdf"))){
+                     $return["message"]["doc_url"] = "Document must pdf file ";
+                }else if($fileExist){                    
+                    $contract=$this->getContract($cmpyclient_ctrk_id);
+//                    echo "fileexist=".$fileExist."<br>";
+//                    echo "filename=".$filename."<br>";
+//                    echo "doc_url=".$contract["doc_url"]."<br>";
+//                    
+                    if($cmpyclient_ctrk_id=="0"||$cmpyclient_ctrk_id==""||
+                       ($contract!=null && $fileExist && $filename!=$contract["doc_url"])     
+                    ){
+                         $return["message"]["doc_url"] = "File is exists";
+                    }
+                                 
+                }         
+            }          
+           
+        }
+
+        return $return;
+    }
+    
+    
+    function setstatusContract($cmpyclient_id){
+        
+        $this->db->update('hrsys_cmpyclient_ctrk', array("active_non"=>"0"), 
+                    array('cmpyclient_id' => $cmpyclient_id));
+                
+                
+        $contract=$this->db->where("cmpyclient_id",$cmpyclient_id)
+                ->order_by("contractdate_2","desc")
+                ->limit(1)
+                ->get("hrsys_cmpyclient_ctrk")->row_array();
+        if($contract!=null){
+            $this->db->update('hrsys_cmpyclient_ctrk', array("active_non"=>"1"), 
+                    array('cmpyclient_ctrk_id' => $contract["cmpyclient_ctrk_id"]));
+        }
+                
+    }
+    
+    public function deleteContract($cmpyclient_ctrk_id){
+        $this->db->delete( 'hrsys_cmpyclient_ctrk', array( 'cmpyclient_ctrk_id' => $cmpyclient_ctrk_id ) );
+        $this->setstatusContract($cmpyclient_ctrk_id);
+        
+    }
+
+    public function getContract($cmpyclient_ctrk_id){
+        return $this->db->where("cmpyclient_ctrk_id",$cmpyclient_ctrk_id)->get("hrsys_cmpyclient_ctrk")->row_array();
+    }
+    public function saveUpdateContract($dataFrm,$sessionData,$cmpyclient_ctrk_id){
+        
+        $return=false;
+        $dataFrm["contractdate_1"]=  balikTgl($dataFrm["contractdate_1"]);
+        $dataFrm["contractdate_2"]=  balikTgl($dataFrm["contractdate_2"]);
+        
+       
+        unset($dataFrm["cmpyclient_ctrk_id"]);
+        
+       
+        
+        $this->db->set('datecreate', 'NOW()', FALSE);
+        $this->db->set('usercreate', $sessionData["user"]["user_id"]);
+        if($cmpyclient_ctrk_id==""||$cmpyclient_ctrk_id=="0"){
+            
+            $cmpyclient_ctrk_id=$this->generateID("cmpyclient_ctrk_id", "hrsys_cmpyclient_ctrk");
+            
+            $dataFrm["cmpyclient_ctrk_id"]=$cmpyclient_ctrk_id;
+            $return=$this->db->insert('hrsys_cmpyclient_ctrk', $dataFrm); 
+           }else{
+             
+           $this->db->set('dateupdate', 'NOW()', FALSE);
+           $this->db->set('userupdate', $sessionData["user"]["user_id"]);            
+           $return=$this->db->update('hrsys_cmpyclient_ctrk', $dataFrm, array('cmpyclient_ctrk_id' => $cmpyclient_ctrk_id));
+        
+           
+           
+        }
+        $this->setstatusContract($dataFrm["cmpyclient_id"]);
+        return $return;
+        
+    }
+    
 
 }
 

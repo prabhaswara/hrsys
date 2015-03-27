@@ -11,6 +11,8 @@ class Main_Controller extends CI_Controller {
     var $ses_roles="";
     var $dir_candidate;
     var $site_candidate;
+    var $dir_client;
+    var $site_client;
 
     function mkpath($path)
     {
@@ -44,6 +46,9 @@ class Main_Controller extends CI_Controller {
         $ds=DIRECTORY_SEPARATOR;
         $this->dir_candidate="fl".$ds."candidates".$ds;
         $this->site_candidate= base_url()."fl/candidates/";
+        
+        $this->dir_client="fl".$ds."client".$ds;
+        $this->site_client= base_url()."fl/client/";
                 
         $this->sessionUserData=$this->session->userdata(SES_USERDT);
         $this->username=$this->sessionUserData["user"]["username"];

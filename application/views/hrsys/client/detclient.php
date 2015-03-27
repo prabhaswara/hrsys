@@ -26,6 +26,9 @@
                         ,{id: 'meeting', caption: 'Meeting Appointment', url: '{site_url}/hrsys/meeting/infMeeting/<?= $id ?>'}
                         <?php if($client["status"]==1){ ?>
                         ,{id: 'vacancies', caption: 'Vacancies', url: '{site_url}/hrsys/vacancy/infVacancy/<?= $id ?>'}
+                        
+                        ,{id: 'contract', caption: 'Contract', url: '{site_url}/hrsys/client/infContract/<?= $id ?>'}
+                        
                         <?php } ?>
                         ,{id: 'history', caption: 'History', url: '{site_url}/hrsys/client/infHistory/<?= $id ?>'}
                         <?php if($canedit) { ?>
