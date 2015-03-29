@@ -230,7 +230,7 @@ class candidate extends Main_Controller {
         
         $cv=file_exists($this->dir_candidate . $candidate_id . $ds."main_cv.pdf");
         
-        $canEdit=$showAddVac=="show"?true:false;
+        $canedit=$showAddVac=="show"?true:false;
        
         $dataParse = array(            
             "candidate"=>$candidate,       
@@ -238,7 +238,7 @@ class candidate extends Main_Controller {
             "vacancy"=>$vacancy,
             "expertise"=>$expertise,
             "showAddVac"=>$showAddVac,
-            "canEdit"=>$canEdit,
+            "canedit"=>$canedit,
             "listFile"=>$listFile,
             "cv"=>$cv
         );
@@ -290,7 +290,7 @@ class candidate extends Main_Controller {
                     $breadcrumb[] = array("link" => "$site_url/hrsys/client/myclient", "text" => "My Client");
                     break;
             }
-            $breadcrumb[] = array("link" => "$site_url/hrsys/client/detclient/" . $client["cmpyclient_id"] . "/" . $frompage, "text" => $client["name"]);
+            $breadcrumb[] = array("link" => "$site_url/hrsys/client/detclient/" . $client["cmpyclient_id"] . "/" . $frompage."/vacancies", "text" => $client["name"]);
             $breadcrumb[] = array("link" => "$site_url/hrsys/vacancy/contentVacancy/" . $vacancy["vacancy_id"] . "/" . $frompage, "text" => $vacancy["name"]);
         }
         return $breadcrumb;

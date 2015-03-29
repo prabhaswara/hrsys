@@ -1,5 +1,5 @@
 <div>
-<?php if($canEdit){
+<?php if($canedit){
 ?>
     <button  id="editClient"> <span class="fa-edit">&nbsp;</span> Edit General Info</button>
 <?php } ?>

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Mar 27, 2015 at 05:03 
+-- Generation Time: Mar 30, 2015 at 07:00 AM
 -- Server version: 5.1.37
 -- PHP Version: 5.3.0
 
@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS `ci_sessions` (
 --
 
 INSERT INTO `ci_sessions` (`session_id`, `ip_address`, `user_agent`, `last_activity`, `user_data`) VALUES
-('11b02fa0deb7a95b4fd4a4ed2b9327b9', '::1', 'Mozilla/5.0 (Windows NT 6.1; rv:36.0) Gecko/20100101 Firefox/36.0', 1427450476, 'a:2:{s:9:"user_data";s:0:"";s:12:"hrsys_userdt";a:3:{s:4:"user";a:8:{s:7:"user_id";s:23:"142274855454cd6b8aeea54";s:8:"username";s:4:"rika";s:10:"active_non";s:1:"1";s:10:"last_login";N;s:10:"datecreate";s:19:"2015-02-01 06:55:30";s:10:"usercreate";s:5:"admin";s:10:"dateupdate";s:19:"2015-02-26 11:06:17";s:10:"userupdate";s:23:"142199957054c1fdd26eca3";}s:5:"roles";a:5:{i:0;s:10:"adm_lookup";i:1;s:8:"adm_menu";i:2;s:8:"adm_role";i:3;s:8:"adm_user";i:4;s:16:"hrsys_allmeeting";}s:8:"employee";a:8:{s:6:"emp_id";s:4:"1005";s:4:"name";s:4:"Rika";s:8:"fullname";s:12:"Rika Fadilah";s:5:"phone";N;s:9:"birthdate";N;s:3:"sex";N;s:7:"user_id";s:23:"142274855454cd6b8aeea54";s:10:"active_non";s:1:"1";}}}');
+('6410c4eaa314cb1f12e277ef32965935', '::1', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:36.0) Gecko/20100101 Firefox/36.0', 1427606260, 'a:2:{s:9:"user_data";s:0:"";s:12:"hrsys_userdt";a:3:{s:4:"user";a:8:{s:7:"user_id";s:23:"142274855454cd6b8aeea54";s:8:"username";s:4:"rika";s:10:"active_non";s:1:"1";s:10:"last_login";N;s:10:"datecreate";s:19:"2015-02-01 06:55:30";s:10:"usercreate";s:5:"admin";s:10:"dateupdate";s:19:"2015-02-26 11:06:17";s:10:"userupdate";s:23:"142199957054c1fdd26eca3";}s:5:"roles";a:5:{i:0;s:10:"adm_lookup";i:1;s:8:"adm_menu";i:2;s:8:"adm_role";i:3;s:8:"adm_user";i:4;s:16:"hrsys_allmeeting";}s:8:"employee";a:8:{s:6:"emp_id";s:4:"1005";s:4:"name";s:4:"Rika";s:8:"fullname";s:12:"Rika Fadilah";s:5:"phone";N;s:9:"birthdate";N;s:3:"sex";N;s:7:"user_id";s:23:"142274855454cd6b8aeea54";s:10:"active_non";s:1:"1";}}}');
 
 -- --------------------------------------------------------
 
@@ -73,24 +73,6 @@ INSERT INTO `hrsys_candidate` (`candidate_id`, `status`, `name`, `phone`, `email
 ('142500639054efdf3663a51', 1, 'Sule', '0815', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 ('14263876715504f2d7dcc8a', 1, 'Hermawan', '021', 'hermawan@gmail.com', 8000000, '1985-11-13', 'm', '2015-03-15', '142274855454cd6b8aeea54', '2015-03-15', '142274855454cd6b8aeea54'),
 ('1426816898550b7f82f351d', 1, 'Sigit', '08123', '', 0, '1984-03-20', 'm', '2015-03-20', '142274855454cd6b8aeea54', '2015-03-20', '142274855454cd6b8aeea54');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `hrsys_candidate_doc`
---
-
-CREATE TABLE IF NOT EXISTS `hrsys_candidate_doc` (
-  `candidate_doc_id` varchar(30) NOT NULL,
-  `candidate_id` varchar(30) DEFAULT NULL,
-  `doc_url` varchar(500) DEFAULT NULL,
-  PRIMARY KEY (`candidate_doc_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `hrsys_candidate_doc`
---
-
 
 -- --------------------------------------------------------
 
@@ -161,7 +143,7 @@ INSERT INTO `hrsys_cmpyclient` (`cmpyclient_id`, `name`, `address`, `website`, `
 ('142485943854eda12e27638', 'PT indo Kordsa Global Tbk', '', '', '', '', '1', '1005', '2015-02-25 17:16:54', '142274855454cd6b8aeea54', '2015-02-25 17:16:54', ''),
 ('142485945254eda13c4ca7d', 'PT Mitra Solusi Telematika', '', '', '', '', '1', '1005', '2015-02-25 17:17:08', '142274855454cd6b8aeea54', '2015-02-25 17:17:08', ''),
 ('142485946454eda14830919', 'AKR Corporindo', '', '', '', '', '1', '1005', '2015-02-25 17:17:20', '142274855454cd6b8aeea54', '2015-02-25 17:17:20', ''),
-('142537807354f58b195d85d', 'PT. Multipolar tbk', 'karawaci', 'www.multipolar.co.id', 'nina', '081461177163', '0', '', '2015-03-03 17:20:49', '142274855454cd6b8aeea54', '2015-03-03 17:21:26', '142274855454cd6b8aeea54'),
+('142537807354f58b195d85d', 'PT. Multipolar tbk', 'karawaci', 'www.multipolar.co.id', 'ninaa', '081461177163', '1', '1005', '2015-03-03 17:20:49', '142274855454cd6b8aeea54', '2015-03-29 10:25:47', '142274855454cd6b8aeea54'),
 ('142569897054fa709a7208a', 'test', 'test', '', '', '', '1', '1005', '2015-03-07 10:29:06', '142274855454cd6b8aeea54', '2015-03-07 10:29:06', NULL);
 
 -- --------------------------------------------------------
@@ -191,8 +173,7 @@ CREATE TABLE IF NOT EXISTS `hrsys_cmpyclient_ctrk` (
 --
 
 INSERT INTO `hrsys_cmpyclient_ctrk` (`cmpyclient_ctrk_id`, `cmpyclient_id`, `contract_num`, `doc_url`, `fee`, `active_non`, `contractdate_1`, `contractdate_2`, `datecreate`, `usercreate`, `dateupdate`, `userupdate`) VALUES
-('14274499485515285c91906', '142485942554eda121d300d', 'b', 'kartuBPPT.pdf', '12', 0, '2015-03-03', '2015-03-05', '2015-03-27', '142274855454cd6b8aeea54', NULL, NULL),
-('1427450321551529d1ed0e8', '142485942554eda121d300d', 'xxx', 'Daftar Riwayat Hidup.pdf', '15', 1, '2015-03-01', '2015-03-31', '2015-03-27', '142274855454cd6b8aeea54', '2015-03-27', '142274855454cd6b8aeea54');
+('142759177955175263319e7', '142485942554eda121d300d', 'aaaa', NULL, '20', 1, '2015-03-01', '2015-03-31', '2015-03-29', '142274855454cd6b8aeea54', '2015-03-29', '142274855454cd6b8aeea54');
 
 -- --------------------------------------------------------
 
@@ -225,7 +206,31 @@ INSERT INTO `hrsys_cmpyclient_meet` (`meet_id`, `cmpyclient_id`, `type`, `person
 ('142487425654eddb10ef536', '142485942554eda121d300d', '1', 'Ryan Oktora', 'Mall Ambasador', '2015-02-04 12:00:00', 'meeting with Ryan Oktora in Mall Ambasador at 04-02-2015 12:00', '1', 'Membicarakan Vacancy Baru', '2015-02-25 21:23:52', '142274855454cd6b8aeea54', '2015-02-25 21:37:14', '142274855454cd6b8aeea54'),
 ('142487521954edded317bd3', '142485938654eda0fa1b2a6', '1', 'Bobi', 'Senayan City', '2015-02-27 14:00:00', 'meeting with Bobi in Senayan City at 27-02-2015 14:00', NULL, NULL, '2015-02-25 21:39:55', '142274833454cd6aaeed52b', '2015-03-01 21:31:25', '142274833454cd6aaeed52b'),
 ('142537822054f58bac76cc8', '142537807354f58b195d85d', '1', 'HR Director', 'Karawaci', '2015-03-12 02:00:00', 'Presentation BGC Service', NULL, NULL, '2015-03-03 17:23:16', '142274855454cd6b8aeea54', '2015-03-03 17:23:16', '142274855454cd6b8aeea54'),
-('142733999155137ad7cdf50', '142485942554eda121d300d', '1', 'Ryan Oktora', '', '2015-03-26 10:00:00', 'meeting with Ryan Oktora', NULL, NULL, '2015-03-26 10:19:27', '142274855454cd6b8aeea54', '2015-03-26 10:19:27', '142274855454cd6b8aeea54');
+('1427605732551788e428690', '142485942554eda121d300d', '1', 'Ryan Oktora', '', '2015-03-29 12:00:00', 'meeting with Ryan Oktora at 29-03-2015 12:00', NULL, NULL, '2015-03-29 13:08:28', '142274855454cd6b8aeea54', '2015-03-29 13:08:28', '142274855454cd6b8aeea54');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `hrsys_cmpyclient_note`
+--
+
+CREATE TABLE IF NOT EXISTS `hrsys_cmpyclient_note` (
+  `note_id` varchar(30) NOT NULL,
+  `cmpyclient_id` varchar(30) DEFAULT NULL,
+  `description` text,
+  `datecreate` datetime DEFAULT NULL,
+  `usercreate` varchar(30) DEFAULT NULL,
+  `dateupdate` datetime DEFAULT NULL,
+  `userupdate` varchar(30) DEFAULT NULL,
+  PRIMARY KEY (`note_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `hrsys_cmpyclient_note`
+--
+
+INSERT INTO `hrsys_cmpyclient_note` (`note_id`, `cmpyclient_id`, `description`, `datecreate`, `usercreate`, `dateupdate`, `userupdate`) VALUES
+('1427605744551788f0a48d8', '142485942554eda121d300d', 'Test', '2015-03-29 13:08:40', '142274855454cd6b8aeea54', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -285,7 +290,12 @@ INSERT INTO `hrsys_cmpyclient_trl` (`cmpyclient_trl_id`, `cmpyclient_id`, `type`
 ('142569921654fa719078e34', '142569897054fa709a7208a', 'vacancy', '142569921654fa719078be7', 'Rika Fadilah Create Vacancy sss', '2015-03-07 10:33:12', '142274855454cd6b8aeea54'),
 ('1426731393550a31810d93d', '142485942554eda121d300d', 'vacancy', '1426731393550a3181067b9', 'Rika Fadilah Create Vacancy Programmer', '2015-03-19 09:16:09', '142274855454cd6b8aeea54'),
 ('1426731505550a31f1e67a5', '142485942554eda121d300d', 'vacancy', '1426731505550a31f1e64f3', 'Rika Fadilah Create Vacancy Account Manager', '2015-03-19 09:18:01', '142274855454cd6b8aeea54'),
-('142733999155137ad7d4bdc', '142485942554eda121d300d', 'meeting', '142733999155137ad7cdf50', 'meeting with Ryan Oktora', '2015-03-26 10:19:27', '142274855454cd6b8aeea54');
+('142759177955175263378d9', '142485942554eda121d300d', 'contract', '142759177955175263319e7', 'Create Contract aaaa', '2015-03-29 09:15:55', '142274855454cd6b8aeea54'),
+('14275955825517613e92f68', '142537807354f58b195d85d', '', '', 'Change status from prospect to client AM is Rika Fadilah', '2015-03-29 10:19:18', '142274855454cd6b8aeea54'),
+('14275956525517618430a30', '142537807354f58b195d85d', '', '', 'Change AM from Rika Fadilah to ', '2015-03-29 10:20:28', '142274855454cd6b8aeea54'),
+('14275956745517619ad5281', '142537807354f58b195d85d', '', '', 'Change AM from Rika Fadilah to ', '2015-03-29 10:20:50', '142274855454cd6b8aeea54'),
+('1427605732551788e428bb2', '142485942554eda121d300d', 'meeting', '1427605732551788e428690', 'meeting with Ryan Oktora at 29-03-2015 12:00', '2015-03-29 13:08:28', '142274855454cd6b8aeea54'),
+('1427605744551788f0a4b3c', '142485942554eda121d300d', 'note', '1427605744551788f0a48d8', 'Test', '2015-03-29 13:08:40', '142274855454cd6b8aeea54');
 
 -- --------------------------------------------------------
 
@@ -345,7 +355,7 @@ INSERT INTO `hrsys_schedule` (`schedule_id`, `scheduletime`, `description`, `typ
 ('142487425654eddb10ef794', '2015-02-04 12:00:00', 'meeting with Ryan Oktora in Mall Ambasador at 04-02-2015 12:00', 'meeting', '142487425654eddb10ef536', '2015-02-25 21:23:52', '142274855454cd6b8aeea54', '2015-02-25 21:23:52', '142274855454cd6b8aeea54'),
 ('142487521954edded317dea', '2015-02-27 14:00:00', 'meeting with Bobi in Senayan City at 27-02-2015 14:00', 'meeting', '142487521954edded317bd3', '2015-02-25 21:39:55', '142274833454cd6aaeed52b', '2015-03-01 21:31:25', '142274833454cd6aaeed52b'),
 ('142537822054f58bac76f00', '2015-03-12 02:00:00', 'Presentation BGC Service', 'meeting', '142537822054f58bac76cc8', '2015-03-03 17:23:16', '142274855454cd6b8aeea54', '2015-03-03 17:23:16', '142274855454cd6b8aeea54'),
-('142733999155137ad7ce15b', '2015-03-26 10:00:00', 'meeting with Ryan Oktora', 'meeting', '142733999155137ad7cdf50', '2015-03-26 10:19:27', '142274855454cd6b8aeea54', '2015-03-26 10:19:27', '142274855454cd6b8aeea54');
+('1427605732551788e428988', '2015-03-29 12:00:00', 'meeting with Ryan Oktora at 29-03-2015 12:00', 'meeting', '1427605732551788e428690', '2015-03-29 13:08:28', '142274855454cd6b8aeea54', '2015-03-29 13:08:28', '142274855454cd6b8aeea54');
 
 -- --------------------------------------------------------
 
@@ -375,7 +385,7 @@ INSERT INTO `hrsys_scheduleuser` (`schedule_id`, `user_id`) VALUES
 ('142537822054f58bac76f00', '142274833454cd6aaeed52b'),
 ('142537822054f58bac76f00', '142274855454cd6b8aeea54'),
 ('142537822054f58bac76f00', '2a7d24a81b94a7d9d998d25994128c'),
-('142733999155137ad7ce15b', '142274855454cd6b8aeea54');
+('1427605732551788e428988', '142274855454cd6b8aeea54');
 
 -- --------------------------------------------------------
 
@@ -663,7 +673,7 @@ CREATE TABLE IF NOT EXISTS `tpl_user` (
 --
 
 INSERT INTO `tpl_user` (`user_id`, `username`, `password`, `active_non`, `last_login`, `datecreate`, `usercreate`, `dateupdate`, `userupdate`) VALUES
-('142199935954c1fcffd9501', 'admin', '21232f297a57a5a743894a0e4a801fc3', 1, NULL, '2015-01-23 14:48:55', NULL, '2015-01-28 13:37:03', 'admin'),
+('142199935954c1fcffd9501', 'admin', '21232f297a57a5a743894a0e4a801fc3', 1, NULL, '2015-01-23 14:48:55', NULL, '2015-03-29 10:37:25', '142199935954c1fcffd9501'),
 ('142199957054c1fdd26eca3', 'gunawan', 'dc96b97c4ffbead46ca25ef5d4b77cbe', 0, NULL, '2015-01-23 14:52:26', NULL, '2015-02-17 20:39:54', '142199935954c1fcffd9501'),
 ('142274810554cd69c9f0e29', 'budi', '00dfc53ee86af02e742515cdcf075ed3', 1, NULL, '2015-02-01 06:48:01', 'admin', '2015-02-01 06:48:01', NULL),
 ('142274812054cd69d85cf66', 'victor', 'ffc150a160d37e92012c196b6af4160d', 1, NULL, '2015-02-01 06:48:16', 'admin', '2015-02-01 06:48:16', NULL),
@@ -693,6 +703,9 @@ INSERT INTO `tpl_user_role` (`user_id`, `role_id`) VALUES
 ('142199935954c1fcffd9501', 'adm_menu'),
 ('142199935954c1fcffd9501', 'adm_role'),
 ('142199935954c1fcffd9501', 'adm_user'),
+('142199935954c1fcffd9501', 'hrsys_allclient'),
+('142199935954c1fcffd9501', 'hrsys_allmeeting'),
+('142199935954c1fcffd9501', 'hrsys_allvacancies'),
 ('142199951854c1fd9eb3f49', 'adm_lookup'),
 ('142199951854c1fd9eb3f49', 'adm_menu'),
 ('142199957054c1fdd26eca3', 'adm_lookup'),

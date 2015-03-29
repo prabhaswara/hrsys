@@ -84,7 +84,12 @@ class Main_Model extends CI_Model {
         if (isset($request['sort']) && is_array($request['sort'])) {
             foreach ($request['sort'] as $s => $sort) {
                 if ($str2 != "") $str2 .= ", ";
-                $str2 .= $sort['field']." ".$sort['direction'];
+
+                if (strpos(strtolower($sort['field']),"date")===false){
+                    $str2 .= $sort['field']." ".$sort['direction'];                    
+                }else{
+                    $str2 .= "UNIX_TIMESTAMP(".$sort['field'].") ".$sort['direction']; 
+                }
             }
         }
         if ($str2 == "") $str2 = "1=1";
@@ -116,7 +121,7 @@ class Main_Model extends CI_Model {
         $data['status'] = 'success';
         $data['total']  = $db->query($cql)->first_row()->rows;
 
-//       echo $sql;exit;
+      // echo $sql;exit;
         // execute sql
         $rs = $db->query($sql)->result_array();
        

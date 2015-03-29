@@ -22,35 +22,56 @@ class M_client extends Main_Model {
         return $this->db->query($sql)->row_array();
     }
 
-    
-    public function editClient($datafrm, $sessionData,$method="editinfo") {
+    public function editClient($datafrm, $sessionData) {
        
         $cmpyclient_id=$datafrm["cmpyclient_id"];
         $dtLama=$this->get($cmpyclient_id);
         
         unset($datafrm["cmpyclient_id"]);
         $this->db->trans_start(TRUE);
-
-        if(isset($datafrm["datejoin"])&& cleanstr($datafrm["datejoin"])!=""){
-            $datafrm["datejoin"]=  balikTgl($datafrm["datejoin"]);
-        }
         
-        $userInsert = (isset($sessionData["employee"]["fullname"]) && !empty($sessionData["employee"]["fullname"])) ? $sessionData["employee"]["fullname"] :
-        $sessionData["user"]["username"];
-        $dataTrl["cmpyclient_trl_id"] = $this->generateID("cmpyclient_trl_id","hrsys_cmpyclient_trl");
-        $dataTrl["cmpyclient_id"] = $cmpyclient_id;        
-        $dataTrl["description"] = "$userInsert Update Info " . $dtLama["name"];
-        if($method=="changeToClient"){
-            $datafrm["status"] ="1";
-            $dataTrl["description"] = $dtLama["name"]." change status from prospect to client";
-        }
-     
         $this->db->set('dateupdate', 'NOW()', FALSE);
         $this->db->set('userupdate', $sessionData["user"]["user_id"]);
         $this->db->update('hrsys_cmpyclient', $datafrm,array('cmpyclient_id'=>$cmpyclient_id));
 
         
-
+        $this->db->trans_complete();
+        
+       
+        return $this->db->trans_status();
+    }
+    
+    public function updateStatusPIC($datafrm, $sessionData,$method="editinfo") {
+       
+        $cmpyclient_id=$datafrm["cmpyclient_id"];
+        $dtLama=$this->get($cmpyclient_id);
+        
+        unset($datafrm["cmpyclient_id"]);
+        $this->db->trans_start(TRUE);
+        
+        $this->load->model('m_employee');
+        $picLama=array();
+        
+        $picBaru=$this->m_employee->get($datafrm["account_manager"]); 
+        $picBaru=isset($picBaru["fullname"])?$picBaru["fullname"]:"";
+        
+        if(!empty($dtLama)&& isset($dtLama["account_manager"])){
+            $picLama=$this->m_employee->get($dtLama["account_manager"]);            
+            $picLama=isset($picLama["fullname"])?$picLama["fullname"]:"";
+        }
+        
+        
+        $dataTrl["cmpyclient_trl_id"] = $this->generateID("cmpyclient_trl_id","hrsys_cmpyclient_trl");
+        $dataTrl["cmpyclient_id"] = $cmpyclient_id;        
+        $dataTrl["description"] = "Change AM from $picLama to $picBaru";
+        if($method=="changeToClient"){
+            $datafrm["status"] ="1";
+            $dataTrl["description"] = "Change status from prospect to client AM is ".$picBaru;
+        }
+     
+        $this->db->set('dateupdate', 'NOW()', FALSE);
+        $this->db->set('userupdate', $sessionData["user"]["user_id"]);
+        $this->db->update('hrsys_cmpyclient', $datafrm,array('cmpyclient_id'=>$cmpyclient_id));
 
         
         $this->db->set('datecreate', 'NOW()', FALSE);
@@ -86,7 +107,7 @@ class M_client extends Main_Model {
 
         $dataTrl["cmpyclient_trl_id"] = $this->generateID("cmpyclient_trl_id","hrsys_cmpyclient_trl");
         $dataTrl["cmpyclient_id"] = $this->cmpyclient_id;
-        $dataTrl["description"] = "$userInsert Created " . $datafrm["name"];
+        $dataTrl["description"] = "Created " . $datafrm["name"];
         
         $this->db->set('datecreate', 'NOW()', FALSE);
         $this->db->set('usercreate', $sessionData["user"]["user_id"]);
@@ -188,9 +209,19 @@ class M_client extends Main_Model {
     }
     
     public function deleteContract($cmpyclient_ctrk_id){
-        $this->db->delete( 'hrsys_cmpyclient_ctrk', array( 'cmpyclient_ctrk_id' => $cmpyclient_ctrk_id ) );
-        $this->setstatusContract($cmpyclient_ctrk_id);
+        $contract=$this->getContract($cmpyclient_ctrk_id);
+        $this->db->trans_start(TRUE);
         
+        
+        $this->db->delete( 'hrsys_cmpyclient_trl', array( 'type'=>'contract','value' => $cmpyclient_ctrk_id ) ); 
+        
+        $this->db->delete( 'hrsys_cmpyclient_ctrk', array( 'cmpyclient_ctrk_id' => $cmpyclient_ctrk_id ) );
+        $this->setstatusContract($contract["cmpyclient_id"]);
+        
+        
+        $this->db->trans_complete();
+
+        return $this->db->trans_status();
     }
 
     public function getContract($cmpyclient_ctrk_id){
@@ -205,7 +236,7 @@ class M_client extends Main_Model {
        
         unset($dataFrm["cmpyclient_ctrk_id"]);
         
-       
+        $this->db->trans_start(TRUE);
         
         $this->db->set('datecreate', 'NOW()', FALSE);
         $this->db->set('usercreate', $sessionData["user"]["user_id"]);
@@ -214,21 +245,60 @@ class M_client extends Main_Model {
             $cmpyclient_ctrk_id=$this->generateID("cmpyclient_ctrk_id", "hrsys_cmpyclient_ctrk");
             
             $dataFrm["cmpyclient_ctrk_id"]=$cmpyclient_ctrk_id;
-            $return=$this->db->insert('hrsys_cmpyclient_ctrk', $dataFrm); 
+            $this->db->insert('hrsys_cmpyclient_ctrk', $dataFrm); 
+            
+            // insert trail
+            $dataTrl["cmpyclient_trl_id"] = $this->generateID("cmpyclient_trl_id", "hrsys_cmpyclient_trl");
+            $dataTrl["cmpyclient_id"] = $dataFrm["cmpyclient_id"];
+            $dataTrl["description"] = "Created Contract ".$dataFrm["contract_num"];
+            $dataTrl["type"] = "contract";
+            $dataTrl["value"] = $cmpyclient_ctrk_id;
+            
+            $this->db->set('datecreate', 'NOW()', FALSE);
+            $this->db->set('usercreate', $sessionData["user"]["user_id"]);
+            
+            $this->db->insert('hrsys_cmpyclient_trl', $dataTrl);
+            
+            
            }else{
              
            $this->db->set('dateupdate', 'NOW()', FALSE);
            $this->db->set('userupdate', $sessionData["user"]["user_id"]);            
-           $return=$this->db->update('hrsys_cmpyclient_ctrk', $dataFrm, array('cmpyclient_ctrk_id' => $cmpyclient_ctrk_id));
+           $this->db->update('hrsys_cmpyclient_ctrk', $dataFrm, array('cmpyclient_ctrk_id' => $cmpyclient_ctrk_id));
+          
         
-           
-           
-        }
+           // update trail        
+            $dataTrl["description"] = "Create Contract ".$dataFrm["contract_num"];
+            $this->db->update('hrsys_cmpyclient_trl', $dataTrl, array(
+                'value' => $cmpyclient_ctrk_id,'type'=>'contract'));       
+             
+            
+           }
         $this->setstatusContract($dataFrm["cmpyclient_id"]);
-        return $return;
+        
+        $this->db->trans_complete();
+
+        return $this->db->trans_status();
         
     }
-    
+    public function canDeleteClient($cmpyclient_id){
+        $contract=$this->db->where("cmpyclient_id",$cmpyclient_id)->limit(1)->get("hrsys_cmpyclient_ctrk")->row_array();
+        $meet=$this->db->where("cmpyclient_id",$cmpyclient_id)->limit(1)->get("hrsys_cmpyclient_meet")->row_array();
+        $note=$this->db->where("cmpyclient_id",$cmpyclient_id)->limit(1)->get("hrsys_cmpyclient_note")->row_array();
+     
+        
+        
+        return (empty($note) &&empty($meet) &&empty($contract));
+    }
+    public function deleteClient($cmpyclient_id){
+        
+        $this->db->trans_start(TRUE);
+        $this->db->delete( 'hrsys_cmpyclient_trl', array( 'cmpyclient_id' => $cmpyclient_id ) ); 
+        $this->db->delete( 'hrsys_cmpyclient', array( 'cmpyclient_id' => $cmpyclient_id ) );
+        $this->db->trans_complete();
+
+        return $this->db->trans_status();
+    }
 
 }
 

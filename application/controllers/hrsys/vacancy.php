@@ -134,7 +134,7 @@ class vacancy extends Main_Controller {
                 $breadcrumb[]=array("link"=>"$site_url/hrsys/client/addEditClient","text"=>"New Client");             
                 break;
         }
-         $breadcrumb[]=array("link"=>"$site_url/hrsys/client/detclient/".$client["cmpyclient_id"]."/".$frompage,"text"=>$client["name"]); 
+         $breadcrumb[]=array("link"=>"$site_url/hrsys/client/detclient/".$client["cmpyclient_id"]."/".$frompage."/vacancies","text"=>$client["name"]); 
          $breadcrumb[]=array("link"=>"$site_url/hrsys/vacancy/contentVacancy/".$vacancy["vacancy_id"]."/".$frompage,"text"=>$vacancy["name"]); 
          
         

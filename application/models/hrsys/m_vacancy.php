@@ -89,7 +89,7 @@ class M_vacancy extends Main_Model {
             // insert trail
             $dataTrl["cmpyclient_trl_id"] = $this->uniqID();
             $dataTrl["cmpyclient_id"] = $vacancy["cmpyclient_id"];
-            $dataTrl["description"] = $userInsert." Create Vacancy ".$vacancy["name"];
+            $dataTrl["description"] = "Created Vacancy ".$vacancy["name"];
             $dataTrl["type"] = "vacancy";
             $dataTrl["value"] = $vacancy_id;
             

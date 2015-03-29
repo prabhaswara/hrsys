@@ -80,14 +80,14 @@ class meeting extends Main_Controller {
             exit();
         
         }
-        $canEdit = false;
+        $canedit = false;
 
         if ($client["account_manager"] == $this->emp_id || in_array("hrsys_allmeeting", $this->ses_roles)) {
-            $canEdit=true;
+            $canedit=true;
         }
         $dataParse = array(
             "client_id"=> $client_id,
-            "canEdit"=>$canEdit
+            "canedit"=>$canedit
                 );
         $this->loadContent('hrsys/meeting/infMeeting', $dataParse);
         

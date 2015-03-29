@@ -24,6 +24,7 @@
                     tabs: [
                         {id: 'info', caption: 'General Info', url: '{site_url}/hrsys/client/infClient/<?= $id ?>'}
                         ,{id: 'meeting', caption: 'Meeting Appointment', url: '{site_url}/hrsys/meeting/infMeeting/<?= $id ?>'}
+                        ,{id: 'note', caption: 'Note', url: '{site_url}/hrsys/clientnote/infNote/<?= $id ?>'}
                         <?php if($client["status"]==1){ ?>
                         ,{id: 'vacancies', caption: 'Vacancies', url: '{site_url}/hrsys/vacancy/infVacancy/<?= $id ?>'}
                         
@@ -53,7 +54,7 @@
                                         });
                                 }
                 });
-                w2ui['client_tabs'].click('info');
+                w2ui['client_tabs'].click("<?=$tabActive?>");
 
 
         $(".gn_breadcrumb a").click(function () {

@@ -23,7 +23,7 @@ class client extends Main_Controller {
     }
     
 
-    public function detclient($id, $frompage = "home") {
+    public function detclient($id, $frompage = "home",$tabActive="info") {
 
         $client = $this->m_client->get($id);
         $breadcrumb = array();
@@ -60,7 +60,8 @@ class client extends Main_Controller {
             "canedit"=>$canedit,
             "breadcrumb" => $breadcrumb,
             "client" =>$client,            
-            "frompage"=>$frompage
+            "frompage"=>$frompage,
+            "tabActive"=>$tabActive
         );
         $this->loadContent('hrsys/client/detclient', $dataParse);
     }
@@ -141,7 +142,45 @@ class client extends Main_Controller {
         $this->loadContent('hrsys/client/formContract', $dataParse);
         
     }
-    public function viewContract($client_id) {
+    public function viewContract($cmpyclient_ctrk_id) {
+        $ds=DIRECTORY_SEPARATOR;
+        
+        $contract=$this->m_client->getContract($cmpyclient_ctrk_id);
+        $file=$this->dir_client.$contract["cmpyclient_id"].$ds.$contract["doc_url"];
+        
+        if(file_exists($file)){  
+            
+            $hrefPDF=$this->site_client.$contract["cmpyclient_id"]."/".$contract["doc_url"];
+            echo "<iframe src='$hrefPDF' width='100%' style='height:450px' align='right'>[Your browser does <em>not</em> support <code>iframe</code>,or has been configured not to display inline frames.You can access <a href='$hrefPDF'>the document</a>via a link though.]</iframe>";
+        
+            exit;
+            
+        }
+        echo "file not found";exit;
+                   
+    }
+    public function downloadContract($cmpyclient_ctrk_id) {
+        $ds = DIRECTORY_SEPARATOR;
+        
+        $contract=$this->m_client->getContract($cmpyclient_ctrk_id);
+        $filepath=$this->dir_client.$contract["cmpyclient_id"].$ds.$contract["doc_url"];
+        header("Content-type: ".mime_content_type($filepath)); 
+        header("Content-disposition: attachment; filename=".$contract["doc_url"]);                             
+        readfile($filepath);          
+        exit();     
+        
+    }
+    public function deleteContract($cmpyclient_ctrk_id) {
+        $ds=DIRECTORY_SEPARATOR;
+        
+        $contract=$this->m_client->getContract($cmpyclient_ctrk_id);
+        $file=$this->dir_client.$contract["cmpyclient_id"].$ds.$contract["doc_url"];
+        
+        if($this->m_client->deleteContract($cmpyclient_ctrk_id)&&file_exists($file)){ 
+            
+             unlink($file);
+        }
+        
         
     }
     public function infContract($client_id) {
@@ -191,13 +230,13 @@ class client extends Main_Controller {
     }
     public function infClient($id) {
       $client = $this->m_client->get($id);   
-      $canEdit=false;
+      $canedit=false;
        
        if(
         $this->user_id==$client["usercreate"]||
         $this->emp_id==$client["account_manager"]
                ){
-           $canEdit=true;
+           $canedit=true;
        }
        $canedit=false;
         if ($client["status"]=='0' ||$client["account_manager"] == $this->user_id || in_array("hrsys_allclient", $this->ses_roles)) {
@@ -205,7 +244,7 @@ class client extends Main_Controller {
            
         }
        $dataParse = array("client"=> $client,
-           "canEdit"=>$canEdit
+           "canedit"=>$canedit
                
                );
        $this->loadContent('hrsys/client/infClient', $dataParse);
@@ -213,14 +252,22 @@ class client extends Main_Controller {
     }
    
     public function infoperation($id) {
-       $client = $this->m_client->get($id);        
+       $client = $this->m_client->get($id); 
+       
+       $canDelete=$this->m_client->canDeleteClient($id);
+       
+       
        $dataParse = array(
-           "canDelete"=>true,
+           "canDelete"=>$canDelete,
            "client"=> $client
                );
        $this->loadContent('hrsys/client/infoperation', $dataParse);
     }
-    public function changePICJoinDate($id,$method) {
+    public function delete($id) {
+       $canDelete=$this->m_client->deleteClient($id);
+       
+    }
+    public function changePIC($id,$method) {
         
        $postForm = isset($_POST['frm']) ? $_POST['frm'] : array();
        $client=$this->m_client->get($id);  
@@ -229,16 +276,14 @@ class client extends Main_Controller {
         $message = "";
         if (!empty($postForm)) {
             $postForm["cmpyclient_id"]=$id;
-                if ($this->m_client->editClient($postForm, $this->sessionUserData,$method)) {
+                if ($this->m_client->updateStatusPIC($postForm, $this->sessionUserData,$method)) {
                     echo "close_popup";
                     exit;
                 }
         }else{
             
-            $postForm=$client;          
-            $postForm["datejoin"]=  balikTgl($postForm["datejoin"]);
-            if($postForm["datejoin"]=="00-00-0000")
-                 $postForm["datejoin"]="";
+            $postForm=$client;        
+            
         }
         
         if(isset($postForm["account_manager"]) && cleanstr($postForm["account_manager"])!=""){
@@ -259,7 +304,7 @@ class client extends Main_Controller {
             'comboAM' => $comboAM,
         );
         
-       $this->loadContent('hrsys/client/changePICJoinDate', $dataParse);
+       $this->loadContent('hrsys/client/changePIC', $dataParse);
     }
     public function infHistory($id) {
 
@@ -267,6 +312,7 @@ class client extends Main_Controller {
             
             if(!isset($_POST["sort"]))
             {
+                
                 $_POST["sort"]["0"]["direction"]="desc";
                 $_POST["sort"]["0"]["field"]="datecreate";
             }
@@ -394,7 +440,7 @@ class client extends Main_Controller {
         if($isEdit && empty($postForm)){
             $postForm=$this->m_client->get($id);
             
-           
+       
         }
         if(isset($postForm["account_manager"]) && cleanstr($postForm["account_manager"])!=""){
                 

@@ -1,5 +1,5 @@
 <?php 
-    if($canEdit){
+    if($canedit){
 ?>
 <div>
     <button id="editInfo">Edit Info</button>

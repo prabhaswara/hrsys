@@ -121,8 +121,10 @@ $meet_id = isset($postForm["meet_id"]) ? $postForm["meet_id"] : "0";
 
             $("#delete").click(function () {
 
-                if (confirm("Are you sure delete this?")) {
-                    $.ajax({
+w2confirm('Are you sure Delete This Meeting ?')
+        .yes(function () { 
+        
+           $.ajax({
                         type: "POST",
                         url: '{site_url}/hrsys/meeting/delete/<?= $meet_id ?>',
                         beforeSend: function (xhr) {
@@ -135,8 +137,11 @@ $meet_id = isset($postForm["meet_id"]) ? $postForm["meet_id"] : "0";
                             $(this).loadingShow(false);
                         }
                     });
-                }
-                return false;
+          
+        
+        });      
+        
+                
             });
 <?php } ?>
 

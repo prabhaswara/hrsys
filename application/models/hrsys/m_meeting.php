@@ -55,7 +55,7 @@ class M_meeting extends Main_Model {
          
         if($meet_id==""){
             // insert meeting
-            $meet_id=$this->uniqID();
+            $meet_id=$this->generateID("meet_id", "hrsys_cmpyclient_meet");
             $meeting["meet_id"]=$meet_id;
             $this->db->set('dateupdate', 'NOW()', FALSE);
             $this->db->set('userupdate', $sessionData["user"]["user_id"]);
@@ -64,7 +64,7 @@ class M_meeting extends Main_Model {
             $this->db->insert('hrsys_cmpyclient_meet', $meeting);    
             
             //insert schedule
-            $schedule_id=$this->uniqID();
+            $schedule_id=$this->generateID("schedule_id", "hrsys_schedule");
             $this->db->set('dateupdate', 'NOW()', FALSE);
             $this->db->set('userupdate', $sessionData["user"]["user_id"]);
             $this->db->set('datecreate', 'NOW()', FALSE);
@@ -79,7 +79,7 @@ class M_meeting extends Main_Model {
             $this->db->insert('hrsys_schedule', $scheduleData);   
             
             // insert trail
-            $dataTrl["cmpyclient_trl_id"] = $this->uniqID();
+            $dataTrl["cmpyclient_trl_id"] = $this->generateID("cmpyclient_trl_id", "hrsys_cmpyclient_trl");
             $dataTrl["cmpyclient_id"] = $meeting["cmpyclient_id"];
             $dataTrl["description"] = $meeting["description"];
             $dataTrl["type"] = "meeting";

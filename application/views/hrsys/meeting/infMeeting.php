@@ -1,6 +1,6 @@
 <div>
     <input type="hidden" id="typesearchhide" value="active"/>
-    <?php if($canEdit) { ?>
+    <?php if($canedit) { ?>
     <button id="createAppointment" > <span class="fa-edit">&nbsp;</span> Create an Appointment</button>
     <?php } ?>
     
@@ -52,13 +52,25 @@
                     }
                 },
                 {field: 'lktype_sp_display_text', caption: 'Type', size: '120px', searchable: true, sortable: true},
-                {field: 'met_sp_meettime', caption: 'Time', size: '130px', searchable: false, sortable: true,
+                {field: 'met_sp_meettime', caption: 'Date', size: '100px', searchable: false, sortable: true,
                     render: function (record) {
-                    kembali=record.met_sp_meettime;
+                    dateArray=record.met_sp_meettime.split(" ");
+                    kembali=dateArray[0];
                         if(record.lewat==1){
                             
                             kembali="<span style='color:red'>"+kembali+"</span>";
                         }                       
+                        return kembali;
+
+                    }
+                },
+                {field: 'met_sp_meettime', caption: 'Time', size: '50px', searchable: false, sortable: true,
+                    render: function (record) {
+                        dateArray=record.met_sp_meettime.split(" ");
+                        kembali="";
+                        if(dateArray.length>1)
+                            kembali=dateArray[1];
+                                         
                         return kembali;
 
                     }
@@ -106,7 +118,7 @@
             title: (recid == 0 ? 'Create an Appointment' : 'Edit Appointment'),
             body: '<div id="popupForm" class="framepopup">please wait..</div>',
             style: 'padding: 5px 0px 0px 0px',
-            width: 500,
+            width: 510,
             height: 500,
             modal: true,
             onOpen: function (event) {

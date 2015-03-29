@@ -21,17 +21,25 @@
             columns: [
           
                 {field: 'recid', caption: '', size: '30px', searchable: false, sortable: false,
-                    render: function (record) {                   
-                       
-                       return "<span class='fa-zoom-in imgbt' onClick='viewContract(\""+record.recid+"\")' ></span>"
-     
+                    render: function (record) { 
+                        doc_url=record.doc_url;
+                       if((doc_url==="null" || doc_url===null || y==="" || typeof doc_url === "undefined") ){
+                            return "";
+                        }
+                       else{
+                            return "<span class='fa-zoom-in imgbt' onClick='viewContract(\""+record.recid+"\")' ></span>"
+                        }
                     }
                 },
                 {field: 'recid', caption: '', size: '30px', searchable: false, sortable: false,
                     render: function (record) {                   
-                       
-                       return "<span class='fa-download imgbt' onClick='dowloadContract(\""+record.recid+"\")' ></span>"
-     
+                        doc_url=record.doc_url;
+                       if((doc_url==="null" || doc_url===null || y==="" || typeof doc_url === "undefined") ){
+                            return "";
+                        }
+                       else{
+                            return "<span class='fa-download imgbt' onClick='dowloadContract(\""+record.recid+"\")' ></span>"
+                        }
                     }
                 },
                 {field: 'recid', caption: '', size: '30px', searchable: false, sortable: false,
@@ -111,13 +119,13 @@
         });
     }
 
-    function viewContract(id) {
+    function viewContract(recid) {
        $().w2popup('open', {
             name: 'lookup_form',
             title: 'View Contract',
             body: '<div id="popupForm" class="framepopup">please wait..</div>',
             style: 'padding: 0px 0px 0px 0px',
-            width: 800,
+            width: 900,
             height: 500,
             modal: true,
             onOpen: function (event) {
@@ -131,8 +139,8 @@
         
        return false;
     }
-    function dowloadContract(){
-        return false;
+    function dowloadContract(recid){
+        window.location.href = "{site_url}/hrsys/client/downloadContract/"+recid;
     }
     
     
