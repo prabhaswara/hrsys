@@ -258,10 +258,56 @@ class candidate extends Main_Controller {
         }
         
     }
-    public function historyCandidate($candidate_id){
-        $candidate=$this->m_candidate->get($candidate_id);
+    public function historyCandidate($candidate_id,$vacancy_id=0){
+        
+        if (!empty($_POST) && $_POST["pg_action"] == "json") {
+            if (isset($_POST["sort"]) && !empty($_POST["sort"])) {
+                foreach ($_POST["sort"] as $key => $value) {
+                    $_POST["sort"][$key] = str_replace("_sp_", ".", $value);
+                }
+            } else {
+                $_POST["sort"][0]['direction'] = 'desc';
+                $_POST["sort"][0]['field'] = 'ct_sp_datecreate';
+            }
+
+
+            if (isset($_POST["search"]) && !empty($_POST["search"]))
+                foreach ($_POST["search"] as $key => $value) {
+                    $_POST["search"][$key] = str_replace("_sp_", ".", $value);
+                }
+
+            $where = "ct.candidate_id ='$candidate_id' and ";
+            
+            if($vacancy_id!=0){
+                $where .= "ct.vacancy_id ='$vacancy_id' and ";
+            }
+
+            $sql = "SELECT c.name c_sp_name,v.name v_sp_name, DATE_FORMAT(ct.datecreate,'%d-%m-%Y %H:%i') ct_sp_datecreate,ct.description ct_sp_description " .
+                    "from hrsys_candidate_trl ct " .
+                    "left join hrsys_vacancy v on ct.vacancy_id=v.vacancy_id ".
+                    "left join hrsys_cmpyclient c on c.cmpyclient_id=v.cmpyclient_id ".
+                    "WHERE ~search~ and $where 1=1 ORDER BY ~sort~";
+            
+           
+            $data = $this->m_menu->w2grid($sql, $_POST);            
+                     
+            header("Content-Type: application/json;charset=utf-8");
+            echo json_encode($data);
+            exit();
+        }
+        
+        
+        $candidate=$this->m_candidate->get($candidate_id);      
+        
         if(empty($candidate)) exit;
-        echo "history candidate=".$candidate["name"];
+        
+      
+         $dataParse = array(
+            "candidate_id"=>$candidate_id,
+            "vacancy_id"=>$vacancy_id         
+           
+        );
+        $this->loadContent('hrsys/candidate/infHistory', $dataParse);
         
     }
     

@@ -32,9 +32,9 @@
             if(tab=="info"){
                 $("#candidateTab_c").load('{site_url}/hrsys/candidate/infoCandidate/<?=$candidate["candidate_id"] ?>/<?=$vacancy_id ?>/show');
             }else if(tab=="cv"){
-                $("#candidateTab_c").load('{site_url}/hrsys/candidate/cvCandidate/<?=$candidate["candidate_id"] ?>/<?=$vacancy_id ?>/show');
+                $("#candidateTab_c").load('{site_url}/hrsys/candidate/cvCandidate/<?=$candidate["candidate_id"] ?>');
             }else if(tab=="history"){
-                $("#candidateTab_c").load('{site_url}/hrsys/candidate/historyCandidate/<?=$candidate["candidate_id"] ?>/<?=$vacancy_id ?>/show');
+                $("#candidateTab_c").load('{site_url}/hrsys/candidate/historyCandidate/<?=$candidate["candidate_id"] ?>');
             }            
         }
         

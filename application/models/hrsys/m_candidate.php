@@ -9,9 +9,12 @@ class M_candidate extends Main_Model {
 
     function __construct() {
         parent::__construct();
+        
+     
     }
     
     function get($id){
+        
         return $this->db->where("candidate_id",$id)->get("hrsys_candidate")->row_array();
     }
     
@@ -56,12 +59,20 @@ class M_candidate extends Main_Model {
     }
     
     public function addCandidateToVacancy($candidate_id,$vacancy_id,$sessionData){
+        $this->load->model('m_vacancy');
+        $this->load->model('m_client');
         
+        $return=false;
         $chek=$this->db
                 ->where("vacancy_id",$vacancy_id)
                 ->where("candidate_id",$candidate_id)
                 ->get("hrsys_vacancycandidate")->row_array();
         if(empty($chek)){
+            
+            $vacancy=$this->m_vacancy->get($vacancy_id);
+            $client=$this->m_client->get($vacancy["cmpyclient_id"]);
+            
+            $this->db->trans_start(TRUE);
             $vacancycandidate=array();
             $vacancycandidate["vacancycandidate_id"] = $this->generateID("vacancycandidate_id", "hrsys_vacancycandidate");
             $vacancycandidate["candidate_id"] = $candidate_id;
@@ -74,8 +85,21 @@ class M_candidate extends Main_Model {
             $this->db->set('datecreate', 'NOW()', FALSE);
             $this->db->set('usercreate', $sessionData["user"]["user_id"]);
             $this->db->insert('hrsys_vacancycandidate', $vacancycandidate);
+            
+            $this->db->set('datecreate', 'NOW()', FALSE);
+            $this->db->set('usercreate', $sessionData["user"]["user_id"]);
+            $this->db->insert('hrsys_candidate_trl', array(
+                "candidate_trl_id"=>$this->generateID("candidate_trl_id", "hrsys_candidate_trl"),
+                "candidate_id"=>$candidate_id,       
+                "vacancy_id"=>$vacancy_id,
+                "description"=>"Add to Shortlist ".$vacancy["name"]." ".$client["name"]
+                
+            ));
+            $this->db->trans_complete();
+
+            $return = $this->db->trans_status();
         }
-        
+        return $return;
     }
     
     public function saveOrUpdate($data, $sessionData,&$candidate_id) {

@@ -265,7 +265,7 @@
             if(tab=="info"){
                 w2ui['layoutdetcandidate'].load('main', '{site_url}/hrsys/candidate/infoCandidate/'+candidate_id+"/<?=$vacancy["vacancy_id"] ?>");
             }else if(tab=="cv"){
-                w2ui['layoutdetcandidate'].load('main', '{site_url}/hrsys/candidate/cvCandidate/'+candidate_id)+"/<?=$vacancy["vacancy_id"] ?>";
+                w2ui['layoutdetcandidate'].load('main', '{site_url}/hrsys/candidate/cvCandidate/'+candidate_id+"/<?=$vacancy["vacancy_id"] ?>");
             }else if(tab=="history"){
                 w2ui['layoutdetcandidate'].load('main', '{site_url}/hrsys/candidate/historyCandidate/'+candidate_id+"/<?=$vacancy["vacancy_id"] ?>");
             }            
