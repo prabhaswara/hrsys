@@ -260,7 +260,7 @@
         function selectCandidate(tab,candidate_id){
             if(tab==null)
                 tab=w2ui['layoutdetcandidate_main_tabs'].active;
-            if(candidate_id==null){
+            if(candidate_id==null)
                 candidate_id=w2ui['candidatebar'].selected ;           
             
             if(tab=="process"){

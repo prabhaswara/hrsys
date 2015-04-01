@@ -39,13 +39,13 @@ body, td,th,div,span,label,a,span,input,textarea,p,option{
 
 }
 .content_body{
-padding: 10px;
-position: absolute;
-top:30px;
-bottom: 0px;
-right: 0px;
-left: 0px;
-    
+    padding: 10px;
+    position: absolute;
+    top:30px;
+    bottom: 0px;
+    right: 0px;
+    left: 0px;
+
 }
 .form-tbl {
     padding:5px;
@@ -227,7 +227,7 @@ left: 0px;
     background-color: transparent;
 }
 .w2ui-tabs .w2ui-tab.active {
-   background-color: #F5F6F7;
+    background-color: #F5F6F7;
 }
 .w2ui-tabs .w2ui-tab {
     margin: 1px 1px -2px 0 !important;
@@ -237,7 +237,7 @@ left: 0px;
 
 .tabboxwui2 {
     background-color: #F5F6F7;
-        border: 1px solid silver;
+    border: 1px solid silver;
     border-top: 0px;
     padding: 10px;
     overflow: auto;
@@ -249,3 +249,78 @@ left: 0px;
 .kendonumber {
     text-align: right;
 }
+
+
+.h_workflow { 
+    list-style: none; 
+    overflow: hidden; 
+
+}
+.h_workflow li { 
+    float: left; 
+}
+.h_workflow li a {
+    color: white;
+    text-decoration: none; 
+    padding: 2px 0 2px 55px;
+    background: #5b6eff;           
+
+    position: relative; 
+    display: block;
+    float: left;
+}
+.h_workflow li a:after { 
+    content: " "; 
+    display: block; 
+    width: 0; 
+    height: 0;
+    border-top: 50px solid transparent;           /* Go big on the size, and let overflow hide */
+    border-bottom: 50px solid transparent;
+    border-left: 30px solid #5b6eff;
+    position: absolute;
+    top: 50%;
+    margin-top: -50px; 
+    left: 100%;
+    z-index: 2; 
+}	
+.h_workflow li a:before { 
+    content: " "; 
+    display: block; 
+    width: 0; 
+    height: 0;
+    border-top: 50px solid transparent;           /* Go big on the size, and let overflow hide */
+    border-bottom: 50px solid transparent;
+    border-left: 30px solid white;
+    position: absolute;
+    top: 50%;
+    margin-top: -50px; 
+    margin-left: 1px;
+    left: 100%;
+    z-index: 1; 
+}	
+.h_workflow li:first-child a {
+    padding-left: 10px;
+}
+.h_workflow li:nth-child(1) a       { background:		 #296b51; }
+.h_workflow li:nth-child(1) a:after { border-left-color: #296b51; }
+.h_workflow li:nth-child(2) a       { background:		 #2f9868; }
+.h_workflow li:nth-child(2) a:after { border-left-color: #2f9868; }
+.h_workflow li:nth-child(3) a       { background:        #39cf8c; }
+.h_workflow li:nth-child(3) a:after { border-left-color: #39cf8c; }
+.h_workflow li:nth-child(4) a       { background:        #45cbb4; }
+.h_workflow li:nth-child(4) a:after { border-left-color: #45cbb4; }		
+.h_workflow li:nth-child(5) a       { background:        #5392e3; }
+.h_workflow li:nth-child(5) a:after { border-left-color: #5392e3; }
+
+.h_workflow li.failed a       { background:        red !important; }
+.h_workflow li.failed a:after { border-left-color: red !important; }
+
+.h_workflow li:last-child a {
+    background: white !important;
+    color: black;
+    pointer-events: none;
+    cursor: default;
+}
+.h_workflow li:last-child a:after { border: 0; }
+.h_workflow li a:hover { background: #f02828; }
+.h_workflow li a:hover:after { border-left-color: #f02828 !important; }
