@@ -153,8 +153,9 @@
                     { type: 'left', size: 200, resizable: true, style: "border-right:1px solid silver", content: '' },
                     { type: 'main', style: '', content: '', 
                         tabs: {
-                            active: 'info',
+                            active: 'process',
                             tabs: [
+                                { id: 'process', caption: 'Process' },
                                 { id: 'info', caption: 'Info Candidate' },
                                 { id: 'cv', caption: 'Curriculum Vitae' },
                                 { id: 'history', caption: 'History' }
@@ -259,11 +260,14 @@
         function selectCandidate(tab,candidate_id){
             if(tab==null)
                 tab=w2ui['layoutdetcandidate_main_tabs'].active;
-            if(candidate_id==null)
+            if(candidate_id==null){
                 candidate_id=w2ui['candidatebar'].selected ;           
             
-            if(tab=="info"){
+            if(tab=="process"){
+                w2ui['layoutdetcandidate'].load('main', '{site_url}/hrsys/vacancy/processCandidate/<?=$vacancy["vacancy_id"] ?>/'+candidate_id);
+            }else if(tab=="info"){
                 w2ui['layoutdetcandidate'].load('main', '{site_url}/hrsys/candidate/infoCandidate/'+candidate_id+"/<?=$vacancy["vacancy_id"] ?>");
+                
             }else if(tab=="cv"){
                 w2ui['layoutdetcandidate'].load('main', '{site_url}/hrsys/candidate/cvCandidate/'+candidate_id+"/<?=$vacancy["vacancy_id"] ?>");
             }else if(tab=="history"){

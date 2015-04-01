@@ -19,7 +19,21 @@ class vacancy extends Main_Controller {
 
     public function __construct() {
         parent::__construct();
-        $this->load->model(array('hrsys/m_client','hrsys/m_vacancy','hrsys/m_employee','hrsys/m_skill', 'admin/m_lookup'));
+        $this->load->model(array('hrsys/m_client','hrsys/m_vacancy','hrsys/m_candidate','hrsys/m_employee','hrsys/m_skill', 'admin/m_lookup'));
+    }
+    
+    public function processCandidate($vacancy_id,$candidate_id){
+        
+        $vacancy=$this->m_vacancy->getDetails($vacancy_id);
+        $candidate=$this->m_candidate->get($candidate_id);
+        
+        if(empty($candidate)|| empty($vacancy)) exit;
+        
+        $dataParse = array(
+            "candidate"=>$candidate,
+            "vacancy"=>$vacancy
+            );
+        $this->loadContent('hrsys/vacancy/processCandidate', $dataParse);
     }
     
     public function infVacancy($client_id) {

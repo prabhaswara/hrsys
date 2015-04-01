@@ -282,7 +282,7 @@ class candidate extends Main_Controller {
                 $where .= "ct.vacancy_id ='$vacancy_id' and ";
             }
 
-            $sql = "SELECT c.name c_sp_name,v.name v_sp_name, DATE_FORMAT(ct.datecreate,'%d-%m-%Y %H:%i') ct_sp_datecreate,ct.description ct_sp_description " .
+            $sql = "SELECT c.name c_sp_name,v.name v_sp_name, DATE_FORMAT(ct.datecreate,'%d-%m-%Y') ct_sp_datecreate,ct.description ct_sp_description " .
                     "from hrsys_candidate_trl ct " .
                     "left join hrsys_vacancy v on ct.vacancy_id=v.vacancy_id ".
                     "left join hrsys_cmpyclient c on c.cmpyclient_id=v.cmpyclient_id ".
