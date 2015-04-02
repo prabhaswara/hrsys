@@ -7,8 +7,8 @@ $vacancy_id = $vacancy["vacancy_id"];
 
     <ul id="workflow" class="h_workflow" style="margin: 0px;padding: 0px;">
         <?php
-            if(!empty($workflow))
-            foreach($workflow as $row){
+            if(!empty($headerTrail))
+            foreach($headerTrail as $row){
                 echo "<li><a href=''>Add To Shortlist</a></li>";
             }
         ?>
@@ -17,18 +17,39 @@ $vacancy_id = $vacancy["vacancy_id"];
 
         <li><a href="#" ></a></li>
     </ul>
-    <div  class="form-tbl" >      
+    {message}
+<form method="POST" id="formnya" class="form-tbl" action="<?= $site_url . "/hrsys/vacancy/processCandidateDet/" .$trail["trl_id"] ?>">
+        <?= frm_('trl_id', $trail["trl_id"], "type='hidden'") ?>   
+
+    
+    
         <table>
             <tr>
-                <td class="aright">Candidate Name:</td>
+                <td >Candidate Name</td><td width="3px">:</td>
                 <td><?= $candidate["name"] ?></td>        
             </tr>
             <tr>
-                <td class="aright">Current State:</td>
-                <td><?= $candidate["name"] ?></td>        
+                <td >Current State</td><td width="3px">:</td>
+                <td><?= $vacancyCandidate["applicant_stat_t"] ?></td>        
+            </tr>
+            <tr>
+                <td >Next State</td><td width="3px">:</td>
+                <td>
+                    <?= select_('applicant_stat_next', $postForm,$listNextState," class='kendodropdown w250' ") ?>
+                       
+                </td>        
+            </tr>
+            <tr>
+                <td >Description</td><td width="3px">:</td>
+                <td>
+                    <?= textarea_('description', $postForm, "class='w250' ") ?>
+                       
+                </td>        
             </tr>
         </table>
-    </div>
+    <input type="submit" name="action" id="action" value="Save Drat" class="w2ui-btn"/>
+    <input type="submit" name="action" id="action" value="Next Process" class="w2ui-btn"/>
+</form>
 
 
 </div>
@@ -82,5 +103,6 @@ $vacancy_id = $vacancy["vacancy_id"];
                 'pg_action' : 'json'
                 }
     });
+    $(this).init_js("{base_url}");
             });
 </script>

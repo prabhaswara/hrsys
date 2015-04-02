@@ -22,24 +22,7 @@ class vacancy extends Main_Controller {
         $this->load->model(array('hrsys/m_client','hrsys/m_vacancy','hrsys/m_candidate','hrsys/m_employee','hrsys/m_skill', 'admin/m_lookup'));
     }
     
-    public function processCandidate($vacancy_id,$candidate_id){
-        
-        $vacancy=$this->m_vacancy->getDetails($vacancy_id);
-        $candidate=$this->m_candidate->get($candidate_id);       
-        
-        $vacancyCandidate=$this->m_vacancy->getVacancyCandidate($vacancy_id,$candidate_id);
-        $headerTrail=$this->m_vacancy->getHeaderTrail($vacancy_id);
-        
-        if(empty($candidate)|| empty($vacancy)) exit;
-        
-        $dataParse = array(
-            "candidate"=>$candidate,
-            "vacancy"=>$vacancy,
-            "vacancyCandidate"=>$vacancyCandidate,
-            "headerTrail"=>$headerTrail
-            );
-        $this->loadContent('hrsys/vacancy/processCandidate', $dataParse);
-    }
+    
     
     public function infVacancy($client_id) {
      
@@ -350,5 +333,38 @@ class vacancy extends Main_Controller {
         echo json_encode($data);
         exit();
     }
+    
+    public function processCandidate($vacancy_id,$candidate_id){
+        
+        $trail=$this->m_vacancy->getActiveTrlByVacCan($vacancy_id,$candidate_id);     
+       
+        $this->processCandidateDet($trail["trl_id"]);
+    }
+    
+    public function processCandidateDet($trl_id){
+
+        $trail=$this->m_vacancy->getVacancyTrl($trl_id);
+        
+        $vacancyCandidate=$this->m_vacancy->getVacancyCandidateByid($trail["vacancycandidate_id"]);
+        
+        $vacancy=$this->m_vacancy->getDetails($vacancyCandidate["vacancy_id"]);
+        $candidate=$this->m_candidate->get($vacancyCandidate["candidate_id"]);         
+        $headerTrail=$this->m_vacancy->getHeaderTrail($vacancy["vacancy_id"]);
+        
+        $listNextState=$this->m_vacancy->listNextState($trail["applicant_stat_id"]);
+    
+        
+        $dataParse = array(
+            "candidate"=>$candidate,
+            "vacancy"=>$vacancy,
+            "vacancyCandidate"=>$vacancyCandidate,
+            "listNextState"=>$listNextState,
+            "trail"=>$trail,
+            "headerTrail"=>$headerTrail,
+            "postForm"=>array()
+            );
+        $this->loadContent('hrsys/vacancy/processCandidate', $dataParse);
+    }
+    
 
 }

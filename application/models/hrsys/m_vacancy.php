@@ -39,15 +39,7 @@ class M_vacancy extends Main_Model {
         return $this->db->query($sql)->result_array();
     }
     
-    function getVacancyCandidate($vacancy_id,$candidate_id){
-        return $this->db->where(array("vacancy_id"=>$vacancy_id,"candidate_id"=>$candidate_id))->get("hrsys_vacancycandidate")->row_array();
-    }
     
-    function getHeaderTrail($vacancycandidate){
-        $sql="select lk.display_text as state, from hrsys_vacancy_trl trl join tpl_lookup lk on trl.applicant_stat_id=lk.value and lk.type='applicant_stat' " ;
-        return $this->db->query($sql)->result_array();
-        
-    }
     
     function getDetails($id){
         $dataReturn=array();
@@ -165,7 +157,53 @@ class M_vacancy extends Main_Model {
 
         return $return;
     }
+    function getHeaderTrail($vacancycandidate){
+        $sql="select lk.display_text as state from hrsys_vacancy_trl trl join tpl_lookup lk on trl.applicant_stat_id=lk.value and lk.type='applicant_stat' " ;
+        return $this->db->query($sql)->result_array();
+        
+    }
+    function getActiveTrlByVacCan($vacancy_id,$candidate_id){
+        $sql="select trl.* from hrsys_vacancycandidate vc, hrsys_vacancy_trl trl where ".
+             "vc.vacancy_id='$vacancy_id' and vc.candidate_id='$candidate_id' ".
+             "and trl.vacancycandidate_id=vc.vacancycandidate_id and active_non=1  ";
+         return $this->db->query($sql)->row_array();
+    }
+    function  getVacancyTrl($trl_id){
+        return $this->db->where("trl_id",$trl_id)->get("hrsys_vacancy_trl")->row_array();
+    }
+    function getVacancyCandidate($vacancy_id,$candidate_id){
+        $sql="select vc.*,lk.display_text applicant_stat_t from hrsys_vacancycandidate vc ".
+             "join tpl_lookup lk on vc.applicant_stat=lk.value and lk.type='applicant_stat' where vc.vacancy_id ='$vacancy_id' and  vc.candidate_id ='$candidate_id' ";
+        return $this->db->query($sql)->row_array();}
     
+    function getVacancyCandidateByid($vacancycandidate_id ){
+        
+        $sql="select vc.*,lk.display_text applicant_stat_t from hrsys_vacancycandidate vc ".
+             "join tpl_lookup lk on vc.applicant_stat=lk.value and lk.type='applicant_stat' where vc.vacancycandidate_id='$vacancycandidate_id' ";
+        return $this->db->query($sql)->row_array();
+    }
+    
+    
+    
+    function listNextState($applicant_stat){
+        $return=array();
+        
+        $sql="select lk.display_text,lk.value from hrsys_applicantstat_nxt vc  ".
+             "join tpl_lookup lk on vc.applicant_stat_next=lk.value and lk.type='applicant_stat' ".
+             "where vc.applicant_stat_id='$applicant_stat'";
+       
+        $array= $this->db->query($sql)->result_array();        
+       
+        
+        if(!empty($array))
+        foreach($array as $row){          
+            $return[$row["value"]]=$row["display_text"];
+        }
+     
+        return $return;
+        
+        
+    }
 }
 
 ?>
