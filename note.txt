@@ -1,0 +1,31 @@
+--------------
+add shortlist
+=
+name
+state
+Next State = ....
+Note=...
+(tombol save draft, process)
+
+-------
+Process Of Interview,
+=
+name
+state
+Next State = ....
+Note=...
+
+(tombol save draft, process)
+---------
+Process To Client
+=
+name
+state
+Next State = ....
+Note=...
+
+(tombol save draft, process)
+
+stat_id
+order_number
+description

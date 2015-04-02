@@ -316,10 +316,13 @@ body, td,th,div,span,label,a,span,input,textarea,p,option{
 .h_workflow li.failed a:after { border-left-color: red !important; }
 
 .h_workflow li:last-child a {
-    background: white !important;
-    color: black;
+    background: transparent !important;
+    color: green;
     pointer-events: none;
     cursor: default;
+}
+.h_workflow li:last-child a:before { 
+    border-left: none;
 }
 .h_workflow li:last-child a:after { border: 0; }
 .h_workflow li a:hover { background: #f02828; }

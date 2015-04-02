@@ -73,11 +73,13 @@ class M_candidate extends Main_Model {
             $client=$this->m_client->get($vacancy["cmpyclient_id"]);
             
             $this->db->trans_start(TRUE);
+            $vacancycandidate_id=$this->generateID("vacancycandidate_id", "hrsys_vacancycandidate");
             $vacancycandidate=array();
-            $vacancycandidate["vacancycandidate_id"] = $this->generateID("vacancycandidate_id", "hrsys_vacancycandidate");
+            $vacancycandidate["vacancycandidate_id"] = $vacancycandidate_id;
             $vacancycandidate["candidate_id"] = $candidate_id;
             $vacancycandidate["vacancy_id"] = $vacancy_id;
             $vacancycandidate["applicant_stat"] = applicant_stat_shortlist;
+            
             
             $this->db->set('candidate_manager', $sessionData["employee"]["emp_id"]);
             $this->db->set('dateupdate', 'NOW()', FALSE);
@@ -86,6 +88,7 @@ class M_candidate extends Main_Model {
             $this->db->set('usercreate', $sessionData["user"]["user_id"]);
             $this->db->insert('hrsys_vacancycandidate', $vacancycandidate);
             
+            //candidate history
             $this->db->set('datecreate', 'NOW()', FALSE);
             $this->db->set('usercreate', $sessionData["user"]["user_id"]);
             $this->db->insert('hrsys_candidate_trl', array(
@@ -93,6 +96,18 @@ class M_candidate extends Main_Model {
                 "candidate_id"=>$candidate_id,       
                 "vacancy_id"=>$vacancy_id,
                 "description"=>"Add to Shortlist ".$vacancy["name"]." ".$client["name"]
+                
+            ));
+            
+            //vacancy process
+            $this->db->set('datecreate', 'NOW()', FALSE);
+            $this->db->set('usercreate', $sessionData["user"]["user_id"]);
+            $this->db->insert('hrsys_vacancy_trl', array(
+                "trl_id"=>$this->generateID("trl_id", "hrsys_vacancy_trl"),
+                "vacancycandidate_id"=>$vacancycandidate_id,       
+                "applicant_stat_id"=>applicant_stat_shortlist,
+                "order_num"=>1,
+                "active_non"=>1
                 
             ));
             $this->db->trans_complete();

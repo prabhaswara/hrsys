@@ -5,15 +5,17 @@ $vacancy_id = $vacancy["vacancy_id"];
 
 <div style="position: absolute;right: 10px;left: 10px;bottom: 240px; top: 10px; overflow: auto ">
 
-    <ul class="h_workflow">
-        <li><a href="#">Add To Shortlist</a></li>
-        <li><a href="#">Process Interview</a></li>
-        <li><a href="#">Process To Client</a></li>
-        <li><a href="#">Job Overing</a></li>
-        <li class="failed"><a href="#">Rejected</a></li>
-        <li><a href="#">Placement</a></li>
+    <ul id="workflow" class="h_workflow" style="margin: 0px;padding: 0px;">
+        <?php
+            if(!empty($workflow))
+            foreach($workflow as $row){
+                echo "<li><a href=''>Add To Shortlist</a></li>";
+            }
+        ?>
+       
+        <!--<li class="failed"><a href="#">Rejected</a></li>-->
 
-        <li><a href="#"></a></li>
+        <li><a href="#" ></a></li>
     </ul>
     <div  class="form-tbl" >      
         <table>
@@ -45,6 +47,14 @@ $vacancy_id = $vacancy["vacancy_id"];
 
 <script>
     $(function () {
+        
+        var ulWidth = -40;
+        $("#workflow li a").each(function() {
+            ulWidth = ulWidth + $(this).width()+55
+        });
+        
+        $("#workflow").width(ulWidth);
+
         if (w2ui['listCandidateTrail'])
             $().w2destroy("listCandidateTrail");
 

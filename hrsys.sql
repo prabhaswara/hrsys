@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Mar 31, 2015 at 06:05 
+-- Generation Time: Apr 02, 2015 at 07:39 
 -- Server version: 5.1.37
 -- PHP Version: 5.3.0
 
@@ -40,7 +40,39 @@ CREATE TABLE IF NOT EXISTS `ci_sessions` (
 --
 
 INSERT INTO `ci_sessions` (`session_id`, `ip_address`, `user_agent`, `last_activity`, `user_data`) VALUES
-('fbc660444f6eb00a7eccc35aad2901b7', '::1', 'Mozilla/5.0 (Windows NT 6.1; rv:36.0) Gecko/20100101 Firefox/36.0', 1427783320, '');
+('307b3fa46e5744d07a1ca173d94ffe9c', '::1', 'Mozilla/5.0 (Windows NT 6.1; rv:36.0) Gecko/20100101 Firefox/36.0', 1427968209, 'a:2:{s:9:"user_data";s:0:"";s:12:"hrsys_userdt";a:3:{s:4:"user";a:8:{s:7:"user_id";s:23:"142274855454cd6b8aeea54";s:8:"username";s:4:"rika";s:10:"active_non";s:1:"1";s:10:"last_login";N;s:10:"datecreate";s:19:"2015-02-01 06:55:30";s:10:"usercreate";s:5:"admin";s:10:"dateupdate";s:19:"2015-02-26 11:06:17";s:10:"userupdate";s:23:"142199957054c1fdd26eca3";}s:5:"roles";a:5:{i:0;s:10:"adm_lookup";i:1;s:8:"adm_menu";i:2;s:8:"adm_role";i:3;s:8:"adm_user";i:4;s:16:"hrsys_allmeeting";}s:8:"employee";a:8:{s:6:"emp_id";s:4:"1005";s:4:"name";s:4:"Rika";s:8:"fullname";s:12:"Rika Fadilah";s:5:"phone";N;s:9:"birthdate";N;s:3:"sex";N;s:7:"user_id";s:23:"142274855454cd6b8aeea54";s:10:"active_non";s:1:"1";}}}');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `hrsys_applicantstat_nxt`
+--
+
+CREATE TABLE IF NOT EXISTS `hrsys_applicantstat_nxt` (
+  `applicant_stat_id` int(11) NOT NULL,
+  `applicant_stat_next` int(11) NOT NULL,
+  `order_num` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `hrsys_applicantstat_nxt`
+--
+
+INSERT INTO `hrsys_applicantstat_nxt` (`applicant_stat_id`, `applicant_stat_next`, `order_num`) VALUES
+(1, 2, 1),
+(1, 5, 2),
+(1, 7, 3),
+(2, 3, 1),
+(2, 5, 2),
+(2, 7, 3),
+(3, 4, 1),
+(3, 5, 2),
+(3, 6, 3),
+(3, 7, 4),
+(4, 8, 1),
+(4, 5, 2),
+(4, 6, 3),
+(4, 7, 4);
 
 -- --------------------------------------------------------
 
@@ -125,6 +157,7 @@ CREATE TABLE IF NOT EXISTS `hrsys_candidate_trl` (
   `candidate_trl_id` varchar(30) NOT NULL,
   `candidate_id` varchar(30) NOT NULL,
   `vacancy_id` varchar(30) DEFAULT NULL,
+  `applicant_stat` int(11) DEFAULT NULL,
   `type` varchar(30) DEFAULT NULL,
   `value` varchar(30) DEFAULT NULL,
   `description` text,
@@ -137,8 +170,9 @@ CREATE TABLE IF NOT EXISTS `hrsys_candidate_trl` (
 -- Dumping data for table `hrsys_candidate_trl`
 --
 
-INSERT INTO `hrsys_candidate_trl` (`candidate_trl_id`, `candidate_id`, `vacancy_id`, `type`, `value`, `description`, `datecreate`, `usercreate`) VALUES
-('1427769021551a06bdcf783', '1426816898550b7f82f351d', '1426731505550a31f1e64f3', NULL, NULL, 'Add to Shortlist Account Manager PT ZTE Indonesia', '2015-03-31 10:29:57', '142274855454cd6b8aeea54');
+INSERT INTO `hrsys_candidate_trl` (`candidate_trl_id`, `candidate_id`, `vacancy_id`, `applicant_stat`, `type`, `value`, `description`, `datecreate`, `usercreate`) VALUES
+('1427769021551a06bdcf783', '1426816898550b7f82f351d', '1426731505550a31f1e64f3', NULL, NULL, NULL, 'Add to Shortlist Account Manager PT ZTE Indonesia', '2015-03-31 10:29:57', '142274855454cd6b8aeea54'),
+('1427957259551ce60bd639d', '1426816898550b7f82f351d', '1426731505550a31f1e64f3', NULL, NULL, NULL, 'Add to Shortlist Account Manager PT ZTE Indonesia', '2015-04-02 14:47:15', '142274855454cd6b8aeea54');
 
 -- --------------------------------------------------------
 
@@ -273,6 +307,8 @@ CREATE TABLE IF NOT EXISTS `hrsys_cmpyclient_note` (
 -- Dumping data for table `hrsys_cmpyclient_note`
 --
 
+INSERT INTO `hrsys_cmpyclient_note` (`note_id`, `cmpyclient_id`, `description`, `datecreate`, `usercreate`, `dateupdate`, `userupdate`) VALUES
+('1427879444551bb614593a1', '142485942554eda121d300d', 'test', '2015-04-01 17:10:20', '142274855454cd6b8aeea54', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -332,7 +368,8 @@ INSERT INTO `hrsys_cmpyclient_trl` (`cmpyclient_trl_id`, `cmpyclient_id`, `type`
 ('142569921654fa719078e34', '142569897054fa709a7208a', 'vacancy', '142569921654fa719078be7', 'Rika Fadilah Create Vacancy sss', '2015-03-07 10:33:12', '142274855454cd6b8aeea54'),
 ('1426731393550a31810d93d', '142485942554eda121d300d', 'vacancy', '1426731393550a3181067b9', 'Rika Fadilah Create Vacancy Programmer', '2015-03-19 09:16:09', '142274855454cd6b8aeea54'),
 ('1426731505550a31f1e67a5', '142485942554eda121d300d', 'vacancy', '1426731505550a31f1e64f3', 'Rika Fadilah Create Vacancy Account Manager', '2015-03-19 09:18:01', '142274855454cd6b8aeea54'),
-('142733999155137ad7d4bdc', '142485942554eda121d300d', 'meeting', '142733999155137ad7cdf50', 'meeting with Ryan Oktora', '2015-03-26 10:19:27', '142274855454cd6b8aeea54');
+('142733999155137ad7d4bdc', '142485942554eda121d300d', 'meeting', '142733999155137ad7cdf50', 'meeting with Ryan Oktora', '2015-03-26 10:19:27', '142274855454cd6b8aeea54'),
+('1427879444551bb614789b1', '142485942554eda121d300d', 'note', '1427879444551bb614593a1', 'test', '2015-04-01 17:10:20', '142274855454cd6b8aeea54');
 
 -- --------------------------------------------------------
 
@@ -503,8 +540,9 @@ CREATE TABLE IF NOT EXISTS `hrsys_vacancycandidate` (
   `vacancy_id` varchar(30) NOT NULL,
   `candidate_id` varchar(30) NOT NULL,
   `applicant_stat` int(11) DEFAULT NULL,
-  `approvedsalary` bigint(20) unsigned DEFAULT NULL,
   `expectedsalary` bigint(20) unsigned DEFAULT NULL,
+  `approvedsalary` bigint(20) unsigned DEFAULT NULL,
+  `datejoin` date DEFAULT NULL,
   `datecreate` datetime DEFAULT NULL,
   `usercreate` varchar(30) DEFAULT NULL,
   `dateupdate` datetime DEFAULT NULL,
@@ -517,10 +555,8 @@ CREATE TABLE IF NOT EXISTS `hrsys_vacancycandidate` (
 -- Dumping data for table `hrsys_vacancycandidate`
 --
 
-INSERT INTO `hrsys_vacancycandidate` (`vacancycandidate_id`, `vacancy_id`, `candidate_id`, `applicant_stat`, `approvedsalary`, `expectedsalary`, `datecreate`, `usercreate`, `dateupdate`, `userupdate`, `candidate_manager`) VALUES
-('1426731407550a318f46442', '1426731393550a3181067b9', '142500613154efde338685e', 1, NULL, NULL, '2015-03-19 09:16:23', '142274855454cd6b8aeea54', '2015-03-19 09:16:23', '142274855454cd6b8aeea54', '1005'),
-('1426731454550a31bec3f34', '1426731393550a3181067b9', '14263876715504f2d7dcc8a', 1, NULL, NULL, '2015-03-19 09:17:10', '142274810554cd69c9f0e29', '2015-03-19 09:17:10', '142274810554cd69c9f0e29', '1002'),
-('1427769021551a06bdcf3a8', '1426731505550a31f1e64f3', '1426816898550b7f82f351d', 1, NULL, NULL, '2015-03-31 10:29:57', '142274855454cd6b8aeea54', '2015-03-31 10:29:57', '142274855454cd6b8aeea54', '1005');
+INSERT INTO `hrsys_vacancycandidate` (`vacancycandidate_id`, `vacancy_id`, `candidate_id`, `applicant_stat`, `expectedsalary`, `approvedsalary`, `datejoin`, `datecreate`, `usercreate`, `dateupdate`, `userupdate`, `candidate_manager`) VALUES
+('1427957259551ce60bd5f0e', '1426731505550a31f1e64f3', '1426816898550b7f82f351d', 1, NULL, NULL, NULL, '2015-04-02 14:47:15', '142274855454cd6b8aeea54', '2015-04-02 14:47:15', '142274855454cd6b8aeea54', '1005');
 
 -- --------------------------------------------------------
 
@@ -566,6 +602,32 @@ INSERT INTO `hrsys_vacancy_skill` (`vacancy_id`, `skill`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `hrsys_vacancy_trl`
+--
+
+CREATE TABLE IF NOT EXISTS `hrsys_vacancy_trl` (
+  `trl_id` varchar(30) NOT NULL,
+  `vacancycandidate_id` varchar(30) DEFAULT NULL,
+  `applicant_stat_id` int(11) DEFAULT NULL,
+  `applicant_stat_next` int(11) DEFAULT NULL,
+  `description` text,
+  `order_num` int(11) DEFAULT NULL,
+  `active_non` tinyint(4) DEFAULT NULL,
+  `datecreate` datetime DEFAULT NULL,
+  `usercreate` varchar(30) DEFAULT NULL,
+  PRIMARY KEY (`trl_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `hrsys_vacancy_trl`
+--
+
+INSERT INTO `hrsys_vacancy_trl` (`trl_id`, `vacancycandidate_id`, `applicant_stat_id`, `applicant_stat_next`, `description`, `order_num`, `active_non`, `datecreate`, `usercreate`) VALUES
+('1427957259551ce60bd68d6', '1427957259551ce60bd5f0e', 1, NULL, NULL, 1, 1, '2015-04-02 14:47:15', '142274855454cd6b8aeea54');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `tpl_lookup`
 --
 
@@ -580,7 +642,7 @@ CREATE TABLE IF NOT EXISTS `tpl_lookup` (
   `dateupdate` datetime DEFAULT NULL,
   `userupdate` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`lookup_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=30 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=31 ;
 
 --
 -- Dumping data for table `tpl_lookup`
@@ -607,11 +669,12 @@ INSERT INTO `tpl_lookup` (`lookup_id`, `value`, `display_text`, `type`, `order_n
 (22, '0', 'Close', 'candidate_stat', 2, '2015-02-25 13:46:47', '142199957054c1fdd26eca3', '2015-02-25 13:46:47', NULL),
 (23, '1', 'Short List', 'applicant_stat', 1, '2015-02-25 13:55:46', '142199957054c1fdd26eca3', '2015-02-25 13:55:46', NULL),
 (24, '2', 'Process of Interview', 'applicant_stat', 2, '2015-02-25 13:58:04', '142199957054c1fdd26eca3', '2015-02-25 14:23:37', '142199957054c1fdd26eca3'),
-(25, '3', 'Job Over', 'applicant_stat', 3, '2015-02-25 14:08:46', '142199957054c1fdd26eca3', '2015-02-25 14:09:01', '142199957054c1fdd26eca3'),
-(26, '4', 'Rejected From Candidate', 'applicant_stat', 4, '2015-02-25 14:10:00', '142199957054c1fdd26eca3', '2015-02-25 14:10:07', '142199957054c1fdd26eca3'),
-(27, '5', 'Rejected From Client', 'applicant_stat', 5, '2015-02-25 14:16:46', '142199957054c1fdd26eca3', '2015-02-25 14:16:46', NULL),
-(28, '6', 'Not Qualified', 'applicant_stat', 6, '2015-02-25 14:27:42', '142199957054c1fdd26eca3', '2015-02-25 14:27:42', NULL),
-(29, '7', 'Placemented', 'applicant_stat', 7, '2015-02-25 14:36:05', '142199957054c1fdd26eca3', '2015-02-25 14:36:19', '142199957054c1fdd26eca3');
+(25, '4', 'Job Over', 'applicant_stat', 4, '2015-02-25 14:08:46', '142199957054c1fdd26eca3', '2015-04-02 14:07:49', '142274855454cd6b8aeea54'),
+(26, '5', 'Rejected From Candidate', 'applicant_stat', 5, '2015-02-25 14:10:00', '142199957054c1fdd26eca3', '2015-04-02 14:07:54', '142274855454cd6b8aeea54'),
+(27, '6', 'Rejected From Client', 'applicant_stat', 6, '2015-02-25 14:16:46', '142199957054c1fdd26eca3', '2015-04-02 14:08:00', '142274855454cd6b8aeea54'),
+(28, '7', 'Not Qualified', 'applicant_stat', 7, '2015-02-25 14:27:42', '142199957054c1fdd26eca3', '2015-04-02 14:08:06', '142274855454cd6b8aeea54'),
+(29, '8', 'Placemented', 'applicant_stat', 8, '2015-02-25 14:36:05', '142199957054c1fdd26eca3', '2015-04-02 14:08:11', '142274855454cd6b8aeea54'),
+(30, '3', 'Process To Client', 'applicant_stat', 3, '2015-04-02 14:07:19', '142274855454cd6b8aeea54', '2015-04-02 14:07:30', '142274855454cd6b8aeea54');
 
 -- --------------------------------------------------------
 

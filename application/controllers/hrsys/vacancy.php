@@ -25,13 +25,18 @@ class vacancy extends Main_Controller {
     public function processCandidate($vacancy_id,$candidate_id){
         
         $vacancy=$this->m_vacancy->getDetails($vacancy_id);
-        $candidate=$this->m_candidate->get($candidate_id);
+        $candidate=$this->m_candidate->get($candidate_id);       
+        
+        $vacancyCandidate=$this->m_vacancy->getVacancyCandidate($vacancy_id,$candidate_id);
+        $headerTrail=$this->m_vacancy->getHeaderTrail($vacancy_id);
         
         if(empty($candidate)|| empty($vacancy)) exit;
         
         $dataParse = array(
             "candidate"=>$candidate,
-            "vacancy"=>$vacancy
+            "vacancy"=>$vacancy,
+            "vacancyCandidate"=>$vacancyCandidate,
+            "headerTrail"=>$headerTrail
             );
         $this->loadContent('hrsys/vacancy/processCandidate', $dataParse);
     }

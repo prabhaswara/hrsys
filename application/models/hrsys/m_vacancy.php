@@ -39,6 +39,16 @@ class M_vacancy extends Main_Model {
         return $this->db->query($sql)->result_array();
     }
     
+    function getVacancyCandidate($vacancy_id,$candidate_id){
+        return $this->db->where(array("vacancy_id"=>$vacancy_id,"candidate_id"=>$candidate_id))->get("hrsys_vacancycandidate")->row_array();
+    }
+    
+    function getHeaderTrail($vacancycandidate){
+        $sql="select lk.display_text as state, from hrsys_vacancy_trl trl join tpl_lookup lk on trl.applicant_stat_id=lk.value and lk.type='applicant_stat' " ;
+        return $this->db->query($sql)->result_array();
+        
+    }
+    
     function getDetails($id){
         $dataReturn=array();
         
@@ -128,6 +138,7 @@ class M_vacancy extends Main_Model {
 
         return $this->db->trans_status();
     }
+    
     
     public function validate($datafrm, $isEdit) {
         $return = array(
