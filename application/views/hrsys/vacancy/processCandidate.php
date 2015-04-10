@@ -5,7 +5,7 @@ $vacancy_id = $vacancy["vacancy_id"];
 
 <div style="position: absolute;right: 10px;left: 10px;bottom: 240px; top: 10px; overflow: auto ">
 
-    <ul id="workflow" class="h_workflow" style="margin: 0px;padding: 0px;">
+    <ul id="workflow" class="h_workflow" >
         <?php
             if(!empty($headerTrail))
             foreach($headerTrail as $row){
@@ -15,7 +15,7 @@ $vacancy_id = $vacancy["vacancy_id"];
        
         <!--<li class="failed"><a href="#">Rejected</a></li>-->
 
-        <li><a href="#" ></a></li>
+    
     </ul>
     {message}
 <form method="POST" id="formnya" class="form-tbl" action="<?= $site_url . "/hrsys/vacancy/processCandidateDet/" .$trail["trl_id"] ?>">
@@ -69,12 +69,6 @@ $vacancy_id = $vacancy["vacancy_id"];
 <script>
     $(function () {
         
-        var ulWidth = -40;
-        $("#workflow li a").each(function() {
-            ulWidth = ulWidth + $(this).width()+55
-        });
-        
-        $("#workflow").width(ulWidth);
 
         if (w2ui['listCandidateTrail'])
             $().w2destroy("listCandidateTrail");

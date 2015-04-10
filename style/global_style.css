@@ -251,79 +251,79 @@ body, td,th,div,span,label,a,span,input,textarea,p,option{
 }
 
 
-.h_workflow { 
-    list-style: none; 
-    overflow: hidden; 
+.h_workflow{
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  background: #eee;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #f5f5f5 #e5e5e5 #ccc;
+  border-radius: 5px;
+  box-shadow: 0 0 2px rgba(0,0,0,.2);
+  overflow: hidden;
+  width: 100%;
+}
 
+.h_workflow li{
+  float: left;
 }
-.h_workflow li { 
-    float: left; 
-}
-.h_workflow li a {
-    color: white;
-    text-decoration: none; 
-    padding: 2px 0 2px 55px;
-    background: #5b6eff;           
 
-    position: relative; 
-    display: block;
-    float: left;
+.h_workflow a{
+    
+  padding: .7em 1em .7em 2em;
+  float: left;
+  text-decoration: none;
+  color: white;
+  position: relative;
+  text-shadow: 0 1px 0 rgba(255,255,255,.5);
+  background-color: #ddd;
+  background-image: linear-gradient(to right, #296b51, #2f9868);  
 }
-.h_workflow li a:after { 
-    content: " "; 
-    display: block; 
-    width: 0; 
-    height: 0;
-    border-top: 50px solid transparent;           /* Go big on the size, and let overflow hide */
-    border-bottom: 50px solid transparent;
-    border-left: 30px solid #5b6eff;
-    position: absolute;
-    top: 50%;
-    margin-top: -50px; 
-    left: 100%;
-    z-index: 2; 
-}	
-.h_workflow li a:before { 
-    content: " "; 
-    display: block; 
-    width: 0; 
-    height: 0;
-    border-top: 50px solid transparent;           /* Go big on the size, and let overflow hide */
-    border-bottom: 50px solid transparent;
-    border-left: 30px solid white;
-    position: absolute;
-    top: 50%;
-    margin-top: -50px; 
-    margin-left: 1px;
-    left: 100%;
-    z-index: 1; 
-}	
-.h_workflow li:first-child a {
-    padding-left: 10px;
-}
-.h_workflow li:nth-child(1) a       { background:		 #296b51; }
-.h_workflow li:nth-child(1) a:after { border-left-color: #296b51; }
-.h_workflow li:nth-child(2) a       { background:		 #2f9868; }
-.h_workflow li:nth-child(2) a:after { border-left-color: #2f9868; }
-.h_workflow li:nth-child(3) a       { background:        #39cf8c; }
-.h_workflow li:nth-child(3) a:after { border-left-color: #39cf8c; }
-.h_workflow li:nth-child(4) a       { background:        #45cbb4; }
-.h_workflow li:nth-child(4) a:after { border-left-color: #45cbb4; }		
-.h_workflow li:nth-child(5) a       { background:        #5392e3; }
-.h_workflow li:nth-child(5) a:after { border-left-color: #5392e3; }
 
-.h_workflow li.failed a       { background:        red !important; }
-.h_workflow li.failed a:after { border-left-color: red !important; }
+.h_workflow li:first-child a{
+  padding-left: 1em;
+  border-radius: 5px 0 0 5px;
+}
 
-.h_workflow li:last-child a {
-    background: transparent !important;
-    color: green;
-    pointer-events: none;
-    cursor: default;
+.h_workflow a:hover{
+  background: #fff;
 }
-.h_workflow li:last-child a:before { 
-    border-left: none;
+
+.h_workflow a::after,
+.h_workflow a::before{
+  content: "";
+  position: absolute;
+  top: 50%;
+  margin-top: -1.5em;   
+  border-top: 1.5em solid transparent;
+  border-bottom: 1.5em solid transparent;
+  border-left: 1em solid;
+  right: -1em;
 }
-.h_workflow li:last-child a:after { border: 0; }
-.h_workflow li a:hover { background: #f02828; }
-.h_workflow li a:hover:after { border-left-color: #f02828 !important; }
+
+.h_workflow a::after{ 
+  z-index: 2;
+  border-left-color: #2f9868;  
+}
+
+.h_workflow a::before{
+  border-left-color: white;  
+  right: -1.1em;
+  z-index: 1; 
+}
+
+.h_workflow a:hover::after{
+  border-left-color: #fff;
+}
+
+.h_workflow .current,
+.h_workflow .current:hover{
+  font-weight: bold;
+  background: none;
+}
+
+.h_workflow .current::after,
+.h_workflow .current::before{
+  content: normal;  
+}
