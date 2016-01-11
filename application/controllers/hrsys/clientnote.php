@@ -44,7 +44,7 @@ class clientnote extends Main_Controller {
             $dataReturn=array();
             foreach ( $data['records'] as $row){
                 $row["canedit"]="0";                
-                if( $client["account_manager"]==$this->user_id||$row["usercreate"]==$this->user_id || in_array("hrsys_allmeeting", $this->ses_roles))
+                if($client["active_non"]=='1' and ($client["account_manager"]==$this->user_id||$row["usercreate"]==$this->user_id || in_array("hrsys_allmeeting", $this->ses_roles)))
                 {
                     $row["canedit"]="1";
                     
@@ -61,7 +61,7 @@ class clientnote extends Main_Controller {
         }
         $canedit = false;
 
-        if ($client["account_manager"] == $this->emp_id || in_array("hrsys_allmeeting", $this->ses_roles)) {
+        if ($client["active_non"]=='1' and($client["account_manager"] == $this->emp_id || in_array("hrsys_allmeeting", $this->ses_roles))) {
             $canedit = true;
         }
         $dataParse = array(

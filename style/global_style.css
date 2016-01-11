@@ -45,6 +45,7 @@ body, td,th,div,span,label,a,span,input,textarea,p,option{
     bottom: 0px;
     right: 0px;
     left: 0px;
+	min-width:700px;
 
 }
 .form-tbl {

@@ -54,6 +54,7 @@ class M_user extends Main_Model {
         
     }
     
+	
     
     public function saveOrUpdate($dataSave,$user) {
         $this->db->trans_start(TRUE);
@@ -105,8 +106,51 @@ class M_user extends Main_Model {
             $this->db->trans_complete(); 
         }
     }
-    
-    
+    public function changePwd($dataSave)
+	{
+		$this->db->set('dateupdate', 'NOW()', FALSE);  
+        $this->db->set('userupdate',$dataSave["user_id"]);
+		$newPwd=$this->encrypt($dataSave["newPassword"]);
+		$this->db->update('tpl_user', array('password'=>$newPwd),
+		array('user_id' => $dataSave["user_id"]));
+		
+	}
+    public function validateChangePwd($datafrm)
+	{
+		$return = array(
+            'status' => true,
+            'message' => array()
+        );
+		$user=$this->get($datafrm["user_id"]);
+	
+		if(cleanstr($datafrm["oldPassword"])=="")
+		{
+			$return["status"] = false;
+            $return["message"]["username"] = "OldPassword cannot be empty";
+		}else if($this->encrypt($datafrm["oldPassword"])!=$user["password"])
+		{
+			$return["status"] = false;
+            $return["message"]["username"] = "OldPassword is not match";
+		}
+		
+		if(cleanstr($datafrm["newPassword"])=="")
+		{
+			$return["status"] = false;
+            $return["message"]["newPassword"] = "New Password cannot be empty";
+		}else if(cleanstr($datafrm["repeatNewPassword"])=="")
+		{
+			$return["status"] = false;
+            $return["message"]["repeatNewPassword"] = "Repeat New Password cannot be empty";
+		}
+		
+		if ($datafrm["newPassword"]!=$datafrm["repeatNewPassword"]) {
+            $return["status"] = false;
+            $return["message"]["repeatNewPassword"] = "Password And Repeat Password not match";
+        }
+			
+		
+		return $return;
+	}
 
     public function validate($datafrm,$isEdit=false) {
         $return = array(

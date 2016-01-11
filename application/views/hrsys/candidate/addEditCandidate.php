@@ -33,8 +33,12 @@ $candidate_id  = isset($postForm["candidate_id"]) ? $postForm["candidate_id"] : 
                 <td><?= frm_('email', $postForm, "class='w200' ") ?></td>        
             </tr>
             <tr>
-                <td class="aright">Expected Salary (IDR):</td>
-                <td><?= frm_('expectedsalary', $postForm, "class='w200 kendonumber' ") ?></td>        
+                <td class="aright">Expected Salary:</td>
+                <td>
+				
+				<?= frm_('expectedsalary', $postForm, "class='w200 kendonumber' ") ?>
+				<?= select_('expectedsalary_ccy', $postForm,$listCCY,"class='kendodropdown w75'",false) ?>
+				</td>        
             </tr>
             <tr>
                     <td class="aright">Expertise :</td>

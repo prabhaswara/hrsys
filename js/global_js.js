@@ -129,7 +129,11 @@
                 } else {
                     $('#' + content_id).html(data);
                 }
-                grid.reload();
+				if(grid!=null)
+				{
+					 grid.reload();
+				}
+               
 
             }
         });
@@ -249,7 +253,7 @@
     };
     
    
-        $.fn.gn_onPopupSubmit = function (divpopup,grid) {
+        $.fn.gn_onPopupSubmit = function (divpopup,grid,type) {
         $(this).submit(function (event) {
             $.ajax({
                 type: "POST",
@@ -267,9 +271,15 @@
                         $('#'+divpopup).html(data);
                     }
                     loadingShow(false);
-                    
-                    if(grid!=null)
-                         grid.reload();
+                    if(type=="calendar")
+					{
+						grid.fullCalendar("refetchEvents")
+					}
+                    else {
+						if(grid!=null){
+							grid.reload();
+						}
+                    }   
                 },
                 statusCode: {
                     500: function () {

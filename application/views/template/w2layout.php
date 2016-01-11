@@ -34,7 +34,7 @@
         
     </head>
     <body>
-
+	
         <div id="main_layout" style="position: absolute;top:0;bottom: 0px;right: 0px;left: 0px"></div>
         
         <div id="top" style="display:none">          
@@ -67,7 +67,7 @@
                 </tr>
             </table>
              <div>
-                        <button id="changepwd" class="w2ui-btn" >Change Password</button>
+                        <button id="changepwd" onclick='changePassword()' class="w2ui-btn" >Change Passwordd</button>
                         <button id="logout" class="w2ui-btn" onclick="window.location = '{site_url}/login/logout'" >Logout</button>
                     </div>
             
@@ -83,7 +83,29 @@
         </div>
        
         <script type="text/javascript">
+		
+		function changePassword()
+		{
+			$().w2popup('open', {
+						name: 'changepwd_form',
+						title: 'Change Password',
+						body: '<div id="changepwd_panel" class="framepopup">please wait..</div>',
+						style: 'padding: 0px 0px 0px 0px',
+						width: 400,
+						height: 250,
+						modal: true,
+						onOpen: function (event) {
+							event.onComplete = function () {
+								$("#changepwd_panel").load("{site_url}/admin/user/changepwd/", function () {
+								});
+							}
+
+						}
+					});
+		}
             $(function() {
+				
+			
                 var topstyle = 'border: 1px solid #dfdfdf; padding: 0px;';
                 var leftstyle = 'border: 1px solid #dfdfdf; padding: 5px;';
                 var centerstyle = 'border: 1px solid #dfdfdf; padding: 0px;';
@@ -176,7 +198,7 @@
                }).data("kendoWindow").center();
 
 
-
+				/*
                 $.idleTimer(5000);
                 var userIsActive=true;   
                 $(document).bind("idle.idleTimer", function(){userIsActive=false;});
@@ -197,7 +219,7 @@
                             });  
                     }
                 }, 5000);
-                
+                */
                  $(this).gn_loadmain('{site_url}/home/main_home');
             });
         </script>

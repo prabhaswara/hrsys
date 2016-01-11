@@ -38,7 +38,16 @@ class M_vacancy extends Main_Model {
              "join hrsys_candidate c on vc.candidate_id=c.candidate_id where vc.vacancy_id='$vacancy_id' order by c.name asc";
         return $this->db->query($sql)->result_array();
     }
-    
+    function getInterview($trail_id){
+        return $this->db->where("vacancy_trl_id",$trail_id)->get("hrsys_vac_interview")->row_array();
+    }
+	function getOfferingSalary($trail_id){
+        return $this->db->where("vacancy_trl_id",$trail_id)->get("hrsys_vac_offeringsallary")->row_array();
+    }
+	function getPlacemented($trail_id){
+        return $this->db->where("vacancy_trl_id",$trail_id)->get("hrsys_vac_placemented")->row_array();
+    }
+	
     
     
     function getDetails($id){
@@ -58,8 +67,226 @@ class M_vacancy extends Main_Model {
         return $this->db->query($sql)->row_array();
         
     }
-    
-    
+   
+    public function updateVacancyTrl($action,$postData, $sessionData) {
+		
+		$trailData=$postData['frm'];
+		
+		$updateCurrentTrl=array(
+			"applicant_stat_next"=>$trailData["applicant_stat_next"],
+			"description"=>$trailData["description"]
+		);
+		$currentTrl=$this->getVacancyTrl($trailData["trl_id"]);
+		$vacancycandidate_id=$currentTrl["vacancycandidate_id"];		
+		
+		$vacancycandidate=$this->getVacancyCandidateByid($vacancycandidate_id);
+		$vacancy=$this->get($vacancycandidate["vacancy_id"]);
+					
+	
+		if($action=="nextProcess")
+		{
+			$updateCurrentTrl["active_non"]=0;
+		}
+		
+		$this->db->trans_start(TRUE);
+		$this->db->set('dateupdate', 'NOW()', FALSE);
+        $this->db->set('userupdate', $sessionData["user"]["user_id"]);          
+        $this->db->update('hrsys_vacancy_trl', $updateCurrentTrl,array('trl_id'=>$trailData["trl_id"]));
+		
+	
+		switch ($currentTrl["applicant_stat_id"]) {
+			case applicant_stat_processinterview:	
+		
+				$temp=$postData['interview'];			
+				$dataInterview["type"]=$temp["type"];					
+				if($temp["schedule_d"]!=""){
+					$dataInterview["schedule"]=  balikTgl($temp["schedule_d"]).($temp["schedule_t"]!=""?" ".$temp["schedule_t"]:"");
+				}
+				if(empty($this->db->where("vacancy_trl_id",$trailData['trl_id'])->get("hrsys_vac_interview")->row_array()))
+				{
+					$dataInterview["vacancy_trl_id"]=$trailData['trl_id'];	
+					$this->db->insert('hrsys_vac_interview', $dataInterview);
+				}else{						
+					$this->db->update('hrsys_vac_interview', $dataInterview,array('vacancy_trl_id'=>$trailData['trl_id']));
+				
+				}
+				
+				if(isset($postData['interview']["remider"]))
+				{
+					$scheduleData=$this->db->where(array("type"=>"interview","value"=>$trailData['trl_id']))->get("hrsys_schedule")->row_array();
+					$schedule_id="";
+					if(empty($scheduleData)){
+						//insert schedule
+						$schedule_id=$this->generateID("schedule_id", "hrsys_schedule");
+						$this->db->set('dateupdate', 'NOW()', FALSE);
+						$this->db->set('userupdate', $sessionData["user"]["user_id"]);
+						$this->db->set('datecreate', 'NOW()', FALSE);
+						$this->db->set('usercreate', $sessionData["user"]["user_id"]);
+						$scheduleData["description"]=$postData['interview']["remider_desc"];
+						$scheduleData["scheduletime"]=$dataInterview["schedule"];  
+						$scheduleData["schedule_id"]=$schedule_id;
+						$scheduleData["type"] = "interview";
+						$scheduleData["value"] = $trailData['trl_id'];                       
+            
+						$this->db->insert('hrsys_schedule', $scheduleData);
+						
+					}else{
+						$this->db->set('dateupdate', 'NOW()', FALSE);
+						$this->db->set('userupdate', $sessionData["user"]["user_id"]);
+						$scheduleData["description"]=$postData['interview']["remider_desc"];
+						$scheduleData["scheduletime"]=$dataInterview["schedule"];           
+						$this->db->update('hrsys_schedule', $scheduleData, array('value' => $trailData['trl_id'],'type'=>'interview'));
+						$schedule_id=$scheduleData["schedule_id"];
+					}
+					$this->db->delete( 'hrsys_scheduleuser', array( 'schedule_id' => $schedule_id ) );
+					$this->load->model('m_employee');
+					$empAM=$this->m_employee->get($vacancy["account_manager"]);
+					$this->db->insert('hrsys_scheduleuser', array( 'schedule_id' => $schedule_id,'user_id'=>$empAM["user_id"] )); 
+					
+				
+				}
+				else{
+					$schedule=$this->db->where(array("type"=>"interview","value"=>$trailData['trl_id']))->get("hrsys_schedule")->row_array();
+					if(!empty($schedule))
+					{
+						$this->db->delete( 'hrsys_scheduleuser', array( 'schedule_id' => $schedule["schedule_id"] ) );
+						$this->db->delete( 'hrsys_schedule', array( 'schedule_id' => $schedule["schedule_id"]  ) );
+			
+					}
+					
+				}
+			break;		
+			case applicant_stat_offeringsalary:	
+				$dataOffering=$postData['offeringsalary'];							
+				
+				
+				if(empty($this->db->where("vacancy_trl_id",$trailData['trl_id'])->get("hrsys_vac_offeringsallary")->row_array()))
+				{
+					$dataOffering["vacancy_trl_id"]=$trailData['trl_id'];	
+					$this->db->insert('hrsys_vac_offeringsallary', $dataOffering);
+				}else{						
+					$this->db->update('hrsys_vac_offeringsallary', $dataOffering,array('vacancy_trl_id'=>$trailData['trl_id']));
+				
+				}
+				
+				$this->db->set('dateupdate', 'NOW()', FALSE);
+				$this->db->set('userupdate', $sessionData["user"]["user_id"]);
+				$this->db->update('hrsys_vacancycandidate', array(
+				"expectedsalary"=>$dataOffering["expected_salary"],
+				"expectedsalary_ccy"=>$dataOffering["expected_ccy"]
+				),array('vacancycandidate_id'=>$vacancycandidate_id));
+			
+				$this->db->set('dateupdate', 'NOW()', FALSE);
+				$this->db->set('userupdate', $sessionData["user"]["user_id"]);
+				$this->db->update('hrsys_candidate', array(
+				"expectedsalary"=>$dataOffering["expected_salary"],
+				"expectedsalary_ccy"=>$dataOffering["expected_ccy"]
+				),array('candidate_id'=>$vacancycandidate["candidate_id"]));
+				 
+			break;
+			
+			case applicant_stat_placemented:	
+				$dataPlacemented=$postData['placemented'];							
+				
+				if($dataPlacemented["date_join"]!=""){
+					$dataPlacemented["date_join"]=  balikTgl($dataPlacemented["date_join"]);
+				}
+				
+				
+				if(empty($this->db->where("vacancy_trl_id",$trailData['trl_id'])->get("hrsys_vac_placemented")->row_array()))
+				{
+					$dataPlacemented["vacancy_trl_id"]=$trailData['trl_id'];	
+					$this->db->insert('hrsys_vac_placemented', $dataPlacemented);
+				}else{						
+					$this->db->update('hrsys_vac_placemented', $dataPlacemented,array('vacancy_trl_id'=>$trailData['trl_id']));
+				
+				}
+			break;
+		}
+		
+
+		if($action=="nextProcess"){
+			$this->load->model('m_client');
+			
+			//vacancy process
+			$vacancy_trl_id=$this->generateID("trl_id", "hrsys_vacancy_trl");
+			$this->db->set('datecreate', 'NOW()', FALSE);
+			$this->db->set('usercreate', $sessionData["user"]["user_id"]);
+			$this->db->set('dateupdate', 'NOW()', FALSE);
+			$this->db->set('userupdate', $sessionData["user"]["user_id"]);
+			$this->db->insert('hrsys_vacancy_trl', array(
+				"trl_id"=>$vacancy_trl_id,
+				"vacancycandidate_id"=>$vacancycandidate_id,       
+				"applicant_stat_id"=>$updateCurrentTrl["applicant_stat_next"],
+				"order_num"=>($currentTrl["order_num"]+1),
+				"active_non"=>1
+				
+			));
+			
+			
+			
+			//candidate history
+			$vacancycandidate=$this->db
+				->where("vacancycandidate_id",$vacancycandidate_id)
+				->get("hrsys_vacancycandidate")->row_array();			
+			$vacancy=$this->get($vacancycandidate["vacancy_id"]);
+            $client=$this->m_client->get($vacancy["cmpyclient_id"]);
+			
+			$description="";
+			switch ($updateCurrentTrl["applicant_stat_next"]) {
+				case applicant_stat_processinterview:				
+					$description="Processs Of Interview: Vacancy=".$vacancy["name"].",Client=".$client["name"];
+							
+				break;
+				case applicant_stat_processtoclient:
+					$description="Processs To Client: Vacancy=".$vacancy["name"].",Client=".$client["name"];
+				break;
+				case applicant_stat_offeringsalary:
+					$description="Offering Salary: Vacancy=".$vacancy["name"].",Client=".$client["name"];
+				break;
+				case applicant_stat_rejectedfromcandidate:
+					$description="Candidate Rejected: Vacancy=".$vacancy["name"].",Client=".$client["name"];
+				break;
+				case applicant_stat_rejectedfromclient:
+					$description="Client Rejected Candidate: Vacancy=".$vacancy["name"].",Client=".$client["name"];
+				break;
+				case applicant_stat_notqualified:
+					$description="Not Qualified : Vacancy=".$vacancy["name"].",Client=".$client["name"];
+				break;
+				case applicant_stat_placemented:
+					$description="Placemented : Vacancy=".$vacancy["name"].",Client=".$client["name"];
+				break;
+					
+			}
+			
+			$this->db->set('datecreate', 'NOW()', FALSE);
+			$this->db->set('usercreate', $sessionData["user"]["user_id"]);
+			$this->db->set('dateupdate', 'NOW()', FALSE);
+			$this->db->set('userupdate', $sessionData["user"]["user_id"]);
+			$this->db->insert('hrsys_candidate_trl', array(
+				"candidate_trl_id"=>$this->generateID("candidate_trl_id", "hrsys_candidate_trl"),
+				"candidate_id"=>$vacancycandidate["candidate_id"],       
+				"vacancy_id"=>$vacancycandidate["vacancy_id"],
+				"applicant_stat"=>$updateCurrentTrl["applicant_stat_next"],
+				"type"=>"vacancy_trl_id",
+				"value"=>$vacancy_trl_id,
+				"description"=>$description
+			  )); 
+
+			//update vacancy candidate
+			$this->db->set('dateupdate', 'NOW()', FALSE);
+            $this->db->set('userupdate', $sessionData["user"]["user_id"]);
+			$this->db->update('hrsys_vacancycandidate', 
+			array("applicant_stat"=>$updateCurrentTrl["applicant_stat_next"]),
+			array('vacancycandidate_id' => $vacancycandidate_id));  
+			
+			//
+		}
+		$this->db->trans_complete();
+        return $this->db->trans_status();
+		
+	}
+	
     public function saveOrUpdate($data, $sessionData) {
         
         $vacancy=$data["vacancy"];
@@ -174,13 +401,18 @@ class M_vacancy extends Main_Model {
     function getVacancyCandidate($vacancy_id,$candidate_id){
         $sql="select vc.*,lk.display_text applicant_stat_t from hrsys_vacancycandidate vc ".
              "join tpl_lookup lk on vc.applicant_stat=lk.value and lk.type='applicant_stat' where vc.vacancy_id ='$vacancy_id' and  vc.candidate_id ='$candidate_id' ";
-        return $this->db->query($sql)->row_array();}
+        $data= $this->db->query($sql)->row_array();
+		
+		return $data;
+	}
     
     function getVacancyCandidateByid($vacancycandidate_id ){
         
         $sql="select vc.*,lk.display_text applicant_stat_t from hrsys_vacancycandidate vc ".
              "join tpl_lookup lk on vc.applicant_stat=lk.value and lk.type='applicant_stat' where vc.vacancycandidate_id='$vacancycandidate_id' ";
-        return $this->db->query($sql)->row_array();
+        $data= $this->db->query($sql)->row_array();
+		
+		return $data;
     }
     
     
@@ -204,6 +436,67 @@ class M_vacancy extends Main_Model {
         
         
     }
+	
+	function  listVacancyTrlByVC($vacancycandidate_id){
+        return $this->db->where("vacancycandidate_id",$vacancycandidate_id)
+		->order_by("order_num","desc")
+		->get("hrsys_vacancy_trl")->result_array();
+    }
+	
+	function deleteVacantTrail($vacancy_trl_id)
+	{
+		$kembali="";
+		$vacancyTrl=$this->getVacancyTrl($vacancy_trl_id);
+		$vacancycandidate_id=$vacancyTrl["vacancycandidate_id"];
+		
+		$listVacancyTrl=$this->listVacancyTrlByVC($vacancycandidate_id);
+		
+		if(count($listVacancyTrl)==1 && $vacancyTrl["applicant_stat_id"]==applicant_stat_shortlist){
+			//delete all
+			$this->db->trans_start(TRUE);
+			$this->db->delete( 'hrsys_vacancy_trl', array( 'trl_id' => $vacancy_trl_id ) );
+			$this->db->delete( 'hrsys_candidate_trl', array( 'value' => $vacancy_trl_id,'type' => "vacancy_trl_id" ) );
+			$this->db->delete( 'hrsys_vacancycandidate', array( 'vacancycandidate_id' => $vacancycandidate_id ) );
+			
+			$this->db->trans_complete();
+	
+			if($this->db->trans_status())
+			{
+				$kembali="delete_all";
+			}
+			
+			
+		}
+		else if (count($listVacancyTrl)>1 ){
+			// remove one 
+		
+			$this->db->trans_start(TRUE);
+			$this->db->delete( 'hrsys_vacancy_trl', array( 'trl_id' => $vacancy_trl_id ) );
+			$this->db->delete( 'hrsys_candidate_trl', array( 'value' => $vacancy_trl_id,'type' => "vacancy_trl_id" ) );
+			
+			 // update trail        
+			$this->db->set('dateupdate', 'NOW()', FALSE);
+            $this->db->set('userupdate', $sessionData["user"]["user_id"]);
+            $this->db->update('hrsys_vacancy_trl', array("active_non"=>"1"),array('trl_id' => $listVacancyTrl[1]["trl_id"]));       
+            //update vacancy candidate
+			$this->db->set('dateupdate', 'NOW()', FALSE);
+            $this->db->set('userupdate', $sessionData["user"]["user_id"]);
+			$this->db->update('hrsys_vacancycandidate', 
+			array("applicant_stat"=>$listVacancyTrl[1]["applicant_stat_id"]),
+			array('vacancycandidate_id' => $listVacancyTrl[1]["vacancycandidate_id"]));       
+             
+			
+			$this->db->trans_complete();
+	
+			if($this->db->trans_status())
+			{
+				$kembali="remove_one";
+			}
+			
+		
+		}
+		return $kembali;
+	}
 }
 
 ?>

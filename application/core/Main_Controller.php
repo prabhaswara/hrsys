@@ -37,8 +37,9 @@ class Main_Controller extends CI_Controller {
     }
     
     function __construct() {
-       
+      
         parent::__construct();
+		
         if($this->session->userdata(SES_USERDT)==null){
              redirect("site/sessionexpired");
         }

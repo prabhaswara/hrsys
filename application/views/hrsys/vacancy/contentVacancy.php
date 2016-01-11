@@ -9,9 +9,16 @@
     <div id="detVacTab" style="width: 100%; height: 29px;"></div>
     <div id="detVacTab_c" class="tabboxwui2" style="position: absolute;top: 64px;bottom: 10px;left: 10px;right: 10px">
         <div id="vacancy_tab" class='divtab' style="display:none" >
-            
+            <?php
+			if($canedit)
+			{
+			?>
+			{message}
             <button id="editVacancy" style="position: absolute;left: 10px" > <span class="fa-edit">&nbsp;</span> Edit</button>
-            <form  class="form-tbl" >
+            <?php
+			}
+			?>
+			<form  class="form-tbl" >
                 <table>
                     <tr>
                         <td style="width:400px">
@@ -55,7 +62,7 @@
                                 <tr>
                                     <td class="aright">Salary :</td>
                                     <td ><?= numSep($vacancy["salary_1"]).((cleanstr($vacancy["salary_1"])!=""&&cleanstr($vacancy["salary_2"])!="")?" - ":"").numSep($vacancy["salary_2"])
-                                            .((cleanstr($vacancy["salary_1"])!=""&&cleanstr($vacancy["salary_2"])!="")?" (IDR)":"") ?></td> 
+                                            .((cleanstr($vacancy["salary_1"])!=""&&cleanstr($vacancy["salary_2"])!="")?" (".$vacancy["salary_ccy"].")":"") ?></td> 
                                 </tr>          
                                 <tr>
                                     <td class="aright">Age :</td>
@@ -139,11 +146,15 @@
                         $("#"+event.tab.id).show();
                         
                         if(event.tab.id=="candidate_tab"){
+						
                             if(w2ui['layoutdetcandidate'])
                             w2ui['layoutdetcandidate'].refresh();
                         }else  if(event.tab.id=="vacancy_tab"){
-                            if(w2ui['listProsesCandidate'])
-                                w2ui['listProsesCandidate'].refresh();
+                            if(w2ui['listProsesCandidate']){
+							 w2ui['listProsesCandidate'].reload();
+							
+							}
+                               
                         }
                     }
                 },
@@ -190,7 +201,7 @@
                 {field: 'klstate_sp_display_text', caption: 'State', size: '120px', searchable: true, sortable: true},
                 {field: 'c_sp_name', caption: 'Name', size: '100%', searchable: true, sortable: true},
                 {field: 'c_sp_phone', caption: 'Phone', size: '120px', searchable: true, sortable: true},
-                {field: 'cv_sp_expectedsalary', caption: 'Expected Salary', size: '120px', searchable: true, sortable: true},
+                {field: 'vc_sp_expectedsalary', caption: 'Expected Salary', size: '120px', searchable: true, sortable: true},
                 {field: 'cm_sp_fullname', caption: 'CM', size: '120px', searchable: true, sortable: true}
             ],
             onRequest: function(event) {

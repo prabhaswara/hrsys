@@ -1,6 +1,6 @@
 
 
-<div style="padding:10px" id="content-home">
+<div style="padding:10px;min-width:700px" id="content-home">
     <div class="gn_square homebox" id="homebox-1" style="width: 98%">
         <div class="k-window-content">
             <div>Next Meeting</div>
@@ -110,7 +110,7 @@
                 onOpen: function(event) {
                     event.onComplete = function() {
 
-                        $("#popupForm").load("{site_url}/hrsys/meeting/showDetail/" + id, function() {
+                        $("#popupForm").load("{site_url}/hrsys/meeting/showDetail/" + id+"?gridReload=meeting_grid", function() {
                         });
                     }
 

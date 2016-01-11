@@ -23,7 +23,7 @@
                 {field: 'recid', caption: '', size: '30px', searchable: false, sortable: false,
                     render: function (record) { 
                         doc_url=record.doc_url;
-                       if((doc_url==="null" || doc_url===null || y==="" || typeof doc_url === "undefined") ){
+                       if((doc_url===null) ){
                             return "";
                         }
                        else{
@@ -34,7 +34,7 @@
                 {field: 'recid', caption: '', size: '30px', searchable: false, sortable: false,
                     render: function (record) {                   
                         doc_url=record.doc_url;
-                       if((doc_url==="null" || doc_url===null || y==="" || typeof doc_url === "undefined") ){
+                       if((doc_url===null) ){
                             return "";
                         }
                        else{

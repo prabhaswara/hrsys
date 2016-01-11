@@ -19,7 +19,7 @@ class vacancy extends Main_Controller {
 
     public function __construct() {
         parent::__construct();
-        $this->load->model(array('hrsys/m_client','hrsys/m_vacancy','hrsys/m_candidate','hrsys/m_employee','hrsys/m_skill', 'admin/m_lookup'));
+        $this->load->model(array('hrsys/m_client','hrsys/m_schedule','hrsys/m_vacancy','hrsys/m_candidate','hrsys/m_employee','hrsys/m_skill', 'admin/m_lookup'));
     }
     
     
@@ -59,7 +59,7 @@ class vacancy extends Main_Controller {
                    "left join hrsys_vacancyuser vu on vu.vacancy_id=vac.vacancy_id and vu.user_id='$user_id' ".
                    "WHERE ~search~ and $where 1=1 ORDER BY ~sort~";
 
-
+			
             $data = $this->m_menu->w2grid($sql, $_POST);
             header("Content-Type: application/json;charset=utf-8");
             echo json_encode($data);
@@ -68,10 +68,10 @@ class vacancy extends Main_Controller {
         }
         
         $canedit=false;
-        if ($client["account_manager"] == $this->emp_id || in_array("hrsys_allvacancies", $this->ses_roles)) {
+        if ($client["active_non"]=='1' and($client["account_manager"] == $this->emp_id || in_array("hrsys_allvacancies", $this->ses_roles))) {
             $canedit=true;
         }
-
+		
         $dataParse = array("client_id"=> $client_id,
             "canedit"=>$canedit
             );
@@ -80,8 +80,10 @@ class vacancy extends Main_Controller {
     }
     
    
-    public function delete($id){
+    public function deleteVacantTrail($vacancy_trl_id){
         
+		echo $this->m_vacancy->deleteVacantTrail($vacancy_trl_id);
+		exit;
     }
     
     public function contentVacancy($vacancy_id,$frompage="home"){
@@ -135,6 +137,9 @@ class vacancy extends Main_Controller {
             case "addEditClient":
                 $breadcrumb[]=array("link"=>"$site_url/hrsys/client/addEditClient","text"=>"New Client");             
                 break;
+			case "inactive":
+                $breadcrumb[]=array("link"=>"$site_url/hrsys/client/inactive","text"=>"Inactive Client");             
+                break;
         }
          $breadcrumb[]=array("link"=>"$site_url/hrsys/client/detclient/".$client["cmpyclient_id"]."/".$frompage."/vacancies","text"=>$client["name"]); 
          $breadcrumb[]=array("link"=>"$site_url/hrsys/vacancy/contentVacancy/".$vacancy["vacancy_id"]."/".$frompage,"text"=>$vacancy["name"]); 
@@ -142,8 +147,18 @@ class vacancy extends Main_Controller {
         
         
         $sidebarCandidate=json_encode($this->m_vacancy->getVCIdName($vacancy_id));
-       
-        
+       $canedit=false;
+	   if ($client["account_manager"] == $this->emp_id || in_array("hrsys_allvacancies", $this->ses_roles)) {
+            $canedit=true;
+        }
+		$message="";
+        if(isset($_GET["status"]))
+		{
+			if($_GET["status"]=="remove_candidate")
+			{
+				$message = showMessage("Candidate Removed","success");
+			}
+		}
         $dataParse = array(
             "vacancy"=> $vacancy,
             "client"=> $client,
@@ -151,7 +166,9 @@ class vacancy extends Main_Controller {
             "expertise"=>$expertise,
             "sidebarCandidate"=>$sidebarCandidate,
             "frompage"=>$frompage,    
-            "breadcrumb"=>$breadcrumb,    
+            "breadcrumb"=>$breadcrumb, 
+			"canedit"=>$canedit,
+			"message"=>$message
                 );
         $this->loadContent('hrsys/vacancy/contentVacancy', $dataParse);
     }
@@ -237,8 +254,7 @@ class vacancy extends Main_Controller {
             $error_message = isset($validate["message"]) ? $validate["message"] : array();
             if (!empty($error_message)) {
                 $message = showMessage($error_message);
-            }
-            
+            }            
           
         }
         
@@ -273,7 +289,8 @@ class vacancy extends Main_Controller {
             "comboAM"=>$comboAM,
             "sex_list"=>$sex_list,
             "frompage"=>$frompage,
-            "message"=>$message
+            "message"=>$message,
+			"listCCY"=>$this->m_lookup->comboLookup("ccy")
                 );
         $this->loadContent('hrsys/vacancy/showform', $dataParse);
         
@@ -336,35 +353,165 @@ class vacancy extends Main_Controller {
     
     public function processCandidate($vacancy_id,$candidate_id){
         
-        $trail=$this->m_vacancy->getActiveTrlByVacCan($vacancy_id,$candidate_id);     
-       
-        $this->processCandidateDet($trail["trl_id"]);
-    }
-    
-    public function processCandidateDet($trl_id){
-
-        $trail=$this->m_vacancy->getVacancyTrl($trl_id);
+        $trail=$this->m_vacancy->getActiveTrlByVacCan($vacancy_id,$candidate_id);  
+		$trl_id=$trail["trl_id"];
+		$canedit=false;
+		$shareVacant=$this->m_employee->shareVacantById($vacancy_id,$vacancy["usercreate"],true);
+		
+		
+		$postForm = isset($_POST['frm']) ? $_POST['frm'] : array();
+		$message = "";
+        if (!empty($postForm)) {	
+			$action=(isset($_POST["action"])?$_POST["action"]:"save");
+			
+			if($this->m_vacancy->updateVacancyTrl($action,$_POST, $this->sessionUserData))
+			{
+				$message = showMessage("Data Saved","success");
+				$trail=$this->m_vacancy->getActiveTrlByVacCan($vacancy_id,$candidate_id); 
+				
+				$postForm=$this->m_vacancy->getVacancyTrl($trail["trl_id"]);
+			
+			}			
+			
+        }
+		else{
+			$postForm=$this->m_vacancy->getVacancyTrl($trl_id);
+			if(isset($_GET["status"]))
+			{
+				if($_GET["status"]=="delete_trail")
+				{
+					$message = showMessage("Process Deleted","success");
+				}
+			}
+		}
+		
         
         $vacancyCandidate=$this->m_vacancy->getVacancyCandidateByid($trail["vacancycandidate_id"]);
-        
-        $vacancy=$this->m_vacancy->getDetails($vacancyCandidate["vacancy_id"]);
+		$vacancy=$this->m_vacancy->getDetails($vacancyCandidate["vacancy_id"]);
         $candidate=$this->m_candidate->get($vacancyCandidate["candidate_id"]);         
         $headerTrail=$this->m_vacancy->getHeaderTrail($vacancy["vacancy_id"]);
         
         $listNextState=$this->m_vacancy->listNextState($trail["applicant_stat_id"]);
     
-        
+     
         $dataParse = array(
             "candidate"=>$candidate,
             "vacancy"=>$vacancy,
+			"message"=>$message,
             "vacancyCandidate"=>$vacancyCandidate,
             "listNextState"=>$listNextState,
             "trail"=>$trail,
             "headerTrail"=>$headerTrail,
-            "postForm"=>array()
+            "postForm"=>$postForm,
+
             );
+			
+		switch ($vacancyCandidate["applicant_stat"]) {
+			case applicant_stat_processinterview:
+				$dataParse["timeList"] = array(""=>"")+$this->m_lookup->comboTime();
+				$dataParse["interview_type"]=$this->m_lookup->comboLookup("interview_type");
+				$temp=$this->m_vacancy->getInterview($trl_id);
+				
+				$schedule=  explode(" ",balikTglDate($temp["schedule"], true,false)) ;
+				$dataParse["interviewForm"]["schedule_d"]=$schedule[0];
+                $dataParse["interviewForm"]["schedule_t"]=$schedule[1];
+                if($dataParse["interviewForm"]["schedule_t"]=="00:00"){
+                    $dataParse["interviewForm"]["schedule_t"]="";
+                }
+				$schedule=$this->m_schedule->getByType("interview",$trl_id);
+				if(!empty($schedule))
+				{
+					$dataParse["interviewForm"]["remider"]='1';
+					$dataParse["interviewForm"]["remider_desc"]=$schedule["description"];
+				}
+				$dataParse["interviewForm"]["type"]=$temp["type"];
+				
+			break;
+			case applicant_stat_processtoclient:
+			break;
+			case applicant_stat_offeringsalary:			
+				$dataParse["listCCY"]=$this->m_lookup->comboLookup("ccy");
+				$dataParse["offeringsalaryForm"]=$this->m_vacancy->getOfferingSalary($trl_id);
+				
+			break;
+			case applicant_stat_rejectedfromcandidate:
+			break;
+			case applicant_stat_rejectedfromclient:
+			break;
+			case applicant_stat_notqualified:
+			break;
+			case applicant_stat_placemented:
+				$dataParse["listCCY"]=$this->m_lookup->comboLookup("ccy");
+				$dataParse["placementedForm"]=$this->m_vacancy->getPlacemented($trl_id);
+			break;
+				
+		}
+			
+		
+		
         $this->loadContent('hrsys/vacancy/processCandidate', $dataParse);
+		
     }
+    function detailTrail($trail_id)
+	{
+		$dataTrail= $this->m_vacancy->getVacancyTrl($trail_id);
+		$dataTrail["applicant_stat"]=$this->m_lookup->getDisplaytext("applicant_stat",$dataTrail["applicant_stat_id"]);
+		$dataTrail["applicant_stat_next_t"]=$this->m_lookup->getDisplaytext("applicant_stat",$dataTrail["applicant_stat_next"]);
+		
+		
+		$vacancyCandidate=$this->m_vacancy->getVacancyCandidateByid($dataTrail["vacancycandidate_id"]);
+        $candidate=$this->m_candidate->get($vacancyCandidate["candidate_id"]);  
+		
+		
+		$dataParse["dataTrail"] = $dataTrail;
+		$dataParse["vacancyCandidate"] = $vacancyCandidate;
+		$dataParse["candidate"] = $candidate;		
+		$dataParse["candidate"]=$this->m_candidate->get($vacancyCandidate["candidate_id"]);   
+		switch ($dataParse["dataTrail"]["applicant_stat_id"]) {
+			case applicant_stat_processinterview:
+				$interview=$this->m_vacancy->getInterview($trail_id);
+				$interview["type_t"]=$this->m_lookup->getDisplaytext("interview_type",$interview["type"]);
+				
+				$interview["schedule"]=balikTglDate($interview["schedule"], true,false) ;
+				
+				//
+				$schedule=$this->m_schedule->getByType("interview",$trail_id);
+				$interview["remider"]='No';
+				$interview["remider_desc"]="";
+				if(!empty($schedule))
+				{
+					$interview["remider"]='Yes';
+					$interview["remider_desc"]=$schedule["description"];
+				}
+				//
+				$dataParse["interview"]=$interview;
+				
+				
+				
+			break;
+			case applicant_stat_processtoclient:
+			break;
+			case applicant_stat_offeringsalary:			
+				$dataParse["offeringsalary"]=$this->m_vacancy->getOfferingSalary($trail_id);
+				
+			break;
+			case applicant_stat_rejectedfromcandidate:
+			break;
+			case applicant_stat_rejectedfromclient:
+			break;
+			case applicant_stat_notqualified:
+			break;
+			case applicant_stat_placemented:
+				$dataParse["placemented"]=$this->m_vacancy->getPlacemented($trail_id);
+				
+				$dataParse["placemented"]["date_join"]=balikTglDate($dataParse["placemented"]["date_join"]) ;
+			break;
+				
+		}
+		$this->loadContent('hrsys/vacancy/detailTrail', $dataParse);
+	
+	}
+   
     
 
 }

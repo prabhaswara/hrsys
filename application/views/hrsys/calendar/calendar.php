@@ -36,14 +36,14 @@
         $().w2popup('open', {
             name: 'lookup_form',
             title: 'Detail',
-            body: '<div id="popupDetail" class="framepopup">please wait..</div>',
+            body: '<div id="popupForm" class="framepopup">please wait..</div>',
             style: 'padding: 5px 0px 0px 0px',
             width: 500,
             height: 500,
             onOpen: function (event) {
                 event.onComplete = function () {
 
-                    $("#popupDetail").load("{site_url}/hrsys/calendar/showDetail/" + id, function () {
+                    $("#popupForm").load("{site_url}/hrsys/calendar/showDetail/" + id, function () {
                     });
                 }
 
@@ -53,4 +53,4 @@
 
 </script>
 
-<div id="calendar" style="margin: 10px"></div>
+<div id="calendar" style="margin: 10px;min-width:700px"></div>

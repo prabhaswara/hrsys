@@ -98,7 +98,8 @@ class candidate extends Main_Controller {
             "vacancy"=>$vacancy,
             "frompage"=>$frompage,    
             "breadcrumb"=>$breadcrumb,
-            "sex_list"=>$sex_list
+            "sex_list"=>$sex_list,
+			"listCCY"=>$this->m_lookup->comboLookup("ccy")
         );
         $this->loadContent('hrsys/candidate/addEditCandidate', $dataParse);
     }
@@ -267,7 +268,7 @@ class candidate extends Main_Controller {
                 }
             } else {
                 $_POST["sort"][0]['direction'] = 'desc';
-                $_POST["sort"][0]['field'] = 'ct_sp_datecreate';
+                $_POST["sort"][0]['field'] = 'ct.datecreate';
             }
 
 
@@ -282,12 +283,12 @@ class candidate extends Main_Controller {
                 $where .= "ct.vacancy_id ='$vacancy_id' and ";
             }
 
-            $sql = "SELECT c.name c_sp_name,v.name v_sp_name, DATE_FORMAT(ct.datecreate,'%d-%m-%Y') ct_sp_datecreate,ct.description ct_sp_description " .
+            $sql = "SELECT ct.candidate_trl_id, c.name c_sp_name,v.name v_sp_name, DATE_FORMAT(ct.datecreate,'%d-%m-%Y') ct_sp_datecreate,ct.description ct_sp_description " .
                     "from hrsys_candidate_trl ct " .
                     "left join hrsys_vacancy v on ct.vacancy_id=v.vacancy_id ".
                     "left join hrsys_cmpyclient c on c.cmpyclient_id=v.cmpyclient_id ".
                     "WHERE ~search~ and $where 1=1 ORDER BY ~sort~";
-            
+           
            
             $data = $this->m_menu->w2grid($sql, $_POST);            
                      
@@ -424,6 +425,18 @@ class candidate extends Main_Controller {
         
     }
 
+	public function detailTrail($candidate_trl_id)
+	{
+		$candidateTrl=$this->m_candidate->getCandidateTrl($candidate_trl_id);
+		switch ($candidateTrl["type"]) {
+			case "vacancy_trl_id":
+				redirect("hrsys/vacancy/detailTrail/".$candidateTrl["value"]);
+			break;
+        }
+		   
+	
+		exit;
+	}
     
 
 }

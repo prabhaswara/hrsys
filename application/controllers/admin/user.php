@@ -30,6 +30,36 @@ class User extends Main_Controller {
     public function index() {     
        $this->loadContent('admin/user/list');     
     }
+	
+	public function changepwd()
+	{
+		$message="";
+		$postUser=isset($_POST['frm'])?$_POST['frm']:array();
+		if(!empty($postUser)){
+			$postUser["user_id"]=$this->sessionUserData["user"]["user_id"];
+		
+            $validate=$this->m_user->validateChangePwd($postUser);
+			
+			
+			$error_message= isset($validate["message"])?$validate["message"]:array();
+            if(empty($error_message)){
+				$this->m_user->changePwd($postUser);
+                echo "close_popup";exit;
+            }else
+			{
+				$message=  showMessage($error_message);
+			}
+			
+		}
+		
+		
+		$dataParse=array(
+			'site_url'=> site_url(),
+            'postUser'=>$postUser,
+            'message'=>$message
+            );
+		$this->parser->parse('admin/user/changepwd', $dataParse);
+	}
     
     public function jsonUserRole($id) {     
       $data=$this->m_user->getRoleUser($id);

@@ -45,14 +45,20 @@ $vacancy_id = isset($postForm["vacancy_id"]) ? $postForm["vacancy_id"] : "0";
         <td style="vertical-align: top">
             <table>
                 <tr>
-                    <td class="aright">Salary Range (IDR) :</td>
+                    <td class="aright">Salary Range :</td>
                     <td>
                         <?= frm_('salary_1', $postForm, "class=' kendonumber' style='width:140px'") ?> - 
                         <?= frm_('salary_2', $postForm, "class=' kendonumber' style='width:140px'") ?>
 
                     </td>        
                 </tr>
+				<tr>
+                    <td class="aright">Currency :</td>
+                    <td>
+                        <?= select_('salary_ccy', $postForm,$listCCY,"class='kendodropdown w75'",false) ?>
 
+                    </td>        
+                </tr>
                 <tr>
                     <td class="aright">Age :</td>
                     <td>
@@ -128,7 +134,6 @@ if (!empty($postShareMaintance)) {
                         autoBind: false,
                         dataSource: {
                         serverFiltering: true,
-                        pageSize:3,
                             transport: {
                                 read: {
                                     url: "{site_url}/hrsys/employee/account_manager",

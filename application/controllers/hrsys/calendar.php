@@ -30,7 +30,7 @@ class calendar extends Main_Controller {
        if(!empty($cal)){
            switch ($cal["type"]) {
             case "meeting":
-                redirect("hrsys/meeting/showDetail/".$cal["value"]);
+                redirect("hrsys/meeting/showDetail/".$cal["value"]."?gridReload=calendar");
             break;
            }
        }

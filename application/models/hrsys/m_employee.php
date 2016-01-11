@@ -64,7 +64,7 @@ class M_Employee extends Main_Model {
         }
         $this->db->order_by("fullname");
         $dataEmployee =$this->db->get("hrsys_employee")->result();
-        //echo $this->db->last_query();exit;
+        
         if (!empty($dataEmployee)) {
             foreach ($dataEmployee as $emp) {
                 
@@ -142,7 +142,7 @@ class M_Employee extends Main_Model {
         return $dataReturn;
     }
     
-    public function shareVacantById($vacancy_id,$user_login){
+    public function shareVacantById($vacancy_id,$user_login,$idOnly=false){
         $sql="select emp.user_id,emp.emp_id,emp.fullname from hrsys_vacancyuser vu ".
              "join hrsys_employee emp on vu.user_id=emp.user_id ". 
              "where vu.vacancy_id='$vacancy_id' and (emp.user_id IS NOT NULL or emp.user_id!='') and emp.user_id != '$user_login'"
@@ -159,6 +159,15 @@ class M_Employee extends Main_Model {
                 
             }
         }
+		if($idOnly){
+			$dataTemp=$dataReturn;
+			$dataReturn=array();
+			if (!empty($dataReturn)) {
+				foreach ($dataReturn as $temp) {
+					$dataReturn[]=$dataReturn["user_id"];
+				}
+			}
+		}
         return $dataReturn;
     }
     

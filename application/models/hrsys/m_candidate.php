@@ -17,12 +17,15 @@ class M_candidate extends Main_Model {
         
         return $this->db->where("candidate_id",$id)->get("hrsys_candidate")->row_array();
     }
-    
+    function getCandidateTrl($candidate_trl_id)
+	{
+		return $this->db->where("candidate_trl_id",$candidate_trl_id)->get("hrsys_candidate_trl")->row_array();
+	}
     function getExperties($candidate_id){
         return $this->db->where("candidate_id",$candidate_id)->order_by("skill")->get("hrsys_candidate_skill")->result_array();
     }
     function getDetail($id){
-       $sql = "SELECT c.candidate_id,lksat.display_text status, c.name, c.email, c.phone ,c.expectedsalary " .
+       $sql = "SELECT c.candidate_id,lksat.display_text status,c.expectedsalary_ccy, c.name, c.email, c.phone ,c.expectedsalary " .
                ", lksex.display_text sex,c.birthdate,YEAR(now())-YEAR(c.birthdate) age ".
                ", ms.skill skill ".
                "from hrsys_candidate c " .
@@ -88,28 +91,38 @@ class M_candidate extends Main_Model {
             $this->db->set('usercreate', $sessionData["user"]["user_id"]);
             $this->db->insert('hrsys_vacancycandidate', $vacancycandidate);
             
-            //candidate history
+			//vacancy process
+			$vacancy_trl_id=$this->generateID("trl_id", "hrsys_vacancy_trl");
             $this->db->set('datecreate', 'NOW()', FALSE);
             $this->db->set('usercreate', $sessionData["user"]["user_id"]);
-            $this->db->insert('hrsys_candidate_trl', array(
-                "candidate_trl_id"=>$this->generateID("candidate_trl_id", "hrsys_candidate_trl"),
-                "candidate_id"=>$candidate_id,       
-                "vacancy_id"=>$vacancy_id,
-                "description"=>"Add to Shortlist ".$vacancy["name"]." ".$client["name"]
-                
-            ));
-            
-            //vacancy process
-            $this->db->set('datecreate', 'NOW()', FALSE);
-            $this->db->set('usercreate', $sessionData["user"]["user_id"]);
+			$this->db->set('dateupdate', 'NOW()', FALSE);
+            $this->db->set('userupdate', $sessionData["user"]["user_id"]);
             $this->db->insert('hrsys_vacancy_trl', array(
-                "trl_id"=>$this->generateID("trl_id", "hrsys_vacancy_trl"),
+                "trl_id"=>$vacancy_trl_id,
                 "vacancycandidate_id"=>$vacancycandidate_id,       
                 "applicant_stat_id"=>applicant_stat_shortlist,
                 "order_num"=>1,
                 "active_non"=>1
                 
             ));
+			
+            //candidate history
+            $this->db->set('datecreate', 'NOW()', FALSE);
+            $this->db->set('usercreate', $sessionData["user"]["user_id"]);
+			$this->db->set('dateupdate', 'NOW()', FALSE);
+            $this->db->set('userupdate', $sessionData["user"]["user_id"]);
+            $this->db->insert('hrsys_candidate_trl', array(
+                "candidate_trl_id"=>$this->generateID("candidate_trl_id", "hrsys_candidate_trl"),
+                "candidate_id"=>$candidate_id,       
+                "vacancy_id"=>$vacancy_id,
+				"applicant_stat"=>applicant_stat_shortlist,
+				"type"=>"vacancy_trl_id",
+				"value"=>$vacancy_trl_id,
+                "description"=>"Add to Shortlist : Vacancy=".$vacancy["name"].",Client=".$client["name"]
+                
+            ));
+            
+            
             $this->db->trans_complete();
 
             $return = $this->db->trans_status();
@@ -125,12 +138,17 @@ class M_candidate extends Main_Model {
         $candidate_id = $candidate["candidate_id"];    
         $candidate["status"]=candidate_stat_open;
         
-        if(cleanstr($candidate["birthdate"])!=""){
+		$candidate["birthdate"]=cleanstr($candidate["birthdate"]);
+	
+		if($candidate["birthdate"]=="00-00-0000"||$candidate["birthdate"]==""){
+			unset($candidate["birthdate"]);
+		}
+        else if($candidate["birthdate"]!=""){
             $candidate["birthdate"]=  balikTgl($candidate["birthdate"]);
         }
         
         $this->db->trans_start(TRUE);
-        
+      
         if($candidate_id==0){
             
             $candidate_id=$this->generateID("candidate_id", "hrsys_candidate");
@@ -146,7 +164,10 @@ class M_candidate extends Main_Model {
         else{
             $this->db->set('dateupdate', 'NOW()', FALSE);
             $this->db->set('userupdate', $sessionData["user"]["user_id"]);
-            
+            if(!isset($candidate["birthdate"]))
+			{
+				$this->db->set('birthdate', 'null', FALSE);
+			}
             $this->db->update('hrsys_candidate', $candidate,array('candidate_id'=>$candidate_id));
         }
         

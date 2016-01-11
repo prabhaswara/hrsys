@@ -45,12 +45,16 @@ class client extends Main_Controller {
             case "addEditClient":
                 $breadcrumb[]=array("link"=>"$site_url/hrsys/client/addEditClient","text"=>"New Client");             
                 break;
+			case "inactive":
+                $breadcrumb[]=array("link"=>"$site_url/hrsys/client/inactive","text"=>"Inactive Client");             
+                break;
         }
          $breadcrumb[]=array("link"=>"$site_url/hrsys/client/detclient/$id/$frompage","text"=>$client["name"]);  
      
          
         $canedit=false;
-        if ($client["status"]=='0' ||$client["account_manager"] == $this->emp_id || in_array("hrsys_allclient", $this->ses_roles)) {
+		
+        if($client["active_non"]=='1' and ($client["status"]=='0' ||$client["account_manager"] == $this->emp_id || in_array("hrsys_allclient", $this->ses_roles))) {
             $canedit=true;
            
         }
@@ -219,7 +223,7 @@ class client extends Main_Controller {
         }
         
         $canedit=false;
-        if ($client["account_manager"] == $this->emp_id || in_array("hrsys_allvacancies", $this->ses_roles)) {
+        if ($client["active_non"]=='1' and($client["account_manager"] == $this->emp_id || in_array("hrsys_allvacancies", $this->ses_roles))) {
             $canedit=true;
         }
 
@@ -239,7 +243,7 @@ class client extends Main_Controller {
            $canedit=true;
        }
        $canedit=false;
-        if ($client["status"]=='0' ||$client["account_manager"] == $this->user_id || in_array("hrsys_allclient", $this->ses_roles)) {
+        if ($client["active_non"]=='1' and($client["status"]=='0' ||$client["account_manager"] == $this->user_id || in_array("hrsys_allclient", $this->ses_roles))) {
             $canedit=true;
            
         }
@@ -334,6 +338,10 @@ class client extends Main_Controller {
         
     }
     
+	public function inactive()
+	{
+	  $this->loadContent('hrsys/client/inactive');
+	}
     
     public function json_listClientByPIC($account_manager) {
 
@@ -348,7 +356,7 @@ class client extends Main_Controller {
                 $_POST["search"][$key] = str_replace("_sp_", ".", $value);
             }
 
-        $where = "1=1";
+        $where = "active_non=1";
         
          $where = "cl.account_manager='$account_manager'";
          
@@ -379,14 +387,21 @@ class client extends Main_Controller {
                 $_POST["search"][$key] = str_replace("_sp_", ".", $value);
             }
 
-        $where = "1=1";
+		$where="1=1 ";
+		if($status=='inactive')
+		{
+			$where.="and cl.active_non='0' ";
+		}else{
+			$where.="and cl.active_non='1' ";
+		}
         if ($status == 'all') {
             
         } elseif ($status == "prospect") {
-            $where = "cl.status='0'";
+            $where .= "and cl.status='0' ";
         } elseif ($status == "my") {
-            $where = "cl.account_manager='" . (isset($this->sessionUserData["employee"]["emp_id"]) ? $this->sessionUserData["employee"]["emp_id"] : "") . "'";
+            $where .= "and cl.account_manager='" . (isset($this->sessionUserData["employee"]["emp_id"]) ? $this->sessionUserData["employee"]["emp_id"] : "") . "'";
         }
+		
 
         $sql = "SELECT cl.cmpyclient_id cl_sp_cmpyclient_id,cl.name cl_sp_name,cl.cp_name cl_sp_cp_name,cl.cp_phone cl_sp_cp_phone, " .
                 "emp.fullname emp_sp_fullname, lk.display_text lk_sp_display_text " .

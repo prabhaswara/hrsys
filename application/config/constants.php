@@ -5,6 +5,13 @@ define("candidate_stat_close", 0);
 
 
 define("applicant_stat_shortlist", 1);
+define("applicant_stat_processinterview", 2);
+define("applicant_stat_processtoclient", 3);
+define("applicant_stat_offeringsalary", 4);
+define("applicant_stat_rejectedfromcandidate", 5);
+define("applicant_stat_rejectedfromclient", 6);
+define("applicant_stat_notqualified", 7);
+define("applicant_stat_placemented", 8);
 
 
 /*

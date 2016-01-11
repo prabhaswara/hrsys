@@ -133,7 +133,10 @@ w2confirm('Are you sure Delete This Meeting ?')
                         },
                         success: function (data) {
                             w2popup.close();
-                            w2ui["listInfMeeting"].reload();
+<?php if($gridReload!="calendar"){ ?>
+							w2ui["<?=$gridReload ?>"].reload();
+<?php } ?>
+                            
                             $(this).loadingShow(false);
                         }
                     });
@@ -144,11 +147,14 @@ w2confirm('Are you sure Delete This Meeting ?')
                 
             });
 <?php } ?>
-
-
-        $("#formnya").gn_onPopupSubmit("popupForm", w2ui["listInfMeeting"]);
-        $("#formOutCome").gn_onPopupSubmit("popupForm", w2ui["listInfMeeting"]);
-
+<?php if($gridReload=="calendar"){ ?>
+		$("#formnya").gn_onPopupSubmit("popupForm",$("#calendar"),"calendar");
+        $("#formOutCome").gn_onPopupSubmit("popupForm",$("#calendar"),"calendar");
+<?php } else { ?>
+		
+        $("#formnya").gn_onPopupSubmit("popupForm", w2ui["<?=$gridReload ?>"]);
+        $("#formOutCome").gn_onPopupSubmit("popupForm", w2ui["<?=$gridReload ?>"]);
+<?php } ?>
         $("#shareSchedule").kendoMultiSelect({
             placeholder: "Select Name...",
             dataValueField: "user_id",

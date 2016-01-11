@@ -12,6 +12,9 @@ $meet_id = isset($postForm["meet_id"]) ? $postForm["meet_id"] : "0";
 
 
 <div id="tabs-1" style="display:none" >
+	<?php if($canedit){ ?>
+	<a style="float:right;cursor:pointer" class="editMeeting" ><span class="fa-edit">&nbsp;</span></a>
+    <?php } ?>
     <form method="POST" id="formnya" class="form-tbl">
  
             <input type="hidden" name="do" value="schedule"/>
@@ -60,10 +63,15 @@ $meet_id = isset($postForm["meet_id"]) ? $postForm["meet_id"] : "0";
                 
             </table>           
         </form>
+		
 </div>
 
     <div id="tabs-2"  style="display:none">
-        <form method="POST" id="formOutCome" class="form-tbl" >
+	<?php if($canedit){ ?>
+	<a style="float:right;cursor:pointer" class="editMeeting" ><span class="fa-edit">&nbsp;</span></a>
+    <?php } ?>
+						
+	    <form method="POST" id="formOutCome" class="form-tbl" >
    
             <table>
                 <tr>
@@ -76,15 +84,19 @@ $meet_id = isset($postForm["meet_id"]) ? $postForm["meet_id"] : "0";
                 </tr>
             </table>         
         </form>
+		
     </div>
 
 
 
 
 <script>
+
     $(function () {
 
-$("#tabs").tabs(<?= (isset($_POST["do"]) && $_POST["do"] == "outcome") ? "{active: 1}" : "" ?>);
+	
+		
+		$("#tabs").tabs(<?= (isset($_POST["do"]) && $_POST["do"] == "outcome") ? "{active: 1}" : "" ?>);
 
         if (w2ui['meet_tabs'])
             $().w2destroy("meet_tabs");
@@ -100,11 +112,18 @@ $("#tabs").tabs(<?= (isset($_POST["do"]) && $_POST["do"] == "outcome") ? "{activ
                     onClick: function (event) {
 
                         $("#meet_tabs_c").html($("#" + event.tab.id).html());
-
-
+						<?php if($canedit){ ?>
+						$(".editMeeting").click(function () {	
+							 $("#popupForm").load("{site_url}/hrsys/meeting/showform/<?= $data["cmpyclient_id"] ?>/<?=$data["meet_id"]?><?=(isset($gridReload)&&$gridReload!="")?"?gridReload=".$gridReload:"" ?>", function () {
+									});
+							return false;
+						});
+						<?php } ?>
                     }
                 });
         w2ui['meet_tabs'].click('tabs-1');
+		
+		
         $(this).init_js("{base_url}");
 
 

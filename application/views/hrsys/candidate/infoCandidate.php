@@ -36,7 +36,7 @@
             <td><?= $candidate["email"] ?></td>        
         </tr>
         <tr>
-            <td class="aright">Expected Salary (IDR):</td>
+            <td class="aright">Expected Salary (<?=$candidate["expectedsalary_ccy"] ?>):</td>
             <td><?= numSep($candidate["expectedsalary"]) ?></td>        
         </tr>
         <tr>
@@ -67,14 +67,14 @@
     </table>
 
 </div>
-
+<?php if(!empty($vacancy)){ ?>
 <div style="border:1px solid silver;width: 350px;position: absolute;top: 10px;right: 10px;padding: 5px;<?=$showAddVac=="show"?"":"display:none" ?>">
     <div style="position: relative;height: 35px"> 
         <?php
-        
+        /*
                 if(empty($vacancy))
                     echo select_("v_vacancy_id",array() ,$listVacany,"style='width:200px' class='kendodropdown'");
-                else
+                else */
                     echo "<input type='hidden' id='v_vacancy_id' value='".(empty($vacancy)?'':$vacancy['vacancy_id'])."'/>";
         ?>
         
@@ -113,7 +113,7 @@
         
     </table>
 </div>
-
+<?php } ?>
 <script>
      function numberseparator(x) {
             return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");

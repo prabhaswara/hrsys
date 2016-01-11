@@ -60,8 +60,9 @@ class meeting extends Main_Controller {
             
             $dataReturn=array();
             foreach ( $data['records'] as $row){
-                $row["canedit"]="0";                
-                if( $client["account_manager"]==$this->user_id||$row["met_sp_usercreate"]==$this->user_id || in_array("hrsys_allmeeting", $this->ses_roles))
+                $row["canedit"]="0";             
+				
+                if($client["active_non"]=='1' and( $client["account_manager"]==$this->user_id||$row["met_sp_usercreate"]==$this->user_id || in_array("hrsys_allmeeting", $this->ses_roles)))
                 {
                     $row["canedit"]="1";
                     
@@ -81,8 +82,7 @@ class meeting extends Main_Controller {
         
         }
         $canedit = false;
-
-        if ($client["account_manager"] == $this->emp_id || in_array("hrsys_allmeeting", $this->ses_roles)) {
+        if ($client["active_non"]=='1' and($client["account_manager"] == $this->emp_id || in_array("hrsys_allmeeting", $this->ses_roles))) {
             $canedit=true;
         }
         $dataParse = array(
@@ -101,12 +101,21 @@ class meeting extends Main_Controller {
         
         $dataEmp=$this->m_employee->getByUserId($dataMeet["usercreate"]);
       
+		$client=$this->m_client->get($dataMeet["cmpyclient_id"]);    
+	
+		$canedit = false;
+        if ($dataMeet["usercreate"]==$this->user_id ||$client["account_manager"] == $this->emp_id || in_array("hrsys_allmeeting", $this->ses_roles)) {
+            $canedit=true;
+        }
+		
         $dataParse = array(              
             "data"=>$dataMeet,
             "shareSchedule"=>$shareSchedule,              
             "type"=>$type,
+			"canedit"=>$canedit,
             "outcome"=>$outcome,
             "createBy"=>isset($dataEmp["fullname"])?$dataEmp["fullname"]:"",
+			"gridReload"=>isset($_GET["gridReload"])?$_GET["gridReload"]:""
                 );
         $this->loadContent('hrsys/meeting/showDetail', $dataParse);
     }
@@ -178,6 +187,8 @@ class meeting extends Main_Controller {
             }
             
         }
+		
+		$gridReload=isset($_GET["gridReload"])?$_GET["gridReload"]:"listInfMeeting";
         $typeList = $this->m_lookup->comboLookup("meet_type");
         $outcomeList = $this->m_lookup->comboLookup("meet_outcome");
         $timeList = array(""=>"")+$this->m_lookup->comboTime();
@@ -191,7 +202,8 @@ class meeting extends Main_Controller {
             "client"=> $client,
             "timeList"=>$timeList,
             "typeList"=> $typeList,
-            'outcomeList'=>$outcomeList
+            'outcomeList'=>$outcomeList,
+			'gridReload'=>$gridReload
                 );
         $this->loadContent('hrsys/meeting/showform', $dataParse);
         
