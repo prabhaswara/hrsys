@@ -1,18 +1,27 @@
+
+
+
+<div  class="form-tbl" >
+<table><tr>
+
+<td width='320px'>
 <?php 
     if($canedit){
 ?>
 <div>
-    <button id="editInfo">Edit Info</button>
-    <button id="mntDoc">Maintenance Documents</button>
+    <button id="editInfo" class="w2ui-btn w2ui-btn-green" >Edit Info</button>
+    <button id="mntDoc" class="w2ui-btn w2ui-btn-green" >Maintenance Documents</button>
 </div>
 <?php
     }
 
-?>
-
-
-<div  class="form-tbl" >      
+?>     
     <table>
+		<tr>
+            <td class="aright">Candidate Manager:</td>
+            <td><?= $candidate["cm_sp_fullname"] ?></td>        
+        </tr>
+		
         <tr>
             <td class="aright">Candidate Name:</td>
             <td><?= $candidate["name"] ?></td>        
@@ -65,27 +74,39 @@
 ?>
 
     </table>
+</td>
+<td>
+<?php
 
+	if($candidate["photo"]!=""&&(!empty($vacancy)&&$showAddVac=="show"))
+	{?>
+	<img onclick="showPhoto()" style='border:3px solid silver;cursor:pointer'  src= "<?=$site_url."/hrsys/candidate/getphotoThumb/".$candidate["candidate_id"]."/".$candidate["photo"]."?random=".str_shuffle("0123456789abcdefghijklmnopqrstuvwxyz") ?>" />
+<?php
+	} ?>
+</td>
+</tr></table>
 </div>
+
+<div style='position: absolute;top: 10px;right: 10px;'>
+
+<?php
+
+	if($candidate["photo"]!=""&& !(!empty($vacancy)&&$showAddVac=="show"))
+	{?>
+	<img onclick="showPhoto()" style='border:3px solid silver;cursor:pointer' src= "<?=$site_url."/hrsys/candidate/getphotoThumb/".$candidate["candidate_id"]."/".$candidate["photo"]."?random=".str_shuffle("0123456789abcdefghijklmnopqrstuvwxyz") ?>" />
+<?php
+	} ?>
+
 <?php if(!empty($vacancy)){ ?>
-<div style="border:1px solid silver;width: 350px;position: absolute;top: 10px;right: 10px;padding: 5px;<?=$showAddVac=="show"?"":"display:none" ?>">
-    <div style="position: relative;height: 35px"> 
-        <?php
-        /*
-                if(empty($vacancy))
-                    echo select_("v_vacancy_id",array() ,$listVacany,"style='width:200px' class='kendodropdown'");
-                else */
-                    echo "<input type='hidden' id='v_vacancy_id' value='".(empty($vacancy)?'':$vacancy['vacancy_id'])."'/>";
-        ?>
+<div style="float:right; margin:0px 10px;text-align:right;border:1px solid silver;width: 350px;padding: 5px;<?=$showAddVac=="show"?"":"display:none" ?>">
+   <input type='hidden' id='v_vacancy_id' value='<?=(empty($vacancy)?'':$vacancy['vacancy_id'])?>'/>
         
-        <button id="btn_addtoshortlist" style="float: right" class="kendobutton">Add To Shortlist</button>
-      
-    </div>
+    <button id="btn_addtoshortlist" class="w2ui-btn w2ui-btn-green">Add To Shortlist</button>
 
     <table>
         <tr>
             <td class="aright">Vacancy :</td>
-            <td id="v_vacancy"><?= empty($vacancy)?"":$vacancy["name"] ?></td>
+            <td class="aleft" id="v_vacancy"><?= empty($vacancy)?"":$vacancy["name"] ?></td>
         </tr>
         <tr>
             <td class="aright">Salary :</td>
@@ -95,32 +116,54 @@
         </tr>          
         <tr>
             <td class="aright">Age :</td>
-            <td id="v_age"><?= !( !empty($vacancy)&&isset($vacancy["age_1"])&&cleanNumber($vacancy["age_1"])!=0)?"":$vacancy["age_1"] . ((cleanstr($vacancy["age_1"]) != "" && cleanstr($vacancy["age_2"]) != "") ? " - " : "") . $vacancy["age_2"] ?></td> 
+            <td  class="aleft" id="v_age"><?= !( !empty($vacancy)&&isset($vacancy["age_1"])&&cleanNumber($vacancy["age_1"])!=0)?"":$vacancy["age_1"] . ((cleanstr($vacancy["age_1"]) != "" && cleanstr($vacancy["age_2"]) != "") ? " - " : "") . $vacancy["age_2"] ?></td> 
         </tr>          
         <tr>
             <td class="aright">Sex :</td>
-            <td  id="v_sex"><?= empty($vacancy)?"":$vacancy["sex_text"] ?></td> 
+            <td  class="aleft" id="v_sex"><?= empty($vacancy)?"":$vacancy["sex_text"] ?></td> 
         </tr>        
         <tr>
             <td class="aright">Expertise :</td>
-            <td  id="v_expertise"><?= empty($vacancy)?"":$expertise ?></td> 
+            <td class="aleft" id="v_expertise"><?= empty($vacancy)?"":$expertise ?></td> 
         </tr>
         <tr>
             <td class="aright">Description :</td>
-            <td  id="v_description"><?= empty($vacancy)?"":$vacancy["description"] ?></td> 
+            <td class="aleft" id="v_description"><?= empty($vacancy)?"":$vacancy["description"] ?></td> 
         </tr>
         
         
     </table>
 </div>
 <?php } ?>
+</div>
+<div >
+
+
+</div>
 <script>
      function numberseparator(x) {
             return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
           }
+		  
+	
+	function showPhoto() {
+		
+		var img = $("<img />").attr('src', "<?=$site_url."/hrsys/candidate/getphoto/".$candidate["candidate_id"]."/".$candidate["photo"]."?random=".str_shuffle("0123456789abcdefghijklmnopqrstuvwxyz") ?>")
+		.on('load', function() {
+			if (!this.complete || typeof this.naturalWidth == "undefined" || this.naturalWidth == 0) {
+				alert('broken image!');
+			} else {
+				img.kendoWindow({
+			  modal: true
+			}).data("kendoWindow").center().open();
+			}
+		});
+		
+		
+	}
           
     $(function () {
-        
+      
        
 
 <?php 

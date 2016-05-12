@@ -13,6 +13,24 @@
 
 
     };
+	
+	$.fn.serializeFormJSON = function () {
+
+        var o = {};
+        var a = this.serializeArray();
+        $.each(a, function () {
+            if (o[this.name]) {
+                if (!o[this.name].push) {
+                    o[this.name] = [o[this.name]];
+                }
+                o[this.name].push(this.value || '');
+            } else {
+                o[this.name] = this.value || '';
+            }
+        });
+        return o;
+    };
+	
      $.fn.setSkillList = function (tx, btn, multiselect,site_url,data_select) {
          if(data_select.length>0){
               $("#"+multiselect).kendoMultiSelect({

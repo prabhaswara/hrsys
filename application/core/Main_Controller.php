@@ -7,13 +7,16 @@ class Main_Controller extends CI_Controller {
     var $sessionUserData="";   
     var $username="";
     var $user_id="";
-    var $emp_id="";
+    var $employee_code="";
+	var $employee_id="";	
     var $ses_roles="";
     var $dir_candidate;
     var $site_candidate;
     var $dir_client;
     var $site_client;
-
+	var $dir_template;
+	var $site_template;
+	
     function mkpath($path)
     {
       if(@mkdir($path) or file_exists($path)) return true;
@@ -36,6 +39,33 @@ class Main_Controller extends CI_Controller {
         
     }
     
+	function uploadResizeImage($img_name,$new_image,$maxwidth=100){
+		$this->load->library('image_lib');
+		list($width, $height) = getimagesize($_FILES[$img_name]['tmp_name']);
+		
+		if($width >= $maxwidth)
+		{
+			$ratio=$maxwidth/$width;
+			$height=ceil($height*$ratio);
+			$width=$maxwidth;
+			
+		}else if($height >= $maxwidth)
+		{
+			$ratio=$maxwidth/$height;
+			$width=ceil($width*$ratio);
+			$height=$maxwidth;
+		}
+		$config['image_library'] = 'gd2';
+		$config['source_image']  = $_FILES[$img_name]['tmp_name'];
+		$config['new_image'] = $new_image;		
+		$config['width']  = $width;
+		$config['height']    = $height;
+		$this->image_lib->initialize($config);
+	
+		if($this->image_lib->resize()) return true;
+		else return false;
+	}
+
     function __construct() {
       
         parent::__construct();
@@ -43,19 +73,27 @@ class Main_Controller extends CI_Controller {
         if($this->session->userdata(SES_USERDT)==null){
              redirect("site/sessionexpired");
         }
+		$this->sessionUserData=$this->session->userdata(SES_USERDT);
+
         
         $ds=DIRECTORY_SEPARATOR;
-        $this->dir_candidate="fl".$ds."candidates".$ds;
-        $this->site_candidate= base_url()."fl/candidates/";
+        $this->dir_candidate="fl".$ds.$this->sessionUserData["employee"]["consultant_code"].$ds."candidates".$ds;
+        $this->site_candidate= base_url()."fl/".$this->sessionUserData["employee"]["consultant_code"]."/candidates/";
         
-        $this->dir_client="fl".$ds."client".$ds;
-        $this->site_client= base_url()."fl/client/";
-                
-        $this->sessionUserData=$this->session->userdata(SES_USERDT);
+        $this->dir_client="fl".$ds.$this->sessionUserData["employee"]["consultant_code"].$ds."client".$ds;
+        $this->site_client= base_url()."fl/".$this->sessionUserData["employee"]["consultant_code"]."/client/";
+        
+
+		$this->dir_template="fl".$ds.$this->sessionUserData["employee"]["consultant_code"].$ds."template".$ds;
+        $this->site_template= base_url()."fl/".$this->sessionUserData["employee"]["consultant_code"]."/template/";
+         
+        
         $this->username=$this->sessionUserData["user"]["username"];
         $this->user_id=$this->sessionUserData["user"]["user_id"];
-        $this->emp_id=isset($this->sessionUserData["employee"]["emp_id"])?$this->sessionUserData["employee"]["emp_id"]:"";
-        $this->ses_roles=$this->sessionUserData["roles"];
+        $this->employee_code=isset($this->sessionUserData["employee"]["employee_code"])?$this->sessionUserData["employee"]["employee_code"]:"";
+        $this->employee_id=isset($this->sessionUserData["employee"]["id"])?$this->sessionUserData["employee"]["id"]:"";
+        
+		$this->ses_roles=$this->sessionUserData["roles"];
         $this->load->helper('gn_frm','gn_str');
         $this->load->model('admin/m_menu');
         

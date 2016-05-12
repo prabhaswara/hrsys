@@ -82,7 +82,7 @@ class meeting extends Main_Controller {
         
         }
         $canedit = false;
-        if ($client["active_non"]=='1' and($client["account_manager"] == $this->emp_id || in_array("hrsys_allmeeting", $this->ses_roles))) {
+        if ($client["active_non"]=='1' and($client["account_manager"] == $this->employee_id || in_array("hrsys_allmeeting", $this->ses_roles))) {
             $canedit=true;
         }
         $dataParse = array(
@@ -104,7 +104,7 @@ class meeting extends Main_Controller {
 		$client=$this->m_client->get($dataMeet["cmpyclient_id"]);    
 	
 		$canedit = false;
-        if ($dataMeet["usercreate"]==$this->user_id ||$client["account_manager"] == $this->emp_id || in_array("hrsys_allmeeting", $this->ses_roles)) {
+        if ($dataMeet["usercreate"]==$this->user_id ||$client["account_manager"] == $this->employee_id || in_array("hrsys_allmeeting", $this->ses_roles)) {
             $canedit=true;
         }
 		

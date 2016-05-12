@@ -68,7 +68,7 @@ class vacancy extends Main_Controller {
         }
         
         $canedit=false;
-        if ($client["active_non"]=='1' and($client["account_manager"] == $this->emp_id || in_array("hrsys_allvacancies", $this->ses_roles))) {
+        if ($client["active_non"]=='1' and($client["account_manager"] == $this->employee_id || in_array("hrsys_allvacancies", $this->ses_roles))) {
             $canedit=true;
         }
 		
@@ -79,7 +79,19 @@ class vacancy extends Main_Controller {
         
     }
     
-   
+	
+	
+	public function closeVancany($vacancy_id)
+	{
+		$this->m_vacancy->closeVancany($vacancy_id);
+		exit;
+	}
+	
+	public function deleteVancany($vacancy_id)
+	{
+		$this->m_vacancy->deleteVancany($vacancy_id);
+		exit;
+	}
     public function deleteVacantTrail($vacancy_trl_id){
         
 		echo $this->m_vacancy->deleteVacantTrail($vacancy_trl_id);
@@ -145,11 +157,16 @@ class vacancy extends Main_Controller {
          $breadcrumb[]=array("link"=>"$site_url/hrsys/vacancy/contentVacancy/".$vacancy["vacancy_id"]."/".$frompage,"text"=>$vacancy["name"]); 
          
         
-        
-        $sidebarCandidate=json_encode($this->m_vacancy->getVCIdName($vacancy_id));
+       $vcdidname=$this->m_vacancy->getVCIdName($vacancy_id); 
+       $sidebarCandidate=json_encode($vcdidname);
        $canedit=false;
-	   if ($client["account_manager"] == $this->emp_id || in_array("hrsys_allvacancies", $this->ses_roles)) {
+	   $candelete=false;
+	   if ($client["account_manager"] == $this->employee_id || in_array("hrsys_allvacancies", $this->ses_roles)) {
             $canedit=true;
+			if(empty($vcdidname))
+			{
+				$candelete=true;
+			}
         }
 		$message="";
         if(isset($_GET["status"]))
@@ -168,6 +185,7 @@ class vacancy extends Main_Controller {
             "frompage"=>$frompage,    
             "breadcrumb"=>$breadcrumb, 
 			"canedit"=>$canedit,
+			"candelete"=>$candelete,
 			"message"=>$message
                 );
         $this->loadContent('hrsys/vacancy/contentVacancy', $dataParse);
@@ -196,10 +214,10 @@ class vacancy extends Main_Controller {
                 $where.="vc.applicant_stat='".$_POST["typesearch"]."' and";
         }
 
-        $sql = "SELECT  vc.vacancycandidate_id recid,c.candidate_id c_sp_candidate_id ,c.name c_sp_name,c.phone c_sp_phone,vc.expectedsalary vc_sp_expectedsalary,klstate.display_text klstate_sp_display_text,cm.fullname cm_sp_fullname " .
+        $sql = "SELECT  vc.vacancycandidate_id recid,c.candidate_id c_sp_candidate_id ,c.name c_sp_name,c.phone c_sp_phone,vc.expectedsalary vc_sp_expectedsalary,vc.approvedsalary vc_sp_approvedsalary,klstate.display_text klstate_sp_display_text,cm.fullname cm_sp_fullname " .
                "from hrsys_vacancycandidate vc " .
                "join hrsys_candidate c on vc.candidate_id=c.candidate_id ".
-               "left join hrsys_employee cm on vc.candidate_manager=cm.emp_id ".
+               "left join hrsys_employee cm on vc.candidate_manager=cm.id ".
                "left join tpl_lookup klstate on klstate.type='applicant_stat' and vc.applicant_stat=klstate.value " .
                "WHERE ~search~ and $where 1=1 ORDER BY ~sort~";
 
@@ -259,7 +277,7 @@ class vacancy extends Main_Controller {
         }
         
         if (empty($postForm) && !$isEdit){
-            $postForm["account_manager"]=$this->emp_id;
+            $postForm["account_manager"]=$this->employee_id;
             $postForm["opendate"]=  today();
             $postForm["num_position"]=  1;
             $postForm["fee"]= cleanstr($client["ck_fee"]);
@@ -271,7 +289,7 @@ class vacancy extends Main_Controller {
             $postForm["opendate"]=  balikTgl($postForm["opendate"]);
         }
         if(isset($postForm["account_manager"]) && cleanstr($postForm["account_manager"])!=""){
-                
+               
                 $isiComboAM=$this->m_employee->isiComboAM($postForm["account_manager"]);
                 if(!empty($isiComboAM))
                     $comboAM +=$isiComboAM;
@@ -363,15 +381,23 @@ class vacancy extends Main_Controller {
 		$message = "";
         if (!empty($postForm)) {	
 			$action=(isset($_POST["action"])?$_POST["action"]:"save");
+			$validate=$this->m_vacancy->validateProcess($_POST);
 			
-			if($this->m_vacancy->updateVacancyTrl($action,$_POST, $this->sessionUserData))
+			if($validate["status"])
 			{
-				$message = showMessage("Data Saved","success");
-				$trail=$this->m_vacancy->getActiveTrlByVacCan($vacancy_id,$candidate_id); 
+				if($this->m_vacancy->updateVacancyTrl($action,$_POST, $this->sessionUserData))
+				{
+					$message = showMessage("Data Saved","success");
+					$trail=$this->m_vacancy->getActiveTrlByVacCan($vacancy_id,$candidate_id); 					
+					$postForm=$this->m_vacancy->getVacancyTrl($trail["trl_id"]);
 				
-				$postForm=$this->m_vacancy->getVacancyTrl($trail["trl_id"]);
-			
-			}			
+				}	
+			}
+			else
+			{
+				$message = showMessage($validate["message"]); 
+			}
+				
 			
         }
 		else{
@@ -392,7 +418,7 @@ class vacancy extends Main_Controller {
         $headerTrail=$this->m_vacancy->getHeaderTrail($vacancy["vacancy_id"]);
         
         $listNextState=$this->m_vacancy->listNextState($trail["applicant_stat_id"]);
-    
+		
      
         $dataParse = array(
             "candidate"=>$candidate,
@@ -443,6 +469,10 @@ class vacancy extends Main_Controller {
 			case applicant_stat_placemented:
 				$dataParse["listCCY"]=$this->m_lookup->comboLookup("ccy");
 				$dataParse["placementedForm"]=$this->m_vacancy->getPlacemented($trl_id);
+				
+				$dataParse["placementedForm"]["date_join"]=balikTgl($dataParse["placementedForm"]["date_join"]);
+
+				
 			break;
 				
 		}
@@ -463,7 +493,10 @@ class vacancy extends Main_Controller {
         $candidate=$this->m_candidate->get($vacancyCandidate["candidate_id"]);  
 		
 		
-		$dataParse["dataTrail"] = $dataTrail;
+		
+		
+		$dataParse["dataTrail"] = $dataTrail;		
+		$dataParse["vacname"] = $this->m_vacancy->getClientNmVacNm($vacancyCandidate["vacancy_id"]);
 		$dataParse["vacancyCandidate"] = $vacancyCandidate;
 		$dataParse["candidate"] = $candidate;		
 		$dataParse["candidate"]=$this->m_candidate->get($vacancyCandidate["candidate_id"]);   

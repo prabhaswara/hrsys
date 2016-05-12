@@ -48,11 +48,12 @@ class login extends CI_Controller {
         $message="";
         if(!empty($_POST)){
             $dataRegister=$this->m_user->getDataLogin($_POST["username"],$_POST["password"]);
-            
+           
             if(empty($dataRegister)){
                $message= showMessage("username or password not match");
             }
             else{
+				 $this->m_user->setLastLogin($dataRegister["user"]["user_id"]);
                 $this->session->set_userdata(SES_USERDT,$dataRegister);
                 redirect("site");
             }

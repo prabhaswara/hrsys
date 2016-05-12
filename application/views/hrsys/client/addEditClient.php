@@ -47,8 +47,11 @@ if(!$isEdit){ ?>
                 </td> 
             </tr>
  <?php }?>
+			<tr>
+				<td></td><td><button id="action" class="w2ui-btn w2ui-btn-green" > <span class="fa-edit">&nbsp;</span> Save</button></td>
+			</tr>
         </table>
-        <input type="submit" name="action" id="action" value="Save" class="w2ui-btn"/>
+		
     </form>
 
 
@@ -61,7 +64,7 @@ if(!$isEdit){ ?>
         
         $("#account_manager").kendoComboBox({
                         placeholder: "Select..",
-                       dataValueField: "emp_id",
+                       dataValueField: "employee_code",
                         dataTextField: "name",
                         filter: "contains",
                         autoBind: false,

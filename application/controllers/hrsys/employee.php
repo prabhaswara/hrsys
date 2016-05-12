@@ -38,7 +38,7 @@ class employee extends Main_Controller {
        
         }
         
-        $data=$this->m_employee->account_manager($name);
+        $data=$this->m_employee->account_manager($name,$this->sessionUserData["employee"]["consultant_code"]);
         header("Content-Type: application/json;charset=utf-8");
         echo json_encode($data);
     }

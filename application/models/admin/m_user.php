@@ -31,6 +31,12 @@ class M_user extends Main_Model {
         return $this->db->where("username",$username)->get("tpl_user")->row_array();
     }
     
+	function setLastLogin($user_id){
+	
+		$this->db->set('last_login', 'NOW()', FALSE);  
+		$this->db->update('tpl_user', array(),array('user_id' => $user_id));
+	
+	}
     
     function getDataLogin($username,$password){
         
@@ -42,11 +48,14 @@ class M_user extends Main_Model {
             
             unset($dataUser["password"]);
             $dataEmployee=$this->db->where("user_id",$dataUser['user_id'])->get("hrsys_employee")->row_array();
+            $dataConsultant=$this->db->where("consultant_code",$dataEmployee['consultant_code'])->get("hrsys_consultant")->row_array();
             
             $dataRole=$this->getRoleUser($dataUser['user_id']);
             $dataReturn["user"]=$dataUser;
             $dataReturn["roles"]=$dataRole;
             $dataReturn["employee"]=$dataEmployee;
+			$dataReturn["employee"]["consultant_name"]=(empty($dataConsultant)?"":$dataConsultant["name"]);
+			
         }
         
         return $dataReturn;    
@@ -57,12 +66,14 @@ class M_user extends Main_Model {
 	
     
     public function saveOrUpdate($dataSave,$user) {
-        $this->db->trans_start(TRUE);
+        
                
         $dataUser=$dataSave["user"];
         $user_id = $dataUser["user_id"];
         unset($dataUser["user_id"]);
         
+		
+		$this->db->trans_start(TRUE);
         $this->db->set('dateupdate', 'NOW()', FALSE); 
         
         
@@ -92,6 +103,22 @@ class M_user extends Main_Model {
         foreach($dataSave["role"] as $role){
             $this->db->insert('tpl_user_role', array("user_id"=>$user_id,"role_id"=>$role));
         }
+        if(!empty($dataSave["employee"]) && $dataSave["employee"]["consultant_code"]!="" )
+		{
+			$dataSave["employee"]["id"]=$user_id;
+			$dataSave["employee"]["user_id"]=$user_id;			
+			$dataSave["employee"]["active_non"]=$dataUser["active_non"];
+			$employee= $this->db->where("user_id",$user_id)->get("hrsys_employee")->result_array();
+			if(empty($employee))
+			{
+				$this->db->insert('hrsys_employee', $dataSave["employee"]);
+			}else
+			{
+				$this->db->update('hrsys_employee', $dataSave["employee"], array('user_id' => $user_id));
+			}
+			
+		}
+		
         
         $this->db->trans_complete(); 
        
@@ -101,7 +128,8 @@ class M_user extends Main_Model {
     public function delete($selected){
         foreach($selected as $id){
             $this->db->trans_start(TRUE);
-            $this->db->delete( 'tpl_user_role', array( 'user_id' => $id ) );
+            $this->db->delete( 'hrsys_employee', array( 'user_id' => $id ) );
+			 $this->db->delete( 'tpl_user_role', array( 'user_id' => $id ) );
             $this->db->delete( 'tpl_user', array( 'user_id' => $id ) );
             $this->db->trans_complete(); 
         }

@@ -1,7 +1,7 @@
 <div>
 <?php if($canedit){
 ?>
-    <button  id="editClient"> <span class="fa-edit">&nbsp;</span> Edit General Info</button>
+    <button class="w2ui-btn w2ui-btn-green"  style='margin-bottom:5px'  id="editClient"> <span class="fa-edit">&nbsp;</span> Edit General Info</button>
 <?php } ?>
     <div class="form-tbl" >
         <table>

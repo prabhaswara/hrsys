@@ -27,7 +27,7 @@
         
         $("#account_manager ").kendoComboBox({
                         placeholder: "Select..",
-                       dataValueField: "emp_id",
+                       dataValueField: "id",
                         dataTextField: "name",
                         filter: "contains",
                         autoBind: false,

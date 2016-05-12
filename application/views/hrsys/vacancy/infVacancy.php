@@ -1,7 +1,7 @@
 <div>
     <input type="hidden" id="typesearchhide" value="open"/>
     <?php if($canedit){ ?>
-    <button id="createAppointment" > <span class="fa-edit">&nbsp;</span> Add Job Vacancy</button>
+    <button   class="w2ui-btn w2ui-btn-green"  style='margin-bottom:5px' id="createAppointment" > <span class="fa-edit">&nbsp;</span> Add Job Vacancy</button>
     <?php }?>
     <div id="listInfVacancy" style="height:300px" ></div>
 
@@ -23,19 +23,17 @@
             autoLoad: false,
             limit:50,
             url: '{site_url}/hrsys/vacancy/infVacancy/<?= $client_id ?>',
-            show: {toolbar: true},
-            toolbar: {
+            show: {toolbar: true}
+ <?php /*           ,toolbar: {
                 items: [
-                    { type: 'break' },
-                    { type: 'html',  id: 'item6',
-                            html: "<span id='typesearchspan'></span>" 
-                    }
+                    { type: 'break' }
+                    ,{ type: 'html',  id: 'item6',html: "<span id='typesearchspan'></span>" }
                 ],
                 onClick: function (target, data) {
                   
                 }
-            },
-            columns: [
+            }*/ ?>
+            ,columns: [
           
                 {field: 'recid', caption: '', size: '30px', searchable: false, sortable: false,
                     render: function (record) {

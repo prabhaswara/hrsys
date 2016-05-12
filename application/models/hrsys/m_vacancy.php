@@ -11,7 +11,7 @@ class M_vacancy extends Main_Model {
         parent::__construct();
     }
     
-    function listOpenVacancy($emp_id,$user_id,$selectAll){
+    function listOpenVacancy($employee_code,$user_id,$selectAll){
         
         $dataReturn=array();
         if($selectAll){
@@ -22,7 +22,7 @@ class M_vacancy extends Main_Model {
         }else{
             $sql="select v.* from hrsys_vacancy v left join "
                 ."hrsys_vacancyuser vc on vc.vacancy_id=v.vacancy_id and vc.user_id='$user_id' "
-                ."where v.account_manager='$emp_id' or vc.user_id is not null ";
+                ."where v.account_manager='$employee_code' or vc.user_id is not null ";
             $dataReturn = $this->db->query($sql)->result_array();
         }       
       
@@ -48,7 +48,11 @@ class M_vacancy extends Main_Model {
         return $this->db->where("vacancy_trl_id",$trail_id)->get("hrsys_vac_placemented")->row_array();
     }
 	
-    
+    function getClientNmVacNm($vacancy_id)
+	{
+		$sql="select vac.name vacancy_name,cli.name client_name from hrsys_vacancy vac join hrsys_cmpyclient cli on vac.cmpyclient_id= cli.cmpyclient_id where vac.vacancy_id='$vacancy_id'";
+		 return $this->db->query($sql)->row_array();
+	}
     
     function getDetails($id){
         $dataReturn=array();
@@ -56,7 +60,7 @@ class M_vacancy extends Main_Model {
         $sql="select vc.*,emp.fullname emp_am, lk.display_text status_text,lksex.display_text sex_text from hrsys_vacancy vc  ".
              "left join tpl_lookup lk on lk.type='vacancy_stat' and vc.status=lk.value ".
              "left join tpl_lookup lksex on lksex.type='sex' and vc.sex=lksex.value ".
-             "left join hrsys_employee emp on vc.account_manager=emp.emp_id ".
+             "left join hrsys_employee emp on vc.account_manager=emp.id ".
              "where vc.vacancy_id='$id'";
         
         //$vacancy= $this->db->query($sql)->row_array();
@@ -81,7 +85,7 @@ class M_vacancy extends Main_Model {
 		
 		$vacancycandidate=$this->getVacancyCandidateByid($vacancycandidate_id);
 		$vacancy=$this->get($vacancycandidate["vacancy_id"]);
-					
+		$dataVacCandUpdate=array();			
 	
 		if($action=="nextProcess")
 		{
@@ -139,9 +143,8 @@ class M_vacancy extends Main_Model {
 						$schedule_id=$scheduleData["schedule_id"];
 					}
 					$this->db->delete( 'hrsys_scheduleuser', array( 'schedule_id' => $schedule_id ) );
-					$this->load->model('m_employee');
-					$empAM=$this->m_employee->get($vacancy["account_manager"]);
-					$this->db->insert('hrsys_scheduleuser', array( 'schedule_id' => $schedule_id,'user_id'=>$empAM["user_id"] )); 
+				
+					$this->db->insert('hrsys_scheduleuser', array( 'schedule_id' => $schedule_id,'user_id'=>$this->sessionUserData["employee"]["id"] )); 
 					
 				
 				}
@@ -182,7 +185,10 @@ class M_vacancy extends Main_Model {
 				"expectedsalary"=>$dataOffering["expected_salary"],
 				"expectedsalary_ccy"=>$dataOffering["expected_ccy"]
 				),array('candidate_id'=>$vacancycandidate["candidate_id"]));
-				 
+				
+				$dataVacCandUpdate["expectedsalary"]=$dataOffering["expected_salary"];
+				$dataVacCandUpdate["expectedsalary_ccy"]=$dataOffering["expected_ccy"];
+					
 			break;
 			
 			case applicant_stat_placemented:	
@@ -190,22 +196,29 @@ class M_vacancy extends Main_Model {
 				
 				if($dataPlacemented["date_join"]!=""){
 					$dataPlacemented["date_join"]=  balikTgl($dataPlacemented["date_join"]);
-				}
-				
-				
+				}				
 				if(empty($this->db->where("vacancy_trl_id",$trailData['trl_id'])->get("hrsys_vac_placemented")->row_array()))
 				{
 					$dataPlacemented["vacancy_trl_id"]=$trailData['trl_id'];	
 					$this->db->insert('hrsys_vac_placemented', $dataPlacemented);
 				}else{						
 					$this->db->update('hrsys_vac_placemented', $dataPlacemented,array('vacancy_trl_id'=>$trailData['trl_id']));
-				
+
 				}
+				
+				if($action=="closeProcess"){
+		
+					$dataVacCandUpdate["approvedsalary"]=$dataPlacemented["salary"];
+					$dataVacCandUpdate["approvedsalary_ccy"]=$dataPlacemented["salary_ccy"];
+					$dataVacCandUpdate["date_join"]=$dataPlacemented["date_join"];
+					$dataVacCandUpdate["closed"]=1; 						
+				}
+				
 			break;
 		}
 		
 
-		if($action=="nextProcess"){
+		if($action=="nextProcess" ){
 			$this->load->model('m_client');
 			
 			//vacancy process
@@ -273,15 +286,18 @@ class M_vacancy extends Main_Model {
 				"description"=>$description
 			  )); 
 
-			//update vacancy candidate
-			$this->db->set('dateupdate', 'NOW()', FALSE);
-            $this->db->set('userupdate', $sessionData["user"]["user_id"]);
-			$this->db->update('hrsys_vacancycandidate', 
-			array("applicant_stat"=>$updateCurrentTrl["applicant_stat_next"]),
-			array('vacancycandidate_id' => $vacancycandidate_id));  
 			
-			//
+			
+			$dataVacCandUpdate["applicant_stat"]=$updateCurrentTrl["applicant_stat_next"];
 		}
+		//update vacancy candidate
+			
+			
+		$this->db->set('dateupdate', 'NOW()', FALSE);
+        $this->db->set('userupdate', $sessionData["user"]["user_id"]);
+		$this->db->update('hrsys_vacancycandidate',$dataVacCandUpdate ,
+		array('vacancycandidate_id' => $vacancycandidate_id));  
+
 		$this->db->trans_complete();
         return $this->db->trans_status();
 		
@@ -305,7 +321,7 @@ class M_vacancy extends Main_Model {
        
         if($vacancy_id==""){
             // insert vacancy
-            $vacancy_id=$this->uniqID();
+            $vacancy_id=$this->generateID("vacancy_id","hrsys_vacancy");
             $vacancy["vacancy_id"]=$vacancy_id;
             $vacancy["status"]="1";
             $this->db->set('dateupdate', 'NOW()', FALSE);
@@ -316,7 +332,7 @@ class M_vacancy extends Main_Model {
             
             
             // insert trail
-            $dataTrl["cmpyclient_trl_id"] = $this->uniqID();
+            $dataTrl["cmpyclient_trl_id"] = $this->generateID("cmpyclient_trl_id","hrsys_cmpyclient_trl");
             $dataTrl["cmpyclient_id"] = $vacancy["cmpyclient_id"];
             $dataTrl["description"] = "Created Vacancy ".$vacancy["name"];
             $dataTrl["type"] = "vacancy";
@@ -359,6 +375,26 @@ class M_vacancy extends Main_Model {
     }
     
     
+	public function validateProcess($post) {
+        $return = array(
+            'status' => true,
+            'message' => array()
+        );	
+	
+		
+        if ($post["action"]=="nextProcess") {		          
+
+            if (cleanstr($post["frm"]["applicant_stat_next"]) == "") {
+			
+	
+                $return["status"] = false;
+                $return["message"]["applicant_stat_next"] = "Next State cannot be empty";
+            }
+           
+        }
+        return $return;
+    }
+	
     public function validate($datafrm, $isEdit) {
         $return = array(
             'status' => true,
@@ -415,6 +451,7 @@ class M_vacancy extends Main_Model {
 		return $data;
     }
     
+	
     
     
     function listNextState($applicant_stat){
@@ -422,7 +459,7 @@ class M_vacancy extends Main_Model {
         
         $sql="select lk.display_text,lk.value from hrsys_applicantstat_nxt vc  ".
              "join tpl_lookup lk on vc.applicant_stat_next=lk.value and lk.type='applicant_stat' ".
-             "where vc.applicant_stat_id='$applicant_stat'";
+             "where vc.consultant_code='".$this->sessionUserData["employee"]["consultant_code"]."' and vc.applicant_stat_id='$applicant_stat'";
        
         $array= $this->db->query($sql)->result_array();        
        
@@ -442,6 +479,23 @@ class M_vacancy extends Main_Model {
 		->order_by("order_num","desc")
 		->get("hrsys_vacancy_trl")->result_array();
     }
+	function deleteVancany($vacancy_id)
+	{	
+	
+		$this->db->trans_start(TRUE);
+        $this->db->delete( 'hrsys_cmpyclient_trl', array( 'type' => 'vacancy','value'=>$vacancy_id ) );
+		$this->db->delete( 'hrsys_vacancy', array( 'vacancy_id' => $vacancy_id ) );
+        $this->db->trans_complete();
+	}
+	
+	function closeVancany($vacancy_id)
+	{	
+		$this->db->update('hrsys_vacancy', array("status"=>0), array('vacancy_id' => $vacancy_id));
+			
+	}
+	
+	
+	
 	
 	function deleteVacantTrail($vacancy_trl_id)
 	{
@@ -454,6 +508,7 @@ class M_vacancy extends Main_Model {
 		if(count($listVacancyTrl)==1 && $vacancyTrl["applicant_stat_id"]==applicant_stat_shortlist){
 			//delete all
 			$this->db->trans_start(TRUE);
+			
 			$this->db->delete( 'hrsys_vacancy_trl', array( 'trl_id' => $vacancy_trl_id ) );
 			$this->db->delete( 'hrsys_candidate_trl', array( 'value' => $vacancy_trl_id,'type' => "vacancy_trl_id" ) );
 			$this->db->delete( 'hrsys_vacancycandidate', array( 'vacancycandidate_id' => $vacancycandidate_id ) );
@@ -469,7 +524,12 @@ class M_vacancy extends Main_Model {
 		}
 		else if (count($listVacancyTrl)>1 ){
 			// remove one 
-		
+			
+			if($vacancyTrl["applicant_stat_id"]==applicant_stat_processinterview)
+			{
+				$this->db->delete( 'hrsys_schedule', array( 'value' => $vacancy_trl_id,'type' => "interview" ) );
+			}
+			
 			$this->db->trans_start(TRUE);
 			$this->db->delete( 'hrsys_vacancy_trl', array( 'trl_id' => $vacancy_trl_id ) );
 			$this->db->delete( 'hrsys_candidate_trl', array( 'value' => $vacancy_trl_id,'type' => "vacancy_trl_id" ) );
@@ -497,6 +557,10 @@ class M_vacancy extends Main_Model {
 		}
 		return $kembali;
 	}
+	
+	function getExperties($vacancy_id){
+        return $this->db->where("vacancy_id",$vacancy_id)->order_by("skill")->get("hrsys_vacancy_skill")->result_array();
+    }
 }
 
 ?>

@@ -10,7 +10,7 @@ $user_id=isset($postUser["user_id"])?$postUser["user_id"]:"0";
         <?= frm_('user_id', $postUser, "type='hidden'") ?>
         <table>
             <tr>
-                <td>Username</td>
+                <td width='150px'>Username</td>
                 <td>
                     <?= frm_('username', $postUser) ?>
                 </td>        
@@ -50,6 +50,26 @@ $user_id=isset($postUser["user_id"])?$postUser["user_id"]:"0";
                         echo "</ul>";
                     }
                     ?>
+                </td>
+            </tr>
+			
+			<tr>
+                <td>Consultant Code</td>
+                <td>
+                     <?= frm_g('employee','consultant_code', $postEmployee) ?>
+                </td>
+            </tr>
+			<tr>
+                <td>Employee Number</td>
+                <td>
+                     <?= frm_g('employee','employee_code', $postEmployee) ?>
+                </td>
+            </tr>
+			
+			<tr>
+                <td>Employee Name</td>
+                <td>
+                     <?= frm_g('employee','fullname', $postEmployee) ?>
                 </td>
             </tr>
         </table>

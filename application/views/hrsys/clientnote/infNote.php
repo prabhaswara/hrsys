@@ -1,7 +1,7 @@
 <div>
     <input type="hidden" id="typesearchhide" value="active"/>
     <?php if($canedit) { ?>
-    <button id="createNote" > <span class="fa-edit">&nbsp;</span> Create Note</button>
+    <button id="createNote" class="w2ui-btn w2ui-btn-green"  style='margin-bottom:5px'  > <span class="fa-edit">&nbsp;</span> Create Note</button>
     <?php } ?>
     
     <div id="listinfNote" style="height:300px" ></div>

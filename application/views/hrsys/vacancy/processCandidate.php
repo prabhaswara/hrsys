@@ -118,6 +118,10 @@ $vacancy_id = $vacancy["vacancy_id"];
 				}?>
             
         </table>
+		
+<?php
+	if($vacancy["status"]==1 && $vacancyCandidate["closed"]!="1"){
+?>		
 		<div >
 		<input type="submit" name="action" id="action" value="Save" class="w2ui-btn"  style="float:left"/>
 
@@ -133,7 +137,9 @@ $vacancy_id = $vacancy["vacancy_id"];
 		<input type='button' id='delete' value='Delete' class='w2ui-btn w2ui-btn-red'  style="float:right"/>
 		</div>
     
-
+<?php 
+	}
+?>
 </form>
 
 
@@ -172,6 +178,28 @@ $vacancy_id = $vacancy["vacancy_id"];
              $.ajax({
                 type: "POST",
                 data: $("#formnya").serialize()+"&action=nextProcess",
+                url     : '{site_url}/hrsys/vacancy/processCandidate/<?= $vacancy_id . "/" . $candidate_id ?>',
+                beforeSend: function (xhr) {
+                    $("#ajaxDiv").attr("class", "ajax-show");
+
+                },
+                success: function (data) {
+					w2ui['layoutdetcandidate'].content('main',data);
+					
+					$("#ajaxDiv").attr("class", "ajax-hide");
+                    
+                }
+                
+            });
+            return false;
+
+        });
+		
+		$("#closingProcess").click(
+			function (e) {
+             $.ajax({
+                type: "POST",
+                data: $("#formnya").serialize()+"&action=closeProcess",
                 url     : '{site_url}/hrsys/vacancy/processCandidate/<?= $vacancy_id . "/" . $candidate_id ?>',
                 beforeSend: function (xhr) {
                     $("#ajaxDiv").attr("class", "ajax-show");

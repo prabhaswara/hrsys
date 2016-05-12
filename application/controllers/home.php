@@ -13,7 +13,9 @@ class home extends Main_Controller {
     public function main_home(){
         $params=array(
             "user_id"=>$this->user_id,
-            "emp_id"=>$this->emp_id
+            "employee_id"=>$this->employee_id,
+			"employee_code"=>$this->employee_code
+			
         );
         $this->loadContent('home',$params);
     }

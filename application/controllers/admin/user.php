@@ -78,7 +78,8 @@ class User extends Main_Controller {
         
         $postUser=isset($_POST['frm'])?$_POST['frm']:array();
         $postUserRole=isset($_POST['role'])?$_POST['role']:array();
-       
+		$postEmployee=isset($_POST['employee'])?$_POST['employee']:array();
+		
         $create_edit="Edit";
         $isEdit=true;
         if($id==0){
@@ -96,6 +97,7 @@ class User extends Main_Controller {
                 unset($dataSave["user"]["password_2"]);              
                 
                 $dataSave["role"]=$postUserRole;
+				$dataSave["employee"]=$postEmployee;
                
                $result=$this->m_user->saveOrUpdate($dataSave,$this->user_id);
                
@@ -111,9 +113,11 @@ class User extends Main_Controller {
             }
             
         }elseif($id!="0"&& empty($postUser)){
-            
+            $this->load->model('hrsys/m_employee');
             $postUser=$this->m_user->get($id);
             $postUserRole=$this->m_user->getRoleUser($id);
+			$postEmployee=$this->m_employee->getById($id);
+		
           
         
         }
@@ -122,6 +126,7 @@ class User extends Main_Controller {
             'create_edit'=>$create_edit,
             'activeNonList'=>$activeNonList,
             'postUser'=>$postUser,
+			'postEmployee'=>$postEmployee,
             'postUserRole'=>$postUserRole,
             'roles'=>$this->m_role->allrole(),
             'message'=>$message,

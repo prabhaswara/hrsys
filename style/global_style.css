@@ -62,8 +62,12 @@ body, td,th,div,span,label,a,span,input,textarea,p,option{
     vertical-align: top;
 }
 .aright{
+    text-align: right;
+}
+.aleft{
     text-align: left;
 }
+
 .tablegrid_stylefull{
     position: absolute;top:0px;bottom: 10px;right: 0px;left: 0px;
 
@@ -102,6 +106,18 @@ body, td,th,div,span,label,a,span,input,textarea,p,option{
     cursor: pointer;   
 }
 
+.t_bold
+{
+	font-weight:bold;
+}
+.t_italic
+{
+	font-style: italic
+}
+
+.t_gray{
+	color:gray;
+}
 .imgbt {
     cursor: pointer;
     display: inline-block;
@@ -328,3 +344,4 @@ body, td,th,div,span,label,a,span,input,textarea,p,option{
 .h_workflow .current::before{
   content: normal;  
 }
+t

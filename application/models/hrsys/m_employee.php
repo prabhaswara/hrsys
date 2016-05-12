@@ -9,9 +9,11 @@ class M_Employee extends Main_Model {
         parent::__construct();
     }
     
-    
-    function get($id){
-        return $this->db->where("emp_id",$id)->get("hrsys_employee")->row_array();
+    function getById($id){	
+        return $this->db->where("id",$id)->get("hrsys_employee")->row_array();
+    }
+    function getByEmpId($id,$consultant_code){	
+        return $this->db->where(array("employee_code"=>$id,"consultant_code"=>$consultant_code))->get("hrsys_employee")->row_array();
     }
     function getByUserId($user_id){
         $return =$this->db->where("user_id",$user_id)->get("hrsys_employee")->row_array();
@@ -20,9 +22,9 @@ class M_Employee extends Main_Model {
     }
     function isiComboAM($id){
         
-        $dataDB= $this->db->where("emp_id",$id)->get("hrsys_employee")->row();
+        $dataDB= $this->db->where("id",$id)->get("hrsys_employee")->row();
         if(!empty($dataDB)){
-            $dataReturn[$dataDB->emp_id] = $dataDB->fullname . " (" . $dataDB->emp_id . ")";
+            $dataReturn[$dataDB->id] = $dataDB->fullname . " (" . $dataDB->employee_code . ")";
             
         }
         return $dataReturn;
@@ -30,7 +32,7 @@ class M_Employee extends Main_Model {
     function comboAM() {
         
         $dataReturn = array();
-        $dataEmployee = $this->db->select("emp_id,fullname")->order_by("fullname")
+        $dataEmployee = $this->db->select("employee_code,fullname")->order_by("fullname")
                 ->where("active_non",1)
                 ->get("hrsys_employee")
                 ->result();
@@ -39,7 +41,7 @@ class M_Employee extends Main_Model {
         if (!empty($dataEmployee)) {
             foreach ($dataEmployee as $emp) {
 
-                $dataReturn[$emp->emp_id] = $emp->fullname . " (" . $emp->emp_id . ")";
+                $dataReturn[$emp->employee_code] = $emp->fullname . " (" . $emp->employee_code . ")";
             }
         }
 
@@ -47,10 +49,12 @@ class M_Employee extends Main_Model {
     }
     
     function sharewith($where,$user_login,$active=null) {
-
+		
+		$user=$this->getByUserId($user_login);
+		
         $dataReturn = array();
-        $this->db->select("emp_id,fullname,user_id")
-                ->where("(user_id IS NOT NULL or user_id!='') and user_id != '$user_login'", null, false) ;               
+        $this->db->select("employee_code,fullname,user_id")
+                ->where("(user_id IS NOT NULL or user_id!='') and user_id != '$user_login' and consultant_code='".$user['consultant_code']."'", null, false) ;               
            
         if($active!=null){
   
@@ -70,7 +74,7 @@ class M_Employee extends Main_Model {
                 
                 $dataReturn[]=array(
                     "user_id"=>$emp->user_id,
-                    "name"=>$emp->fullname . " (" . $emp->emp_id . ")"
+                    "name"=>$emp->fullname . " (" . $emp->employee_code . ")"
                 );
                 
             }
@@ -78,12 +82,12 @@ class M_Employee extends Main_Model {
 
         return $dataReturn;
     }
-    function account_manager($name) {
+    function account_manager($name,$consultant_code) {
 
         $dataReturn = array();
-        $this->db->select("emp_id,fullname,user_id");      
+        $this->db->select("id,employee_code,fullname,user_id");      
         $this->db->like('fullname', $name, 'after');
-        
+        $this->db->where('consultant_code',$consultant_code);
         $this->db->order_by("fullname");
         $dataEmployee =$this->db->get("hrsys_employee")->result();
         //echo $this->db->last_query();exit;
@@ -91,8 +95,9 @@ class M_Employee extends Main_Model {
             foreach ($dataEmployee as $emp) {
                 
                 $dataReturn[]=array(
-                    "emp_id"=>$emp->emp_id,
-                    "name"=>$emp->fullname . " (" . $emp->emp_id . ")"
+					"id"=>$emp->id,
+                    "employee_code"=>$emp->employee_code,
+                    "name"=>$emp->fullname . " (" . $emp->employee_code . ")"
                 );
                 
             }
@@ -102,11 +107,17 @@ class M_Employee extends Main_Model {
     }
     
     public function shareWithByMeet($meet_id,$user_login){
-        $sql="select emp.user_id,emp.emp_id,emp.fullname from hrsys_cmpyclient_meet meet ".
+	
+	
+		$user=$this->getByUserId($user_login);
+	
+           
+        $sql="select emp.user_id,emp.employee_code,emp.fullname from hrsys_cmpyclient_meet meet ".
              "join hrsys_schedule sch on meet.meet_id=sch.value and sch.type='meeting' ".
              "join hrsys_scheduleuser schuser on sch.schedule_id= schuser.schedule_id ".
              "join hrsys_employee emp on schuser.user_id=emp.user_id ". 
-             "where meet.meet_id='$meet_id' and (emp.user_id IS NOT NULL or emp.user_id!='') and emp.user_id != '$user_login'"
+             "where meet.meet_id='$meet_id' and (emp.user_id IS NOT NULL or emp.user_id!='') and emp.user_id != '$user_login' ".
+			 "and emp.consultant_code='".$user['consultant_code']."'"
             ;
         $dataReturn=array();
         $dataResult=$this->db->query($sql)->result();
@@ -115,7 +126,7 @@ class M_Employee extends Main_Model {
                 
                 $dataReturn[]=array(
                     "user_id"=>$emp->user_id,
-                    "name"=>$emp->fullname . " (" . $emp->emp_id . ")"
+                    "name"=>$emp->fullname . " (" . $emp->employee_code . ")"
                 );
                 
             }
@@ -123,7 +134,7 @@ class M_Employee extends Main_Model {
         return $dataReturn;
     }
     public function maintainceByVacancy($vacancy_id,$userCreate){
-        $sql="select emp.user_id,emp.emp_id,emp.fullname from hrsys_vacancyuser vu ".
+        $sql="select emp.user_id,emp.employee_code,emp.fullname from hrsys_vacancyuser vu ".
              "join hrsys_employee emp on vu.user_id =emp.user_id ".
              "where vu.vacancy_id='$vacancy_id' and emp.user_id!='$userCreate'";
                 
@@ -134,7 +145,7 @@ class M_Employee extends Main_Model {
                 
                 $dataReturn[]=array(
                     "user_id"=>$emp->user_id,
-                    "name"=>$emp->fullname . " (" . $emp->emp_id . ")"
+                    "name"=>$emp->fullname . " (" . $emp->employee_code . ")"
                 );
                 
             }
@@ -143,7 +154,7 @@ class M_Employee extends Main_Model {
     }
     
     public function shareVacantById($vacancy_id,$user_login,$idOnly=false){
-        $sql="select emp.user_id,emp.emp_id,emp.fullname from hrsys_vacancyuser vu ".
+        $sql="select emp.user_id,emp.employee_code,emp.fullname from hrsys_vacancyuser vu ".
              "join hrsys_employee emp on vu.user_id=emp.user_id ". 
              "where vu.vacancy_id='$vacancy_id' and (emp.user_id IS NOT NULL or emp.user_id!='') and emp.user_id != '$user_login'"
             ;
@@ -154,7 +165,7 @@ class M_Employee extends Main_Model {
                 
                 $dataReturn[]=array(
                     "user_id"=>$emp->user_id,
-                    "name"=>$emp->fullname . " (" . $emp->emp_id . ")"
+                    "name"=>$emp->fullname . " (" . $emp->employee_code . ")"
                 );
                 
             }
@@ -169,6 +180,44 @@ class M_Employee extends Main_Model {
 			}
 		}
         return $dataReturn;
+    }
+	
+	public function validate($user_id,$datafrm,$isEdit=false) {
+        $return = array(
+            'status' => true,
+            'message' => array()
+        );
+
+        if (!empty($datafrm)) {
+			$empoyeeExist=$this->getByEmpId($datafrm["employee_code"],$datafrm["consultant_code"]);
+			$empByUser=$this->getByUserId($user_id);
+			
+			if ($datafrm["employee_code"] == "") {
+				$return["status"] = false;
+				$return["message"]["employee_code"] = "Employee Number cannot be empty";
+			}
+			else if($isEdit && !empty ($empoyeeExist) && $empoyeeExist["employee_code"]!=$empByUser["employee_code"])
+			{
+				$return["status"] = false;
+                $return["message"]["username"] = "Employee Number is not available";
+			}
+			else if(!$isEdit && !empty ($empoyeeExist)){              
+                $return["message"]["username"] = "Employee Number is not available";
+                $return["status"] = false;
+               
+			}
+			if ($datafrm["fullname"] == "") {
+				$return["status"] = false;
+				$return["message"]["fullname"] = "Employee Name cannot be empty";
+			}
+						
+			
+            
+                      
+           
+        }
+
+        return $return;
     }
     
 }

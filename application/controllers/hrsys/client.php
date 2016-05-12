@@ -54,7 +54,7 @@ class client extends Main_Controller {
          
         $canedit=false;
 		
-        if($client["active_non"]=='1' and ($client["status"]=='0' ||$client["account_manager"] == $this->emp_id || in_array("hrsys_allclient", $this->ses_roles))) {
+        if($client["active_non"]=='1' and ($client["status"]=='0' ||$client["account_manager"] == $this->employee_id || in_array("hrsys_allclient", $this->ses_roles))) {
             $canedit=true;
            
         }
@@ -94,6 +94,17 @@ class client extends Main_Controller {
             $postfile=$_FILES["doc_url"];
             
             $validate = $this->m_client->validateContract($postForm,$postfile,$folder);
+			
+			if(!empty($postfile) && cleanstr($postfile["name"])!=""){
+			
+				if(file_exists($folder.$ds.$postfile["name"])) 
+				{
+					$validate["message"]["doc_url"] = "File Name Exists";
+					$validate["status"]=false;
+				}
+				
+			}
+			
             if ($validate["status"]) {
                 
                if(!empty($postfile) && cleanstr($postfile["name"])!=""){
@@ -168,7 +179,10 @@ class client extends Main_Controller {
         
         $contract=$this->m_client->getContract($cmpyclient_ctrk_id);
         $filepath=$this->dir_client.$contract["cmpyclient_id"].$ds.$contract["doc_url"];
-        header("Content-type: ".mime_content_type($filepath)); 
+		
+	
+		header("Content-Description: File Transfer"); 
+		header("Content-Type: application/octet-stream");  
         header("Content-disposition: attachment; filename=".$contract["doc_url"]);                             
         readfile($filepath);          
         exit();     
@@ -223,7 +237,7 @@ class client extends Main_Controller {
         }
         
         $canedit=false;
-        if ($client["active_non"]=='1' and($client["account_manager"] == $this->emp_id || in_array("hrsys_allvacancies", $this->ses_roles))) {
+        if ($client["active_non"]=='1' and($client["account_manager"] == $this->employee_id || in_array("hrsys_allvacancies", $this->ses_roles))) {
             $canedit=true;
         }
 
@@ -238,7 +252,7 @@ class client extends Main_Controller {
        
        if(
         $this->user_id==$client["usercreate"]||
-        $this->emp_id==$client["account_manager"]
+        $this->employee_code==$client["account_manager"]
                ){
            $canedit=true;
        }
@@ -365,10 +379,10 @@ class client extends Main_Controller {
                 "emp.fullname emp_sp_fullname, lk.display_text lk_sp_display_text " .
                 "from hrsys_cmpyclient cl " .
                 "left join tpl_lookup lk on lk.type='cmpyclient_stat' and cl.status=lk.value " .
-                "left join hrsys_employee emp on cl.account_manager=emp.emp_id " .
+                "left join hrsys_employee emp on cl.account_manager=emp.id " .
                 "WHERE ~search~ and $where  ORDER BY ~sort~";
 
-
+		
         $data = $this->m_menu->w2grid($sql, $_POST);
         header("Content-Type: application/json;charset=utf-8");
         echo json_encode($data);
@@ -399,7 +413,7 @@ class client extends Main_Controller {
         } elseif ($status == "prospect") {
             $where .= "and cl.status='0' ";
         } elseif ($status == "my") {
-            $where .= "and cl.account_manager='" . (isset($this->sessionUserData["employee"]["emp_id"]) ? $this->sessionUserData["employee"]["emp_id"] : "") . "'";
+            $where .= "and cl.account_manager='" . $this->sessionUserData["employee"]["id"] . "'";
         }
 		
 
@@ -407,8 +421,8 @@ class client extends Main_Controller {
                 "emp.fullname emp_sp_fullname, lk.display_text lk_sp_display_text " .
                 "from hrsys_cmpyclient cl " .
                 "left join tpl_lookup lk on lk.type='cmpyclient_stat' and cl.status=lk.value " .
-                "left join hrsys_employee emp on cl.account_manager=emp.emp_id " .
-                "WHERE ~search~ and $where  ORDER BY ~sort~";
+                "left join hrsys_employee emp on cl.account_manager=emp.id " .
+                "WHERE cl.consultant_code='".$this->sessionUserData["employee"]["consultant_code"]."' and ~search~ and $where  ORDER BY ~sort~";
 
 
         $data = $this->m_menu->w2grid($sql, $_POST);

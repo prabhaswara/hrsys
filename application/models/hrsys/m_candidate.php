@@ -25,12 +25,13 @@ class M_candidate extends Main_Model {
         return $this->db->where("candidate_id",$candidate_id)->order_by("skill")->get("hrsys_candidate_skill")->result_array();
     }
     function getDetail($id){
-       $sql = "SELECT c.candidate_id,lksat.display_text status,c.expectedsalary_ccy, c.name, c.email, c.phone ,c.expectedsalary " .
+       $sql = "SELECT cm.fullname cm_sp_fullname, c.candidate_id,lksat.display_text status,c.expectedsalary_ccy, c.name, c.email,c.photo, c.phone ,c.expectedsalary " .
                ", lksex.display_text sex,c.birthdate,YEAR(now())-YEAR(c.birthdate) age ".
                ", ms.skill skill ".
                "from hrsys_candidate c " .
                "left join tpl_lookup lksat on lksat.type='candidate_stat' and c.status=lksat.value " .
                "left join tpl_lookup lksex on lksex.type='sex' and c.sex=lksex.value " .
+			   "left join hrsys_employee cm on c.candidate_manager=cm.id ".
                "left join (select candidate_id ,group_concat(skill separator', ') skill from hrsys_candidate_skill group by candidate_id order by skill) ms on ms.candidate_id=c.candidate_id ".
                "WHERE c.candidate_id='$id'";
        
@@ -74,6 +75,8 @@ class M_candidate extends Main_Model {
             
             $vacancy=$this->m_vacancy->get($vacancy_id);
             $client=$this->m_client->get($vacancy["cmpyclient_id"]);
+			$candidate=$this->get($candidate_id);
+			
             
             $this->db->trans_start(TRUE);
             $vacancycandidate_id=$this->generateID("vacancycandidate_id", "hrsys_vacancycandidate");
@@ -83,8 +86,8 @@ class M_candidate extends Main_Model {
             $vacancycandidate["vacancy_id"] = $vacancy_id;
             $vacancycandidate["applicant_stat"] = applicant_stat_shortlist;
             
-            
-            $this->db->set('candidate_manager', $sessionData["employee"]["emp_id"]);
+            $candidate_manager=cleanstr($candidate["candidate_manager"])==""?$sessionData["employee"]["id"]:$candidate["candidate_manager"];
+            $this->db->set('candidate_manager',$candidate_manager );
             $this->db->set('dateupdate', 'NOW()', FALSE);
             $this->db->set('userupdate', $sessionData["user"]["user_id"]);
             $this->db->set('datecreate', 'NOW()', FALSE);
@@ -131,15 +134,17 @@ class M_candidate extends Main_Model {
     }
     
     public function saveOrUpdate($data, $sessionData,&$candidate_id) {
+		$this->load->model('hrsys/m_employee');
         $vacancy_id=$data["vacancy_id"];
         
         $candidate=$data["candidate"];
         $expertise=$data["expertise"]; 
         $candidate_id = $candidate["candidate_id"];    
         $candidate["status"]=candidate_stat_open;
+		$candidate["consultant_code"]=$sessionData["employee"]["consultant_code"];
         
 		$candidate["birthdate"]=cleanstr($candidate["birthdate"]);
-	
+		
 		if($candidate["birthdate"]=="00-00-0000"||$candidate["birthdate"]==""){
 			unset($candidate["birthdate"]);
 		}
@@ -147,6 +152,35 @@ class M_candidate extends Main_Model {
             $candidate["birthdate"]=  balikTgl($candidate["birthdate"]);
         }
         
+		/*
+		if(isset($candidate["birthdate"]))
+		{
+			$age=date("Y")-explode('-',$candidate["birthdate"])[0];
+			$this->db->set('age', $age, FALSE);
+		}else{
+			$this->db->set('age', 'NULL', FALSE);
+		}*/
+		
+		if(!empty($expertise)){		
+			$skill=array();
+			foreach ($expertise as $row){
+				$skill[]=$row["skill"];
+            }
+			
+			$this->db->set('skill',implode(",",$skill)  );
+                     
+        }else{
+			$this->db->set('skill', 'NULL', FALSE);
+		}
+		
+		if($candidate["expectedsalary"]=="0"||$candidate["expectedsalary"]==""){
+			$this->db->set('expectedsalary', 'NULL', FALSE);
+			unset($candidate["expectedsalary"]);
+		}
+		
+		$olddata_candidate=$this->get($candidate_id);
+		
+		
         $this->db->trans_start(TRUE);
       
         if($candidate_id==0){
@@ -162,6 +196,9 @@ class M_candidate extends Main_Model {
 
         }
         else{
+			
+			
+			
             $this->db->set('dateupdate', 'NOW()', FALSE);
             $this->db->set('userupdate', $sessionData["user"]["user_id"]);
             if(!isset($candidate["birthdate"]))
@@ -169,6 +206,25 @@ class M_candidate extends Main_Model {
 				$this->db->set('birthdate', 'null', FALSE);
 			}
             $this->db->update('hrsys_candidate', $candidate,array('candidate_id'=>$candidate_id));
+			
+			if($olddata_candidate["candidate_manager"]!=$candidate["candidate_manager"]){
+				
+				
+				$oldCM=$this->m_employee->getById($olddata_candidate["candidate_manager"]);
+				$newCM=$this->m_employee->getById($candidate["candidate_manager"]);
+				
+				 $this->db->set('dateupdate', 'NOW()', FALSE);
+				$this->db->set('userupdate', $sessionData["user"]["user_id"]);
+				$this->db->set('datecreate', 'NOW()', FALSE);
+				$this->db->set('usercreate', $sessionData["user"]["user_id"]);  
+				
+				$this->db->insert('hrsys_candidate_trl', array(
+					"candidate_trl_id"=>$this->generateID("candidate_trl_id", "hrsys_candidate_trl"),
+					"candidate_id"=>$candidate_id,
+					"description"=>$sessionData["employee"]["fullname"]." change candidate manager from ".$oldCM["fullname"]." to ".$newCM["fullname"]
+					
+				));				
+			}
         }
         
         $this->db->delete( 'hrsys_candidate_skill', array( 'candidate_id' => $candidate_id ) );

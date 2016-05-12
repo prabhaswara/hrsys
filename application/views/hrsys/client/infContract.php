@@ -1,7 +1,7 @@
 <div>
 <?php if($canedit){
 ?>
-    <button  id="addContract"> <span class="fa-edit">&nbsp;</span> Add Contract</button>
+    <button class="w2ui-btn w2ui-btn-green"  style='margin-bottom:5px'  id="addContract"> <span class="fa-edit">&nbsp;</span> Add Contract</button>
 <?php } ?>
     <div id="listInfContract" style="height:300px" ></div>
 </div>

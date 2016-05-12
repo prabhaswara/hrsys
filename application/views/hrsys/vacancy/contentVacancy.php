@@ -10,14 +10,15 @@
     <div id="detVacTab_c" class="tabboxwui2" style="position: absolute;top: 64px;bottom: 10px;left: 10px;right: 10px">
         <div id="vacancy_tab" class='divtab' style="display:none" >
             <?php
-			if($canedit)
+			if($canedit && $vacancy["status"]==1)
 			{
 			?>
 			{message}
-            <button id="editVacancy" style="position: absolute;left: 10px" > <span class="fa-edit">&nbsp;</span> Edit</button>
+            <button id="editVacancy" class="w2ui-btn w2ui-btn-green"  style="position: absolute;left: 10px" > <span class="fa-edit">&nbsp;</span> Edit</button>
             <?php
 			}
 			?>
+			
 			<form  class="form-tbl" >
                 <table>
                     <tr>
@@ -94,10 +95,11 @@
                 
                 
             </form>
-            <button id="addCandidate" > <span class="fa-edit">&nbsp;</span> Add Candidate</button>
-            <button id="searchCandidate" > <span class="fa-search">&nbsp;</span> Search Candidate</button>
-            
-            <div id="listProsesCandidate" style="height:300px" ></div>
+			<?php if($vacancy["status"]==1) {?>
+            <button class="w2ui-btn w2ui-btn-green" id="addCandidate" > <span class="fa-edit">&nbsp;</span> Add Candidate</button>
+            <button class="w2ui-btn w2ui-btn-blue" id="searchCandidate" > <span class="fa-search">&nbsp;</span> Search Candidate</button>
+            <?php } ?>
+            <div id="listProsesCandidate" style="height:300px;margin-top:5px" ></div>
         
         </div>
         
@@ -106,12 +108,21 @@
             <div id="layoutdetcandidate" style="position: absolute;top:0;bottom: 0px;left: 0px;right:0px;" >test</div>
             
         </div>
+		
+		<div id="operation_tab" class='divtab' style="display:none" >
+            <div id="layoutdetcandidate" style="position: absolute;top:0;bottom: 0px;left: 0px;right:0px;padding:10px" >
+				
+				<?php if($candelete) { ?>
+				<input type='button' id='delete_vacancy' value='Delete' class='w2ui-btn w2ui-btn-red'/>
+				 <?php } ?>
+				 
+				 <input type='button' id='close_vacancy' value='Close Vacancy' class='w2ui-btn w2ui-btn-orange'/>
+			</div>
+      
+        </div>
     </div>
 
 </div>
-
-
-
 
 
 <script>
@@ -131,7 +142,50 @@
 
         });
         
-        
+		
+		$("#close_vacancy").click(function () {      
+			w2confirm('Are You Sure Want To Close This Vacancy ?')
+			.yes(function () { 			
+				$.ajax({
+					type: "POST",            
+					url: '{site_url}/hrsys/vacancy/closeVancany/<?=$vacancy["vacancy_id"]?>',
+					beforeSend: function (xhr) {
+						$("#ajaxDiv").attr("class", "ajax-show");
+
+					},
+					success: function (data) {						
+						$("#ajaxDiv").attr("class", "ajax-hide");	
+						$(this).gn_loadmain("{site_url}/hrsys/vacancy/contentVacancy/<?=$vacancy["vacancy_id"]?>/{frompage}");
+						
+						
+					}                
+				});
+			
+			
+			});           
+			return false;
+		});
+        $("#delete_vacancy").click(function () {      
+			w2confirm('Are You Sure Delete This Vacancy ?')
+			.yes(function () { 			
+				$.ajax({
+					type: "POST",            
+					url: '{site_url}/hrsys/vacancy/deleteVancany/<?=$vacancy["vacancy_id"]?>',
+					beforeSend: function (xhr) {
+						$("#ajaxDiv").attr("class", "ajax-show");
+
+					},
+					success: function (data) {						
+						$("#ajaxDiv").attr("class", "ajax-hide");
+						$(this).gn_loadmain('{site_url}/hrsys/client/detclient/<?=$vacancy["cmpyclient_id"]?>/home/vacancies');
+							
+						
+					}                
+				});
+			
+			});           
+			return false;
+		}); 
         
         var config={
             detVacTab:{
@@ -139,7 +193,9 @@
                     tabs: [
                         {id: 'vacancy_tab', caption: 'Vacancy'}
                         , {id: 'candidate_tab', caption: 'Detail Candidates'}
-
+						<?php if($vacancy["status"]==1){ ?>
+                        ,{id: 'operation_tab', caption: 'Operation'}
+                       <?php } ?>
                     ],
                     onClick: function (event) {
                         $(".divtab").hide();
@@ -183,16 +239,9 @@
             listProsesCandidate:{
             name: 'listProsesCandidate',
             url: '{site_url}/hrsys/vacancy/jsonVacancyCandidate/<?=$vacancy["vacancy_id"] ?>',
-            show: {toolbar: true},
-            toolbar: {
-                items: [
-                    { type: 'break' },
-                    { type: 'html',  id: 'item6',
-                            html: "<span id='typesearchspan'></span>" 
-                    }
-                ]
-            },
-            columns: [
+            show: {toolbar: true}
+			 
+			,columns: [
                 {field: 'recid', caption: '', size: '30px', searchable: false, sortable: false,
                     render: function (record) {
                         return "<span class='fa-zoom-in imgbt' onclick='detailCandidate(\"" + record.c_sp_candidate_id + "\")' ></span>"
@@ -201,27 +250,14 @@
                 {field: 'klstate_sp_display_text', caption: 'State', size: '120px', searchable: true, sortable: true},
                 {field: 'c_sp_name', caption: 'Name', size: '100%', searchable: true, sortable: true},
                 {field: 'c_sp_phone', caption: 'Phone', size: '120px', searchable: true, sortable: true},
-                {field: 'vc_sp_expectedsalary', caption: 'Expected Salary', size: '120px', searchable: true, sortable: true},
+                {field: 'vc_sp_expectedsalary', caption: 'Expected Salary', size: '120px',render:"number", searchable: true, sortable: true},
+                {field: 'vc_sp_approvedsalary', caption: 'Approved Salary', size: '120px',render:"number", searchable: true, sortable: true},
                 {field: 'cm_sp_fullname', caption: 'CM', size: '120px', searchable: true, sortable: true}
             ],
             onRequest: function(event) {
                 event.postData.typesearch=$("#typesearch").val();
                            
-            },  
-            onResize : function(event) {
-              
-                typesearch=$("#typesearchhide").val();             
-                $("#typesearchspan").html("");
-
-                $("#typesearchspan").html(
-                        "<select id='typesearch' onchange='typesearchChange(this.value)'>"+
-                        "<option value='' "+(typesearch==""?"selected":"")+">All</option>"+
-                      <?php /*  "<option value='active' "+(typesearch=="active"?"selected":"")+">Active Schedule</option>"+ */ ?>
-                        "</select>");
-                
-           
-                 
-            }  
+            } 
         }};
         
 

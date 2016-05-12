@@ -14,7 +14,7 @@ class M_client extends Main_Model {
     function get($id) {
         $sql="select cl.*,emp.fullname emp_am, lk.display_text status_text,empcrt.fullname empcrt_fullname,ck.fee ck_fee  from hrsys_cmpyclient cl  ".
              "left join tpl_lookup lk on lk.type='cmpyclient_stat' and cl.status=lk.value ".
-             "left join hrsys_employee emp on cl.account_manager=emp.emp_id ".
+             "left join hrsys_employee emp on cl.account_manager=emp.id ".
              "left join tpl_user user on cl.usercreate=user.user_id ".
              "left join hrsys_employee empcrt on user.user_id=empcrt.user_id ".
              "left join hrsys_cmpyclient_ctrk ck on cl.cmpyclient_id=ck.cmpyclient_id ".
@@ -43,6 +43,7 @@ class M_client extends Main_Model {
     
     public function updateStatusPIC($datafrm, $sessionData,$method="editinfo") {
        
+	 
         $cmpyclient_id=$datafrm["cmpyclient_id"];
         $dtLama=$this->get($cmpyclient_id);
         
@@ -52,11 +53,11 @@ class M_client extends Main_Model {
         $this->load->model('m_employee');
         $picLama=array();
         
-        $picBaru=$this->m_employee->get($datafrm["account_manager"]); 
+        $picBaru=$this->m_employee->getById($datafrm["account_manager"],$this->sessionUserData["employee"]["consultant_code"]); 
         $picBaru=isset($picBaru["fullname"])?$picBaru["fullname"]:"";
         
         if(!empty($dtLama)&& isset($dtLama["account_manager"])){
-            $picLama=$this->m_employee->get($dtLama["account_manager"]);            
+            $picLama=$this->m_employee->getById($dtLama["account_manager"],$this->sessionUserData["employee"]["consultant_code"]);            
             $picLama=isset($picLama["fullname"])?$picLama["fullname"]:"";
         }
         
@@ -85,6 +86,8 @@ class M_client extends Main_Model {
 
     
     public function newClient($datafrm, $sessionData) {
+	
+		$datafrm['active_non']=1;
         unset($datafrm["cmpyclient_id"]);
         $this->db->trans_start(TRUE);
 
@@ -94,7 +97,7 @@ class M_client extends Main_Model {
         $this->db->set('usercreate', $sessionData["user"]["user_id"]);
         $this->db->set('dateupdate', 'NOW()', FALSE);
         $this->db->set('usercreate', $sessionData["user"]["user_id"]);
-       
+		$datafrm["consultant_code"]=$sessionData["employee"]["consultant_code"];
         
         if(isset($datafrm["datejoin"])&& cleanstr($datafrm["datejoin"])!=""){
             $datafrm["datejoin"]=  balikTgl($datafrm["datejoin"]);
@@ -299,6 +302,26 @@ class M_client extends Main_Model {
 
         return $this->db->trans_status();
     }
+	
+	public function comboClientByUser($user_id){		
+		$where="";			 
+        $countRole= $this->db->query("select count(1) c from tpl_user_role role where user_id='$user_id' and role_id='hrsys_allvacancies' ")->row_array();
+		if($countRole["c"]=="0")
+		{
+			$where.="cli.account_manager='$user_id'";
+		}
+		$sql ="select cmpyclient_id,name from hrsys_cmpyclient cli where $where 1=1 order by name";
+		
+		$result=array();
+		$array=$this->db->query($sql)->result_array();
+		if(!empty($array))
+		{
+			foreach($array as $row){          
+				$result[$row["cmpyclient_id"]]=$row["name"];
+			}			
+		}
+		return $result;
+	}
 
 }
 

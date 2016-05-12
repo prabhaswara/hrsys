@@ -42,6 +42,8 @@ class site extends CI_Controller {
         
         $sessionUserData=$this->session->userdata(SES_USERDT);
         $dataMain['ses_userdata'] = $sessionUserData["user"];
+		$dataMain['ses_employeedata'] = $sessionUserData["employee"];
+		
         $dataMain['ses_roles'] = $sessionUserData["roles"];
         
         $sideMenu=$this->m_menu->strArrayMenuw2ui($this->m_menu->generateMenu($sessionUserData["roles"]));

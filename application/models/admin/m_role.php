@@ -15,6 +15,9 @@ class M_role extends Main_Model {
     function allrole(){
         return $this->db->select("role_id,name")->get("tpl_role")->result_array();
     }
+	function roleHrsys(){
+        return $this->db->select("role_id,name")->like('role_id', 'hrsys_', 'after')->get("tpl_role")->result_array();
+    }
     
     function comboRole(){
         $data=$this->allrole();

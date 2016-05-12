@@ -12,6 +12,12 @@ $candidate_id  = isset($postForm["candidate_id"]) ? $postForm["candidate_id"] : 
         <?= frm_('candidate_id', $postForm, "type='hidden'") ?>   
     
         <table>
+			<tr>
+                <td class="aright">Candidate Manager:</td>
+                <td><?= select_('candidate_manager', $postForm,$comboCM,"style='width:300px'",false) ?></td>        
+            </tr>
+			
+		
             <tr>
                 <td class="aright">Candidate Name:</td>
                 <td><?= frm_('name', $postForm, "class='w300 required' ") ?></td>        
@@ -32,6 +38,7 @@ $candidate_id  = isset($postForm["candidate_id"]) ? $postForm["candidate_id"] : 
                 <td class="aright">Email:</td>
                 <td><?= frm_('email', $postForm, "class='w200' ") ?></td>        
             </tr>
+			
             <tr>
                 <td class="aright">Expected Salary:</td>
                 <td>
@@ -54,14 +61,23 @@ $candidate_id  = isset($postForm["candidate_id"]) ? $postForm["candidate_id"] : 
             <tr>
                 <td class="aright">Curriculum vitae:</td>
                 <td>
-                    <input name="cv" type="file" />
+                    <input name="cv" type="file" accept=".pdf" onchange="checkfilepdf(this);" />
+                    
+                </td>        
+            </tr>
+			<tr>
+                <td class="aright">Photo:</td>
+                <td>
+                    <input name="photo" type="file" accept="image/jpg, image/jpeg, image/png" onchange="checkfileimg(this);" />
                     
                 </td>        
             </tr>
             <tr>
                 <td></td>
-                <td> <input type="submit" name="action" id="action" value="Save" class="w2ui-btn"/></td>
-            </tr>
+                <td> 
+				<button id="action" class="w2ui-btn w2ui-btn-green" > <span class="fa-edit">&nbsp;</span> Save</button>
+				
+				</tr>
             
         </table>
    
@@ -71,10 +87,63 @@ $candidate_id  = isset($postForm["candidate_id"]) ? $postForm["candidate_id"] : 
 
 
 <script>
+function checkfileimg(sender) {
+    var validExts = new Array(".jpeg",".jpg",".png");
+    var fileExt = sender.value;
+    fileExt = fileExt.substring(fileExt.lastIndexOf('.')).toLowerCase();
+    if (validExts.indexOf(fileExt) < 0) {
+      alert("Invalid file selected, valid files are of " +
+               validExts.toString() + " types.");
+		sender.value="";
+      return false;
+    }
+    else return true;
+}
+function checkfilepdf(sender) {
+    var validExts = new Array(".pdf");
+    var fileExt = sender.value;
+    fileExt = fileExt.substring(fileExt.lastIndexOf('.')).toLowerCase();
+    if (validExts.indexOf(fileExt) < 0) {
+      alert("Invalid file selected, valid files are of " +
+               validExts.toString() + " types.");
+		sender.value="";
+      return false;
+    }
+    else return true;
+}
+
+function checkfilepdf(sender) {
+    var validExts = new Array(".pdf",".PDF");
+    var fileExt = sender.value;
+    fileExt = fileExt.substring(fileExt.lastIndexOf('.'));
+    if (validExts.indexOf(fileExt) < 0) {
+      alert("Invalid file selected, valid files are of " +
+               validExts.toString() + " types.");
+		sender.value="";
+      return false;
+    }
+    else return true;
+}
+
+
     $(function () {
 
        $("#formnya").gn_onsubmitFile();
-       
+       $("#candidate_manager ").kendoComboBox({
+                        placeholder: "Select..",
+                       dataValueField: "id",
+                        dataTextField: "name",
+                        filter: "contains",
+                        autoBind: false,
+                        dataSource: {
+                        serverFiltering: true,
+                            transport: {
+                                read: {
+                                    url: "{site_url}/hrsys/employee/account_manager",
+                                }
+                            }
+                        }
+                    });
        $(this).setSkillList("add_expertise","btn_add_expertise","expertise","{site_url}",<?=json_encode($postExpertise) ?>);
        $("#btn_add_expertise").kendoButton({ imageUrl: "{base_url}/images/save_button.png"});
         

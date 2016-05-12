@@ -29,6 +29,8 @@ class candidate extends Main_Controller {
         $postExpertise = isset($_POST['expertise']) ? $this->m_skill->expertise($_POST['expertise']) : array();
         $candidate="";
         
+		$comboCM=array(''=>'');
+		
         $message="";
         $create_edit = "Edit";
         $isEdit = true;
@@ -56,6 +58,17 @@ class candidate extends Main_Controller {
                 $dataSave["vacancy_id"]=$vacancy_id;
                 $dataSave["expertise"]=$postExpertise;
                 
+				$photoName="";
+				$photoThumb="";
+				if(isset($_FILES["photo"])&&!empty($_FILES["photo"]) && cleanstr($_FILES["photo"]["name"])!=""){
+					
+					$ext=explode(".",$_FILES["photo"]["name"]);
+					$ext=$ext[count($ext)-1];
+					
+					$photoName="photo.".$ext;
+					$photoThumb="photoThumb.".$ext;
+					$dataSave["candidate"]["photo"]=$photoName;
+				}
                 if ($this->m_candidate->saveOrUpdate($dataSave, $this->sessionUserData,$candidate_id)) {
                 
                     if(isset($_FILES["cv"])&&!empty($_FILES["cv"]) && cleanstr($_FILES["cv"]["name"])!=""){
@@ -63,6 +76,14 @@ class candidate extends Main_Controller {
                         $filename=$this->dir_candidate.$candidate_id.$ds."main_cv.pdf";
                         $this->upload_file("cv",$filename);
                        
+                    }
+					if(isset($_FILES["photo"])&&!empty($_FILES["photo"]) && cleanstr($_FILES["photo"]["name"])!=""){
+                        $ds=DIRECTORY_SEPARATOR;
+						$this->mkpath($this->dir_candidate.$candidate_id);
+						
+                        $this->uploadResizeImage("photo",$this->dir_candidate.$candidate_id.$ds.$photoName,400);
+						$this->uploadResizeImage("photo",$this->dir_candidate.$candidate_id.$ds.$photoThumb,200);
+					
                     }
                     
                     redirect( "hrsys/candidate/detCandidate/$candidate_id/$vacancy_id/$frompage");
@@ -86,10 +107,20 @@ class candidate extends Main_Controller {
             $postForm["birthdate"]=  balikTgl($postForm["birthdate"]);
             $postExpertise=$this->m_candidate->getExperties($candidate_id);
         }
-        
+		 $this->load->model("hrsys/m_employee");
+      //  print_r($postForm);exit;
+		if(isset($postForm["candidate_manager"]) && cleanstr($postForm["candidate_manager"])!=""){
+               
+                $isiComboCM=$this->m_employee->isiComboAM($postForm["candidate_manager"]);
+                if(!empty($isiComboCM))
+                    $comboCM +=$isiComboCM;
+                
+            }
+			
         $sex_list=array(""=>"")+$this->m_lookup->comboLookup("sex");
         
         $dataParse = array(
+			"comboCM"=>$comboCM,
             "message"=>$message,
             "isEdit"=>$isEdit,
             "postForm"=>$postForm,
@@ -110,15 +141,28 @@ class candidate extends Main_Controller {
         $site_url = site_url();
         
         $breadcrumb[] = array("link" => "$site_url/hrsys/candidate/listCandidate/$vacancy_id/$frompage", "text" => "Search Candidate");
-        $postForm = isset($_POST['frm']) ? $_POST['frm'] : array();
+        $postForm =array();
+		$postForm['salary_1']=$vacancy['salary_1'];
+		$postForm['salary_2']=$vacancy['salary_2'];
+		$postForm['salary_ccy']=$vacancy['salary_ccy'];
+		$postForm['age_1']=$vacancy['age_1'];
+		$postForm['age_2']=$vacancy['age_2'];
+		$postForm['sex']=$vacancy['sex'];
+		
+		$postExpertise=$this->m_vacancy->getExperties($vacancy_id);
+		
         $sex_list=array(""=>"")+$this->m_lookup->comboLookup("sex");
         
+		 
+		
         $dataParse = array(            
             "vacancy_id"=>$vacancy_id,
             "postForm"=>$postForm,
             "sex_list"=>$sex_list,
             "vacancy"=>$vacancy,
-            "frompage"=>$frompage,    
+            "frompage"=>$frompage,  
+			"postExpertise"=>$postExpertise,
+			"listCCY"=>array(""=>"")+$this->m_lookup->comboLookup("ccy"),
             "breadcrumb"=>$breadcrumb,
         );
         $this->loadContent('hrsys/candidate/listCandidate', $dataParse);
@@ -132,8 +176,8 @@ class candidate extends Main_Controller {
                 $_POST["sort"][$key] = str_replace("_sp_", ".", $value);
             }
         } else {
-            $_POST["sort"][0]['direction'] = 'asc';
-            $_POST["sort"][0]['field'] = 'c.name';
+         //   $_POST["sort"][0]['direction'] = 'asc';
+         //   $_POST["sort"][0]['field'] = 'c.name';
         }
 
 
@@ -141,17 +185,73 @@ class candidate extends Main_Controller {
             foreach ($_POST["search"] as $key => $value) {
                 $_POST["search"][$key] = str_replace("_sp_", ".", $value);
             }
-
-       
+			
+			$search_salary_1=cleanNumber($_POST["salary_1"]);
+			$search_salary_2=cleanNumber($_POST["salary_2"]);
+			$search_age_1=cleanNumber($_POST["age_1"]);
+			$search_age_2=cleanNumber($_POST["age_2"]);
+			$search_sex=cleanstr($_POST["sex"]);
+			
+			if($search_salary_1>0 && $search_salary_2>0)
+			{
+				$where.=" c.expectedsalary BETWEEN $search_salary_1 and $search_salary_2 and";
+			}
+			else
+			{
+				if($search_salary_1>0)
+				{
+					$where.=" c.expectedsalary >=$search_salary_1 and";
+				}
+				if($search_salary_2>0)
+				{
+					$where.=" c.expectedsalary <= $search_salary_2 and";
+				}
+			}
+			
+			$yearNow=date("Y");
+			
+			if($search_age_1>0 && $search_age_2>0)
+			{
+				$search_age_1=$yearNow-$search_age_1;
+				$search_age_2=$yearNow-$search_age_2;				
+				$where.=" YEAR(c.birthdate) BETWEEN $search_age_2 and $search_age_1 and";
+			}
+			else
+			{
+				
+				if($search_age_1>0)
+				{
+					$search_age_1=$yearNow-$search_age_1;
+					$where.=" YEAR(c.birthdate) <= $search_age_1 and";
+				}
+				if($search_age_2>0)
+				{
+					$search_age_2=$yearNow-$search_age_2;
+					$where.=" YEAR(c.birthdate) >= $search_age_2 and";
+				}
+			}
+			
+			if($search_sex!="")
+			{
+				$where.=" c.sex ='$search_sex' and";
+			}
+			if(isset($_POST["expertise"]) && count($_POST["expertise"])>0)
+			{
+				foreach($_POST["expertise"] as $expertise)
+				{  
+					$where.=" EXISTS (select null from hrsys_candidate_skill hsk where c.candidate_id=hsk.candidate_id and hsk.skill='$expertise') and ";
+				}
+			}
+			
 
         $sql = "SELECT c.candidate_id recid,lksat.display_text lksat_sp_display_text, c.name c_sp_name, c.phone c_sp_phone,c.expectedsalary c_sp_expectedsalary " .
-               ", lksex.display_text lksex_sp_display_text,YEAR(now())-YEAR(c.birthdate)  c_sp_birthdate ".
-               ", ms.skill ms_sp_skill ".
+               ", lksex.display_text lksex_sp_display_text,YEAR(now())-YEAR(c.birthdate) c_sp_age ".
+               ", c.skill c_sp_skill,cm.fullname cm_sp_fullname ".
                "from hrsys_candidate c " .
+			   "left join hrsys_employee cm on cm.id=c.candidate_manager ".
                "left join tpl_lookup lksat on lksat.type='candidate_stat' and c.status=lksat.value " .
                "left join tpl_lookup lksex on lksex.type='sex' and c.sex=lksex.value " .
-               "left join (select candidate_id ,group_concat(skill separator', ') skill from hrsys_candidate_skill group by candidate_id) ms on ms.candidate_id=c.candidate_id ".
-               "WHERE ~search~ and $where 1=1 ORDER BY ~sort~";
+               "WHERE c.consultant_code='".$this->sessionUserData["employee"]["consultant_code"]."' and ~search~ and $where 1=1 ORDER BY ~sort~";
 
 
         $data = $this->m_menu->w2grid($sql, $_POST);
@@ -203,7 +303,7 @@ class candidate extends Main_Controller {
         
        // print_r($this->sessionUserData);
       
-        $listVact=$this->m_vacancy->listOpenVacancy($this->emp_id,$this->user_id,in_array("hrsys_allclient", $this->ses_roles));
+        $listVact=$this->m_vacancy->listOpenVacancy($this->employee_code,$this->user_id,in_array("hrsys_allclient", $this->ses_roles));
        
         
         $listVacany=array();
@@ -259,6 +359,41 @@ class candidate extends Main_Controller {
         }
         
     }
+	public function getPhoto($candidate_id,$photo){
+        
+		$split=explode(".",$photo);
+		$ext=$split[1];
+		
+        $ds=DIRECTORY_SEPARATOR;
+        $path=$this->dir_candidate.$candidate_id.$ds."photo.".$ext;
+		
+		
+        if(file_exists($path))
+        {
+            header("Content-Type: image/".$ext );
+			header("Content-Length:".filesize($path) );
+			readfile( $path );
+        }
+        
+    }
+	public function getphotoThumb($candidate_id,$photo){
+        
+		$split=explode(".",$photo);
+		$ext=$split[1];
+		
+        $ds=DIRECTORY_SEPARATOR;
+        $path=$this->dir_candidate.$candidate_id.$ds."photoThumb.".$ext;
+		
+		
+        if(file_exists($path))
+        {
+            header("Content-Type: image/".$ext );
+			header("Content-Length:".filesize($path) );
+			readfile( $path );
+        }
+        
+    }
+	
     public function historyCandidate($candidate_id,$vacancy_id=0){
         
         if (!empty($_POST) && $_POST["pg_action"] == "json") {
@@ -403,9 +538,13 @@ class candidate extends Main_Controller {
         $candidate=$this->m_candidate->get($candidate_id);
         
         $filename=  str_replace(" ", "_", $candidate["name"].".pdf");
-        
+        /*
         header("Content-type: ".mime_content_type($filepath)); 
-        header("Content-disposition: attachment; filename=cv_".$filename);                             
+        header("Content-disposition: attachment; filename=cv_".$filename);        
+		*/
+		header("Content-Description: File Transfer"); 
+		header("Content-Type: application/octet-stream"); 
+		 header("Content-disposition: attachment; filename=cv_".$filename); 
         readfile($filepath);          
         exit();
         
@@ -417,7 +556,8 @@ class candidate extends Main_Controller {
         $site_url=  site_url();
         $filepath=$this->dir_candidate . $candidate_id . $ds."doc".$ds.$filename; 
         
-        header("Content-type: ".mime_content_type($filepath)); 
+       header("Content-Description: File Transfer"); 
+		header("Content-Type: application/octet-stream"); 
         header("Content-disposition: attachment; filename=$filename");                             
         readfile($filepath);          
         exit();

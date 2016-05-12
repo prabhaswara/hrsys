@@ -96,8 +96,8 @@ $vacancy_id = isset($postForm["vacancy_id"]) ? $postForm["vacancy_id"] : "0";
         </td>
     </table>
 
-        
-        <input type="submit" name="action" id="action" value="Save" class="w2ui-btn"/>
+        	<button id="action" class="w2ui-btn w2ui-btn-green" > <span class="fa-edit">&nbsp;</span> Save</button>
+				
     </form>
 <script>
     $(function () {
@@ -128,7 +128,7 @@ if (!empty($postShareMaintance)) {
         
         $("#account_manager").kendoComboBox({
                         placeholder: "Select..",
-                       dataValueField: "emp_id",
+                       dataValueField: "id",
                         dataTextField: "name",
                         filter: "contains",
                         autoBind: false,
@@ -141,6 +141,8 @@ if (!empty($postShareMaintance)) {
                             }
                         }
                     });
+					
+	
         $("#formnya").submit(function (event) {
             $.ajax({
                 type: "POST",

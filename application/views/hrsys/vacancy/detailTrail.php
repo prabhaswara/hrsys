@@ -1,12 +1,19 @@
-<?php
-
-?>
 
 
-
+			
         <table>
+			<tr>
+                <td width="150px" class="aright">Client</td><td width="3px">:</td>
+                <td><?=$vacname["client_name"] ?></td>        
+            </tr>
+			
+			<tr>
+                <td class="aright">Vacancy</td><td width="3px">:</td>
+                <td><?=$vacname["vacancy_name"] ?></td>        
+            </tr>
+			
             <tr>
-                <td width="150px" class="aright">Action Date</td><td width="3px">:</td>
+                <td class="aright">Action Date</td><td width="3px">:</td>
                 <td><?= balikTglDate($dataTrail["datecreate"]) ?></td>        
             </tr>
 			

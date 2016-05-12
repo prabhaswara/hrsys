@@ -13,7 +13,7 @@
     <div class="gn_square homebox" id="homebox-2"  style="width: 98%">
         <div class="k-window-content">
             <div>Next Interview</div>
-            <div style="height:200px">
+            <div id="interview_grid" style="height:200px">
 
             </div>
 
@@ -40,8 +40,8 @@
 <script>
     $(function() {
 
-
-
+		
+<?php /*
         $('#meeting_grid').w2grid({
             name: 'meeting_grid',
             url: '{site_url}/hrsys/meeting/json_nextmeeting/{user_id}',
@@ -65,13 +65,39 @@
             }
 
         });
-        
+*/ ?>
+		$('#meeting_grid').w2grid({
+            name: 'meeting_grid',
+            url: '{site_url}/hrsys/calendar/json_nextschedule/{user_id}/meeting',
+            //   show: {toolbar: false},    
+            columns: [
+				{field: 'scheduletime', caption: 'Time', size: '190px', searchable: false, sortable: true},
+                {field: 'description', caption: 'Description', size: '100%', searchable: false, sortable: false}
+            ],
+            onDblClick: function(event) {
+                detailMeet(event.recid);
+            }
+
+        });
+        $('#interview_grid').w2grid({
+            name: 'interview_grid',
+            url: '{site_url}/hrsys/calendar/json_nextschedule/{user_id}/interview',
+            //   show: {toolbar: false},    
+            columns: [
+				{field: 'scheduletime', caption: 'Time', size: '190px', searchable: false, sortable: true},
+                {field: 'description', caption: 'Description', size: '100%', searchable: false, sortable: false}
+            ],
+            onDblClick: function(event) {
+                detailMeet(event.recid);
+            }
+
+        });
      
         $('#myClient').w2grid({
             name    : "myClient",
             autoLoad: false,
             limit:20,
-            url     : '{site_url}/hrsys/client/json_listClientByPIC/{emp_id}',        
+            url     : '{site_url}/hrsys/client/json_listClientByPIC/{employee_id}',        
             columns: [
                 { field: 'cl_sp_name', caption: 'Client', size: '100%', searchable: true,sortable: true  },
                 { field: 'cl_sp_cp_name', caption: 'Contact Person', size: '150', searchable: true,sortable: true  },
@@ -86,7 +112,7 @@
             name    : "myOpenVacancy",
             autoLoad: false,
             limit:20,
-            url     : '{site_url}/hrsys/vacancy/jsonListVacOpenByPIC/{emp_id}',        
+            url     : '{site_url}/hrsys/vacancy/jsonListVacOpenByPIC/{employee_id}',        
             columns: [
                 { field: 'vac_sp_name', caption: 'Vacancy', size: '100%', searchable: true,sortable: true  },
                 { field: 'vac_sp_opendate', caption: 'Open Date', size: '150', searchable: true,sortable: true  },
@@ -102,7 +128,7 @@
         function detailMeet(id) {
             $().w2popup('open', {
                 name: 'lookup_form',
-                title: 'Detail Meeting',
+                title: 'Detail',
                 body: '<div id="popupForm" class="framepopup">please wait..</div>',
                 style: 'padding: 5px 0px 0px 0px',
                 width: 500,
@@ -110,8 +136,8 @@
                 onOpen: function(event) {
                     event.onComplete = function() {
 
-                        $("#popupForm").load("{site_url}/hrsys/meeting/showDetail/" + id+"?gridReload=meeting_grid", function() {
-                        });
+                        $("#popupForm").load("{site_url}/hrsys/calendar/showDetail/" + id, function () {
+                    });
                     }
 
                 }
