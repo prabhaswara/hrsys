@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: May 12, 2016 at 05:32 AM
+-- Generation Time: Oct 07, 2016 at 04:11 AM
 -- Server version: 10.1.9-MariaDB
 -- PHP Version: 5.6.15
 
@@ -39,8 +39,8 @@ CREATE TABLE `ci_sessions` (
 --
 
 INSERT INTO `ci_sessions` (`session_id`, `ip_address`, `user_agent`, `last_activity`, `user_data`) VALUES
-('99ccc36e338168838d019b025b9e4c8d', '::1', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101 Firefox/45.0', 1461299502, 'a:2:{s:9:"user_data";s:0:"";s:12:"hrsys_userdt";a:3:{s:4:"user";a:8:{s:7:"user_id";s:23:"1453174328569dae389aaf1";s:8:"username";s:14:"rika@bgc.co.id";s:10:"active_non";s:1:"1";s:10:"last_login";s:19:"2016-04-08 16:18:10";s:10:"datecreate";s:19:"2016-01-19 10:32:08";s:10:"usercreate";s:23:"142199935954c1fcffd9501";s:10:"dateupdate";s:19:"2016-02-22 16:24:53";s:10:"userupdate";s:23:"1453174328569dae389aaf1";}s:5:"roles";a:5:{i:0;s:15:"hrsys_allclient";i:1;s:16:"hrsys_allinvoice";i:2;s:16:"hrsys_allmeeting";i:3;s:18:"hrsys_allvacancies";i:4;s:12:"hrsys_config";}s:8:"employee";a:10:{s:2:"id";s:23:"1453174328569dae389aaf1";s:13:"employee_code";s:2:"01";s:15:"consultant_code";s:6:"bgc_id";s:8:"fullname";s:12:"rika fadilah";s:5:"phone";s:0:"";s:9:"birthdate";N;s:3:"sex";N;s:7:"user_id";s:23:"1453174328569dae389aaf1";s:10:"active_non";s:1:"1";s:15:"consultant_name";s:13:"BGC Indonesia";}}}'),
-('b780490bb5d2dbe5987add078d83edca', '::1', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101 Firefox/45.0', 1461567036, 'a:2:{s:9:"user_data";s:0:"";s:12:"hrsys_userdt";a:3:{s:4:"user";a:8:{s:7:"user_id";s:23:"1453174328569dae389aaf1";s:8:"username";s:14:"rika@bgc.co.id";s:10:"active_non";s:1:"1";s:10:"last_login";s:19:"2016-04-22 10:43:01";s:10:"datecreate";s:19:"2016-01-19 10:32:08";s:10:"usercreate";s:23:"142199935954c1fcffd9501";s:10:"dateupdate";s:19:"2016-02-22 16:24:53";s:10:"userupdate";s:23:"1453174328569dae389aaf1";}s:5:"roles";a:5:{i:0;s:15:"hrsys_allclient";i:1;s:16:"hrsys_allinvoice";i:2;s:16:"hrsys_allmeeting";i:3;s:18:"hrsys_allvacancies";i:4;s:12:"hrsys_config";}s:8:"employee";a:10:{s:2:"id";s:23:"1453174328569dae389aaf1";s:13:"employee_code";s:2:"01";s:15:"consultant_code";s:6:"bgc_id";s:8:"fullname";s:12:"rika fadilah";s:5:"phone";s:0:"";s:9:"birthdate";N;s:3:"sex";N;s:7:"user_id";s:23:"1453174328569dae389aaf1";s:10:"active_non";s:1:"1";s:15:"consultant_name";s:13:"BGC Indonesia";}}}');
+('0b55a9febb5a6b6a1d30510638f4c3de', '10.252.174.104', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:48.0) Gecko/20100101 Firefox/48.0', 1473404550, 'a:2:{s:9:"user_data";s:0:"";s:12:"hrsys_userdt";a:3:{s:4:"user";a:8:{s:7:"user_id";s:23:"1453174328569dae389aaf1";s:8:"username";s:14:"rika@bgc.co.id";s:10:"active_non";s:1:"1";s:10:"last_login";s:19:"2016-09-04 19:40:44";s:10:"datecreate";s:19:"2016-01-19 10:32:08";s:10:"usercreate";s:23:"142199935954c1fcffd9501";s:10:"dateupdate";s:19:"2016-02-22 16:24:53";s:10:"userupdate";s:23:"1453174328569dae389aaf1";}s:5:"roles";a:5:{i:0;s:15:"hrsys_allclient";i:1;s:16:"hrsys_allinvoice";i:2;s:16:"hrsys_allmeeting";i:3;s:18:"hrsys_allvacancies";i:4;s:12:"hrsys_config";}s:8:"employee";a:10:{s:2:"id";s:23:"1453174328569dae389aaf1";s:13:"employee_code";s:2:"01";s:15:"consultant_code";s:6:"bgc_id";s:8:"fullname";s:12:"rika fadilah";s:5:"phone";s:0:"";s:9:"birthdate";N;s:3:"sex";N;s:7:"user_id";s:23:"1453174328569dae389aaf1";s:10:"active_non";s:1:"1";s:15:"consultant_name";s:13:"BGC Indonesia";}}}'),
+('bf7a591b8e69adef3bad54eab76dd2dc', '::1', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:48.0) Gecko/20100101 Firefox/48.0', 1473411800, 'a:1:{s:12:"hrsys_userdt";a:3:{s:4:"user";a:8:{s:7:"user_id";s:23:"1453174328569dae389aaf1";s:8:"username";s:14:"rika@bgc.co.id";s:10:"active_non";s:1:"1";s:10:"last_login";s:19:"2016-09-09 13:12:36";s:10:"datecreate";s:19:"2016-01-19 10:32:08";s:10:"usercreate";s:23:"142199935954c1fcffd9501";s:10:"dateupdate";s:19:"2016-02-22 16:24:53";s:10:"userupdate";s:23:"1453174328569dae389aaf1";}s:5:"roles";a:5:{i:0;s:15:"hrsys_allclient";i:1;s:16:"hrsys_allinvoice";i:2;s:16:"hrsys_allmeeting";i:3;s:18:"hrsys_allvacancies";i:4;s:12:"hrsys_config";}s:8:"employee";a:10:{s:2:"id";s:23:"1453174328569dae389aaf1";s:13:"employee_code";s:2:"01";s:15:"consultant_code";s:6:"bgc_id";s:8:"fullname";s:12:"rika fadilah";s:5:"phone";s:0:"";s:9:"birthdate";N;s:3:"sex";N;s:7:"user_id";s:23:"1453174328569dae389aaf1";s:10:"active_non";s:1:"1";s:15:"consultant_name";s:13:"BGC Indonesia";}}}');
 
 -- --------------------------------------------------------
 
@@ -106,10 +106,11 @@ CREATE TABLE `hrsys_candidate` (
 --
 
 INSERT INTO `hrsys_candidate` (`candidate_id`, `consultant_code`, `photo`, `status`, `name`, `phone`, `email`, `expectedsalary`, `expectedsalary_ccy`, `birthdate`, `sex`, `skill`, `candidate_manager`, `datecreate`, `usercreate`, `dateupdate`, `userupdate`) VALUES
-('145380243656a743c4207ed', 'bgc_id', 'photo.jpg', 1, 'guntur', '', 'guntur@gmail.com', 15000000, 'IDR', NULL, 'm', 'J2EE,Java,WebLogic', '145336425756a09421c5c89', '2016-01-26 17:00:36', '1453174328569dae389aaf1', '2016-03-22 16:12:09', '1453174328569dae389aaf1'),
+('145380243656a743c4207ed', 'bgc_id', 'photo.jpg', 1, 'guntur', '', 'guntur@gmail.com', 15000000, 'IDR', NULL, 'm', 'J2EE,Java,WebLogic', '1453174328569dae389aaf1', '2016-01-26 17:00:36', '1453174328569dae389aaf1', '2016-09-02 13:51:41', '1453174328569dae389aaf1'),
 ('145466365656b467e86e60b', 'bgc_id', 'photo.jpg', 1, 'gun', '', '', NULL, 'IDR', '1986-06-14', '', '.Net', NULL, '2016-02-05 16:14:16', '1453174328569dae389aaf1', '2016-02-22 14:16:20', '1453174328569dae389aaf1'),
 ('145638630456ceb1008c92b', 'bgc_id', '', 1, 'saipul', '', '', NULL, 'IDR', '1980-01-01', 'm', NULL, '145336425756a09421c5c89', '2016-02-25 14:45:04', '1453174328569dae389aaf1', '2016-03-22 15:03:28', '1453174328569dae389aaf1'),
-('145638632856ceb1180c3d6', 'bgc_id', '', 1, 'eka heriawan', '', '', 0, 'IDR', NULL, '', 'Python', NULL, '2016-02-25 14:45:28', '1453174328569dae389aaf1', '2016-02-25 14:46:31', '1453174328569dae389aaf1');
+('145638632856ceb1180c3d6', 'bgc_id', 'photo.png', 1, 'eka heriawan', '', '', NULL, 'IDR', NULL, '', 'Python,Senior', '', '2016-02-25 14:45:28', '1453174328569dae389aaf1', '2016-09-09 13:06:20', '1453174328569dae389aaf1'),
+('147299330757cc181b284c2', 'bgc_id', '', 1, 'aa', '', '', NULL, 'IDR', NULL, '', NULL, '', '2016-09-04 19:48:27', '1453174328569dae389aaf1', '2016-09-04 19:48:27', '1453174328569dae389aaf1');
 
 -- --------------------------------------------------------
 
@@ -140,10 +141,11 @@ CREATE TABLE `hrsys_candidate_skill` (
 
 INSERT INTO `hrsys_candidate_skill` (`candidate_id`, `skill`) VALUES
 ('145466365656b467e86e60b', '.Net'),
-('145638632856ceb1180c3d6', 'Python'),
 ('145380243656a743c4207ed', 'J2EE'),
 ('145380243656a743c4207ed', 'Java'),
-('145380243656a743c4207ed', 'WebLogic');
+('145380243656a743c4207ed', 'WebLogic'),
+('145638632856ceb1180c3d6', 'Python'),
+('145638632856ceb1180c3d6', 'Senior');
 
 -- --------------------------------------------------------
 
@@ -182,7 +184,8 @@ INSERT INTO `hrsys_candidate_trl` (`candidate_trl_id`, `candidate_id`, `vacancy_
 ('145638639156ceb1574b103', '145638632856ceb1180c3d6', '145638626756ceb0dbe0a3a', 8, 'vacancy_trl_id', '145638639156ceb1574a54b', 'Placemented : Vacancy=Phyton dev,Client=Bhineka', '2016-02-25 14:46:31', '1453174328569dae389aaf1', '2016-02-25 14:46:31', '1453174328569dae389aaf1'),
 ('145855475756efc7854f322', '145380243656a743c4207ed', '145638626756ceb0dbe0a3a', 1, 'vacancy_trl_id', '145855475756efc7854ef3a', 'Add to Shortlist : Vacancy=Phyton dev,Client=Bhineka', '2016-03-21 17:05:57', '1453174328569dae389aaf1', '2016-03-21 17:05:57', '1453174328569dae389aaf1'),
 ('145855541056efca1245c52', '145638630456ceb1008c92b', '145638626756ceb0dbe0a3a', 1, 'vacancy_trl_id', '145855541056efca124586a', 'Add to Shortlist : Vacancy=Phyton dev,Client=Bhineka', '2016-03-21 17:16:50', '1453174328569dae389aaf1', '2016-03-21 17:16:50', '1453174328569dae389aaf1'),
-('145863792956f10c694983e', '145380243656a743c4207ed', NULL, NULL, NULL, NULL, 'rika fadilah change candidate manager from rika fadilah to gun', '2016-03-22 16:12:09', '1453174328569dae389aaf1', '2016-03-22 16:12:09', '1453174328569dae389aaf1');
+('145863792956f10c694983e', '145380243656a743c4207ed', NULL, NULL, NULL, NULL, 'rika fadilah change candidate manager from rika fadilah to gun', '2016-03-22 16:12:09', '1453174328569dae389aaf1', '2016-03-22 16:12:09', '1453174328569dae389aaf1'),
+('147279910157c9217dc187b', '145380243656a743c4207ed', NULL, NULL, NULL, NULL, 'rika fadilah change candidate manager from gun to rika fadilah', '2016-09-02 13:51:41', '1453174328569dae389aaf1', '2016-09-02 13:51:41', '1453174328569dae389aaf1');
 
 -- --------------------------------------------------------
 
@@ -212,7 +215,7 @@ CREATE TABLE `hrsys_cmpyclient` (
 --
 
 INSERT INTO `hrsys_cmpyclient` (`cmpyclient_id`, `consultant_code`, `name`, `address`, `website`, `cp_name`, `cp_phone`, `status`, `account_manager`, `active_non`, `datecreate`, `usercreate`, `dateupdate`, `userupdate`) VALUES
-('145380317856a746aa410ac', 'bgc_id', 'Bhineka', 'Jl. Gunung Sahari Raya 73C #5-6 \r\nJakarta 10610 ', '', '', '', '1', '1453174328569dae389aaf1', 1, '2016-01-26 17:12:58', '1453174328569dae389aaf1', '2016-04-22 10:57:09', '1453174328569dae389aaf1'),
+('145380317856a746aa410ac', 'bgc_id', 'Bhineka', 'Jl. Gunung Sahari Raya 73C #5-6 \r\nJakarta 10610 ', '', 'siapa ya', '0812 1212', '1', '1453174328569dae389aaf1', 1, '2016-01-26 17:12:58', '1453174328569dae389aaf1', '2016-09-09 13:17:44', '1453174328569dae389aaf1'),
 ('145708130056d94bd460460', 'bgc_id', 'DGC', '', '', '', '', '1', '01', 1, '2016-03-04 15:48:20', '1453174328569dae389aaf1', '2016-03-04 15:48:20', NULL);
 
 -- --------------------------------------------------------
@@ -241,9 +244,9 @@ CREATE TABLE `hrsys_cmpyclient_ctrk` (
 --
 
 INSERT INTO `hrsys_cmpyclient_ctrk` (`cmpyclient_ctrk_id`, `cmpyclient_id`, `contract_num`, `doc_url`, `fee`, `active_non`, `contractdate_1`, `contractdate_2`, `datecreate`, `usercreate`, `dateupdate`, `userupdate`) VALUES
-('145612609556cab88fc32d7', '145380317856a746aa410ac', '1', 'Chrysanthemum.jpg', '0', 0, '2016-02-01', '2016-02-02', '2016-02-22', '1453174328569dae389aaf1', NULL, NULL),
-('145612610856cab89c628d1', '145380317856a746aa410ac', '2', 'Tulips.jpg', '1', 0, '2016-02-03', '2016-02-06', '2016-02-22', '1453174328569dae389aaf1', NULL, NULL),
-('145612645656cab9f8bab86', '145380317856a746aa410ac', '3', 'Jellyfish.jpg', '2', 1, '2016-02-05', '2016-02-13', '2016-02-22', '1453174328569dae389aaf1', NULL, NULL);
+('145612609556cab88fc32d7', '145380317856a746aa410ac', 'kontrak 1', 'Chrysanthemum.jpg', '1', 0, '2016-02-01', '2016-02-02', '2016-09-09', '1453174328569dae389aaf1', '2016-09-09', '1453174328569dae389aaf1'),
+('145612610856cab89c628d1', '145380317856a746aa410ac', 'kontrak 2', 'Tulips.jpg', '2', 0, '2016-02-03', '2016-02-06', '2016-09-09', '1453174328569dae389aaf1', '2016-09-09', '1453174328569dae389aaf1'),
+('145612645656cab9f8bab86', '145380317856a746aa410ac', 'kontrak 3', 'Doc2.pdf', '3', 1, '2016-02-05', '2016-09-09', '2016-09-09', '1453174328569dae389aaf1', '2016-09-09', '1453174328569dae389aaf1');
 
 -- --------------------------------------------------------
 
@@ -290,6 +293,13 @@ CREATE TABLE `hrsys_cmpyclient_note` (
   `userupdate` varchar(30) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `hrsys_cmpyclient_note`
+--
+
+INSERT INTO `hrsys_cmpyclient_note` (`note_id`, `cmpyclient_id`, `description`, `datecreate`, `usercreate`, `dateupdate`, `userupdate`) VALUES
+('147340217657d255402af16', '145380317856a746aa410ac', 'sedikit bermasalah dengan invoice 1 january 2016', '2016-09-09 13:22:56', '1453174328569dae389aaf1', NULL, NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -321,11 +331,12 @@ INSERT INTO `hrsys_cmpyclient_trl` (`cmpyclient_trl_id`, `cmpyclient_id`, `type`
 ('145584939856c67fb69bcab', '145380317856a746aa410ac', '', '', 'Change AM from rika fadilah to gun', '2016-02-19 09:36:38', '1453174328569dae389aaf1'),
 ('145584951356c68029716dc', '145380317856a746aa410ac', '', '', 'Change AM from gun to rika fadilah', '2016-02-19 09:38:33', '1453174328569dae389aaf1'),
 ('145610645956ca6bdba3403', '145380317856a746aa410ac', 'vacancy', '145610645956ca6bdb9b700', 'rika fadilah Create Vacancy we', '2016-02-22 09:00:59', '1453174328569dae389aaf1'),
-('145612609556cab88fccb24', '145380317856a746aa410ac', 'contract', '145612609556cab88fc32d7', 'Created Contract 1', '2016-02-22 14:28:15', '1453174328569dae389aaf1'),
-('145612610856cab89c68a71', '145380317856a746aa410ac', 'contract', '145612610856cab89c628d1', 'Created Contract 2', '2016-02-22 14:28:28', '1453174328569dae389aaf1'),
-('145612645656cab9f8bbb25', '145380317856a746aa410ac', 'contract', '145612645656cab9f8bab86', 'Created Contract 3', '2016-02-22 14:34:16', '1453174328569dae389aaf1'),
+('145612609556cab88fccb24', '145380317856a746aa410ac', 'contract', '145612609556cab88fc32d7', 'Create Contract kontrak 1', '2016-02-22 14:28:15', '1453174328569dae389aaf1'),
+('145612610856cab89c68a71', '145380317856a746aa410ac', 'contract', '145612610856cab89c628d1', 'Create Contract kontrak 2', '2016-02-22 14:28:28', '1453174328569dae389aaf1'),
+('145612645656cab9f8bbb25', '145380317856a746aa410ac', 'contract', '145612645656cab9f8bab86', 'Create Contract kontrak 3', '2016-02-22 14:34:16', '1453174328569dae389aaf1'),
 ('145638626756ceb0dbeba06', '145380317856a746aa410ac', 'vacancy', '145638626756ceb0dbe0a3a', 'rika fadilah Create Vacancy Phyton dev', '2016-02-25 14:44:27', '1453174328569dae389aaf1'),
-('145708130056d94bd468944', '145708130056d94bd460460', '', '', 'Created DGC', '2016-03-04 15:48:20', '1453174328569dae389aaf1');
+('145708130056d94bd468944', '145708130056d94bd460460', '', '', 'Created DGC', '2016-03-04 15:48:20', '1453174328569dae389aaf1'),
+('147340217657d25540365e7', '145380317856a746aa410ac', 'note', '147340217657d255402af16', 'sedikit bermasalah dengan invoice 1 january 2016', '2016-09-09 13:22:56', '1453174328569dae389aaf1');
 
 -- --------------------------------------------------------
 
@@ -529,7 +540,8 @@ INSERT INTO `hrsys_skill` (`skill`) VALUES
 ('Spring'),
 ('WebLogic'),
 ('J2EE'),
-('Python');
+('Python'),
+('Senior');
 
 -- --------------------------------------------------------
 
@@ -893,7 +905,7 @@ CREATE TABLE `tpl_user` (
 
 INSERT INTO `tpl_user` (`user_id`, `username`, `password`, `active_non`, `last_login`, `datecreate`, `usercreate`, `dateupdate`, `userupdate`) VALUES
 ('142199935954c1fcffd9501', 'admin', '21232f297a57a5a743894a0e4a801fc3', 1, '2016-03-23 14:45:06', '2015-01-23 14:48:55', NULL, '2016-01-19 17:18:55', '142199935954c1fcffd9501'),
-('1453174328569dae389aaf1', 'rika@bgc.co.id', 'e32994c67f9a773e841f9e97bd26f014', 1, '2016-04-25 13:50:40', '2016-01-19 10:32:08', '142199935954c1fcffd9501', '2016-02-22 16:24:53', '1453174328569dae389aaf1'),
+('1453174328569dae389aaf1', 'rika@bgc.co.id', 'e32994c67f9a773e841f9e97bd26f014', 1, '2016-09-09 15:56:33', '2016-01-19 10:32:08', '142199935954c1fcffd9501', '2016-02-22 16:24:53', '1453174328569dae389aaf1'),
 ('145336289156a08ecb92c76', 'rika@bgc.sg', 'e32994c67f9a773e841f9e97bd26f014', 1, '2016-01-26 17:15:18', '2016-01-21 14:54:51', '142199935954c1fcffd9501', '2016-01-26 17:15:07', '142199935954c1fcffd9501'),
 ('145336425756a09421c5c89', 'gun@bgc.co.id', 'c4ca4238a0b923820dcc509a6f75849b', 1, '2016-01-26 17:13:31', '2016-01-21 15:17:37', '1453174328569dae389aaf1', '2016-01-25 10:12:19', '1453174328569dae389aaf1');
 
