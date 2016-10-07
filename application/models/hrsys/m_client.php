@@ -17,7 +17,7 @@ class M_client extends Main_Model {
              "left join hrsys_employee emp on cl.account_manager=emp.id ".
              "left join tpl_user user on cl.usercreate=user.user_id ".
              "left join hrsys_employee empcrt on user.user_id=empcrt.user_id ".
-             "left join hrsys_cmpyclient_ctrk ck on cl.cmpyclient_id=ck.cmpyclient_id ".
+             "left join hrsys_cmpyclient_ctrk ck on cl.cmpyclient_id=ck.cmpyclient_id and ck.active_non=1 ".
              "where cl.cmpyclient_id='$id'";
         return $this->db->query($sql)->row_array();
     }
